@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment: 
+      - MYSQL_DATABASE=xxx
+      - MYSQL_ROOT_PASSWORD=xxx
+    ports:
+      - '3306:3306'
+      
+# docker compose -p estudy-mysql up -d 
