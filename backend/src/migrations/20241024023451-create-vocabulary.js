@@ -2,32 +2,27 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Vocabularies', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
+      word: {
         type: Sequelize.STRING(50)
       },
-      lastName: {
-        type: Sequelize.STRING(30)
-      },
-      email: {
+      pronounciation: {
         type: Sequelize.STRING
       },
-      password: {
-        type: Sequelize.STRING(64)
+      definition: {
+        type: Sequelize.STRING
       },
-      phoneNumber: {
-        type: Sequelize.STRING(12)
+      example: {
+        type: Sequelize.STRING
       },
-      roleId: {
-        defaultValue: 30001, // User
-        allowNull: false,
-        type: Sequelize.INTEGER
+      image: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('Vocabularies');
   }
 };

@@ -9,6 +9,7 @@ module.exports = {
       email: 'nguyenthaitruong1223@gmail.com',
       password: '123',
       phoneNumber: '0948915051',
+      roleId: 52456,
       createdAt: new Date(),
       updatedAt: new Date()
     } ], {} );
