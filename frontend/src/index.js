@@ -6,6 +6,7 @@ import App from './App';
 import GlobalStyles from '~/components/GlobalStyles';
 import { AuthProvider } from '~/context/AuthProvider';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
+import './i18n';
 
 if (process.env.REACT_APP_NODE_ENV === 'production') {
   disableReactDevTools();

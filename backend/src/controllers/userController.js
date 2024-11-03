@@ -180,6 +180,7 @@ const handleUserLogin = async (req, res) => {
       maxAge: 14 * 24 * 60 * 60 * 1000,
     });
     delete user.password;
+    delete user.roles;
 
     return res.json({
       errCode: 0,

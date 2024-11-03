@@ -19,5 +19,8 @@
   "password_must_match": "Phải khớp với trường nhập mật khẩu đầu tiên.",
   "already_have_account": "Đã có tài khoản?",
   "password_confimation": "Xác nhận mật khẩu",
-  "registration_failed": "Đăng ký thất bại"
+  "registration_failed": "Đăng ký thất bại",
+
+  "not_found_message": "Trang bạn đang tìm kiếm có thể đã bị xóa do đã thay đổi tên hoặc tạm thời không khả dụng",
+  "go_back": "Trở về"
 }

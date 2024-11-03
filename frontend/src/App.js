@@ -1,16 +1,20 @@
 
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 import './App.css';
 import { privateRoutes, publicRoutes } from './routes';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import { Fragment } from 'react';
 import PersistLogin from './components/PersistLogin';
 import RequireAuth from './components/RequireAuth';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './i18n';
+import Error from './pages/Error';
 
 function App() {
+
+  const { t } = useTranslation();
+
   return (
     <main className="App">
       <Router>
@@ -66,7 +70,8 @@ function App() {
             })}
           </Route>
 
-          {/* Catch all */}
+          {/* Catch all */ }
+          <Route path="*" element={<Error errorCode={404} message={t('not_found_message')} goBackTitle={t('go_back')}/>} />
         </Routes>
       </Router>
       <ToastContainer />

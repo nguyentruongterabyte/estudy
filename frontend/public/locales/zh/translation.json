@@ -19,5 +19,8 @@
   "password_must_match": "必须与第一个密码输入字段匹配。",
   "already_have_account": "已经有账户？",
   "password_confimation": "确认密码",
-  "registration_failed": "注册失败"
+  "registration_failed": "注册失败",
+
+  "not_found_message": "您要查找的页面可能已被删除、更名或暂时不可用",
+  "go_back": "回去"
 }

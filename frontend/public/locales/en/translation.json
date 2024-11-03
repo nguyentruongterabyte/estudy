@@ -18,5 +18,8 @@
   "password_must_match": "Must match the first password field.",
   "already_have_account": "Already have an account?",
   "password_confimation": "Password confirmation",
-  "registration_failed": "Registration failed"
+  "registration_failed": "Registration failed",
+
+  "not_found_message": "The page you are looking for might have been removed had its name changed or is temporarily unavailable",
+  "go_back": "Go Back"
 }
