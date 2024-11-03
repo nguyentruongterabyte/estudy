@@ -1,0 +1,17 @@
+[
+  {
+    "code": "en",
+    "title": "English",
+    "image": "https://upload.wikimedia.org/wikipedia/en/thumb/b/be/Flag_of_England.svg/255px-Flag_of_England.svg.png"
+  },
+  {
+    "code": "vi",
+    "title": "Tiếng Việt",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/255px-Flag_of_Vietnam.svg.png"
+  },
+  {
+    "code": "zh",
+    "title": "中文",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/255px-Flag_of_the_People%27s_Republic_of_China.svg.png"
+  }
+]

@@ -2,48 +2,48 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.createTable( 'VocabularyPracticeStatuses', {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('VocabularyPracticeStatuses', {
       userId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',
-          key: 'id'
+          key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       vocabularyId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Vocabularies',
-          key: 'id'
+          key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       status: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
-    } );
+        type: Sequelize.DATE,
+      },
+    });
 
-    await queryInterface.addConstraint( 'VocabularyPracticeStatuses', {
-      fields: [ 'userId', 'vocabularyId' ],
+    await queryInterface.addConstraint('VocabularyPracticeStatuses', {
+      fields: ['userId', 'vocabularyId'],
       type: 'primary key',
-      name: 'PK_VocabularyPracticeStatuses'
-    } );
+      name: 'PK_VocabularyPracticeStatuses',
+    });
   },
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable( 'VocabularyPracticeStatuses' );
-  }
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('VocabularyPracticeStatuses');
+  },
 };

@@ -1,38 +1,38 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class VocabularyPracticeStatus extends Model {
-    
     static associate(models) {
-      VocabularyPracticeStatus.belongsTo( models.User, {
+      VocabularyPracticeStatus.belongsTo(models.User, {
         foreignKey: 'userId',
-        as: 'user'
-      } )
-      
-      VocabularyPracticeStatus.belongsTo( models.Vocabulary, {
+        as: 'user',
+      });
+
+      VocabularyPracticeStatus.belongsTo(models.Vocabulary, {
         foreignKey: 'vocabularyId',
-        as: 'vocabulary'
-      })
+        as: 'vocabulary',
+      });
     }
   }
-  
-  VocabularyPracticeStatus.init({
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
+
+  VocabularyPracticeStatus.init(
+    {
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+      },
+      vocabularyId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+      },
+      status: DataTypes.INTEGER,
     },
-    vocabularyId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
+    {
+      sequelize,
+      modelName: 'VocabularyPracticeStatus',
     },
-    status: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'VocabularyPracticeStatus',
-  });
+  );
   return VocabularyPracticeStatus;
 };

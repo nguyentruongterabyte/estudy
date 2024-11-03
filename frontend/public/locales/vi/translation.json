@@ -1,0 +1,23 @@
+{
+  "home": "Trang chủ",
+  "change_language": "Thay đổi ngôn ngữ",
+  
+  "email": "Email",
+  "password": "Mật khẩu",
+  "sign_in": "Đăng Nhập",
+  "no_response": "Không có phản hồi từ server",
+  "missing_email_password": "Thiếu email hoặc mật khẩu",
+  "invalid_credentials": "Email hoặc mật khẩu chưa đúng",
+  "login_failed": "Đăng nhập thất bại",
+  "trust_this_device": "Lưu thông tin",
+
+  "need_account": "Cần 1 tài khoản",
+  "sign_up": "Đăng Ký",
+  "email_taken": "Email đã tồn tại",
+  "valid_email_format": "Địa chỉ email phải có định dạng hợp lệ.<br />Ví dụ: example@email.com",
+  "password_requirements": "Từ 8 đến 24 ký tự.<br />Phải bao gồm chữ hoa, chữ thường, một số và một ký tự đặc biệt.<br />Các ký tự đặc biệt được phép: <span aria-label=\"dấu chấm than\">!</span> <span aria-label=\"ký hiệu @\">@</span> <span aria-label=\"dấu thăng\">#</span> <span aria-label=\"ký hiệu đô la\">$</span> <span aria-label=\"dấu phần trăm\">%</span>",
+  "password_must_match": "Phải khớp với trường nhập mật khẩu đầu tiên.",
+  "already_have_account": "Đã có tài khoản?",
+  "password_confimation": "Xác nhận mật khẩu",
+  "registration_failed": "Đăng ký thất bại"
+}

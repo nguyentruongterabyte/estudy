@@ -22,5 +22,9 @@ You can use `db:migrate:undo`, this command will revert the most recent migratio
 `npx sequelize-cli db:migrate:undo`
 You can revert back to the initial state by undoing all migrations with the `db:migrate:undo:all` command. You can also revert back to a specific migration by passing its name with the `--to` option.
 `npx sequelize-cli db:migrate:undo:all --to XXXXXXXXXXXXXX-create-posts.js`
+## Creating Seed
+
+`npx sequelize-cli seed:generate --name demo-user`
+
 ## Running Seeds
 `npx sequelize-cli db:seed:all`

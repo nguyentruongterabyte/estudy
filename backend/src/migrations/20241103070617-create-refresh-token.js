@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('VocabularyPracticeStatuses', {
+    await queryInterface.createTable('RefreshTokens', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,13 +10,14 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
-      vocabularyId: {
-        type: Sequelize.INTEGER
-      },
-      status: {
-        type: Sequelize.INTEGER
+      refreshToken: {
+        type: Sequelize.STRING(256)
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +30,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('VocabularyPracticeStatuses');
+    await queryInterface.dropTable('RefreshTokens');
   }
 };

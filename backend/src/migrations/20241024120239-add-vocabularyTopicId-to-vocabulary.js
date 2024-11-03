@@ -2,20 +2,20 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.addColumn( 'Vocabularies', 'vocabularyTopicId', {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.addColumn('Vocabularies', 'vocabularyTopicId', {
       type: Sequelize.INTEGER,
       references: {
         model: 'VocabularyTopics',
-        key: 'id'
+        key: 'id',
       },
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
-      allowNull: true
-    })
+      allowNull: true,
+    });
   },
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.removeColumn( 'Vocabularies', 'vocabularyTopicId' );
-  }
+  async down(queryInterface, Sequelize) {
+    await queryInterface.removeColumn('Vocabularies', 'vocabularyTopicId');
+  },
 };

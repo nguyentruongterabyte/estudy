@@ -1,0 +1,23 @@
+{
+  "home": "首页",
+  "change_language": "更改语言",
+
+  "email": "电子邮件",
+  "password": "密码",
+  "sign_in": "登录",
+  "no_response": "没有来自服务器的响应",
+  "missing_email_password": "缺少电子邮件或密码",
+  "invalid_credentials": "电子邮件或密码不正确",
+  "login_failed": "登录失败",
+  "trust_this_device": "记住此设备",
+
+  "need_account": "需要一个账户",
+  "sign_up": "注册",
+  "email_taken": "电子邮件已存在",
+  "valid_email_format": "电子邮件地址必须是有效格式。<br />例如: example@email.com",
+  "password_requirements": "8到24个字符。<br />必须包括大写字母、小写字母、数字和特殊字符。<br />允许的特殊字符: <span aria-label=\"感叹号\">!</span> <span aria-label=\"@符号\">@</span> <span aria-label=\"#号\">#</span> <span aria-label=\"$符号\">$</span> <span aria-label=\"%符号\">%</span>",
+  "password_must_match": "必须与第一个密码输入字段匹配。",
+  "already_have_account": "已经有账户？",
+  "password_confimation": "确认密码",
+  "registration_failed": "注册失败"
+}
