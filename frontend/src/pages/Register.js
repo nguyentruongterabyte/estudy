@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { faCheck, faInfoCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
 import styles from './Login/Login.module.scss';
 import config from '~/config';
+import hooks from '~/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -16,11 +17,11 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 function Register() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const errRef = useRef();
   const userRef = useRef();
 
-  const [email, setEmail] = useState('');
+   const [email, resetEmail, emailAttribs] = hooks.useInput('email', '');
   const [validEmail, setValidEmail] = useState(false);
   const [emailFocus, setEmailFocus] = useState(false);
 
@@ -75,7 +76,7 @@ function Register() {
         withCredentials: true,
       });
       setSuccess(true);
-      setEmail('');
+      resetEmail();
       setPwd('');
       setMatchPwd('');
       // toast.success(response?.data?.message);
@@ -116,8 +117,7 @@ function Register() {
             <input
               type="email"
               id="email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
+              {...emailAttribs}
               required
               aria-invalid={validEmail ? 'false' : 'true'}
               aria-describedby="emailnote"

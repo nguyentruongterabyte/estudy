@@ -1,4 +1,3 @@
-import { convertRolesToObject } from '../config/rolesList';
 import db from '../models/index';
 import bcrypt from 'bcrypt';
 const salt = bcrypt.genSaltSync(10);
@@ -44,8 +43,8 @@ const getById = (userId) => {
       });
 
       const roles = await getUserRoles(user.id);
-      const rolesObject = convertRolesToObject(roles);
-      resolve({ ...user, roles: rolesObject });
+      const roleArr = roles.map( role => role.id );
+      resolve({ ...user, roles: roleArr });
     } catch (e) {
       reject(e);
     }
@@ -65,8 +64,8 @@ const getAllUsers = () => {
       const usersWithRoles = await Promise.all(
         users.map(async (user) => {
           const roles = await getUserRoles(user.id);
-          const rolesObject = convertRolesToObject(roles);
-          return { ...user, rolesObject };
+          const roleArr = roles.map(role => role.id);
+          return { ...user, roles: roleArr };
         }),
       );
 
@@ -85,9 +84,9 @@ const getUserByEmail = (email) => {
         where: { email: email },
         raw: true,
       });
-      const roles = await getUserRoles(user.id);
-      const rolesObject = convertRolesToObject(roles);
-      resolve({ ...user, roles: rolesObject });
+      const roles = await getUserRoles( user.id );
+      const roleArr = roles.map( role => role.id );
+      resolve({ ...user, roles: roleArr });
     } catch (error) {
       reject(error);
     }

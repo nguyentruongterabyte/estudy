@@ -1,4 +1,3 @@
-
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { useTranslation } from 'react-i18next';
@@ -12,53 +11,51 @@ import RequireAuth from './components/RequireAuth';
 import Error from './pages/Error';
 
 function App() {
-
   const { t } = useTranslation();
 
   return (
     <main className="App">
       <Router>
-        {/* public routes */ }
+        {/* public routes */}
         <Routes>
-          { publicRoutes.map( ( route, index ) => {
+          {publicRoutes.map((route, index) => {
             let Layout = DefaultLayout;
-            if ( route.layout ) {
+            if (route.layout) {
               Layout = route.layout;
-            } else if ( route.layout === null ) {
+            } else if (route.layout === null) {
               Layout = Fragment;
             }
 
             const Page = route.component;
             return (
               <Route
-                key={ index }
-                path={ route.path }
+                key={index}
+                path={route.path}
                 element={
                   <Layout>
-                    <Page/>
+                    <Page />
                   </Layout>
                 }
               />
-            )
+            );
           })}
 
-          {/* We want to protect these routes */ }
-          <Route element={ <PersistLogin /> }>
-            { privateRoutes.map( ( route, index ) => {
+          {/* We want to protect these routes */}
+          <Route element={<PersistLogin />}>
+            {privateRoutes.map((route, index) => {
               let Layout = DefaultLayout;
 
-              if ( route.layout ) {
+              if (route.layout) {
                 Layout = route.layout;
-      
-              } else if ( route.layout === null ) {
+              } else if (route.layout === null) {
                 Layout = Fragment;
               }
 
               const Page = route.component;
               return (
-                <Route key={ index } element={ <RequireAuth allowedRoles={ route.allowedRoles } /> }>
+                <Route key={index} element={<RequireAuth allowedRoles={route.allowedRoles} />}>
                   <Route
-                    path={ route.path }
+                    path={route.path}
                     element={
                       <Layout headerSearch={route.headerSearch}>
                         <Page />
@@ -66,12 +63,15 @@ function App() {
                     }
                   />
                 </Route>
-              )
+              );
             })}
           </Route>
 
-          {/* Catch all */ }
-          <Route path="*" element={<Error errorCode={404} message={t('not_found_message')} goBackTitle={t('go_back')}/>} />
+          {/* Catch all */}
+          <Route
+            path="*"
+            element={<Error errorCode={404} message={t('not_found_message')} goBackTitle={t('go_back')} />}
+          />
         </Routes>
       </Router>
       <ToastContainer />

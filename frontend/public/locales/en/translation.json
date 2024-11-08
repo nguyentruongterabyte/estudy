@@ -9,6 +9,7 @@
   "invalid_credentials": "Email or password is incorrect",
   "login_failed": "Login failed",
   "trust_this_device": "Trust This Device",
+  "log_in_as": "Log In As:",
 
   "need_account": "Need an Account?",
   "sign_up": "Sign Up",
@@ -20,6 +21,13 @@
   "password_confimation": "Password confirmation",
   "registration_failed": "Registration failed",
 
+  "logout": "Log Out",
+
   "not_found_message": "The page you are looking for might have been removed had its name changed or is temporarily unavailable",
-  "go_back": "Go Back"
+  "go_back": "Go Back",
+
+  "unauthorized_message": "You do not have access to the requested page.",
+
+  "view_profile": "View profile",
+  "account": "Account"
 }

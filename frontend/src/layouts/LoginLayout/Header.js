@@ -18,22 +18,22 @@ function Header() {
 
   return (
     <div className={cx('header-wrapper')}>
-      <Navbar expand="lg" className={cx('bg-body-tertiary', 'header-nav')}>
-        <Container className={cx('header-container')}>
+      <Navbar expand='lg' className={cx('bg-body-tertiary', 'header-nav')}>
+        <Container>
           <Navbar.Brand className={cx('brand')}>
             <Link to={config.routes.home} className={cx('logo-link')}>
               <FontAwesomeIcon className={cx('logo')} icon={faE} />
+              <span>Study</span>
             </Link>
-            <span>Study</span>
           </Navbar.Brand>
-          <Navbar.Collapse id="basic-navbar-nav" className={cx('navbar-collapse')}>
+          <Navbar.Collapse id='basic-navbar-nav' className={cx('navbar-collapse')}>
             <Nav className={cx('nav-links')}>
+              <LanguageSelector />
               <Link to={config.routes.home} className={cx('nav-link', 'nav-link-item')}>
                 <FontAwesomeIcon icon={faHouse} className={cx('nav-icon')} />
                 {t('home')}
               </Link>
               {/* Change language */}
-              <LanguageSelector />
             </Nav>
           </Navbar.Collapse>
         </Container>

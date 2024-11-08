@@ -1,4 +1,5 @@
 const images = {
-  backgroundBehindHeader: require('~/assets/images/background_behind_header.webp'),
+  backgroundBehindHeader: require('./background_behind_header.webp'),
+  userImage: require('./user.jfif'),
 };
 export default images;

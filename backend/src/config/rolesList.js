@@ -18,11 +18,5 @@ const ROLES_OBJECT = ROLES_LIST.reduce((obj, role) => {
   return obj;
 }, {});
 
-const convertRolesToObject = (roles) => {
-  return roles.reduce((obj, role) => {
-    obj[role.name] = role.id;
-    return obj;
-  }, {});
-};
 
-module.exports = { ROLES_LIST, ROLES_OBJECT, convertRolesToObject };
+module.exports = { ROLES_LIST, ROLES_OBJECT };

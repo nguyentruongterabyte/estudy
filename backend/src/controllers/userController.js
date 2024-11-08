@@ -214,7 +214,7 @@ const handleRefreshToken = async (req, res) => {
 
       const roles = Object.values(foundUser.roles);
 
-      const refreshToken = jwt.sign(
+      const accessToken = jwt.sign(
         {
           userInfo: {
             id: foundUser.id,
@@ -229,7 +229,7 @@ const handleRefreshToken = async (req, res) => {
       return res.json({
         errCode: 0,
         errMessage: 'OK',
-        data: refreshToken,
+        data: accessToken,
       });
     });
   } catch (error) {

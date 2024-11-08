@@ -6,8 +6,8 @@ import Loading from '~/components/Loading';
 const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const refresh = hooks.useRefreshToken();
-  const { auth, persist } = hooks.useAuth();
-
+  const { auth } = hooks.useAuth();
+  const [ persist ] = hooks.useLocalStorage( 'persist', false );
   useEffect(() => {
     let isMounted = true;
     const verifyRefreshToken = async () => {
@@ -18,11 +18,9 @@ const PersistLogin = () => {
       } finally {
         isMounted && setIsLoading(false);
       }
-
-      !auth?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);
-
-      return () => (isMounted = false);
     };
+    !auth?.accessToken ? verifyRefreshToken() : setIsLoading(false);
+    return () => (isMounted = false);
   }, []);
 
   useEffect(() => {

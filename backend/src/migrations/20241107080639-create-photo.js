@@ -2,27 +2,27 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Vocabularies', {
+    await queryInterface.createTable('Photos', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      word: {
-        type: Sequelize.STRING(50),
+      questionId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Questions',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
-      pronounciation: {
-        type: Sequelize.STRING(100),
-      },
-      definition: {
+      filePath: {
         type: Sequelize.TEXT,
       },
-      example: {
-        type: Sequelize.TEXT,
-      },
-      image: {
-        type: Sequelize.TEXT,
+      caption: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -35,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Vocabularies');
+    await queryInterface.dropTable('Photos');
   },
 };

@@ -1,13 +1,19 @@
+import axios from '~/utils/axios';
 import useAuth from './useAuth';
+import config from '~/config';
 
 const useLogout = () => {
   const { setAuth } = useAuth();
 
   const logout = async () => {
     setAuth({});
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem( 'role' );
-  
+    try { 
+      await axios( config.urls.user.logout, {
+        withCredentials: true
+      } );
+    } catch ( err ) {
+      console.log(err);
+    }  
   };
   return logout;
 };

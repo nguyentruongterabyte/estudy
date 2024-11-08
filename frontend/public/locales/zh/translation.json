@@ -10,6 +10,7 @@
   "invalid_credentials": "电子邮件或密码不正确",
   "login_failed": "登录失败",
   "trust_this_device": "记住此设备",
+  "log_in_as": "登录身份",
 
   "need_account": "需要一个账户",
   "sign_up": "注册",
@@ -21,6 +22,13 @@
   "password_confimation": "确认密码",
   "registration_failed": "注册失败",
 
+  "logout": "注销",
+
   "not_found_message": "您要查找的页面可能已被删除、更名或暂时不可用",
-  "go_back": "回去"
+  "go_back": "回去",
+
+  "unauthorized_message": "您无权访问所请求的页面。",
+
+  "view_profile": "轮廓",
+  "account": "帐户"
 }

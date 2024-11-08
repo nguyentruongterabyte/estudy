@@ -16,6 +16,226 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `Answers`
+--
+
+DROP TABLE IF EXISTS `Answers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Answers` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `questionId` int DEFAULT NULL,
+  `answer` text,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `questionId` (`questionId`),
+  CONSTRAINT `Answers_ibfk_1` FOREIGN KEY (`questionId`) REFERENCES `Questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Answers`
+--
+
+LOCK TABLES `Answers` WRITE;
+/*!40000 ALTER TABLE `Answers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Answers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Audios`
+--
+
+DROP TABLE IF EXISTS `Audios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Audios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `audioLink` text,
+  `description` text,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Audios`
+--
+
+LOCK TABLES `Audios` WRITE;
+/*!40000 ALTER TABLE `Audios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Audios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CorrectAnswers`
+--
+
+DROP TABLE IF EXISTS `CorrectAnswers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CorrectAnswers` (
+  `questionId` int NOT NULL,
+  `answerId` int NOT NULL,
+  `explain` text,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`questionId`,`answerId`),
+  KEY `answerId` (`answerId`),
+  CONSTRAINT `CorrectAnswers_ibfk_1` FOREIGN KEY (`questionId`) REFERENCES `Questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `CorrectAnswers_ibfk_2` FOREIGN KEY (`answerId`) REFERENCES `Answers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CorrectAnswers`
+--
+
+LOCK TABLES `CorrectAnswers` WRITE;
+/*!40000 ALTER TABLE `CorrectAnswers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CorrectAnswers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `GroupQuestions`
+--
+
+DROP TABLE IF EXISTS `GroupQuestions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `GroupQuestions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `partId` int DEFAULT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `partId` (`partId`),
+  CONSTRAINT `GroupQuestions_ibfk_1` FOREIGN KEY (`partId`) REFERENCES `Parts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `GroupQuestions`
+--
+
+LOCK TABLES `GroupQuestions` WRITE;
+/*!40000 ALTER TABLE `GroupQuestions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `GroupQuestions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Parts`
+--
+
+DROP TABLE IF EXISTS `Parts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Parts` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Parts`
+--
+
+LOCK TABLES `Parts` WRITE;
+/*!40000 ALTER TABLE `Parts` DISABLE KEYS */;
+INSERT INTO `Parts` VALUES (1,'Mô tả tranh'),(2,'Hỏi - Đáp'),(3,'Đoạn hội thoại'),(4,'Bài nói ngắn'),(5,'Hoàn thành câu'),(6,'Hoàn thành đoạn văn'),(7,'Đọc hiểu');
+/*!40000 ALTER TABLE `Parts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Photos`
+--
+
+DROP TABLE IF EXISTS `Photos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Photos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `questionId` int DEFAULT NULL,
+  `filePath` text,
+  `caption` varchar(255) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `questionId` (`questionId`),
+  CONSTRAINT `Photos_ibfk_1` FOREIGN KEY (`questionId`) REFERENCES `Questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Photos`
+--
+
+LOCK TABLES `Photos` WRITE;
+/*!40000 ALTER TABLE `Photos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Photos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `QuestionAudios`
+--
+
+DROP TABLE IF EXISTS `QuestionAudios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `QuestionAudios` (
+  `questionId` int NOT NULL,
+  `audioId` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`questionId`,`audioId`),
+  KEY `audioId` (`audioId`),
+  CONSTRAINT `QuestionAudios_ibfk_1` FOREIGN KEY (`questionId`) REFERENCES `Questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `QuestionAudios_ibfk_2` FOREIGN KEY (`audioId`) REFERENCES `Audios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `QuestionAudios`
+--
+
+LOCK TABLES `QuestionAudios` WRITE;
+/*!40000 ALTER TABLE `QuestionAudios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `QuestionAudios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Questions`
+--
+
+DROP TABLE IF EXISTS `Questions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Questions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `groupId` int DEFAULT NULL,
+  `question` text,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `groupId` (`groupId`),
+  CONSTRAINT `Questions_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `GroupQuestions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Questions`
+--
+
+LOCK TABLES `Questions` WRITE;
+/*!40000 ALTER TABLE `Questions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Questions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `RefreshTokens`
 --
 
@@ -31,7 +251,7 @@ CREATE TABLE `RefreshTokens` (
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   CONSTRAINT `RefreshTokens_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +260,7 @@ CREATE TABLE `RefreshTokens` (
 
 LOCK TABLES `RefreshTokens` WRITE;
 /*!40000 ALTER TABLE `RefreshTokens` DISABLE KEYS */;
-INSERT INTO `RefreshTokens` VALUES (24,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMwNjI0MTk2LCJleHAiOjE3MzE4MzM3OTZ9._lr5EGkacENRQDGyC9D-giQOHjjP1zaD0Lk5htHkvOQ','2024-11-03 15:56:36','2024-11-03 15:56:36');
+INSERT INTO `RefreshTokens` VALUES (19,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMwOTk0OTI4LCJleHAiOjE3MzIyMDQ1Mjh9.FE1_ehAVX9b9tiIbGadILNRkDJQ9tYQYJZynhlB9lnY','2024-11-07 22:55:28','2024-11-07 22:55:28');
 /*!40000 ALTER TABLE `RefreshTokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,7 +289,7 @@ CREATE TABLE `RoleDetails` (
 
 LOCK TABLES `RoleDetails` WRITE;
 /*!40000 ALTER TABLE `RoleDetails` DISABLE KEYS */;
-INSERT INTO `RoleDetails` VALUES (1,30001,'2024-11-03 14:20:15','2024-11-03 14:20:15'),(1,52456,'2024-11-03 14:20:15','2024-11-03 14:20:15'),(1,78643,'2024-11-03 14:20:15','2024-11-03 14:20:15'),(4,30001,'2024-11-03 14:31:26','2024-11-03 14:31:26');
+INSERT INTO `RoleDetails` VALUES (1,30001,'2024-11-07 17:22:47','2024-11-07 17:22:47'),(1,52456,'2024-11-07 17:22:47','2024-11-07 17:22:47'),(1,78643,'2024-11-07 17:22:47','2024-11-07 17:22:47');
 /*!40000 ALTER TABLE `RoleDetails` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,8 +337,39 @@ CREATE TABLE `SequelizeMeta` (
 
 LOCK TABLES `SequelizeMeta` WRITE;
 /*!40000 ALTER TABLE `SequelizeMeta` DISABLE KEYS */;
-INSERT INTO `SequelizeMeta` VALUES ('20241020124532-create-user.js'),('20241024023451-create-vocabulary.js'),('20241024115516-create-vocabulary-topics.js'),('20241024120239-add-vocabularyTopicId-to-vocabulary.js'),('20241024132323-create-vocabulary-practice-status.js'),('20241026125951-create-role.js'),('20241026130258-create-role-detail.js'),('20241103070617-create-refresh-token.js');
+INSERT INTO `SequelizeMeta` VALUES ('20241020124532-create-user.js'),('20241024023451-create-vocabulary.js'),('20241024115516-create-vocabulary-topics.js'),('20241024120239-add-vocabularyTopicId-to-vocabulary.js'),('20241024132323-create-vocabulary-practice-status.js'),('20241026125951-create-role.js'),('20241026130258-create-role-detail.js'),('20241103070617-create-refresh-token.js'),('20241107074105-create-part.js'),('20241107074245-create-audio.js'),('20241107074914-create-group-question.js'),('20241107075107-create-question.js'),('20241107075230-create-answer.js'),('20241107075501-create-correct-answer.js'),('20241107075635-create-user-answer.js'),('20241107080022-create-question-audio.js'),('20241107080639-create-photo.js');
 /*!40000 ALTER TABLE `SequelizeMeta` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `UserAnswers`
+--
+
+DROP TABLE IF EXISTS `UserAnswers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `UserAnswers` (
+  `userId` int NOT NULL,
+  `questionId` int NOT NULL,
+  `answerId` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`userId`,`questionId`,`answerId`),
+  KEY `questionId` (`questionId`),
+  KEY `answerId` (`answerId`),
+  CONSTRAINT `UserAnswers_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `UserAnswers_ibfk_2` FOREIGN KEY (`questionId`) REFERENCES `Questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `UserAnswers_ibfk_3` FOREIGN KEY (`answerId`) REFERENCES `Answers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `UserAnswers`
+--
+
+LOCK TABLES `UserAnswers` WRITE;
+/*!40000 ALTER TABLE `UserAnswers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `UserAnswers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -138,7 +389,7 @@ CREATE TABLE `Users` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +398,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'Truong','Nguyen','nguyenthaitruong1223@gmail.com','$2b$10$bfCAN3DDxO0Q83O8c9aEu.S.Ca0.EI9luMRF/FzNtfAc2V9CX6Wca','0948915051','2024-11-03 14:20:15','2024-11-03 14:20:15'),(4,NULL,NULL,'nguyenthaitruong.entertainment@gmail.com','$2b$10$WTgzTit2D8sZVLf9wHgt9eZQDEUNbvgl7iik2DgEggt21IMdD8ZwK','0948915051','2024-11-03 14:31:26','2024-11-03 14:31:26');
+INSERT INTO `Users` VALUES (1,'Truong','Nguyen','nguyenthaitruong1223@gmail.com','$2b$10$bfCAN3DDxO0Q83O8c9aEu.S.Ca0.EI9luMRF/FzNtfAc2V9CX6Wca','0948915051','2024-11-07 17:22:47','2024-11-07 17:22:47');
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,10 +412,10 @@ DROP TABLE IF EXISTS `Vocabularies`;
 CREATE TABLE `Vocabularies` (
   `id` int NOT NULL AUTO_INCREMENT,
   `word` varchar(50) DEFAULT NULL,
-  `pronounciation` varchar(255) DEFAULT NULL,
-  `definition` varchar(255) DEFAULT NULL,
-  `example` varchar(255) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
+  `pronounciation` varchar(100) DEFAULT NULL,
+  `definition` text,
+  `example` text,
+  `image` text,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `vocabularyTopicId` int DEFAULT NULL,
@@ -256,7 +507,7 @@ UNLOCK TABLES;
 DELIMITER ;;
 CREATE DEFINER=`root`@`%` PROCEDURE `GetUserRoles`(IN userId INT)
 BEGIN
-	SELECT r.id, r.name 
+	SELECT r.id
 	FROM Roles r
 	INNER JOIN RoleDetails rd ON r.id = rd.roleId
 	WHERE rd.userId = userId;
@@ -276,4 +527,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-03 16:16:53
+-- Dump completed on 2024-11-08 11:21:46
