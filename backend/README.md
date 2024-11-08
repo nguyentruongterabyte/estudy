@@ -28,3 +28,9 @@ You can revert back to the initial state by undoing all migrations with the `db:
 
 ## Running Seeds
 `npx sequelize-cli db:seed:all`
+ 
+## Running each seed file
+`npx sequelize-cli db:seed --seed <seed-file-name>`
+Thay <seed-file-name> bằng tên file seed bạn muốn chạy, bao gồm cả phần mở rộng .js. Ví dụ, nếu bạn có một file seed tên là 20221108-demo-seed.js, bạn có thể chạy:
+
+`npx sequelize-cli db:seed --seed 20221108-demo-seed.js`

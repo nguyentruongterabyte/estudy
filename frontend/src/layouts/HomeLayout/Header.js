@@ -2,16 +2,18 @@ import classNames from 'classnames/bind';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAddressCard, faE, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 
-import styles from './HomeLayout.module.scss';
+import styles from '~/layouts/Header.module.scss';
 import config from '~/config';
 import hooks from '~/hooks';
 import LanguageSelector from '~/components/LanguageSelector';
-import ProfileMenu from './ProfileMenu';
-import { adminNavList, editorNavList, userNavList } from './navigationItems';
-import NavigationMenu from './NavigationMenu';
+import navigationItems from './navigationItems';
+import NavigationMenu from '~/components/NavigationMenu';
+import NavbarBrand from '~/components/NavbarBrand';
+import ProfileMenu from '~/components/ProfileMenu';
+import profileMenuItems from './profileMenuItems';
 
 const cx = classNames.bind(styles);
 
@@ -22,26 +24,10 @@ const Header = () => {
 
   const navList =
     auth.currentRole === config.roles.admin
-      ? adminNavList
+      ? navigationItems.admin
       : auth.currentRole === config.roles.editor
-      ? editorNavList
-      : userNavList;
-
-  console.log(auth.currentRole);
-
-  const profileMenu = [
-    {
-      icon: faAddressCard,
-      title: t('view_profile'),
-      type: 'viewProfile',
-    },
-    {
-      icon: faRightFromBracket,
-      title: t('logout'),
-      type: 'logout',
-      separate: true,
-    },
-  ];
+      ? navigationItems.editor
+      : navigationItems.user;
 
   const handleMenuChange = (menuItem) => {
     switch (menuItem.type) {
@@ -56,23 +42,8 @@ const Header = () => {
     <div className={cx('header-wrapper')}>
       <Navbar expand="lg" className={cx('bg-body-tertiary', 'header-nav')}>
         <Container>
-          <Navbar.Brand className={cx('brand')}>
-            <Link
-              className={cx('logo-link')}
-              to={
-                auth.currentRole === config.roles.admin
-                  ? config.routes.adminHome
-                  : auth.currentRole === config.roles.editor
-                  ? config.routes.editorHome
-                  : auth.currentRole === config.roles.user
-                  ? config.routes.userHome
-                  : config.routes.home
-              }
-            >
-              <FontAwesomeIcon className={cx('logo')} icon={faE} />
-              <span>Study</span>
-            </Link>
-          </Navbar.Brand>
+          {/* Navbar brand */}
+          <NavbarBrand />
           <Navbar.Collapse id="basic-navbar-nav" className={cx('navbar-collapse')}>
             <Nav className={cx('navbar-nav')}>
               {/* Navigations */}
@@ -80,10 +51,10 @@ const Header = () => {
 
               {/* Change language */}
               <LanguageSelector />
-              
+
               {/* Profile menu / Login button */}
               {auth.accessToken ? (
-                <ProfileMenu profileMenu={profileMenu} handleMenuChange={handleMenuChange} />
+                <ProfileMenu items={profileMenuItems} handleMenuChange={handleMenuChange} />
               ) : (
                 <Nav.Link as={Link} className={cx('nav-link-item')} to={config.routes.login}>
                   <FontAwesomeIcon icon={faUser} className={cx('nav-icon')} />

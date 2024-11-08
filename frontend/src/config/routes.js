@@ -1,11 +1,13 @@
 const routes = {
-  home: '/',
   login: '/login',
   register: '/register',
   unauthorized: '/unauthorized',
-  userHome: '/home/user',
-  editorHome: '/home/editor',
-  adminHome: '/home/admin',
+  home: {
+    user: '/home/user',
+    editor: '/home/editor',
+    admin: '/home/admin',
+    default: '/'
+  },
 }
 
 export default routes;

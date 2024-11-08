@@ -14,9 +14,6 @@ const Error = ( {
   goBackTitle
 } ) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || config.routes.home;
-  
   const errorCodeStr = errorCode.toString();
 
   return (
@@ -30,7 +27,7 @@ const Error = ( {
           </h1>
         </div>
         <p>{message}</p>
-        <Button outline onClick={() => navigate(from, { replace: true })}>
+        <Button outline onClick={() => navigate(-1, { replace: true })}>
           {goBackTitle}
         </Button>
       </div>

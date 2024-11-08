@@ -10,26 +10,26 @@ import Unauthorized from '~/pages/Unauthorized';
 
 const publicRoutes = [
   { path: config.routes.register, component: Register, layout: LoginLayout },
-  { path: config.routes.home, component: Home, layout: HomeLayout },
+  { path: config.routes.home.default, component: Home, layout: HomeLayout },
   { path: config.routes.login, component: Login, layout: LoginLayout },
   { path: config.routes.unauthorized, component: Unauthorized, layout: null },
 ];
 
 const privateRoutes = [
   {
-    path: config.routes.adminHome,
+    path: config.routes.home.admin,
     component: Admin,
     allowedRoles: [config.roles.admin],
     layout: HomeLayout,
   },
   {
-    path: config.routes.editorHome,
+    path: config.routes.home.editor,
     component: Editor,
     allowedRoles: [config.roles.editor],
     layout: HomeLayout,
   },
   {
-    path: config.routes.userHome,
+    path: config.routes.home.user,
     component: User,
     allowedRoles: [config.roles.user],
     layout: HomeLayout,

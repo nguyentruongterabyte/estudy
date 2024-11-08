@@ -16,7 +16,7 @@ const hashUserPassword = (password) => {
 const checkUserEmail = (userEmail) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let user = await db.User.findOne({
+      const user = await db.User.findOne({
         where: { email: userEmail },
       });
 

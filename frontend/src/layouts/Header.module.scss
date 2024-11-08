@@ -1,0 +1,37 @@
+// Header
+.header-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+
+  .header-nav {
+    height: var(--default-layout-header-height);
+    .navbar-collapse {
+      display: flex;
+      flex-direction: row-reverse;
+      .navbar-nav {
+        flex-direction: row;
+        display: flex;
+        align-items: center;
+        .nav-link-item {
+          font-weight: bold;
+          color: var(--black) !important;
+          opacity: .8;
+          margin-left: 12px;
+          min-width: 120px;
+          &:hover {
+            opacity: 1;
+          }
+      
+          .nav-icon {
+            margin-right: 6px;
+          }
+        }
+      }
+    }
+  }
+}
+
+

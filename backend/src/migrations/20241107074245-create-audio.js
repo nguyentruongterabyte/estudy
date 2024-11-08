@@ -12,9 +12,6 @@ module.exports = {
       audioLink: {
         type: Sequelize.TEXT
       },
-      description: {
-        type: Sequelize.TEXT
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

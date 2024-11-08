@@ -1,4 +1,5 @@
 import express from 'express';
+import multer from 'multer';
 
 import verifyJWT from '../middleware/verifyJWT';
 import { ROLES_OBJECT } from '../config/rolesList';
@@ -7,7 +8,8 @@ import verifyUserOwnership from '../middleware/verifyUserOwnership';
 // import controller
 import userController from '../controllers/userController';
 import vocabularyController from '../controllers/vocabularyController';
-
+import testController from '../controllers/testController';
+import audioController from '../controllers/audioController';
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -28,9 +30,27 @@ let initWebRoutes = (app) => {
   router.post(
     '/api/vocabulary/create-topic',
     verifyJWT,
-    verifyRoles(ROLES_OBJECT.ADMIN, ROLES_OBJECT.EDITOR),
+    verifyRoles(ROLES_OBJECT.EDITOR),
     vocabularyController.handleCreateVocabularyTopic,
   );
+
+  // test
+  router.get(
+    '/api/test/question-groups/:partId',
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    testController.handleGetQuestionGroupsByPartId,
+  );
+
+  router.get(
+    '/api/test/questions/:groupId',
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    testController.handleGetQuestionsByGroupId,
+  );
+
+  const upload = multer({ dest: 'uploads/' });
+  router.post('/api/test/upload-audio', upload.single('audio'), audioController.handleUploadAudio);
   return app.use('/', router);
 };
 

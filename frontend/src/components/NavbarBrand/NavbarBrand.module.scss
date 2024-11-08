@@ -1,0 +1,23 @@
+// Brand
+.brand {
+  display: flex;
+  align-items: center;
+
+  .logo-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: var(--default-layout-header-height);
+    width: var(--default-layout-header-height);
+  }
+
+  .logo {
+    color: var(--black);
+    font-size: 4rem;
+  }
+
+  span {
+    font-size: 2rem;
+    color: var(--primary)
+  }
+}

@@ -8,8 +8,9 @@ import { faE, faHouse } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 
 import config from '~/config';
-import styles from './LoginLayout.module.scss';
+import styles from '~/layouts/Header.module.scss';
 import LanguageSelector from '~/components/LanguageSelector';
+import NavbarBrand from '~/components/NavbarBrand';
 
 const cx = classNames.bind(styles);
 
@@ -18,18 +19,14 @@ function Header() {
 
   return (
     <div className={cx('header-wrapper')}>
-      <Navbar expand='lg' className={cx('bg-body-tertiary', 'header-nav')}>
+      <Navbar expand="lg" className={cx('bg-body-tertiary', 'header-nav')}>
         <Container>
-          <Navbar.Brand className={cx('brand')}>
-            <Link to={config.routes.home} className={cx('logo-link')}>
-              <FontAwesomeIcon className={cx('logo')} icon={faE} />
-              <span>Study</span>
-            </Link>
-          </Navbar.Brand>
-          <Navbar.Collapse id='basic-navbar-nav' className={cx('navbar-collapse')}>
-            <Nav className={cx('nav-links')}>
+          <NavbarBrand />
+          <Navbar.Collapse id="basic-navbar-nav" className={cx('navbar-collapse')}>
+            <Nav className={cx('navbar-nav')}>
+              {/* Change language */}
               <LanguageSelector />
-              <Link to={config.routes.home} className={cx('nav-link', 'nav-link-item')}>
+              <Link to={config.routes.home.default} className={cx('nav-link-item')}>
                 <FontAwesomeIcon icon={faHouse} className={cx('nav-icon')} />
                 {t('home')}
               </Link>

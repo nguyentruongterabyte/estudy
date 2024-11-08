@@ -6,3 +6,4 @@
 package-lock.json
 build
 /src/logs
+src/config/serviceAccountKey.json
