@@ -1,27 +1,12 @@
-const { bucket } = require('../config/firebaseConfig');
-const fs = require('fs');
+import { bucket } from '../config/firebaseConfig';
+import { unlinkSync } from 'fs';
+import audioService from '../services/audioService'
 
 const handleUploadAudio = async (req, res) => {
   try {
     const file = req.file;
 
-    const firebaseFilename = `audios/${Date.now()}-${file.originalname}`;
-
-    await bucket.upload(file.path, {
-      destination: firebaseFilename,
-      metadata: {
-        contentType: 'audio/mpeg',
-      },
-    });
-
-    const fileRef = bucket.file(firebaseFilename);
-    const [url] = await fileRef.getSignedUrl({
-      action: 'read',
-      expires: '03-09-2491',
-    });
-
-    fs.unlinkSync(file.path);
-
+    const url = await audioService.uploadFirebase(file);
     res.json({
       errCode: 0,
       errMessage: 'OK',
@@ -35,6 +20,6 @@ const handleUploadAudio = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   handleUploadAudio
 }

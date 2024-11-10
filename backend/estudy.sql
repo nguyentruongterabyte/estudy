@@ -31,7 +31,7 @@ CREATE TABLE `Answers` (
   PRIMARY KEY (`id`),
   KEY `questionId` (`questionId`),
   CONSTRAINT `Answers_ibfk_1` FOREIGN KEY (`questionId`) REFERENCES `Questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `Answers` (
 
 LOCK TABLES `Answers` WRITE;
 /*!40000 ALTER TABLE `Answers` DISABLE KEYS */;
+INSERT INTO `Answers` VALUES (1,1,'The man is holding some seafood.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(2,1,'he woman is baking a crab.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(3,1,'They are scared of the crab.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(4,1,'The family is shopping for breakfast.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(5,2,'The woman is talking on the phone.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(6,2,'The woman is using her cell phone.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(7,2,'The woman is typing on the laptop.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(8,2,'The woman is writing in her notebook.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(9,3,'The man is using a screwdriver to screw a nail into the building frame.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(10,3,'The man is hammering something into a building frame.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(11,3,'The man is making the frame with his hand.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(12,3,'The man is wearing protective glasses.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(13,4,'The woman is cooking some bacon.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(14,4,'The woman is baking a cake.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(15,4,'The woman is preparing for dinner.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(16,4,'The woman is frying some fish.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(17,5,'They are looking at each other.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(18,5,'The woman is typing on her computer.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(19,5,'The man is using the calculator.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(20,5,'The man is writing something onto the notepad.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(21,6,'There are some tables and chairs outdoors.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(22,6,'There are some people sitting at the tables.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(23,6,'There are plastic umbrellas on the tables.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(24,6,'There are many flowers in the garden.','2024-11-08 15:48:06','2024-11-08 15:48:06');
 /*!40000 ALTER TABLE `Answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,11 +54,10 @@ DROP TABLE IF EXISTS `Audios`;
 CREATE TABLE `Audios` (
   `id` int NOT NULL AUTO_INCREMENT,
   `audioLink` text,
-  `description` text,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,6 +66,7 @@ CREATE TABLE `Audios` (
 
 LOCK TABLES `Audios` WRITE;
 /*!40000 ALTER TABLE `Audios` DISABLE KEYS */;
+INSERT INTO `Audios` VALUES (1,'https://storage.googleapis.com/estudyme/toeic/2024/10/08/51412687.mp3','2024-11-08 15:48:06','2024-11-08 15:48:06'),(2,'https://storage.googleapis.com/estudyme/toeic/2024/10/08/94243671.mp3','2024-11-08 15:48:06','2024-11-08 15:48:06'),(3,'https://storage.googleapis.com/estudyme/toeic/2024/10/08/66607451.mp3','2024-11-08 15:48:06','2024-11-08 15:48:06'),(4,'https://storage.googleapis.com/estudyme/toeic/2024/10/08/65823179.mp3','2024-11-08 15:48:06','2024-11-08 15:48:06'),(5,'https://storage.googleapis.com/estudyme/toeic/2024/10/08/55914976.mp3','2024-11-08 15:48:06','2024-11-08 15:48:06'),(6,'https://storage.googleapis.com/estudyme/toeic/2024/10/08/51412687.mp3','2024-11-08 15:48:06','2024-11-08 15:48:06');
 /*!40000 ALTER TABLE `Audios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,6 +96,7 @@ CREATE TABLE `CorrectAnswers` (
 
 LOCK TABLES `CorrectAnswers` WRITE;
 /*!40000 ALTER TABLE `CorrectAnswers` DISABLE KEYS */;
+INSERT INTO `CorrectAnswers` VALUES (1,1,'','2024-11-08 16:00:32','2024-11-08 16:00:32'),(2,5,'','2024-11-08 16:00:32','2024-11-08 16:00:32'),(3,10,'','2024-11-08 16:00:32','2024-11-08 16:00:32'),(4,13,'','2024-11-08 16:00:32','2024-11-08 16:00:32'),(5,20,'','2024-11-08 16:00:32','2024-11-08 16:00:32'),(6,21,'','2024-11-08 16:00:32','2024-11-08 16:00:32');
 /*!40000 ALTER TABLE `CorrectAnswers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,7 +116,7 @@ CREATE TABLE `GroupQuestions` (
   PRIMARY KEY (`id`),
   KEY `partId` (`partId`),
   CONSTRAINT `GroupQuestions_ibfk_1` FOREIGN KEY (`partId`) REFERENCES `Parts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,6 +125,7 @@ CREATE TABLE `GroupQuestions` (
 
 LOCK TABLES `GroupQuestions` WRITE;
 /*!40000 ALTER TABLE `GroupQuestions` DISABLE KEYS */;
+INSERT INTO `GroupQuestions` VALUES (1,1,'Test 1','2024-11-08 15:48:06','2024-11-08 15:48:06');
 /*!40000 ALTER TABLE `GroupQuestions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,13 +164,12 @@ CREATE TABLE `Photos` (
   `id` int NOT NULL AUTO_INCREMENT,
   `questionId` int DEFAULT NULL,
   `filePath` text,
-  `caption` varchar(255) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `questionId` (`questionId`),
   CONSTRAINT `Photos_ibfk_1` FOREIGN KEY (`questionId`) REFERENCES `Questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,6 +178,7 @@ CREATE TABLE `Photos` (
 
 LOCK TABLES `Photos` WRITE;
 /*!40000 ALTER TABLE `Photos` DISABLE KEYS */;
+INSERT INTO `Photos` VALUES (1,1,'https://estudyme.hoc102.com/legacy-data/kstoeic/images/3555841_1562638435196.png','2024-11-08 15:48:06','2024-11-08 15:48:06'),(2,2,'https://estudyme.hoc102.com/legacy-data/kstoeic/images/5656089_1562638419203.png','2024-11-08 15:48:06','2024-11-08 15:48:06'),(3,3,'https://estudyme.hoc102.com/legacy-data/kstoeic/images/5911589_1562638438001.png','2024-11-08 15:48:06','2024-11-08 15:48:06'),(4,4,'https://estudyme.hoc102.com/legacy-data/kstoeic/images/3672944_1562638433179.png','2024-11-08 15:48:06','2024-11-08 15:48:06'),(5,5,'https://estudyme.hoc102.com/legacy-data/kstoeic/images/6539040_1562638443130.png','2024-11-08 15:48:06','2024-11-08 15:48:06'),(6,6,'https://estudyme.hoc102.com/legacy-data/kstoeic/images/973355_1562638439675.png','2024-11-08 15:48:06','2024-11-08 15:48:06');
 /*!40000 ALTER TABLE `Photos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,6 +207,7 @@ CREATE TABLE `QuestionAudios` (
 
 LOCK TABLES `QuestionAudios` WRITE;
 /*!40000 ALTER TABLE `QuestionAudios` DISABLE KEYS */;
+INSERT INTO `QuestionAudios` VALUES (1,1,'2024-11-08 15:48:06','2024-11-08 15:48:06'),(2,2,'2024-11-08 15:48:06','2024-11-08 15:48:06'),(3,3,'2024-11-08 15:48:06','2024-11-08 15:48:06'),(4,4,'2024-11-08 15:48:06','2024-11-08 15:48:06'),(5,5,'2024-11-08 15:48:06','2024-11-08 15:48:06'),(6,6,'2024-11-08 15:48:06','2024-11-08 15:48:06');
 /*!40000 ALTER TABLE `QuestionAudios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,7 +227,7 @@ CREATE TABLE `Questions` (
   PRIMARY KEY (`id`),
   KEY `groupId` (`groupId`),
   CONSTRAINT `Questions_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `GroupQuestions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,6 +236,7 @@ CREATE TABLE `Questions` (
 
 LOCK TABLES `Questions` WRITE;
 /*!40000 ALTER TABLE `Questions` DISABLE KEYS */;
+INSERT INTO `Questions` VALUES (1,1,'The man is holding some seafood.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(2,1,'The woman is talking on the phone','2024-11-08 15:48:06','2024-11-08 15:48:06'),(3,1,'The man is hammering something into a building frame.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(4,1,'The woman is cooking some bacon.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(5,1,'The man is writing something onto the notepad.','2024-11-08 15:48:06','2024-11-08 15:48:06'),(6,1,'There are some tables and chairs outdoors.','2024-11-08 15:48:06','2024-11-08 15:48:06');
 /*!40000 ALTER TABLE `Questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,7 +256,7 @@ CREATE TABLE `RefreshTokens` (
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   CONSTRAINT `RefreshTokens_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -260,7 +265,7 @@ CREATE TABLE `RefreshTokens` (
 
 LOCK TABLES `RefreshTokens` WRITE;
 /*!40000 ALTER TABLE `RefreshTokens` DISABLE KEYS */;
-INSERT INTO `RefreshTokens` VALUES (19,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMwOTk0OTI4LCJleHAiOjE3MzIyMDQ1Mjh9.FE1_ehAVX9b9tiIbGadILNRkDJQ9tYQYJZynhlB9lnY','2024-11-07 22:55:28','2024-11-07 22:55:28');
+INSERT INTO `RefreshTokens` VALUES (2,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMxMDY4MTIxLCJleHAiOjE3MzIyNzc3MjF9.9qLQMaj89LnJTAblbhloUrua1U4HcKd_P6AfHzUKRTc','2024-11-08 19:15:21','2024-11-08 19:15:21');
 /*!40000 ALTER TABLE `RefreshTokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,7 +294,7 @@ CREATE TABLE `RoleDetails` (
 
 LOCK TABLES `RoleDetails` WRITE;
 /*!40000 ALTER TABLE `RoleDetails` DISABLE KEYS */;
-INSERT INTO `RoleDetails` VALUES (1,30001,'2024-11-07 17:22:47','2024-11-07 17:22:47'),(1,52456,'2024-11-07 17:22:47','2024-11-07 17:22:47'),(1,78643,'2024-11-07 17:22:47','2024-11-07 17:22:47');
+INSERT INTO `RoleDetails` VALUES (1,30001,'2024-11-08 15:48:06','2024-11-08 15:48:06'),(1,52456,'2024-11-08 15:48:06','2024-11-08 15:48:06'),(1,78643,'2024-11-08 15:48:06','2024-11-08 15:48:06');
 /*!40000 ALTER TABLE `RoleDetails` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -398,7 +403,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'Truong','Nguyen','nguyenthaitruong1223@gmail.com','$2b$10$bfCAN3DDxO0Q83O8c9aEu.S.Ca0.EI9luMRF/FzNtfAc2V9CX6Wca','0948915051','2024-11-07 17:22:47','2024-11-07 17:22:47');
+INSERT INTO `Users` VALUES (1,'Truong','Nguyen','nguyenthaitruong1223@gmail.com','$2b$10$bfCAN3DDxO0Q83O8c9aEu.S.Ca0.EI9luMRF/FzNtfAc2V9CX6Wca','0948915051','2024-11-08 15:48:06','2024-11-08 15:48:06');
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -527,4 +532,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-08 11:21:46
+-- Dump completed on 2024-11-09  8:58:45

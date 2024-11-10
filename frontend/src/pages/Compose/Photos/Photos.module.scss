@@ -1,0 +1,13 @@
+
+
+// Main
+.container {
+  position: absolute;
+  top: var(--default-layout-header-height);
+  transition: 0.3s ease;
+  width: 100%;
+  &.scaled {
+    transform: translateX(200px);
+    width: calc(100% - 400px);
+  }
+}

@@ -1,6 +1,7 @@
 import express from 'express';
-import multer from 'multer';
 
+// import middleware
+import upload from '../middleware/uploadMiddleware';
 import verifyJWT from '../middleware/verifyJWT';
 import { ROLES_OBJECT } from '../config/rolesList';
 import verifyRoles from '../middleware/verifyRoles';
@@ -10,6 +11,7 @@ import userController from '../controllers/userController';
 import vocabularyController from '../controllers/vocabularyController';
 import testController from '../controllers/testController';
 import audioController from '../controllers/audioController';
+import photoController from '../controllers/photoController';
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -49,8 +51,9 @@ let initWebRoutes = (app) => {
     testController.handleGetQuestionsByGroupId,
   );
 
-  const upload = multer({ dest: 'uploads/' });
   router.post('/api/test/upload-audio', upload.single('audio'), audioController.handleUploadAudio);
+  router.post('/api/test/upload-photo', upload.single('photo'), photoController.handleUploadPhoto);
+  
   return app.use('/', router);
 };
 

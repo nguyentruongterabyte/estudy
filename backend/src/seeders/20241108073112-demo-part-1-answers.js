@@ -13,7 +13,7 @@ module.exports = {
       },
       {
         questionId: 1,
-        answer: 'he woman is baking a crab.',
+        answer: 'The woman is baking a crab.',
         createdAt: new Date(),
         updatedAt: new Date(),
       },

@@ -1,0 +1,27 @@
+.canvas-container {
+  margin-top: var(--default-layout-header-height);
+  background-color: rgba(var(--bs-tertiary-bg-rgb)) !important;
+  padding: 0 22px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+
+  .header {
+    padding: 22px 0;
+
+    .title {
+      font-size: 1.8rem;
+    }
+  }
+
+  .body {
+    padding: 0;
+    .list-group {
+
+      .list-group-item{
+        user-select: none;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

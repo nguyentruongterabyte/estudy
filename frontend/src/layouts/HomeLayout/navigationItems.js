@@ -1,3 +1,5 @@
+import config from "~/config";
+
 const navigationItems = {
   admin: [
     {
@@ -8,43 +10,43 @@ const navigationItems = {
   editor: [
     {
       title: 'Soạn đề R&L',
-      href: '/compose/compose-reading-listening',
+      // href: '/compose/compose-reading-listening',
       dropdownItems: [
         {
           title: 'Phần 1: Mô tả tranh',
-          href: '/compose/part-1-photos',
+          href: config.routes.compose.part1_Photos,
         },
         {
           title: 'Phần 2: Hỏi đáp',
-          href: '/compose/part-2-question-response',
+          href: config.routes.compose.part2_QuestionResponse,
         },
         {
           title: 'Phần 3: Đoạn hội thoại',
-          href: '/compose/part-3-conversations',
+          href: config.routes.compose.part3_Conversations,
         },
         {
           title: 'Phần 4: Bài nói ngắn',
-          href: '/compose/part-4-short-talks',
+          href: config.routes.compose.part4_ShortTalks,
         },
         {
           title: 'Phần 5: Hoàn thành câu',
-          href: '/compose/part-5-incomplete-sentences',
+          href: config.routes.compose.part5_IncompleteSentences,
         },
         {
           title: 'Phần 6: Hoàn thành đoạn văn',
-          href: '/compose/part-6-text-completion',
+          href: config.routes.compose.part6_TextCompletion,
         },
         {
           title: 'Phần 7: Đọc hiểu - đoạn đơn',
-          href: '/compose/part-7-single-passages',
+          href: config.routes.compose.part7_SinglePassages,
         },
         {
           title: 'Phần 7: Đọc hiểu - đoạn kép',
-          href: '/compose/part-7-double-passages',
+          href: config.routes.compose.part7_DoublePassages,
         },
         {
           title: 'Phần 7: Đọc hiểu - đoạn ba',
-          href: '/compose/part-7-triple-passages',
+          href: config.routes.compose.part7_TriplePassages,
         },
       ],
     },
