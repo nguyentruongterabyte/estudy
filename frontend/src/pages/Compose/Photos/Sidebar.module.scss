@@ -1,4 +1,4 @@
-.canvas-container {
+.container {
   margin-top: var(--default-layout-header-height);
   background-color: rgba(var(--bs-tertiary-bg-rgb)) !important;
   padding: 0 22px;
@@ -14,14 +14,5 @@
 
   .body {
     padding: 0;
-    .list-group {
-
-      .list-group-item{
-        user-select: none;
-        &:hover {
-          cursor: pointer;
-        }
-      }
-    }
   }
 }

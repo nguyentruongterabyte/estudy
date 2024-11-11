@@ -6,7 +6,7 @@ import styles from './Header.module.scss';
 
 const cx = classNames.bind( styles );
 
-const Header = ({ setShow, show }) => {
+const Header = ({ setShow, show, title = 'Part 1: Photos' }) => {
   const handleToggleCanvas = () => {
     setShow((prev) => !prev);
   };
@@ -14,6 +14,7 @@ const Header = ({ setShow, show }) => {
   return (
     <div className={ cx( 'container' ) }>
       <FontAwesomeIcon className={cx('canvas-button')} icon={show ? faBars : faArrowRight} onClick={handleToggleCanvas} />
+      <h1>{ title }</h1>
     </div>
   );
 };

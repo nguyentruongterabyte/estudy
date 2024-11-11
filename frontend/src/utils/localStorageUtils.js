@@ -9,7 +9,6 @@ export const setWithExpiry = (key, value) => {
 
 export const getWithExpiry = (key) => {
   const item = localStorage.getItem( key );
-  console.log( item );
 
   if (!item) return null;
 

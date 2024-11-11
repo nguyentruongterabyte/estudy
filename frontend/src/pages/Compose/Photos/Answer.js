@@ -4,14 +4,15 @@ import styles from './Answer.module.scss';
 import { ListGroup } from 'react-bootstrap';
 import { useQuestion } from '~/context/QuestionProvider';
 
-const cx = classNames.bind( styles );
+const cx = classNames.bind(styles);
 
-
-const Answer = ({answer}) => {
+const Answer = ({ answer, index }) => {
+  const label = String.fromCharCode(index + 65);
 
   const question = useQuestion();
   return (
-    <ListGroup.Item active={answer.id === question.correctAnswer.answerId}>
+    <ListGroup.Item className={cx('answer', { correct: answer.id === question.correctAnswer.answerId })}>
+      <strong>{label}. </strong>
       {answer.answer}
     </ListGroup.Item>
   );

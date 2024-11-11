@@ -5,6 +5,7 @@ import useLogout from './useLogout';
 import useRefreshToken from './useRefreshToken';
 import useToggle from './useToggle';
 import useAxiosPrivate from './useAxiosPrivate';
+import useQuestionService from './useQuestionService';
 const hooks = {
   useAuth,
   useLocalStorage,
@@ -12,7 +13,8 @@ const hooks = {
   useLogout,
   useRefreshToken,
   useToggle,
-  useAxiosPrivate
+  useAxiosPrivate,
+  useQuestionService
 };
 
 export default hooks;

@@ -1,0 +1,22 @@
+.container {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  min-width: 50%;
+  .play-button {
+    display: flex;
+    align-self: center;
+    margin-right: 4px;
+    padding: 6px;
+    font-size: 1.6rem;
+    background-color: #007bff;
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .progress-bar {
+    flex: 1;
+  }
+}

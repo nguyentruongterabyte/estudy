@@ -3,6 +3,8 @@
   top: var(--default-layout-header-height);
   right: 0;
   z-index: 10000;
+  display: flex;
+  align-items: center;
   width: 100%; 
   height: var(--default-layout-header-height);
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
@@ -11,5 +13,10 @@
     padding: 20px;
     font-size: 2rem;
     color: var(--primary);
+  }
+
+  h1 {
+    margin-bottom: 0;
+    color: var(--primary)
   }
 }

@@ -1,0 +1,22 @@
+.container {
+  .header {
+    button {
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .group {
+      display: flex;
+    }
+
+    .audio {
+      margin-top: 20px;
+    }
+  }
+}

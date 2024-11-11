@@ -1,0 +1,17 @@
+
+
+.input-name {
+  width: 98%;
+  margin: 20px 0;
+}
+
+// Button add new question group
+.btn-add {
+  margin-top: 12px;
+  font-size: 1.6rem !important;
+  width: 100%;
+
+  &:not(:hover) {
+    border: dotted 2px !important;
+  }
+}

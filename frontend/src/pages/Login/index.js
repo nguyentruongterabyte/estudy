@@ -82,7 +82,7 @@ const Login = () => {
   const handleRoleSelection = (selectedRole) => {
     setShowRoleModal(false);
     const roleName = Object.keys(config.roles).find((key) => config.roles[key] === selectedRole);
-    navigate(`/home/${roleName}`);
+    navigate(`/home/${roleName}`, {replace: true});
     setAuth((prev) => ({ ...prev, currentRole: selectedRole }));
     localStorage.setItem('currentRole', selectedRole);
     resetEmail();
