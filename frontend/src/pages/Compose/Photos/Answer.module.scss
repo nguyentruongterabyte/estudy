@@ -1,5 +1,25 @@
-.answer {
+.container {
+  display: flex !important;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   &.correct {
     color: #00f418
+  }
+
+  &+.container {
+    margin-top: 10px;
+  }
+
+  .label {
+    align-content: center;
+  }
+
+  .group {
+    display: flex;
+    margin-left: 4px;
+    flex: 1;
+    .input {
+      flex: 1;
+    }
   }
 }

@@ -9,7 +9,7 @@ import styles from './Question.module.scss';
 
 const cx = classNames.bind(styles);
 
-const Question = ({ data, index }) => {
+const Question = ({ data, index, isEditable, onQuestionChange, onAnswerChange, onCorrectAnswerChange }) => {
   return (
     <Accordion defaultActiveKey={0} className={cx('container')}>
       <Accordion.Item eventKey={String(index)}>
@@ -18,13 +18,31 @@ const Question = ({ data, index }) => {
           <div className={cx('group')}>
             <QuestionProvider question={data}>
               {/* Photo */}
-              <DisplayImage width={300} imageUrl={data.photo} altText={data.question} thumbnail />
-              {/* Answers */}
-              <Answers />
+              <DisplayImage
+                width={300}
+                imageUrl={data.photo}
+                altText={data.question}
+                thumbnail
+                isEditable={isEditable}
+                onImageUpload={(newPhoto) => onQuestionChange('photo', newPhoto)}
+              />
+              {/* Answers/ Editable Answers */}
+              <Answers
+                answers={data.answers}
+                correctAnswerIndex={data.correctAnswerIndex}
+                isEditable={isEditable}
+                onAnswerChange={onAnswerChange}
+                onCorrectAnswerChange={onCorrectAnswerChange}
+              />
             </QuestionProvider>
           </div>
           {/* Audio */}
-          <AudioPlayer audioLink={data.audio} className={cx('audio')} />
+          <AudioPlayer
+            audioLink={data.audio}
+            className={cx('audio')}
+            isEditable={isEditable}
+            onAudioUpload={(newAudio) => onQuestionChange('audio', newAudio)}
+          />
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>

@@ -3,15 +3,13 @@ import classNames from 'classnames/bind';
 
 import styles from './DisplayImage.module.scss';
 import images from '~/assets/images';
-import { useQuestionGroups } from '~/context/QuestionGroupsProvider';
 import { Fragment, useState } from 'react';
 import { useQuestion } from '~/context/QuestionProvider';
 
 const cx = classNames.bind(styles);
 
-const DisplayImage = ({ imageUrl, altText, ...props }) => {
+const DisplayImage = ({ imageUrl, altText, isEditable, onImageUpload, ...props }) => {
   const [selectedImage, setSelectedImage] = useState(null);
-  const { isAddNew } = useQuestionGroups();
   const question = useQuestion();
 
   const handleImageUpload = (e) => {
@@ -19,14 +17,13 @@ const DisplayImage = ({ imageUrl, altText, ...props }) => {
 
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
+      setSelectedImage( imageUrl );
+      onImageUpload(file)
     }
   };
   return (
     <>
-      {!isAddNew ? (
-        <Image src={imageUrl} alt={altText} {...props} />
-      ) : (
+      {isEditable ? (
         <Fragment>
           <Image
             onClick={() => document.getElementById(`image_${question.id}`).click()}
@@ -35,8 +32,16 @@ const DisplayImage = ({ imageUrl, altText, ...props }) => {
             alt="Add"
             {...props}
           />
-          <input type="file" id={`image_${question.id}`} style={{ display: 'none' }} accept="image/*" onChange={handleImageUpload} />
+          <input
+            type="file"
+            id={`image_${question.id}`}
+            style={{ display: 'none' }}
+            accept="image/*"
+            onChange={handleImageUpload}
+          />
         </Fragment>
+      ) : (
+        <Image src={imageUrl} alt={altText} {...props} />
       )}
     </>
   );

@@ -2,64 +2,84 @@ import { useQuestionGroups } from '~/context/QuestionGroupsProvider';
 import Question from './Question';
 import { Fragment, useEffect, useState } from 'react';
 import hooks from '~/hooks';
+import QuestionProvider from '~/context/QuestionProvider';
 
 const Questions = () => {
   const { getQuestionsByGroupId } = hooks.useQuestionService();
   const { groupId, isAddNew } = useQuestionGroups();
-  const [ questions, setQuestions ] = useState( [] );
-
-  // fetch questions data
-  const fetchQuestions = async (groupId) => {
-    const audio = true;
-    const photo = true;
-    const questions = await getQuestionsByGroupId(groupId, audio, photo);
-    setQuestions(questions);
-  };
+  const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
-    if ( groupId ) fetchQuestions( groupId );
-    
-  }, [ groupId ] );
-  
-  useEffect( () => {
-    if ( isAddNew ) {
-      setQuestions(Array.from({ length: 6 }).map((_, index) => ({
-        id: index,
-        photo: '',
-        audio: '',
-        answers: Array.from( { length: 4 } ).map( ( _, index ) => ( { id: index, answer: '' } ) ),
-        correctAnswer: {answerId: 0}
-      })));
+    // fetch questions data
+    const fetchQuestions = async (groupId) => {
+      const audio = true;
+      const photo = true;
+      const questions = await getQuestionsByGroupId(groupId, audio, photo);
+      setQuestions(questions);
+    };
+    if (groupId) fetchQuestions(groupId);
+    // eslint-disable-next-line
+  }, [groupId]);
+
+  useEffect(() => {
+    if (isAddNew) {
+      setQuestions(
+        Array.from({ length: 6 }).map((_, index) => ({
+          id: index,
+          photo: '',
+          audio: '',
+          answers: Array.from({ length: 4 }).map((_, answerIndex) => ({ id: answerIndex, answer: '' })),
+          correctAnswerIndex: 0,
+        })),
+      );
     }
   }, [isAddNew]);
 
-  return (
-    <Fragment>
-      {
-      
-        questions.map((question, index) => (
-          <Question key={question.id} data={question} index={index} />
-        ))
+  // useEffect(() => {
+  //   console.log(questions);
+  // }, [questions]);
 
-        // 6 Questions
-        // Array.from({ length: 6 }).map((_, index) => (
-        //   <Accordion key={index} defaultActiveKey="0" className={cx('accordion-item')}>
-        //     <Accordion.Item eventKey={String(index)}>
-        //       <Accordion.Header>Question #{index + 1}</Accordion.Header>
-        //       <Accordion.Body>
-        //         {/* Answers */}
-        //         <ListGroup>
-        //           <ListGroup.Item>Answer 1</ListGroup.Item>
-        //           <ListGroup.Item>Answer 2</ListGroup.Item>
-        //           <ListGroup.Item>Answer 3</ListGroup.Item>
-        //           <ListGroup.Item>Answer 4</ListGroup.Item>
-        //         </ListGroup>
-        //       </Accordion.Body>
-        //     </Accordion.Item>
-        //   </Accordion>
-        // ))
-      }
-    </Fragment>
+  const handleQuestionChange = (index, field, value) => {
+    setQuestions((prevQuestions) => {
+      const updatedQuestions = [...prevQuestions];
+      updatedQuestions[ index ] = { ...updatedQuestions[ index ], [ field ]: value };
+      return updatedQuestions;
+    });
+  };
+
+  const handleAnswerChange = (questionIndex, answerIndex, value) => {
+    setQuestions((prevQuestions) => {
+      const updatedQuestions = [...prevQuestions];
+      updatedQuestions[questionIndex].answers[answerIndex].answer = value;
+      return updatedQuestions;
+    });
+  };
+
+  const handleCorrectAnswerChange = (questionIndex, answerIndex) => {
+    setQuestions((prevQuestions) => {
+      const updatedQuestions = [...prevQuestions];
+      updatedQuestions[questionIndex].correctAnswerIndex = answerIndex;
+      return updatedQuestions;
+    });
+  };
+
+  return (
+    <div>
+      {Array.isArray(questions) &&
+        questions.map((question, index) => (
+          <QuestionProvider question={question}>
+            <Question
+              data={question}
+              key={question.id}
+              index={index}
+              isEditable={isAddNew}
+              onQuestionChange={(field, value) => handleQuestionChange(index, field, value)}
+              onAnswerChange={(answerIndex, value) => handleAnswerChange(index, answerIndex, value)}
+              onCorrectAnswerChange={(answerIndex) => handleCorrectAnswerChange(index, answerIndex)}
+            />
+          </QuestionProvider>
+        ))}
+    </div>
   );
 };
 
