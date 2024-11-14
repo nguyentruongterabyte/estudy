@@ -6,6 +6,8 @@ import useRefreshToken from './useRefreshToken';
 import useToggle from './useToggle';
 import useAxiosPrivate from './useAxiosPrivate';
 import useQuestionService from './useQuestionService';
+import useAudioService from './useAudioService';
+import usePhotoService from './usePhotoService';
 const hooks = {
   useAuth,
   useLocalStorage,
@@ -14,7 +16,9 @@ const hooks = {
   useRefreshToken,
   useToggle,
   useAxiosPrivate,
-  useQuestionService
+  useQuestionService,
+  useAudioService,
+  usePhotoService
 };
 
 export default hooks;

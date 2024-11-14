@@ -7,8 +7,10 @@ const urls = {
   },
   test: {
     questionGroups: 'api/test/question-groups',
-    questions: 'api/test/questions'
-  }
+    questions: 'api/test/questions',
+    uploadPhoto: 'api/test/upload-photo',
+    uploadAudio: 'api/test/upload-audio',
+  },
 };
 
 export default urls;

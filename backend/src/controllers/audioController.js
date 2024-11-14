@@ -1,5 +1,3 @@
-import { bucket } from '../config/firebaseConfig';
-import { unlinkSync } from 'fs';
 import audioService from '../services/audioService'
 
 const handleUploadAudio = async (req, res) => {

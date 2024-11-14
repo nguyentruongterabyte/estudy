@@ -1,7 +1,6 @@
 import { Accordion } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
-import QuestionProvider from '~/context/QuestionProvider';
 import AudioPlayer from './AudioPlayer';
 import DisplayImage from './DisplayImage';
 import Answers from './Answers';
@@ -16,25 +15,23 @@ const Question = ({ data, index, isEditable, onQuestionChange, onAnswerChange, o
         <Accordion.Header className={cx('header')}>Question #{index + 1}</Accordion.Header>
         <Accordion.Body className={cx('body')}>
           <div className={cx('group')}>
-            <QuestionProvider question={data}>
-              {/* Photo */}
-              <DisplayImage
-                width={300}
-                imageUrl={data.photo}
-                altText={data.question}
-                thumbnail
-                isEditable={isEditable}
-                onImageUpload={(newPhoto) => onQuestionChange('photo', newPhoto)}
-              />
-              {/* Answers/ Editable Answers */}
-              <Answers
-                answers={data.answers}
-                correctAnswerIndex={data.correctAnswerIndex}
-                isEditable={isEditable}
-                onAnswerChange={onAnswerChange}
-                onCorrectAnswerChange={onCorrectAnswerChange}
-              />
-            </QuestionProvider>
+            {/* Photo */}
+            <DisplayImage
+              width={300}
+              imageUrl={data.photo}
+              altText={data.question}
+              thumbnail
+              isEditable={isEditable}
+              onImageUpload={(newPhoto) => onQuestionChange('photo', newPhoto)}
+            />
+            {/* Answers/ Editable Answers */}
+            <Answers
+              answers={data.answers}
+              correctAnswerIndex={data.correctAnswerIndex}
+              isEditable={isEditable}
+              onAnswerChange={onAnswerChange}
+              onCorrectAnswerChange={onCorrectAnswerChange}
+            />
           </div>
           {/* Audio */}
           <AudioPlayer

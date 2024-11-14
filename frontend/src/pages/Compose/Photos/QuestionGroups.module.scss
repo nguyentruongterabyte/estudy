@@ -1,17 +1,30 @@
 
+.container {
+  .input-wrapper {
+    display: flex !important;
+    align-items: center;
+    .input-name {
+      width: 98%;
+      margin: 20px 0;
+      border: solid 1px cyan;
+    }
+    .badge {
+      margin-left: 6px;
+    }
+  }
 
-.input-name {
-  width: 98%;
-  margin: 20px 0;
-}
+  // Button add new question group
+  .btn-add {
+    margin-top: 12px;
+    font-size: 1.6rem !important;
+    width: 100%;
 
-// Button add new question group
-.btn-add {
-  margin-top: 12px;
-  font-size: 1.6rem !important;
-  width: 100%;
-
-  &:not(:hover) {
-    border: dotted 2px !important;
+    &:not(:hover) {
+      border: dotted 2px !important;
+    }
   }
 }
+
+
+
+

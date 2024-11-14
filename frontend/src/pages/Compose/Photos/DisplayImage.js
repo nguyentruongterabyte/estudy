@@ -17,12 +17,12 @@ const DisplayImage = ({ imageUrl, altText, isEditable, onImageUpload, ...props }
 
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setSelectedImage( imageUrl );
-      onImageUpload(file)
+      setSelectedImage(imageUrl);
+      onImageUpload(file);
     }
   };
   return (
-    <>
+    <div className={cx('container')}>
       {isEditable ? (
         <Fragment>
           <Image
@@ -43,7 +43,7 @@ const DisplayImage = ({ imageUrl, altText, isEditable, onImageUpload, ...props }
       ) : (
         <Image src={imageUrl} alt={altText} {...props} />
       )}
-    </>
+    </div>
   );
 };
 

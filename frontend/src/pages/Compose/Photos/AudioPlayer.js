@@ -1,9 +1,10 @@
 import classNames from 'classnames/bind';
 import styles from './AudioPlayer.module.scss';
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightArrowLeft, faPause, faPlay, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { useQuestion } from '~/context/QuestionProvider';
+import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
@@ -15,7 +16,7 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [selectedAudio, setSelectedAudio] = useState(audioLink);
-
+  const [audioFileName, setAudioFileName] = useState('');
   // update progress
   const handleTimeUpdate = () => {
     const audio = audioRef.current;
@@ -63,20 +64,28 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
     if (file) {
       const audioUrl = URL.createObjectURL(file);
       setSelectedAudio(audioUrl); // Update audio source
+      setAudioFileName(file.name);
       onAudioUpload(file);
     }
   };
+
+  useEffect(() => {
+    if (audioLink) setSelectedAudio(audioLink);
+  }, [audioLink]);
 
   return (
     <div className={cx('container', className)}>
       {isEditable ? (
         <Fragment>
-          <button
+          <Button
+            primary
+            success={!!selectedAudio}
+            leftIcon={!!selectedAudio ? faArrowRightArrowLeft : faUpload}
             onClick={() => document.getElementById(`audioInput_${question.id}`).click()}
             className={cx('upload-audio')}
           >
-            {selectedAudio ? 'Change Audio' : 'Upload Audio'}
-          </button>
+            {!!selectedAudio ? 'Change Audio' : 'Upload Audio'}
+          </Button>
           <input
             type="file"
             id={`audioInput_${question.id}`}
@@ -88,11 +97,11 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
       ) : null}
 
       {/* Only show audio controls if there is an audio file */}
-      {(selectedAudio || audioLink) && (
-        <>
+      {!isEditable && (
+        <Fragment>
           <audio
             ref={audioRef}
-            src={selectedAudio || audioLink} // Play the uploaded audio or default audio link
+            src={audioLink} // Play the uploaded audio or default audio link
             type="audio/mpeg"
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
@@ -100,12 +109,19 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
           <button onClick={togglePlay} className={cx('play-button')}>
             {isPlaying ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}
           </button>
-          <input type="range" value={progress} onChange={handleProgressChange} className={cx('progress-bar')} />
+          <input
+            id={`audioProgress_${question.id}`}
+            type="range"
+            value={progress}
+            onChange={handleProgressChange}
+            className={cx('progress-bar')}
+          />
           <div className={cx('time')}>
             <span>{formatTime(currentTime)}</span> / <span>{formatTime(duration)}</span>
           </div>
-        </>
+        </Fragment>
       )}
+      {audioFileName && <div className={cx('file-name')}>{audioFileName}</div>}
     </div>
   );
 };

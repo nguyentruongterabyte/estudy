@@ -1,5 +1,7 @@
-.add-image {
-  &:hover {
-    cursor: pointer;
+.container {
+  .add-image {
+      &:hover {
+        cursor: pointer;
+      }
   }
 }

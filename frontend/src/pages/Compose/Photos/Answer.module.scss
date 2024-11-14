@@ -6,6 +6,10 @@
     color: #00f418
   }
 
+  &.error {
+    border: 1px solid red;
+  }
+
   &+.container {
     margin-top: 10px;
   }
