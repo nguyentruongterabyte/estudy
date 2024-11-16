@@ -1,14 +1,18 @@
 import classNames from 'classnames/bind';
+import { faFileLines } from '@fortawesome/free-solid-svg-icons';
+import { ListGroup } from 'react-bootstrap';
+import { Fragment } from 'react';
+import { useDispatch } from 'react-redux';
+
 import styles from './Answers.module.scss';
 import Answer from './Answer';
-import { ListGroup } from 'react-bootstrap';
 import Button from '~/components/Button';
-import { Fragment, useState } from 'react';
-import { faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { useQuestion } from '~/context/QuestionProvider';
+import { initCorrectAnswerIndex, updateAnswer } from '~/redux/features/testSlice';
 
 const cx = classNames.bind(styles);
-const Answers = ({ answers, correctAnswerIndex, isEditable, onAnswerChange, onCorrectAnswerChange }) => {
+const Answers = ({ answers, isEditable }) => {
+  const dispatch = useDispatch();
   const question = useQuestion();
 
   const handleFileChange = (e) => {
@@ -32,28 +36,18 @@ const Answers = ({ answers, correctAnswerIndex, isEditable, onAnswerChange, onCo
     // The answers are taken from the first lines
     const answers = lines.slice(0, 4); // Answers A, B, C, D
     const correctAnswerIndex = parseInt(lines[4], 10); // index of correct answer
+    dispatch(initCorrectAnswerIndex({questionId: question.id, index: correctAnswerIndex }));
 
     // Update the answers in the inputs
     answers.forEach((answer, index) => {
-      onAnswerChange(index, answer);
+      dispatch(updateAnswer({ questionId: question.id, answerId: index, answerText: answer }));
     });
-
-    // Choose the correct answer
-    onCorrectAnswerChange(correctAnswerIndex);
   };
   return (
     <div className={cx('container')}>
       <ListGroup>
         {answers.map((answer, index) => (
-          <Answer
-            key={answer.id}
-            answer={answer}
-            index={index}
-            isEditable={isEditable}
-            isCorrect={index === correctAnswerIndex}
-            onAnswerChange={onAnswerChange}
-            onCorrectAnswerChange={() => onCorrectAnswerChange(index)}
-          />
+          <Answer key={answer.id} answer={answer} index={index} isEditable={isEditable} />
         ))}
       </ListGroup>
       {isEditable ? (

@@ -4,6 +4,18 @@ import useAxiosPrivate from './useAxiosPrivate';
 const useAudioService = () => {
   const axiosPrivate = useAxiosPrivate();
 
+  // create audio
+  const createAudio = async ( audioLink ) => {
+    try { 
+      const response = await axiosPrivate.post( config.urls.test.createAudio, { audioLink } )
+      // return new audio
+      return response?.data?.data;
+    } catch ( e ) {
+      throw(e)
+    }
+  }
+
+  // upload audio and get its url
   const uploadAudio = async (file) => {
     const formData = new FormData();
     formData.append('audio', file);
@@ -22,7 +34,7 @@ const useAudioService = () => {
     }
   };
 
-  return { uploadAudio };
+  return { uploadAudio, createAudio };
 };
 
 export default useAudioService;

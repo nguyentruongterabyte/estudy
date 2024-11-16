@@ -8,7 +8,7 @@ const usePhotoService = () => {
     const formData = new FormData();
     formData.append('photo', file);
     try {
-      const response = await axiosPrivate.post(config.urls.test.uploadPhoto, formData, {
+      const response = await axiosPrivate.post(config.urls.photo.upload, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

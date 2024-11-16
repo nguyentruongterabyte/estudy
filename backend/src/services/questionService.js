@@ -1,15 +1,31 @@
 import db from '../models/index';
 import answerService from './answerService';
+import photoService from './photoService';
 
-const getQuestionGroupsByPart = (partId) => {
+const updatePhotos = (photos) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const groupQuestions = await db.GroupQuestion.findAll({
-        attributes: ['id', 'name'],
-        where: { partId },
-        raw: true,
+      const updatePromises = photos.map(async (photo) => {
+        const photoDB = await photoService.getByQuestionId(photo.questionId);
+        await photoService.deleteFirebasePhotoByUrl(photoDB.filePath);
+        photoDB.filePath = photo.url;
+        console.log(photoDB);
+        await photoService.update(photoDB);
       });
-      resolve(groupQuestions);
+
+      await Promise.all(updatePromises);
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const save = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const newQuestion = await db.Question.create(data);
+      resolve(newQuestion);
     } catch (e) {
       reject(e);
     }
@@ -41,6 +57,7 @@ const getByGroupId = (groupId) => {
 };
 
 module.exports = {
-  getQuestionGroupsByPart,
-  getByGroupId
+  getByGroupId,
+  save,
+  updatePhotos,
 };

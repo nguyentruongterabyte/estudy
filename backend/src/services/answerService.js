@@ -1,5 +1,33 @@
 import db from '../models/index';
 
+const updateAnswers = (answers) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updatePromises = answers.map(async (answer) => {
+        const { id, ...data } = answer;
+
+        return await db.Answer.update(data, { where: { id } });
+      });
+
+      await Promise.all(updatePromises);
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const save = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const newAnswer = await db.Answer.create(data);
+      resolve(newAnswer);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const getByQuestionId = (questionId) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -32,5 +60,7 @@ const getCorrectAnswer = (questionId) => {
 
 module.exports = {
   getByQuestionId,
-  getCorrectAnswer
+  getCorrectAnswer,
+  save,
+  updateAnswers
 };

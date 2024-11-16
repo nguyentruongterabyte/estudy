@@ -12,7 +12,7 @@ module.exports = {
       groupId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'GroupQuestions',
+          model: 'QuestionGroups',
           key: 'id'
         },
         onUpdate: 'CASCADE',

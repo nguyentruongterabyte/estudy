@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { Image } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
@@ -5,10 +6,12 @@ import styles from './DisplayImage.module.scss';
 import images from '~/assets/images';
 import { Fragment, useState } from 'react';
 import { useQuestion } from '~/context/QuestionProvider';
+import { isEdit as editing } from '~/redux/features/testSlice';
 
 const cx = classNames.bind(styles);
 
-const DisplayImage = ({ imageUrl, altText, isEditable, onImageUpload, ...props }) => {
+const DisplayImage = ( { imageUrl, altText, isEditable, onImageUpload, ...props } ) => {
+  const isEdit = useSelector( editing );
   const [selectedImage, setSelectedImage] = useState(null);
   const question = useQuestion();
 
@@ -28,7 +31,7 @@ const DisplayImage = ({ imageUrl, altText, isEditable, onImageUpload, ...props }
           <Image
             onClick={() => document.getElementById(`image_${question.id}`).click()}
             className={cx('add-image')}
-            src={selectedImage || images.addImage}
+            src={isEdit ? question.photo : selectedImage || images.addImage}
             alt="Add"
             {...props}
           />

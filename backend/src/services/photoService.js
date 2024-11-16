@@ -2,48 +2,92 @@ import db from '../models/index';
 import { bucket } from '../config/firebaseConfig';
 import { unlinkSync } from 'fs';
 
-const getByQuestionId = ( questionId ) => {
-  return new Promise( async ( resolve, reject ) => {
+const save = (data) => {
+  return new Promise(async (resolve, reject) => {
     try {
-      const photo = await db.Photo.findOne( {
-        attributes: [ 'filePath' ],
-        where: { questionId },
-        raw: true
-      } )
-      resolve( photo );
-    } catch ( e ) {
-      reject( e );
+      const newPhoto = await db.Photo.create(data);
+      resolve(newPhoto);
+    } catch (e) {
+      reject(e);
     }
-  } );
-}
+  });
+};
 
-const uploadFirebase = ( file ) => {
-  return new Promise( async ( resolve, reject ) => {
+const update = (photo) => {
+  return new Promise(async (resolve, reject) => {
     try {
-      const firebaseFilename = `photos/${ Date.now() }-${ file.originalname }`;
+      const { id, ...data } = photo;
+      await db.Photo.update(data, { where: { id } });
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const getByQuestionId = (questionId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const photo = await db.Photo.findOne({
+        attributes: ['filePath', 'id'],
+        where: { questionId },
+        raw: true,
+      });
+      resolve(photo);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const uploadFirebase = (file) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const firebaseFilename = `photos/${Date.now()}-${file.originalname}`;
       await bucket.upload(file.path, {
         destination: firebaseFilename,
         metadata: {
           contentType: 'image/jpeg',
         },
       });
-      
+
       const fileRef = bucket.file(firebaseFilename);
 
-       const [url] = await fileRef.getSignedUrl({
-         action: 'read',
-         expires: '03-09-2491',
-       });
+      const [url] = await fileRef.getSignedUrl({
+        action: 'read',
+        expires: '03-09-2491',
+      });
 
-       unlinkSync(file.path);
-       resolve(url);
-    } catch ( e ) {
-      reject( e );
+      unlinkSync(file.path);
+      resolve(url);
+    } catch (e) {
+      reject(e);
     }
-  })
-}
+  });
+};
+
+const deleteFirebasePhotoByUrl = async (url) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Extract file name from URL
+      const filePath = url.split('/').slice(-2).join('/').split('?')[0]; // Get the `photos/<filename>` section
+
+      // Create a reference to the file to delete
+      const fileRef = bucket.file(filePath);
+
+      // Perform file deletion
+      await fileRef.delete();
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
 module.exports = {
   getByQuestionId,
-  uploadFirebase
-}
+  uploadFirebase,
+  save,
+  update,
+  deleteFirebasePhotoByUrl,
+};

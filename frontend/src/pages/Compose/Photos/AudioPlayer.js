@@ -20,8 +20,11 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
   // update progress
   const handleTimeUpdate = () => {
     const audio = audioRef.current;
-    setCurrentTime(audio.currentTime);
-    setProgress((audio.currentTime / audio.duration) * 100);
+    const current = audio.currentTime || 0;
+    const totalDuration = audio.duration || 1;
+
+    setCurrentTime(current);
+    setProgress((current / totalDuration) * 100);
   };
 
   // pause / play
@@ -75,7 +78,7 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
 
   return (
     <div className={cx('container', className)}>
-      {isEditable ? (
+      {isEditable && (
         <Fragment>
           <Button
             primary
@@ -91,10 +94,11 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
             id={`audioInput_${question.id}`}
             style={{ display: 'none' }}
             accept="audio/*"
+            value={''}
             onChange={handleAudioUpload}
           />
         </Fragment>
-      ) : null}
+      )}
 
       {/* Only show audio controls if there is an audio file */}
       {!isEditable && (

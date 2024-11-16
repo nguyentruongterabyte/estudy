@@ -14,8 +14,16 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   QuestionAudio.init({
-    questionId: DataTypes.INTEGER,
-    audioId: DataTypes.INTEGER
+    questionId: {
+      type: DataTypes.INTEGER, 
+      allowNull: false,
+      primaryKey: true
+    },
+    audioId: {
+      type: DataTypes.INTEGER, 
+      allowNull: false,
+      primaryKey: true
+    }
   }, {
     sequelize,
     modelName: 'QuestionAudio',

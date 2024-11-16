@@ -12,6 +12,9 @@ import vocabularyController from '../controllers/vocabularyController';
 import testController from '../controllers/testController';
 import audioController from '../controllers/audioController';
 import photoController from '../controllers/photoController';
+import answerController from '../controllers/answerController';
+import questionController from '../controllers/questionController';
+import questionGroupController from '../controllers/questionGroupController';
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -36,6 +39,17 @@ let initWebRoutes = (app) => {
     vocabularyController.handleCreateVocabularyTopic,
   );
 
+  // Photo
+  router.post(
+    '/api/photo/upload',
+    upload.single('photo'),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    photoController.handleUploadPhoto,
+  );
+
+  router.post('/api/photo/delete-firebase', photoController.handleDeleteFirebasePhotoByUrl);
+
   // test
   router.get(
     '/api/test/question-groups/:partId',
@@ -51,9 +65,39 @@ let initWebRoutes = (app) => {
     testController.handleGetQuestionsByGroupId,
   );
 
-  router.post('/api/test/upload-audio', upload.single('audio'), audioController.handleUploadAudio);
-  router.post('/api/test/upload-photo', upload.single('photo'), photoController.handleUploadPhoto);
-  
+  router.post(
+    '/api/test/upload-audio',
+    upload.single('audio'),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    audioController.handleUploadAudio,
+  );
+
+  router.post('/api/test/create', verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveTest);
+
+  router.post(
+    '/api/test/question-photo',
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    testController.handleCreateQuestionPhoto,
+  );
+  router.post('/api/test/create-audio', verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), audioController.handleSaveAudio);
+  router.post(
+    '/api/test/question-audio',
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    testController.handleCreateQuestionAudio,
+  );
+
+  // Answers
+  router.put('/api/answer', answerController.handleUpdateAnswers);
+
+  // Questions
+  router.put('/api/question/correct-answer', questionController.handleUpdateCorrectAnswers);
+  router.put('/api/question/photos', upload.array('photos', 25), questionController.handleUpdatePhotos);
+
+  // Question Group
+  router.put('/api/question-group', questionGroupController.handleUpdate);
   return app.use('/', router);
 };
 

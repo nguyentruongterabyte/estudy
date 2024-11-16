@@ -1,27 +1,41 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
+import { useSelector, useDispatch } from 'react-redux';
 
 import hooks from '~/hooks';
-import { useQuestionGroups } from '~/context/QuestionGroupsProvider';
 import Question from './Question';
 import QuestionProvider from '~/context/QuestionProvider';
 import styles from './Questions.module.scss';
 import ErrorFieldsProvider from '~/context/ErrorFieldsProvider';
 import Button from '~/components/Button';
 import CustomModal from '~/components/CustomModal';
+import {
+  isAddNew as adding,
+  isEdit as editing,
+  isComplete as finished,
+  changeLog,
+  questionList,
+  changeQuestions,
+  toggleAddNew,
+  testGroupId,
+  toggleComplete,
+  toggleEdit,
+  removeChangeLogsByField,
+} from '~/redux/features/testSlice';
 
 const cx = classNames.bind(styles);
 
 const Questions = ({ onComplete }) => {
+  const eventLogs = useSelector(changeLog);
+  const questions = useSelector(questionList);
+  const isAddNew = useSelector(adding);
+  const groupId = useSelector(testGroupId);
+  const isEdit = useSelector(editing);
+  const isComplete = useSelector(finished);
+  const dispatch = useDispatch();
   const { getQuestionsByGroupId } = hooks.useQuestionService();
-  const { groupId, isAddNew, setIsAddNew } = useQuestionGroups();
-  const [questions, setQuestions] = useState([]);
-  const [isComplete, setIsComplete] = useState(true);
   const [errorFields, setErrorFields] = useState({});
   const [show, setShow] = useState(false);
-
-  // Retain a copy of the original state of questions
-  const initialQuestions = useRef([]);
 
   // fetch questions data
   const fetchQuestions = async (groupId) => {
@@ -32,10 +46,9 @@ const Questions = ({ onComplete }) => {
   };
 
   useEffect(() => {
-    if (groupId) {
+    if (groupId && !isAddNew) {
       fetchQuestions(groupId).then((loadedQuestions) => {
-        setQuestions(loadedQuestions);
-        initialQuestions.current = JSON.stringify(loadedQuestions); // Store the original copy
+        dispatch(changeQuestions({ questions: loadedQuestions }));
       });
     }
     // eslint-disable-next-line
@@ -43,27 +56,24 @@ const Questions = ({ onComplete }) => {
 
   useEffect(() => {
     if (isAddNew) {
-      setQuestions(
-        Array.from({ length: 6 }).map((_, index) => ({
-          id: index,
-          photo: null,
-          audio: null,
-          answers: Array.from({ length: 4 }).map((_, answerIndex) => ({ id: answerIndex, answer: '' })),
-          correctAnswerIndex: 0,
-        })),
+      dispatch(
+        changeQuestions({
+          questions: Array.from({ length: 6 }).map((_, index) => ({
+            id: index,
+            photo: '',
+            audio: '',
+            answers: Array.from({ length: 4 }).map((_, answerIndex) => ({ id: answerIndex, answer: '' })),
+            correctAnswerIndex: 0,
+          })),
+        }),
       );
     }
   }, [isAddNew]);
 
   // validate questions when change
   useEffect(() => {
-    validateQuestions();
+    if (Array.isArray(questions)) validateQuestions();
     // eslint-disable-next-line
-  }, [questions]);
-
-  // check the difference
-  const isQuestionsChanged = useCallback(() => {
-    return JSON.stringify(questions) !== initialQuestions.current;
   }, [questions]);
 
   // validate questions
@@ -90,35 +100,8 @@ const Questions = ({ onComplete }) => {
       }
     });
 
-    setIsComplete(complete);
+    dispatch(toggleComplete({ toggle: complete }));
     setErrorFields(errors);
-  };
-
-  // handle question change
-  const handleQuestionChange = (index, field, value) => {
-    setQuestions((prevQuestions) => {
-      const updatedQuestions = [...prevQuestions];
-      updatedQuestions[index] = { ...updatedQuestions[index], [field]: value };
-      return updatedQuestions;
-    });
-  };
-
-  // handle answer change
-  const handleAnswerChange = (questionIndex, answerIndex, value) => {
-    setQuestions((prevQuestions) => {
-      const updatedQuestions = [...prevQuestions];
-      updatedQuestions[questionIndex].answers[answerIndex].answer = value;
-      return updatedQuestions;
-    });
-  };
-
-  // handle correct answer change
-  const handleCorrectAnswerChange = (questionIndex, answerIndex) => {
-    setQuestions((prevQuestions) => {
-      const updatedQuestions = [...prevQuestions];
-      updatedQuestions[questionIndex].correctAnswerIndex = answerIndex;
-      return updatedQuestions;
-    });
   };
 
   // handle on complete button click
@@ -129,8 +112,13 @@ const Questions = ({ onComplete }) => {
   };
 
   const handleCancel = () => {
-    setIsAddNew(false);
-    fetchQuestions(groupId).then((loadedQuestions) => setQuestions(loadedQuestions));
+    if (isAddNew) {
+      dispatch(toggleAddNew({ toggle: false }));
+    }
+
+    if (isEdit) dispatch(toggleEdit({ toggle: false }));
+    fetchQuestions(groupId).then((loadedQuestions) => dispatch(changeQuestions({ questions: loadedQuestions })));
+    dispatch(removeChangeLogsByField({ field: 'questionGroupName' }));
     setShow(false);
   };
 
@@ -140,29 +128,30 @@ const Questions = ({ onComplete }) => {
         {Array.isArray(questions) &&
           questions.map((question, index) => (
             <QuestionProvider key={question.id} question={question}>
-              <Question
-                data={question}
-                index={index}
-                isEditable={isAddNew}
-                onQuestionChange={(field, value) => handleQuestionChange(index, field, value)}
-                onAnswerChange={(answerIndex, value) => handleAnswerChange(index, answerIndex, value)}
-                onCorrectAnswerChange={(answerIndex) => handleCorrectAnswerChange(index, answerIndex)}
-              />
+              <Question data={question} index={index} isEditable={isAddNew || isEdit} />
             </QuestionProvider>
           ))}
-        {isAddNew ? (
+        {(isAddNew || isEdit) && (
           <div className={cx('button-group')}>
-            <Button onClick={() => setShow(true)} className={cx('cancel-button')} outline>
+            <Button
+              onClick={() => {
+                if (eventLogs.length === 0) handleCancel();
+                else setShow(true);
+              }}
+              className={cx('cancel-button')}
+              outline
+            >
               Cancel
             </Button>
             <Button
               success={isComplete}
-              onClick={ handleComplete } disabled={ !isComplete } className={ cx( 'complete-button' ) }>
+              onClick={handleComplete}
+              disabled={!isComplete}
+              className={cx('complete-button')}
+            >
               Complete
             </Button>
           </div>
-        ) : (
-          <Fragment />
         )}
       </ErrorFieldsProvider>
       {/* Modal ask cancel edit */}

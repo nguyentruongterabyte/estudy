@@ -8,6 +8,9 @@ import useAxiosPrivate from './useAxiosPrivate';
 import useQuestionService from './useQuestionService';
 import useAudioService from './useAudioService';
 import usePhotoService from './usePhotoService';
+import useTestService from './useTestService';
+import useAnswerService from './useAnswerService';
+import useQuestionGroupService from './useQuestionGroupService';
 const hooks = {
   useAuth,
   useLocalStorage,
@@ -18,7 +21,10 @@ const hooks = {
   useAxiosPrivate,
   useQuestionService,
   useAudioService,
-  usePhotoService
+  usePhotoService,
+  useTestService,
+  useAnswerService,
+  useQuestionGroupService
 };
 
 export default hooks;

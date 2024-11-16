@@ -5,5 +5,24 @@
     cursor: pointer;
   }
 
- 
+  &:hover .button-group {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .input {
+    font-size: 1.6rem;
+  }
+
+  .button-group {
+    float: right;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .3s ease;
+
+    .delete-button {
+      margin-left: 6px;
+    }
+  }
+  
 }

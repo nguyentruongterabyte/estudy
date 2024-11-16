@@ -1,35 +1,33 @@
 import classNames from 'classnames/bind';
-
-import styles from './Answer.module.scss';
+import { useDispatch } from 'react-redux';
 import { ListGroup } from 'react-bootstrap';
-import { useQuestion } from '~/context/QuestionProvider';
+
 import { useErrorFields } from '~/context/ErrorFieldsProvider';
-import { useEffect } from 'react';
+import styles from './Answer.module.scss';
+import { useQuestion } from '~/context/QuestionProvider';
+import { updateAnswer, changeCorrectAnswerIndex } from '~/redux/features/testSlice';
 
 const cx = classNames.bind(styles);
 
-const Answer = ({ answer, index, isEditable, onAnswerChange, onCorrectAnswerChange, isCorrect }) => {
+const Answer = ({ answer, index, isEditable }) => {
   // A, B, C, D.
   const label = String.fromCharCode(index + 65);
 
   const question = useQuestion();
   const errorFields = useErrorFields();
+  const dispatch = useDispatch();
 
-  const isError = isEditable && errorFields && errorFields[ `answer_${ question.id }_${ index }` ];
+  const isError = isEditable && errorFields && errorFields[`answer_${question.id}_${index}`];
 
-  const handleAnswerInputChange = (e) => {
-    onAnswerChange(index, e.target.value);
-  };
-
-  const handleCorrectAnswerChange = () => {
-    onCorrectAnswerChange(index);
+  const handleAnswerChange = (e) => {
+    dispatch(updateAnswer({ questionId: question.id, answerId: answer.id, answerText: e.target.value }));
   };
 
   return (
     <ListGroup.Item
       className={cx('container', {
-        correct: answer.id === question.correctAnswerIndex || answer.id === question.correctAnswer?.answerId,
-        error: isError
+        correct: question.correctAnswer?.answerId === answer.id || index === question.correctAnswerIndex,
+        error: isError,
       })}
     >
       <strong className={cx('label')}>{label}. </strong>
@@ -38,7 +36,7 @@ const Answer = ({ answer, index, isEditable, onAnswerChange, onCorrectAnswerChan
           <input
             type="text"
             value={answer.answer}
-            onChange={handleAnswerInputChange}
+            onChange={handleAnswerChange}
             placeholder={`Answer ${label}`}
             className={cx('input')}
             id={`answer_${question.id}_${index}`}
@@ -47,8 +45,8 @@ const Answer = ({ answer, index, isEditable, onAnswerChange, onCorrectAnswerChan
           <input
             type="radio"
             name={`correctAnswer-${question.id}`}
-            checked={isCorrect}
-            onChange={handleCorrectAnswerChange}
+            checked={question.correctAnswerIndex === index}
+            onChange={() => dispatch(changeCorrectAnswerIndex({ questionId: question.id, answerId: answer.id }))}
             className={cx('correct-answer-radio')}
           />
         </div>
