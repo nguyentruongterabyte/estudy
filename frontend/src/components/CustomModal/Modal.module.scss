@@ -1,0 +1,15 @@
+.container {
+  .title {
+    color: var(--white);
+  }
+
+  .body {
+    color: var(--white);
+  }
+
+  .footer {
+    .close-button, .agree-button {
+      font-size: 1.6rem;
+    }
+  }
+}

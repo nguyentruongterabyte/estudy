@@ -1,6 +1,9 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 import { Button, Form, ListGroup } from 'react-bootstrap';
 import classNames from 'classnames/bind';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import styles from './QuestionGroups.module.scss';
@@ -12,19 +15,17 @@ import {
   isAddNew as adding,
   isEdit as editing,
   toggleAddNew,
-  updateQuestionGroupId,
   testGroupId,
   changeQuestions,
 } from '~/redux/features/testSlice';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { isComplete as finished } from '~/redux/features/testSlice';
-import { changeQuestionGroups, questionGroupList } from '~/redux/features/questionGroupsSilce';
+import { questionGroupList } from '~/redux/features/questionGroupsSilce';
 import CustomModal from '~/components/CustomModal';
 
 const cx = classNames.bind(styles);
 
 const QuestionGroups = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const isComplete = useSelector(finished);
   const isAddNew = useSelector(adding);
@@ -35,7 +36,6 @@ const QuestionGroups = () => {
   const [show, setShow] = useState(false);
   const { getQuestionsByGroupId } = hooks.useQuestionService();
 
-  
   // fetch questions data
   const fetchQuestions = async (groupId) => {
     const audio = true;
@@ -43,7 +43,7 @@ const QuestionGroups = () => {
     const questions = await getQuestionsByGroupId(groupId, audio, photo);
     return questions;
   };
-  
+
   const handleCancel = () => {
     dispatch(toggleAddNew({ toggle: false }));
     fetchQuestions(groupId).then((loadedQuestions) => {
@@ -51,8 +51,6 @@ const QuestionGroups = () => {
     });
     setShow(false);
   };
-
- 
 
   return (
     <div className={cx('container')}>
@@ -85,15 +83,15 @@ const QuestionGroups = () => {
           className={cx('btn-add')}
           onClick={() => dispatch(toggleAddNew({ toggle: true }))}
         >
-          Create new test
+          {t('createNewTest')}
         </Button>
       ) : (
         <Fragment />
       )}
       {/* Modal ask cancel edit */}
       <CustomModal
-        title="Cancel Edit"
-        body="Are you sure cancel edit"
+        title={t('cancelEdit')}
+        body={t('confirmCancelEdit')}
         show={show}
         setShow={setShow}
         handleAgreeButtonClick={handleCancel}

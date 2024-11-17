@@ -2,18 +2,16 @@ import classNames from 'classnames/bind';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAddressCard, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 
 import styles from '~/layouts/Header.module.scss';
 import config from '~/config';
 import hooks from '~/hooks';
 import LanguageSelector from '~/components/LanguageSelector';
-import navigationItems from './navigationItems';
 import NavigationMenu from '~/components/NavigationMenu';
 import NavbarBrand from '~/components/NavbarBrand';
 import ProfileMenu from '~/components/ProfileMenu';
-import profileMenuItems from './profileMenuItems';
 
 const cx = classNames.bind(styles);
 
@@ -24,10 +22,10 @@ const Header = () => {
 
   const navList =
     auth.currentRole === config.roles.admin
-      ? navigationItems.admin
+      ? config.navigationItems.admin
       : auth.currentRole === config.roles.editor
-      ? navigationItems.editor
-      : navigationItems.user;
+      ? config.navigationItems.editor
+      : config.navigationItems.user;
 
   const handleMenuChange = (menuItem) => {
     switch (menuItem.type) {
@@ -35,6 +33,8 @@ const Header = () => {
         logout();
         break;
       case 'viewProfile':
+        break;
+      default:
         break;
     }
   };
@@ -54,7 +54,7 @@ const Header = () => {
 
               {/* Profile menu / Login button */}
               {auth.accessToken ? (
-                <ProfileMenu items={profileMenuItems} handleMenuChange={handleMenuChange} />
+                <ProfileMenu items={config.profileMenuItems} handleMenuChange={handleMenuChange} />
               ) : (
                 <Nav.Link as={Link} className={cx('nav-link-item')} to={config.routes.login}>
                   <FontAwesomeIcon icon={faUser} className={cx('nav-icon')} />

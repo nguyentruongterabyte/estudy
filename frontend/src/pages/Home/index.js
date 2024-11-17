@@ -10,6 +10,7 @@ const Home = () => {
 
   useEffect(() => {
     refresh();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -19,6 +20,7 @@ const Home = () => {
       const roleName = Object.keys(config.roles).find((key) => config.roles[key] === currentRole);
       navigate(`/home/${roleName}`, { replace: true });
     }
+    // eslint-disable-next-line
   }, [auth]);
 
   return <div>Home</div>;

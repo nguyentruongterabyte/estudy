@@ -15,6 +15,7 @@ import photoController from '../controllers/photoController';
 import answerController from '../controllers/answerController';
 import questionController from '../controllers/questionController';
 import questionGroupController from '../controllers/questionGroupController';
+import urls from '../config/urls';
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -26,10 +27,10 @@ let initWebRoutes = (app) => {
     verifyRoles(ROLES_OBJECT.ADMIN, ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
     userController.handleGetAllUser,
   );
-  router.post('/api/user/register', userController.handleNewUser);
-  router.post('/api/user/login', userController.handleUserLogin);
-  router.get('/api/user/refresh', userController.handleRefreshToken);
-  router.get('/api/user/logout', userController.handleLogout);
+  router.post(urls.user.register, userController.handleNewUser);
+  router.post(urls.user.login, userController.handleUserLogin);
+  router.get(urls.user.refreshToken, userController.handleRefreshToken);
+  router.get(urls.user.logout, userController.handleLogout);
 
   // vocabulary
   router.post(
@@ -41,66 +42,87 @@ let initWebRoutes = (app) => {
   // Audio
   router.get('/api/audio/get-by-question-id/:questionId', audioController.handleFindByQuestionId);
 
-  // Photo
-  router.post(
-    '/api/photo/upload',
-    upload.single('photo'),
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR),
-    photoController.handleUploadPhoto,
-  );
-
-  router.post('/api/photo/delete-firebase', photoController.handleDeleteFirebasePhotoByUrl);
-
-  // test
-  router.get(
-    '/api/test/question-groups/:partId',
-    verifyJWT,
-    verifyRoles(ROLES_OBJECT.EDITOR),
-    testController.handleGetQuestionGroupsByPartId,
-  );
-
-  router.get(
-    '/api/test/questions/:groupId',
-    verifyJWT,
-    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
-    testController.handleGetQuestionsByGroupId,
-  );
+  router.post(urls.audio.create, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), audioController.handleSaveAudio);
 
   router.post(
-    '/api/test/upload-audio',
+    urls.audio.upload,
     upload.single('audio'),
     verifyJWT,
     verifyRoles(ROLES_OBJECT.EDITOR),
     audioController.handleUploadAudio,
   );
 
-  router.post('/api/test/create', verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveTest);
+  // Photo
+  router.post(
+    urls.photo.upload,
+    upload.single('photo'),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    photoController.handleUploadPhoto,
+  );
 
-  router.post(
-    '/api/test/question-photo',
-    verifyJWT,
-    verifyRoles(ROLES_OBJECT.EDITOR),
-    testController.handleCreateQuestionPhoto,
-  );
-  router.post('/api/test/create-audio', verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), audioController.handleSaveAudio);
-  router.post(
-    '/api/test/question-audio',
-    verifyJWT,
-    verifyRoles(ROLES_OBJECT.EDITOR),
-    testController.handleCreateQuestionAudio,
-  );
+  router.post('/api/photo/delete-firebase', photoController.handleDeleteFirebasePhotoByUrl);
+
+  // test
+  router.post(urls.test.create, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveTest);
 
   // Answers
-  router.put('/api/answer', answerController.handleUpdateAnswers);
+  router.put(urls.answer.update, answerController.handleUpdateAnswers);
 
   // Questions
-  router.put('/api/question/correct-answer', questionController.handleUpdateCorrectAnswers);
-  router.put('/api/question/photos', questionController.handleUpdatePhotos);
-  router.put('/api/question/audios', questionController.handleUpdateAudios);
+  router.put(
+    urls.question.updateCorrectAnswers,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    questionController.handleUpdateCorrectAnswers,
+  );
+  router.put(
+    urls.question.updatePhotos,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    questionController.handleUpdatePhotos,
+  );
+  router.put(
+    urls.question.updateAudios,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    questionController.handleUpdateAudios,
+  );
+  router.get(
+    urls.question.getByGroupId,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    questionController.handleGetQuestionsByGroupId,
+  );
+
+  router.post(
+    urls.question.createQuestionPhoto,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    questionController.handleCreateQuestionPhoto,
+  );
+
+  router.post(
+    urls.question.createQuestionAudio,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    questionController.handleCreateQuestionAudio,
+  );
 
   // Question Group
-  router.put('/api/question-group', questionGroupController.handleUpdate);
+  router.put(
+    urls.questionGroup.update,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    questionGroupController.handleUpdate,
+  );
+
+  router.get(
+    urls.questionGroup.getAll,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    questionGroupController.handleGetQuestionGroupsByPartId,
+  );
   return app.use('/', router);
 };
 

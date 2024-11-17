@@ -4,7 +4,7 @@ import styles from './Conversations.module.scss';
 const cx = classNames.bind(styles);
 
 const Conversations = () => {
-  return <div>Conversations</div>;
+  return <div className={cx('container')}>Conversations</div>;
 };
 
 export default Conversations;

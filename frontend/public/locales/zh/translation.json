@@ -1,34 +1,99 @@
 {
   "home": "首页",
   "change_language": "更改语言",
-
-  "email": "电子邮件",
+  "email": "电子邮箱",
   "password": "密码",
   "sign_in": "登录",
-  "no_response": "没有来自服务器的响应",
-  "missing_email_password": "缺少电子邮件或密码",
-  "invalid_credentials": "电子邮件或密码不正确",
+  "no_response": "服务器无响应",
+  "missing_email_password": "缺少电子邮箱或密码",
+  "invalid_credentials": "电子邮箱或密码不正确",
   "login_failed": "登录失败",
-  "trust_this_device": "记住此设备",
-  "log_in_as": "登录身份",
+  "trust_this_device": "信任此设备",
+  "log_in_as": "以以下身份登录：",
 
-  "need_account": "需要一个账户",
+  "need_account": "需要账户？",
   "sign_up": "注册",
-  "email_taken": "电子邮件已存在",
-  "valid_email_format": "电子邮件地址必须是有效格式。<br />例如: example@email.com",
-  "password_requirements": "8到24个字符。<br />必须包括大写字母、小写字母、数字和特殊字符。<br />允许的特殊字符: <span aria-label=\"感叹号\">!</span> <span aria-label=\"@符号\">@</span> <span aria-label=\"#号\">#</span> <span aria-label=\"$符号\">$</span> <span aria-label=\"%符号\">%</span>",
-  "password_must_match": "必须与第一个密码输入字段匹配。",
-  "already_have_account": "已经有账户？",
+  "email_taken": "电子邮箱已被占用",
+  "valid_email_format": "电子邮箱地址必须是有效格式。<br />例如: example@email.com",
+  "password_requirements": "8至24个字符。<br />必须包含大写和小写字母、一个数字和一个特殊字符。<br />允许的特殊字符: <span aria-label=\"叹号\">!</span> <span aria-label=\"@符号\">@</span> <span aria-label=\"井号\">#</span> <span aria-label=\"美元符号\">$</span> <span aria-label=\"百分号\">%</span>",
+  "password_must_match": "必须与第一个密码字段匹配。",
+  "already_have_account": "已有账户？",
   "password_confimation": "确认密码",
   "registration_failed": "注册失败",
 
-  "logout": "注销",
+  "logout": "登出",
 
-  "not_found_message": "您要查找的页面可能已被删除、更名或暂时不可用",
-  "go_back": "回去",
+  "not_found_message": "您查找的页面可能已被删除，名称已更改或暂时不可用",
+  "go_back": "返回",
 
-  "unauthorized_message": "您无权访问所请求的页面。",
+  "unauthorized_message": "您无权访问请求的页面。",
 
-  "view_profile": "轮廓",
-  "account": "帐户"
+  "view_profile": "查看个人资料",
+  "account": "账户",
+  "createEditorAccount": "创建编辑账户",
+  "English": "英文",
+  "Tiếng Việt": "越南文",
+  "中文": "中文",
+
+  "simulationTest": "模拟测试",
+  "fullTest": "完整测试",
+  "miniTest": "小测试",
+  "grammar": "语法",
+  "vocabulary": "词汇",
+
+  "mockTest": "模拟考试",
+  "practiceSW": "练习 S&W",
+  "practiceRL": "练习 R&L",
+  "composeRL": "编写 R&L",
+  "part1_Photos": "第1部分: 描述图片",
+  "part2_QuestionResponse": "第2部分: 问答",
+  "part3_Conversations": "第3部分: 对话",
+  "part4_ShortTalks": "第4部分: 简短演讲",
+  "part5_IncompleteSentences": "第5部分: 未完成的句子",
+  "part6_TextCompletion": "第6部分: 完成段落",
+  "part7_SinglePassages": "第7部分: 阅读理解 - 单段",
+  "part7_DoublePassages": "第7部分: 阅读理解 - 双段",
+  "part7_TriplePassages": "第7部分: 阅读理解 - 三段",
+
+  "createNewTest": "创建新测试",
+  "complete": "完成",
+  "cancel": "取消",
+  "question": "问题",
+
+  "cancelEdit": "取消编辑",
+  "confirmCancelEdit": "您确定要取消编辑吗？",
+  "close": "关闭",
+  "agree": "同意",
+
+  "uploadingMediaForQuestion": "正在为问题 # 上传媒体",
+  "uploadedMediaForQuestion": "已上传媒体到问题 #",
+  "failedToUploadMediaForQuestion": "上传问题 # 的媒体失败",
+
+  "updatingAnswers": "正在更新答案...",
+  "updatedAnswersSuccessfully": "答案更新成功！",
+  "errorUpdatingAnswers": "更新答案时出错",
+
+  "updatingCorrectAnswers": "正在更新正确答案...",
+  "updatedCorrectAnswersSuccessfully": "正确答案更新成功！",
+  "errorUpdatingCorrectAnswers": "更新正确答案时出错",
+
+  "updatingQuestionGroupName": "正在更新问题组名称...",
+  "updatedQuestionGroupNameSuccessfully": "问题组名称更新成功！",
+  "errorUpdatingQuestionGroupName": "更新问题组名称时出错",
+
+  "uploadingPhotoForQuestion": "正在为问题 # 上传照片",
+  "uploadedPhotoForQuestion": "已上传问题 # 的照片",
+  "failedToUploadPhotoForQuestion": "上传问题 # 的照片失败",
+
+  "updatingQuestionPhotos": "正在更新问题照片...",
+  "updatedQuestionPhotosSuccessfully": "问题照片更新成功！",
+  "errorUpdatingQuestionPhotos": "更新问题照片时出错",
+
+  "uploadingAudioForQuestion": "正在为问题 # 上传音频",
+  "uploadedAudioForQuestion": "已上传问题 # 的音频",
+  "failedToUploadAudioForQuestion": "上传问题 # 的音频失败",
+
+  "updatingQuestionAudios": "正在更新问题音频...",
+  "updatedQuestionAudiosSuccessfully": "问题音频更新成功！",
+  "errorUpdatingQuestionAudios": "更新问题音频时出错"
 }

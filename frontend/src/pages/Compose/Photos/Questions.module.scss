@@ -1,9 +1,17 @@
 .container {
+
+  &::-webkit-scrollbar {
+    display: block;
+  }
   .button-group
   {
     position: fixed;
     z-index: 5;
     top: calc(var(--default-layout-header-height) + 8px);
     right: 20px;
+
+    .cancel-button {
+      margin-right: 8px;
+    }
   }
 }

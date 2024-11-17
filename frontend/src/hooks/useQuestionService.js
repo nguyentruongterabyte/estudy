@@ -23,7 +23,7 @@ const useQuestionService = () => {
   // create question audio
   const createQuestionAudio = async (questionId, audioId) => {
     try {
-      const newQuestionAudio = await axiosPrivate.post(config.urls.test.createQuestionAudio, {
+      const newQuestionAudio = await axiosPrivate.post(config.urls.question.createQuestionAudio, {
         questionId,
         audioId,
       });
@@ -58,7 +58,7 @@ const useQuestionService = () => {
   // create question photo
   const createQuestionPhoto = async (questionId, filePath) => {
     try {
-      const newPhoto = await axiosPrivate.post(config.urls.test.createQuestionPhoto, {
+      const newPhoto = await axiosPrivate.post(config.urls.question.createQuestionPhoto, {
         questionId,
         filePath,
       });
@@ -80,7 +80,7 @@ const useQuestionService = () => {
     if (photo) params.photo = true;
 
     try {
-      const response = await axiosPrivate.get(`${config.urls.test.questions}/${groupId}`, {
+      const response = await axiosPrivate.get(`${config.urls.question.getByGroupId}/${groupId}`, {
         params,
       });
       const questions = response?.data?.data;
@@ -95,7 +95,7 @@ const useQuestionService = () => {
   // get group question when knew part id
   const getQuestionGroups = async (partId) => {
     try {
-      const response = await axiosPrivate.get(`${config.urls.test.questionGroups}/${partId}`);
+      const response = await axiosPrivate.get(`${config.urls.questionGroup.getAll}/${partId}`);
       const questionGroups = response?.data?.data;
 
       return questionGroups;
@@ -111,7 +111,7 @@ const useQuestionService = () => {
     createQuestionPhoto,
     createQuestionAudio,
     updatePhotos,
-    updateAudios
+    updateAudios,
   };
 };
 

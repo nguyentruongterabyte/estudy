@@ -21,7 +21,6 @@ import {
   updateQuestionGroupName,
   testGroupId,
   updateQuestionPhoto,
-  questionList,
   updateQuestionAudio,
 } from '~/redux/features/testSlice';
 import {
@@ -30,10 +29,12 @@ import {
   questionGroupList,
   sortQuestionGroupsByName,
 } from '~/redux/features/questionGroupsSilce';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
 
 const Photos = () => {
+  const { t } = useTranslation();
   const eventLogs = useSelector(changeLog);
   const dispatch = useDispatch();
   const groupName = useSelector(testGroupName);
@@ -62,9 +63,9 @@ const Photos = () => {
         };
 
         return toast.promise(uploadPromise(), {
-          pending: `Uploading media for question #${index + 1}...`,
-          success: `Uploaded media for question #${index + 1}!`,
-          error: `Failed to upload media for question #${index + 1}`,
+          pending: `${t('uploadingMediaForQuestion')}${index + 1}...`,
+          success: `${t('uploadedMediaForQuestion')}${index + 1}!`,
+          error: `${t('failedToUploadMediaForQuestion')}${index + 1}`,
         });
       }),
     );
@@ -102,9 +103,9 @@ const Photos = () => {
     if (answers.length > 0) {
       await toast
         .promise(updateAnswers(answers), {
-          pending: 'Updating answers...',
-          success: 'Updated answers successfully!',
-          error: 'Error updating answers',
+          pending: t('updatingAnswers'),
+          success: t('updatedAnswersSuccessfully'),
+          error: t('errorUpdatingAnswers'),
         })
         .then(() => {
           dispatch(removeChangeLogsByField({ field: 'answer' }));
@@ -139,9 +140,9 @@ const Photos = () => {
     if (correctAnswers.length > 0) {
       await toast
         .promise(updateCorrectAnswers(correctAnswers), {
-          pending: 'Updating correct answers...',
-          success: 'Updated correct answers successfully!',
-          error: 'Error updating correct answers',
+          pending: t('updatingCorrectAnswers'),
+          success: t('updatedCorrectAnswersSuccessfully'),
+          error: t('errorUpdatingCorrectAnswers'),
         })
         .then(() => {
           dispatch(removeChangeLogsByField({ field: 'correctAnswer' }));
@@ -160,13 +161,15 @@ const Photos = () => {
         // handle change name
         await toast
           .promise(updateQuestionGroup({ id: groupId, name: lastChanges.newValue }), {
-            pending: 'Updating question group name...',
-            success: 'Updated question group name successfully!',
-            error: 'Error updating question group name',
+            pending: t('updatingQuestionGroupName'),
+            success: t('updatedQuestionGroupNameSuccessfully'),
+            error: t('errorUpdatingQuestionGroupName'),
           })
           .then(() => {
             dispatch(removeChangeLogsByField({ field: 'questionGroupName' }));
           });
+      } else {
+        dispatch(removeChangeLogsByField({ field: 'questionGroupName' }));
       }
     }
 
@@ -207,18 +210,18 @@ const Photos = () => {
           };
 
           return await toast.promise(uploadPromise(), {
-            pending: `Uploading photo for question #${photo.questionId}...`,
-            success: `Uploaded photo for question #${photo.questionId}!`,
-            error: `Failed to upload photo for question #${photo.questionId}`,
+            pending: `${t('uploadingPhotoForQuestion')}${photo.questionId}...`,
+            success: `${t('uploadedPhotoForQuestion')}${photo.questionId}!`,
+            error: `${t('failedToUploadPhotoForQuestion')}${photo.questionId}`,
           });
         }),
       );
 
       await toast
         .promise(updatePhotos(photoURLs), {
-          pending: 'Updating question photos...',
-          success: 'Updated question photos successfully!',
-          error: 'Error updating question photos',
+          pending: t('updatingQuestionPhotos'),
+          success: t('updatedQuestionPhotosSuccessfully'),
+          error: t('errorUpdatingQuestionPhotos'),
         })
         .then(() => {
           dispatch(removeChangeLogsByField({ field: 'photo' }));
@@ -262,18 +265,18 @@ const Photos = () => {
           };
 
           return await toast.promise(uploadPromise(), {
-            pending: `Uploading audio for question #${audio.questionId}...`,
-            success: `Uploaded audio for question #${audio.questionId}!`,
-            error: `Failed to upload audio for question #${audio.questionId}`,
+            pending: `${t('uploadingAudioForQuestion')}${audio.questionId}...`,
+            success: `${t('uploadedAudioForQuestion')}${audio.questionId}!`,
+            error: `${t('failedToUploadAudioForQuestion')}${audio.questionId}`,
           });
         }),
       );
 
       await toast
         .promise(updatePhotos(audioURLs), {
-          pending: 'Updating question audios...',
-          success: 'Updated question audios successfully!',
-          error: 'Error updating question audios',
+          pending: t('updatingQuestionAudios'),
+          success: t('updatedQuestionAudiosSuccessfully'),
+          error: t('errorUpdatingQuestionAudios'),
         })
         .then(() => {
           dispatch(removeChangeLogsByField({ field: 'audio' }));
@@ -326,6 +329,8 @@ const Photos = () => {
       dispatch(toggleEdit({ toggle: false }));
       dispatch(sortQuestionGroupsByName());
     }
+
+    // eslint-disable-next-line
   }, [eventLogs]);
 
   // fetch question groups data
@@ -340,23 +345,26 @@ const Photos = () => {
     if (questionGroups.length > 0) {
       dispatch(updateQuestionGroupId({ groupId: questionGroups[0].id }));
     }
+
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (isAddNew) dispatch(updateQuestionGroupName({ name: `Test ${questionGroups.length + 1}` }));
     else dispatch(removeChangeLogsByField({ field: 'questionGroupName' }));
+    // eslint-disable-next-line
   }, [isAddNew]);
 
   return (
     <div className={cx('container')}>
       <div className={cx('main', { scaled: show })}>
         {/* Header */}
-        <Header show={show} setShow={setShow} />
+        <Header title="part1_Photos" show={show} setShow={setShow} />
         {/* Questions */}
         <Questions onComplete={handleComplete} />
       </div>
       {/* Sidebar: Group question */}
-      <Sidebar title="Part 1: Photos" show={show}>
+      <Sidebar title="part1_Photos" show={show}>
         <Fragment>
           <QuestionGroups partId={1} />
         </Fragment>

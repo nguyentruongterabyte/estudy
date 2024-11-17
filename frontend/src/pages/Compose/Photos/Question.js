@@ -7,15 +7,17 @@ import DisplayImage from './DisplayImage';
 import Answers from './Answers';
 import styles from './Question.module.scss';
 import { updateQuestionPhoto, updateQuestionAudio } from '~/redux/features/testSlice';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
 
 const Question = ({ data, index, isEditable }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   return (
     <Accordion defaultActiveKey="0" className={cx('container')}>
       <Accordion.Item eventKey="0">
-        <Accordion.Header className={cx('header')}>Question #{index + 1}</Accordion.Header>
+        <Accordion.Header className={cx('header')}>{`${t('question')} #${index + 1}`}</Accordion.Header>
         <Accordion.Body className={cx('body')}>
           <div className={cx('group')}>
             {/* Photo */}

@@ -24,6 +24,25 @@ const handleUpdate = async (req, res) => {
   }
 };
 
+const handleGetQuestionGroupsByPartId = async (req, res) => {
+  const partId = req.params.partId;
+
+  try {
+    const groupQuestions = await questionGroupService.getByPartId(partId);
+    return res.json({
+      errCode: 0,
+      errMessage: 'OK',
+      data: groupQuestions,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
 module.exports = {
   handleUpdate,
+  handleGetQuestionGroupsByPartId,
 };

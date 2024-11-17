@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -22,10 +22,12 @@ import {
   toggleEdit,
   removeChangeLogsByField,
 } from '~/redux/features/testSlice';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
 
 const Questions = ({ onComplete }) => {
+  const { t } = useTranslation();
   const eventLogs = useSelector(changeLog);
   const questions = useSelector(questionList);
   const isAddNew = useSelector(adding);
@@ -68,6 +70,7 @@ const Questions = ({ onComplete }) => {
         }),
       );
     }
+    // eslint-disable-next-line
   }, [isAddNew]);
 
   // validate questions when change
@@ -141,7 +144,7 @@ const Questions = ({ onComplete }) => {
               className={cx('cancel-button')}
               outline
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               success={isComplete}
@@ -149,15 +152,15 @@ const Questions = ({ onComplete }) => {
               disabled={!isComplete}
               className={cx('complete-button')}
             >
-              Complete
+              {t('complete')}
             </Button>
           </div>
         )}
       </ErrorFieldsProvider>
       {/* Modal ask cancel edit */}
       <CustomModal
-        title="Cancel Edit"
-        body="Are you sure cancel edit"
+        title={t('cancelEdit')}
+        body={t('confirmCancelEdit')}
         show={show}
         setShow={setShow}
         handleAgreeButtonClick={handleCancel}

@@ -1,5 +1,4 @@
 import config from '~/config';
-import DefaultLayout from '~/layouts/DefaultLayout';
 import HomeLayout from '~/layouts/HomeLayout';
 import LoginLayout from '~/layouts/LoginLayout';
 import Conversations from '~/pages/Compose/Conversations';

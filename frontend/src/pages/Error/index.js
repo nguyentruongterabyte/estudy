@@ -1,9 +1,8 @@
 import classNames from 'classnames/bind';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './Error.module.scss';
 import Button from '~/components/Button';
-import config from '~/config';
 
 const cx = classNames.bind( styles );
 

@@ -4,7 +4,7 @@ import styles from './DoublePassages.module.scss';
 const cx = classNames.bind(styles);
 
 const DoublePassages = () => {
-  return <div>DoublePassages</div>;
+  return <div className={cx('container')}>DoublePassages</div>;
 };
 
 export default DoublePassages;

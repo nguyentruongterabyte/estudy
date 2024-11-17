@@ -12,7 +12,6 @@ const cx = classNames.bind(styles);
 const defaultFn = () => {};
 
 const Menu = ({ children, items = [], onChange = defaultFn, hideOnClick = false }) => {
-
   const [history, setHistory] = useState([{ data: items }]);
   const current = history[history.length - 1];
 
@@ -35,32 +34,34 @@ const Menu = ({ children, items = [], onChange = defaultFn, hideOnClick = false 
     });
 
   return (
-    <Tippy
-      trigger="click"
-      placement="bottom-end"
-      offset={[12, 8]}
-      interactive
-      delay={[0, 700]}
-      hideOnClick={hideOnClick}
-      onHide={() => setHistory((prev) => prev.slice(0, 1))}
-      render={(attrs) => (
-        <div className={cx('menu-list')} tabIndex="-1" {...attrs}>
-          <Wrapper className={cx('menu-popper')}>
-            {history.length > 1 && (
-              <Header
-                title={current.title}
-                onBack={() => {
-                  setHistory((prev) => prev.slice(0, prev.length - 1));
-                }}
-              />
-            )}
-            <div className={cx('menu-body')}>{renderItems()}</div>
-          </Wrapper>
-        </div>
-      )}
-    >
-      {children}
-    </Tippy>
+    <span>
+      <Tippy
+        trigger="click"
+        placement="bottom-end"
+        offset={[12, 8]}
+        interactive
+        delay={[0, 700]}
+        hideOnClick={hideOnClick}
+        onHide={() => setHistory((prev) => prev.slice(0, 1))}
+        render={(attrs) => (
+          <div className={cx('menu-list')} tabIndex="-1" {...attrs}>
+            <Wrapper className={cx('menu-popper')}>
+              {history.length > 1 && (
+                <Header
+                  title={current.title}
+                  onBack={() => {
+                    setHistory((prev) => prev.slice(0, prev.length - 1));
+                  }}
+                />
+              )}
+              <div className={cx('menu-body')}>{renderItems()}</div>
+            </Wrapper>
+          </div>
+        )}
+      >
+        {children}
+      </Tippy>
+    </span>
   );
 };
 

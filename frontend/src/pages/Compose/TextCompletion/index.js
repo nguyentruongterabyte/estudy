@@ -4,7 +4,7 @@ import styles from './TextCompletion.module.scss';
 const cx = classNames.bind(styles);
 
 const TextCompletion = () => {
-  return <div>Text Completion</div>;
+  return <div className={cx('container')}>Text Completion</div>;
 };
 
 export default TextCompletion;

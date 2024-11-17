@@ -4,7 +4,7 @@ import styles from './IncompleteSentences.module.scss';
 const cx = classNames.bind(styles);
 
 const IncompleteSentences = () => {
-  return <div>Incomplete Sentences</div>;
+  return <div className={cx('container')}>Incomplete Sentences</div>;
 };
 
 export default IncompleteSentences;

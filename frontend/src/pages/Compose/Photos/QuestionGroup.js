@@ -25,7 +25,8 @@ const QuestionGroup = ({ data }) => {
   const isEdit = useSelector(editing);
   const dispatch = useDispatch();
 
-  const handleEdit = (groupId) => {
+  const handleEdit = ( event, groupId ) => {
+    event.stopPropagation();
     dispatch(toggleEdit({ toggle: true }));
     dispatch(updateQuestionGroupId({ groupId: groupId }));
     dispatch(updateQuestionGroupNameWithoutLog({ name: data.name }));
@@ -50,7 +51,7 @@ const QuestionGroup = ({ data }) => {
       )}
       {!isEdit && (
         <div className={cx('button-group')}>
-          <Button onClick={() => handleEdit(data.id)} className={cx('edit-button')} size="lg" variant="success">
+          <Button onClick={(e) => handleEdit(e, data.id)} className={cx('edit-button')} size="lg" variant="success">
             <FontAwesomeIcon icon={faPencil} />
           </Button>
           <Button className={cx('delete-button')} size="lg" variant="danger">

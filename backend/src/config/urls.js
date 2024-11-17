@@ -6,7 +6,13 @@ const urls = {
     logout: '/api/user/logout',
   },
   test: {
+    // createAudio: '/api/test/create-audio', (1)
+    // createQuestionAudio: '/api/test/question-audio', (2)
+    // createQuestionPhoto: '/api/test/question-photo', (3)
     create: '/api/test/create',
+    // questionGroups: '/api/test/question-groups/:partId', (4)
+    // questions: '/api/test/questions/:groupId', (5)
+    // uploadAudio: '/api/test/upload-audio', (6)
   },
   photo: {
     upload: '/api/photo/upload',
@@ -25,11 +31,11 @@ const urls = {
     updateAudios: '/api/question/audios',
     createQuestionAudio: '/api/question/question-audio', // (2)
     createQuestionPhoto: '/api/question/question-photo', // (3)
-    getByGroupId: '/api/question/get-by-group-id', // (5)
+    getByGroupId: '/api/question/get-by-group-id/:groupId', // (5)
   },
   questionGroup: {
     update: '/api/question-group',
-    getAll: '/api/question-group/all', // (4)
+    getAll: '/api/question-group/all/:partId', // (4)
   },
 };
 

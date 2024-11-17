@@ -29,5 +29,71 @@
   "unauthorized_message": "You do not have access to the requested page.",
 
   "view_profile": "View profile",
-  "account": "Account"
+  "account": "Account",
+  "createEditorAccount": "Create Editor Account",
+  "English": "English",
+  "Tiếng Việt": "Vietnamese",
+  "中文": "Chinese",
+
+  "simulationTest": "Simulation Test",
+  "fullTest": "Full Test",
+  "miniTest": "Mini Test",
+  "grammar": "Grammar",
+  "vocabulary": "Vocabulary",
+
+  "mockTest": "Mock Test",
+  "practiceSW": "Practice S&W",
+  "practiceRL": "Practice R&L",
+  "composeRL": "Compose R&L",
+  "part1_Photos": "Part 1: Photo Description",
+  "part2_QuestionResponse": "Part 2: Question and Response",
+  "part3_Conversations": "Part 3: Conversations",
+  "part4_ShortTalks": "Part 4: Short Talks",
+  "part5_IncompleteSentences": "Part 5: Incomplete Sentences",
+  "part6_TextCompletion": "Part 6: Text Completion",
+  "part7_SinglePassages": "Part 7: Reading Comprehension - Single Passage",
+  "part7_DoublePassages": "Part 7: Reading Comprehension - Double Passage",
+  "part7_TriplePassages": "Part 7: Reading Comprehension - Triple Passage",
+
+  "createNewTest": "Create New Test",
+  "complete": "Complete",
+  "cancel": "Cancel",
+  "question": "Question",
+
+  "cancelEdit": "Cancel Edit",
+  "confirmCancelEdit": "Are you sure you want to cancel the edit?",
+  "close": "Close",
+  "agree": "Agree",
+
+  "uploadingMediaForQuestion": "Uploading media for question #",
+  "uploadedMediaForQuestion": "Uploaded media for question #",
+  "failedToUploadMediaForQuestion": "Failed to upload media for question #",
+
+  "updatingAnswers": "Updating answers...",
+  "updatedAnswersSuccessfully": "Updated answers successfully!",
+  "errorUpdatingAnswers": "Error updating answers",
+
+  "updatingCorrectAnswers": "Updating correct answers...",
+  "updatedCorrectAnswersSuccessfully": "Updated correct answers successfully!",
+  "errorUpdatingCorrectAnswers": "Error updating correct answers",
+
+  "updatingQuestionGroupName": "Updating question group name...",
+  "updatedQuestionGroupNameSuccessfully": "Updated question group name successfully!",
+  "errorUpdatingQuestionGroupName": "Error updating question group name",
+
+  "uploadingPhotoForQuestion": "Uploading photo for question #",
+  "uploadedPhotoForQuestion": "Uploaded photo for question #",
+  "failedToUploadPhotoForQuestion": "Failed to upload photo for question #",
+
+  "updatingQuestionPhotos": "Updating question photos...",
+  "updatedQuestionPhotosSuccessfully": "Updated question photos successfully!",
+  "errorUpdatingQuestionPhotos": "Error updating question photos",
+
+  "uploadingAudioForQuestion": "Uploading audio for question #",
+  "uploadedAudioForQuestion": "Uploaded audio for question #",
+  "failedToUploadAudioForQuestion": "Failed to upload audio for question #",
+
+  "updatingQuestionAudios": "Updating question audios...",
+  "updatedQuestionAudiosSuccessfully": "Updated question audios successfully!",
+  "errorUpdatingQuestionAudios": "Error updating question audios"
 }

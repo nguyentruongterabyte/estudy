@@ -30,5 +30,71 @@
   "unauthorized_message": "Bạn không có quyền truy cập vào trang được yêu cầu.",
 
   "view_profile": "Trang cá nhân",
-  "account": "Tài khoản"
+  "account": "Tài khoản",
+  "createEditorAccount": "Tạo tài khoản người chỉnh sửa",
+  "English": "Tiếng Anh",
+  "Tiếng Việt": "Tiếng Việt",
+  "中文": "Tiếng Trung",
+
+  "simulationTest": "Thi mô phỏng",
+  "fullTest": "Full Test",
+  "miniTest": "Mini Test",
+  "grammar": "Ngữ pháp",
+  "vocabulary": "Từ vựng",
+
+  "mockTest": "Đề thi thử",
+  "practiceSW": "Luyện S&W",
+  "practiceRL": "Luyện R&L",
+  "composeRL": "Soạn đề R&L",
+  "part1_Photos": "Phần 1: Mô tả tranh",
+  "part2_QuestionResponse": "Phần 2: Hỏi đáp",
+  "part3_Conversations": "Phần 3: Đoạn hội thoại",
+  "part4_ShortTalks": "Phần 4: Bài nói ngắn",
+  "part5_IncompleteSentences": "Phần 5: Hoàn thành câu",
+  "part6_TextCompletion": "Phần 6: Hoàn thành đoạn văn",
+  "part7_SinglePassages": "Phần 7: Đọc hiểu - đoạn đơn",
+  "part7_DoublePassages": "Phần 7: Đọc hiểu - đoạn kép",
+  "part7_TriplePassages": "Phần 7: Đọc hiểu - đoạn ba",
+
+  "createNewTest": "Tạo đề thi mới",
+  "complete": "Hoàn thành",
+  "cancel": "Hủy",
+  "question": "Câu hỏi",
+
+  "cancelEdit": "Hủy chỉnh sửa",
+  "confirmCancelEdit": "Bạn chắc chắn muốn hủy chỉnh sửa?",
+  "close": "Đóng",
+  "agree": "Đồng ý",
+
+  "uploadingMediaForQuestion": "Đang tải phương tiện lên cho câu hỏi #",
+  "uploadedMediaForQuestion": "Đã tải phương tiện lên cho câu hỏi #",
+  "failedToUploadMediaForQuestion": "Tải phương tiện lên cho câu hỏi thất bại #",
+
+  "updatingAnswers": "Đang cập nhật các câu trả lời...",
+  "updatedAnswersSuccessfully": "Cập nhật các câu trả lời thành công!",
+  "errorUpdatingAnswers": "Lỗi cập nhật các câu trả lời",
+
+  "updatingCorrectAnswers": "Đang cập nhật các câu trả lời đúng...",
+  "updatedCorrectAnswersSuccessfully": "Cập nhật các câu trả lời đúng thành công!",
+  "errorUpdatingCorrectAnswers": "Lỗi cập nhật các câu trả lời đúng",
+
+  "updatingQuestionGroupName": "Đang cập nhật tên nhóm câu hỏi...",
+  "updatedQuestionGroupNameSuccessfully": "Cập nhật tên nhóm câu hỏi thành công!",
+  "errorUpdatingQuestionGroupName": "Lỗi cập nhật tên nhóm câu hỏi",
+
+  "uploadingPhotoForQuestion": "Đang tải lên ảnh cho câu hỏi #",
+  "uploadedPhotoForQuestion": "Đã tải lên ảnh cho câu hỏi #",
+  "failedToUploadPhotoForQuestion": "Tải ảnh lên cho câu hỏi # thất bại",
+
+  "updatingQuestionPhotos": "Đang cập nhật ảnh cho các câu hỏi...",
+  "updatedQuestionPhotosSuccessfully": "Cập nhật ảnh cho các câu hỏi thành công!",
+  "errorUpdatingQuestionPhotos": "Lỗi cập nhật ảnh cho các câu hỏi",
+
+  "uploadingAudioForQuestion": "Đang tải âm thanh lên cho câu hỏi #",
+  "uploadedAudioForQuestion": "Đã tải âm thanh lên cho câu hỏi #",
+  "failedToUploadAudioForQuestion": "Tải âm thanh lên cho câu hỏi # thất bại",
+
+  "updatingQuestionAudios": "Đang cập nhật âm thanh cho các câu hỏi...",
+  "updatedQuestionAudiosSuccessfully": "Cập nhật âm thanh cho các câu hỏi thành công!",
+  "errorUpdatingQuestionAudios": "Lỗi cập nhật âm thanh cho các câu hỏi"
 }
