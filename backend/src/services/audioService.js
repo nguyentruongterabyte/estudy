@@ -2,6 +2,19 @@ import db from '../models/index';
 import { bucket } from '../config/firebaseConfig';
 import { unlinkSync } from 'fs';
 
+const destroy = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const rowEffected = await db.Audio.destroy({
+        where: { id },
+      });
+      resolve(rowEffected);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const update = (audio) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -44,6 +57,7 @@ const getByQuestionId = (questionId) => {
 
         resolve(audio);
       }
+      resolve();
     } catch (e) {
       reject(e);
     }
@@ -94,6 +108,4 @@ const deleteFirebaseAudioByUrl = async (url) => {
   });
 };
 
-
-
-module.exports = { getByQuestionId, uploadFirebase, save, deleteFirebaseAudioByUrl, update };
+module.exports = { getByQuestionId, uploadFirebase, save, deleteFirebaseAudioByUrl, update, destroy };

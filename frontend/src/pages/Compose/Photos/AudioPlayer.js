@@ -5,10 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft, faPause, faPlay, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { useQuestion } from '~/context/QuestionProvider';
 import Button from '~/components/Button';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
 
 const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
+  const { t } = useTranslation();
   const question = useQuestion();
   const audioRef = useRef(null);
   const [progress, setProgress] = useState(0);
@@ -87,7 +89,7 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
             onClick={() => document.getElementById(`audioInput_${question.id}`).click()}
             className={cx('upload-audio')}
           >
-            {!!selectedAudio ? 'Change Audio' : 'Upload Audio'}
+            {!!selectedAudio ? t('changeAudio') : t('uploadAudio')}
           </Button>
           <input
             type="file"

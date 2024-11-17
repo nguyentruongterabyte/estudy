@@ -23,6 +23,7 @@ import {
   removeChangeLogsByField,
 } from '~/redux/features/testSlice';
 import { useTranslation } from 'react-i18next';
+import Quote from '~/components/Quote';
 
 const cx = classNames.bind(styles);
 
@@ -127,6 +128,7 @@ const Questions = ({ onComplete }) => {
 
   return (
     <div className={cx('container')}>
+      {!isAddNew && !isEdit && questions.length === 0 && <Quote className={cx('quote')} />}
       <ErrorFieldsProvider errorFields={errorFields}>
         {Array.isArray(questions) &&
           questions.map((question, index) => (

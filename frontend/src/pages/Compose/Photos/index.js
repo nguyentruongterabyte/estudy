@@ -369,7 +369,7 @@ const Photos = () => {
           <QuestionGroups partId={1} />
         </Fragment>
       </Sidebar>
-      <ToastContainer />
+      <ToastContainer stacked draggable/>
     </div>
   );
 };

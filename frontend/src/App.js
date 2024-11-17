@@ -74,7 +74,6 @@ function App() {
           />
         </Routes>
       </Router>
-      <ToastContainer />
     </main>
   );
 }

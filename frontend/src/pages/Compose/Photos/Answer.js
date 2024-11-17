@@ -6,10 +6,12 @@ import { useErrorFields } from '~/context/ErrorFieldsProvider';
 import styles from './Answer.module.scss';
 import { useQuestion } from '~/context/QuestionProvider';
 import { updateAnswer, changeCorrectAnswerIndex } from '~/redux/features/testSlice';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
 
 const Answer = ({ answer, index, isEditable }) => {
+  const { t } = useTranslation();
   // A, B, C, D.
   const label = String.fromCharCode(index + 65);
 
@@ -37,7 +39,7 @@ const Answer = ({ answer, index, isEditable }) => {
             type="text"
             value={answer.answer}
             onChange={handleAnswerChange}
-            placeholder={`Answer ${label}`}
+            placeholder={`${t('answer')} ${label}`}
             className={cx('input')}
             id={`answer_${question.id}_${index}`}
           />

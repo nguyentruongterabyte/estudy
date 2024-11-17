@@ -14,7 +14,16 @@ const useTestService = () => {
     }
   };
 
-  return { createTest };
+  const deleteTest = async ( groupId ) => {
+    try {
+      const response = await axiosPrivate.delete(`${config.urls.test.delete}/${groupId}`);
+      return response?.data;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  return { createTest, deleteTest };
 };
 
 export default useTestService;

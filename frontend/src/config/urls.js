@@ -7,14 +7,15 @@ const urls = {
   },
   test: {
     create: '/api/test/create',
+    delete: '/api/test/delete',
   },
   photo: {
     upload: '/api/photo/upload',
   },
 
   audio: {
-    create: '/api/audio/create', // (1)
-    upload: '/api/audio/upload', // (6)
+    create: '/api/audio/create',
+    upload: '/api/audio/upload',
   },
   answer: {
     update: '/api/answer',
@@ -23,13 +24,13 @@ const urls = {
     updateCorrectAnswers: '/api/question/correct-answer',
     updatePhotos: '/api/question/photos',
     updateAudios: '/api/question/audios',
-    createQuestionAudio: '/api/question/question-audio', // (2)
-    createQuestionPhoto: '/api/question/question-photo', // (3)
-    getByGroupId: '/api/question/get-by-group-id', // (5)
+    createQuestionAudio: '/api/question/question-audio',
+    createQuestionPhoto: '/api/question/question-photo',
+    getByGroupId: '/api/question/get-by-group-id',
   },
   questionGroup: {
     update: '/api/question-group',
-    getAll: '/api/question-group/all', // (4)
+    getAll: '/api/question-group/all',
   },
 };
 

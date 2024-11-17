@@ -9,9 +9,11 @@ import Answer from './Answer';
 import Button from '~/components/Button';
 import { useQuestion } from '~/context/QuestionProvider';
 import { initCorrectAnswerIndex, updateAnswer } from '~/redux/features/testSlice';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
-const Answers = ({ answers, isEditable }) => {
+const Answers = ( { answers, isEditable } ) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const question = useQuestion();
 
@@ -36,7 +38,7 @@ const Answers = ({ answers, isEditable }) => {
     // The answers are taken from the first lines
     const answers = lines.slice(0, 4); // Answers A, B, C, D
     const correctAnswerIndex = parseInt(lines[4], 10); // index of correct answer
-    dispatch(initCorrectAnswerIndex({questionId: question.id, index: correctAnswerIndex }));
+    dispatch(initCorrectAnswerIndex({ questionId: question.id, index: correctAnswerIndex }));
 
     // Update the answers in the inputs
     answers.forEach((answer, index) => {
@@ -58,7 +60,7 @@ const Answers = ({ answers, isEditable }) => {
             primary
             className={cx('upload-text-answers')}
           >
-            Upload Answers Text File
+            {t('uploadAnswersTextFile')}
           </Button>
           <input
             style={{ display: 'none' }}

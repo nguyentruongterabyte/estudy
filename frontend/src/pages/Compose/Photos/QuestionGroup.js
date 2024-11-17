@@ -18,7 +18,7 @@ import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-const QuestionGroup = ({ data }) => {
+const QuestionGroup = ({onDeleteQuestionGroup, data }) => {
   const groupName = useSelector(testGroupName);
   const groupId = useSelector(testGroupId);
   const isAddNew = useSelector(adding);
@@ -28,9 +28,14 @@ const QuestionGroup = ({ data }) => {
   const handleEdit = ( event, groupId ) => {
     event.stopPropagation();
     dispatch(toggleEdit({ toggle: true }));
-    dispatch(updateQuestionGroupId({ groupId: groupId }));
+    dispatch(updateQuestionGroupId({ groupId }));
     dispatch(updateQuestionGroupNameWithoutLog({ name: data.name }));
   };
+
+  const handleDeleteQuestionGroup = ( event, groupId ) => {
+    event.stopPropagation();
+    onDeleteQuestionGroup( groupId );
+  }
   return (
     // Question group item
     <ListGroup.Item
@@ -54,7 +59,7 @@ const QuestionGroup = ({ data }) => {
           <Button onClick={(e) => handleEdit(e, data.id)} className={cx('edit-button')} size="lg" variant="success">
             <FontAwesomeIcon icon={faPencil} />
           </Button>
-          <Button className={cx('delete-button')} size="lg" variant="danger">
+          <Button onClick={(e) => handleDeleteQuestionGroup(e, data.id)} className={cx('delete-button')} size="lg" variant="danger">
             <FontAwesomeIcon icon={faTrash} />
           </Button>
         </div>

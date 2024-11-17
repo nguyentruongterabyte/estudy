@@ -1,5 +1,18 @@
 import db from '../models/index';
 
+const destroy = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const rowEffected = await db.QuestionGroup.destroy({
+        where: { id },
+      });
+      resolve(rowEffected);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const save = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -17,6 +30,20 @@ const update = (questionGroup) => {
       const { id, ...data } = questionGroup;
       await db.QuestionGroup.update(data, { where: { id } });
       resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const get = (groupId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const questionGroup = await db.QuestionGroup.findOne({
+        where: { id: groupId },
+        attributes: ['partId'],
+      });
+      resolve(questionGroup);
     } catch (e) {
       reject(e);
     }
@@ -41,5 +68,7 @@ const getByPartId = (partId) => {
 module.exports = {
   getByPartId,
   save,
-  update
+  update,
+  get,
+  destroy
 };

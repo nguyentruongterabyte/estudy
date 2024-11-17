@@ -65,7 +65,8 @@ let initWebRoutes = (app) => {
 
   // test
   router.post(urls.test.create, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveTest);
-
+  router.delete( urls.test.delete, testController.handleDeleteTest );
+  
   // Answers
   router.put(urls.answer.update, answerController.handleUpdateAnswers);
 

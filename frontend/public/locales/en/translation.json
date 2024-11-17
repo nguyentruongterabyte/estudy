@@ -95,5 +95,21 @@
 
   "updatingQuestionAudios": "Updating question audios...",
   "updatedQuestionAudiosSuccessfully": "Updated question audios successfully!",
-  "errorUpdatingQuestionAudios": "Error updating question audios"
+  "errorUpdatingQuestionAudios": "Error updating question audios",
+
+  "deletingQuestionGroup": "Deleting question group...",
+  "deletedQuestionGroupSuccessfully": "Deleted question group successfully!",
+  "failedToDeleteQuestionGroup": "Failed to delete question group",
+
+  "deleteQuestionGroup": "Delete question group",
+  "confirmDeleteQuestionGroup": "Are you sure want to delete this question group?",
+
+  "nothingIsMorePreciousThanIndependenceAndFreedom": "Nothing is more precious than independence and freedom.",
+
+  "answer": "Answer",
+
+  "uploadAudio": "Upload Audio",
+
+  "changeAudio": "Change Audio",
+  "uploadAnswersTextFile": "Upload Answers Text File"
 }

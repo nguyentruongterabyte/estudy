@@ -17,10 +17,13 @@ import {
   toggleAddNew,
   testGroupId,
   changeQuestions,
+  updateQuestionGroupId,
 } from '~/redux/features/testSlice';
 import { isComplete as finished } from '~/redux/features/testSlice';
-import { questionGroupList } from '~/redux/features/questionGroupsSilce';
+import { deleteQuestionGroup, questionGroupList } from '~/redux/features/questionGroupsSilce';
 import CustomModal from '~/components/CustomModal';
+import { toast } from 'react-toastify';
+import Tippy from '@tippyjs/react';
 
 const cx = classNames.bind(styles);
 
@@ -33,7 +36,9 @@ const QuestionGroups = () => {
   const groupName = useSelector(testGroupName);
   const groupId = useSelector(testGroupId);
   const questionGroups = useSelector(questionGroupList);
-  const [show, setShow] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { deleteTest } = hooks.useTestService();
   const { getQuestionsByGroupId } = hooks.useQuestionService();
 
   // fetch questions data
@@ -49,7 +54,27 @@ const QuestionGroups = () => {
     fetchQuestions(groupId).then((loadedQuestions) => {
       dispatch(changeQuestions({ questions: loadedQuestions }));
     });
-    setShow(false);
+    setShowEditModal(false);
+  };
+
+  const handleConfirmDeleteQuestionGroup = (groupId) => {
+    setShowDeleteModal(true);
+    dispatch(updateQuestionGroupId({ groupId }));
+  };
+
+  const handleDeleteQuestionGroup = async () => {
+    // handle sync delete
+    await toast
+      .promise(deleteTest(groupId), {
+        pending: t('deletingQuestionGroup'),
+        success: t('deletedQuestionGroupSuccessfully'),
+        error: t('failedToDeleteQuestionGroup'),
+      })
+      .then(() => {
+        dispatch(deleteQuestionGroup({ groupId }));
+      });
+
+    setShowDeleteModal(false);
   };
 
   return (
@@ -57,7 +82,11 @@ const QuestionGroups = () => {
       <ListGroup as="ul">
         {questionGroups.map((questionGroup) => (
           // Question group item
-          <QuestionGroup data={questionGroup} key={questionGroup.id} />
+          <QuestionGroup
+            onDeleteQuestionGroup={(groupId) => handleConfirmDeleteQuestionGroup(groupId)}
+            data={questionGroup}
+            key={questionGroup.id}
+          />
         ))}
       </ListGroup>
       {/* Add new question group */}
@@ -70,12 +99,21 @@ const QuestionGroups = () => {
             size="lg"
             placeholder="Enter test group name"
           />
-          <Button size="lg" onClick={() => setShow(true)} className={cx('cancel-button')} variant="outline-danger">
-            <FontAwesomeIcon icon={faTimes} />
-          </Button>
-          <Button size="lg" disabled={!isComplete} variant="outline-success" className={cx('complete-button')}>
-            <FontAwesomeIcon icon={faCheck} />
-          </Button>
+          <Tippy placement='bottom' content={t('cancel')}>
+            <Button
+              size="lg"
+              onClick={() => setShowEditModal(true)}
+              className={cx('cancel-button')}
+              variant="outline-danger"
+            >
+              <FontAwesomeIcon icon={faTimes} />
+            </Button>
+          </Tippy>
+          <Tippy placement='bottom' content={t('complete')}>
+            <Button size="lg" disabled={!isComplete} variant="outline-success" className={cx('complete-button')}>
+              <FontAwesomeIcon icon={faCheck} />
+            </Button>
+          </Tippy>
         </div>
       ) : !isEdit ? (
         <Button
@@ -92,9 +130,18 @@ const QuestionGroups = () => {
       <CustomModal
         title={t('cancelEdit')}
         body={t('confirmCancelEdit')}
-        show={show}
-        setShow={setShow}
+        show={showEditModal}
+        setShow={setShowEditModal}
         handleAgreeButtonClick={handleCancel}
+      />
+
+      {/* Modal ask delete */}
+      <CustomModal
+        title={t('deleteQuestionGroup')}
+        body={t('confirmDeleteQuestionGroup')}
+        show={showDeleteModal}
+        setShow={setShowDeleteModal}
+        handleAgreeButtonClick={handleDeleteQuestionGroup}
       />
     </div>
   );

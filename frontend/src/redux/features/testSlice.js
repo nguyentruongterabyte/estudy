@@ -198,7 +198,7 @@ const testSlice = createSlice({
         ...state,
         test: {
           ...state.test,
-          questions: state.test.questions.map((question) =>
+          questions: state.test.questions?.map((question) =>
             question.id === action.payload.questionId
               ? {
                   ...question,

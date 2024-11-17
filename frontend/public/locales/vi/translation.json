@@ -96,5 +96,21 @@
 
   "updatingQuestionAudios": "Đang cập nhật âm thanh cho các câu hỏi...",
   "updatedQuestionAudiosSuccessfully": "Cập nhật âm thanh cho các câu hỏi thành công!",
-  "errorUpdatingQuestionAudios": "Lỗi cập nhật âm thanh cho các câu hỏi"
+  "errorUpdatingQuestionAudios": "Lỗi cập nhật âm thanh cho các câu hỏi",
+
+  "deletingQuestionGroup": "Đang xóa bài test...",
+  "deletedQuestionGroupSuccessfully": "Xóa bài test thành công!",
+  "failedToDeleteQuestionGroup": "Xóa bài test thất bại",
+
+  "deleteQuestionGroup": "Xóa nhóm câu hỏi",
+  "confirmDeleteQuestionGroup": "Bạn có chắc muốn xóa nhóm câu hỏi này không?",
+
+  "nothingIsMorePreciousThanIndependenceAndFreedom": "Không có gì quý hơn độc lập, tự do.",
+
+  "answer": "Đáp án",
+
+  "uploadAudio": "Tải lên audio",
+
+  "changeAudio": "Thay đổi Audio",
+  "uploadAnswersTextFile": "Tải lên tệp văn bản câu trả lời"
 }
