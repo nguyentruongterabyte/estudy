@@ -2,6 +2,18 @@ import db from '../models/index';
 import { bucket } from '../config/firebaseConfig';
 import { unlinkSync } from 'fs';
 
+const update = (audio) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { id, ...data } = audio;
+      await db.Audio.update(data, { where: { id } });
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const save = (audioLink) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -25,7 +37,7 @@ const getByQuestionId = (questionId) => {
       });
       if (questionAudio) {
         const audio = await db.Audio.findOne({
-          attributes: ['audioLink'],
+          attributes: ['audioLink', 'id'],
           where: { id: questionAudio.audioId },
           raw: true,
         });
@@ -64,4 +76,24 @@ const uploadFirebase = (file) => {
   });
 };
 
-module.exports = { getByQuestionId, uploadFirebase, save };
+const deleteFirebaseAudioByUrl = async (url) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Extract file name from URL
+      const filePath = url.split('/').slice(-2).join('/').split('?')[0]; // Get the `audos/<filename>` section
+
+      // Create a reference to the file to delete
+      const fileRef = bucket.file(filePath);
+
+      // Perform file deletion
+      await fileRef.delete();
+      resolve();
+    } catch (e) {
+      resolve(e);
+    }
+  });
+};
+
+
+
+module.exports = { getByQuestionId, uploadFirebase, save, deleteFirebaseAudioByUrl, update };

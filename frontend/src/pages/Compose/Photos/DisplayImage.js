@@ -31,9 +31,8 @@ const DisplayImage = ( { imageUrl, altText, isEditable, onImageUpload, ...props 
           <Image
             onClick={() => document.getElementById(`image_${question.id}`).click()}
             className={cx('add-image')}
-            src={isEdit ? question.photo : selectedImage || images.addImage}
+            src={isEdit ? selectedImage || question.photo : selectedImage || images.addImage}
             alt="Add"
-            {...props}
           />
           <input
             type="file"

@@ -79,7 +79,7 @@ const deleteFirebasePhotoByUrl = async (url) => {
       await fileRef.delete();
       resolve();
     } catch (e) {
-      reject(e);
+      resolve(e);
     }
   });
 };

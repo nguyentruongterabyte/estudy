@@ -2,7 +2,7 @@ import config from '~/config';
 import useAxiosPrivate from './useAxiosPrivate';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswer, testGroupId, questionList } from '~/redux/features/testSlice';
-import { setWithExpiry } from '~/utils/localStorageUtils';
+// import { setWithExpiry } from '~/utils/localStorageUtils';
 
 const useAnswerService = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -20,7 +20,7 @@ const useAnswerService = () => {
         dispatch( updateAnswer( { answerId: answer.id, questionId: answer.questionId, answerText: answer.answer } ) );
       } );
       
-      setWithExpiry(`questions_${groupId}`, questions);
+      // setWithExpiry(`questions_${groupId}`, questions);
 
       return response?.data;
     } catch (e) {

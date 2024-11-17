@@ -1,5 +1,6 @@
 import db from '../models/index';
 import answerService from './answerService';
+import audioService from './audioService';
 import photoService from './photoService';
 
 const updatePhotos = (photos) => {
@@ -9,7 +10,6 @@ const updatePhotos = (photos) => {
         const photoDB = await photoService.getByQuestionId(photo.questionId);
         await photoService.deleteFirebasePhotoByUrl(photoDB.filePath);
         photoDB.filePath = photo.url;
-        console.log(photoDB);
         await photoService.update(photoDB);
       });
 
@@ -20,6 +20,25 @@ const updatePhotos = (photos) => {
     }
   });
 };
+
+const updateAudios = (audios) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updatePromises = audios.map(async (audio) => {
+        const audioDB = await audioService.getByQuestionId(audio.questionId);
+        await audioService.deleteFirebaseAudioByUrl(audioDB.audioLink);
+        audioDB.audioLink = audio.url;
+        await audioService.update(audioDB);
+      });
+
+      await Promise.all(updatePromises);
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 
 const save = (data) => {
   return new Promise(async (resolve, reject) => {
@@ -60,4 +79,5 @@ module.exports = {
   getByGroupId,
   save,
   updatePhotos,
+  updateAudios
 };

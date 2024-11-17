@@ -22,7 +22,8 @@ const urls = {
   },
   question: {
     updateCorrectAnswers: 'api/question/correct-answer',
-    updatePhotos: 'api/question/photos'
+    updatePhotos: 'api/question/photos',
+    updateAudios: 'api/question/audios'
   },
   questionGroup: {
     update: 'api/question-group',

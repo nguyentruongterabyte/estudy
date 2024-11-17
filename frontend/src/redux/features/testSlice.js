@@ -148,10 +148,7 @@ const testSlice = createSlice({
             question.id === action.payload.questionId
               ? {
                   ...question,
-                  photo:
-                    action.payload.photo instanceof File
-                      ? URL.createObjectURL(action.payload.photo)
-                      : action.payload.photo,
+                  photo: action.payload.photo,
                 }
               : question,
           ),

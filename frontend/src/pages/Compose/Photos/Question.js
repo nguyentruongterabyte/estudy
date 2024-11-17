@@ -21,17 +21,14 @@ const Question = ({ data, index, isEditable }) => {
             {/* Photo */}
             <DisplayImage
               width={300}
-              imageUrl={data.photo}
+              imageUrl={data.photo instanceof File ? URL.createObjectURL(data.photo) : data.photo}
               altText={data.question}
               thumbnail
               isEditable={isEditable}
               onImageUpload={(newPhoto) => dispatch(updateQuestionPhoto({ questionId: data.id, photo: newPhoto }))}
             />
             {/* Answers/ Editable Answers */}
-            <Answers
-              answers={data.answers}
-              isEditable={isEditable}
-            />
+            <Answers answers={data.answers} isEditable={isEditable} />
           </div>
           {/* Audio */}
           <AudioPlayer

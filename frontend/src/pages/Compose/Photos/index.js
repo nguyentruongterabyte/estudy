@@ -22,6 +22,7 @@ import {
   testGroupId,
   updateQuestionPhoto,
   questionList,
+  updateQuestionAudio,
 } from '~/redux/features/testSlice';
 import {
   addQuestionGroup,
@@ -29,7 +30,6 @@ import {
   questionGroupList,
   sortQuestionGroupsByName,
 } from '~/redux/features/questionGroupsSilce';
-import { setWithExpiry } from '~/utils/localStorageUtils';
 
 const cx = classNames.bind(styles);
 
@@ -41,7 +41,6 @@ const Photos = () => {
   const isAddNew = useSelector(adding);
   const isEdit = useSelector(editing);
   const questionGroups = useSelector(questionGroupList);
-  const questions = useSelector(questionList);
   const [show, setShow] = useState(true);
   const { uploadPhoto } = hooks.usePhotoService();
   const { getQuestionGroups, updatePhotos } = hooks.useQuestionService();
@@ -223,9 +222,65 @@ const Photos = () => {
         })
         .then(() => {
           dispatch(removeChangeLogsByField({ field: 'photo' }));
-          localStorage.removeItem(`questions_${groupId}`);
+          // localStorage.removeItem(`questions_${groupId}`);
         });
     }
+
+    console.log('Question photos last changes: ', lastChanges);
+
+    // Audios
+    lastChanges = Object.values(
+      eventLogs
+        .filter((log) => log.field === 'audio')
+        .reduce((acc, log) => {
+          const key = log.questionId;
+          if (!acc[key]) acc[key] = [];
+          acc[key].push(log);
+          return acc;
+        }, {}),
+    )
+      .map((group) => {
+        const firstChange = group[0];
+        const lastChange = group[group.length - 1];
+
+        return firstChange.oldValue !== lastChange.newValue ? { ...lastChange, oldValue: firstChange.oldValue } : null;
+      })
+      .filter((change) => change !== null);
+    const audios = lastChanges.map((change) => ({
+      questionId: change.questionId,
+      url: change.oldValue,
+      file: change.newValue,
+    }));
+
+    if (audios.length > 0) {
+      const audioURLs = await Promise.all(
+        audios.map(async (audio) => {
+          const uploadPromise = async () => {
+            const audioUrl = await uploadPhoto(audio.file);
+            dispatch(updateQuestionAudio({ questionId: audio.questionId, audio: audioUrl }));
+            return { questionId: audio.questionId, url: audioUrl };
+          };
+
+          return await toast.promise(uploadPromise(), {
+            pending: `Uploading audio for question #${audio.questionId}...`,
+            success: `Uploaded audio for question #${audio.questionId}!`,
+            error: `Failed to upload audio for question #${audio.questionId}`,
+          });
+        }),
+      );
+
+      await toast
+        .promise(updatePhotos(audioURLs), {
+          pending: 'Updating question audios...',
+          success: 'Updated question audios successfully!',
+          error: 'Error updating question audios',
+        })
+        .then(() => {
+          dispatch(removeChangeLogsByField({ field: 'audio' }));
+          // localStorage.removeItem(`questions_${groupId}`);
+        });
+    }
+    console.log('audio last changes: ', lastChanges);
 
     if (eventLogs.length === 0) dispatch(toggleEdit({ toggle: false }));
   };

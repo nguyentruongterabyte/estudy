@@ -18,6 +18,23 @@ const handleUpdatePhotos = async (req, res) => {
   }
 };
 
+const handleUpdateAudios = async (req, res) => {
+  try {
+    const { audios } = req.body;
+    await questionService.updateAudios(audios);
+    res.json({
+      errCode: 0,
+      errMessage: 'OK',
+      // data: updatedAudios
+    });
+  } catch (error) {
+    res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
 const handleUpdateCorrectAnswers = async (req, res) => {
   const { correctAnswers } = req.body;
 
@@ -44,4 +61,5 @@ const handleUpdateCorrectAnswers = async (req, res) => {
 export default {
   handleUpdateCorrectAnswers,
   handleUpdatePhotos,
+  handleUpdateAudios
 };

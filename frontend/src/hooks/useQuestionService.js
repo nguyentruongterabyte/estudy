@@ -1,19 +1,19 @@
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 import config from '~/config';
-import { getWithExpiry, setWithExpiry } from '~/utils/localStorageUtils';
+// import { getWithExpiry, setWithExpiry } from '~/utils/localStorageUtils';
 import useAxiosPrivate from './useAxiosPrivate';
-import { questionList, testGroupId } from '~/redux/features/testSlice';
+// import { questionList, testGroupId } from '~/redux/features/testSlice';
 
 const useQuestionService = () => {
   const axiosPrivate = useAxiosPrivate();
-  const questions = useSelector(questionList);
-  const groupId = useSelector(testGroupId);
+  // const questions = useSelector(questionList);
+  // const groupId = useSelector(testGroupId);
   // update correct answers
   const updateCorrectAnswers = async (correctAnswers) => {
     try {
       const response = await axiosPrivate.put(config.urls.question.updateCorrectAnswers, { correctAnswers });
-      setWithExpiry(`questions_${groupId}`, questions);
+      // setWithExpiry(`questions_${groupId}`, questions);
       return response?.data;
     } catch (e) {
       throw e;
@@ -44,6 +44,17 @@ const useQuestionService = () => {
     }
   };
 
+  // update photos
+  const updateAudios = async (audios) => {
+    try {
+      const response = await axiosPrivate.put(config.urls.question.updatePhotos, { audios });
+      console.log(response?.data);
+      return response?.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
   // create question photo
   const createQuestionPhoto = async (questionId, filePath) => {
     try {
@@ -61,9 +72,9 @@ const useQuestionService = () => {
   // get question when knew group id
   const getQuestionsByGroupId = async (groupId, audio = false, photo = false) => {
     // Check if questions of group id exists in local storage
-    const cachedQuestions = getWithExpiry(`questions_${groupId}`);
+    // const cachedQuestions = getWithExpiry(`questions_${groupId}`);
 
-    if (cachedQuestions) return cachedQuestions;
+    // if (cachedQuestions) return cachedQuestions;
     const params = {};
     if (audio) params.audio = true;
     if (photo) params.photo = true;
@@ -74,7 +85,7 @@ const useQuestionService = () => {
       });
       const questions = response?.data?.data;
       // save localStorage
-      setWithExpiry(`questions_${groupId}`, questions);
+      // setWithExpiry(`questions_${groupId}`, questions);
       return questions;
     } catch (e) {
       throw e;
@@ -100,6 +111,7 @@ const useQuestionService = () => {
     createQuestionPhoto,
     createQuestionAudio,
     updatePhotos,
+    updateAudios
   };
 };
 

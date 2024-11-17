@@ -1,5 +1,28 @@
 import audioService from '../services/audioService';
 
+const handleFindByQuestionId = async ( req, res ) => {
+  const questionId = req.params.questionId
+  if ( !questionId ) {
+    return res.status(400).json({
+      errCode: 1,
+      errMessage: 'Missing required parameters',
+    });
+  }
+  try { 
+    const audio = await audioService.getByQuestionId(questionId);
+    res.json({
+      errCode: 0,
+      errMessage: 'OK',
+      data: audio,
+    });
+  } catch ( error ) {
+     res.status(500).json({
+       errCode: 1,
+       errMessage: error.message,
+     });
+  }
+}
+
 const handleSaveAudio = async (req, res) => {
   const { audioLink } = req.body;
   if (!audioLink)
@@ -43,4 +66,5 @@ const handleUploadAudio = async (req, res) => {
 export default {
   handleUploadAudio,
   handleSaveAudio,
+  handleFindByQuestionId,
 };

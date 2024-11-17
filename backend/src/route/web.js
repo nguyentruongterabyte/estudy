@@ -38,13 +38,15 @@ let initWebRoutes = (app) => {
     verifyRoles(ROLES_OBJECT.EDITOR),
     vocabularyController.handleCreateVocabularyTopic,
   );
+  // Audio
+  router.get('/api/audio/get-by-question-id/:questionId', audioController.handleFindByQuestionId);
 
   // Photo
   router.post(
     '/api/photo/upload',
     upload.single('photo'),
-    verifyJWT,
-    verifyRoles(ROLES_OBJECT.EDITOR),
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR),
     photoController.handleUploadPhoto,
   );
 
@@ -94,7 +96,8 @@ let initWebRoutes = (app) => {
 
   // Questions
   router.put('/api/question/correct-answer', questionController.handleUpdateCorrectAnswers);
-  router.put('/api/question/photos', upload.array('photos', 25), questionController.handleUpdatePhotos);
+  router.put('/api/question/photos', questionController.handleUpdatePhotos);
+  router.put('/api/question/audios', questionController.handleUpdateAudios);
 
   // Question Group
   router.put('/api/question-group', questionGroupController.handleUpdate);
