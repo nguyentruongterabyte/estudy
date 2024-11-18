@@ -14,8 +14,8 @@ const useAnswerService = () => {
       const response = await axiosPrivate.put(config.urls.answer.update, { answers });
 
       // update answer in test slice
-      answers.forEach((answer) => {
-        dispatch(updateAnswer({ answerId: answer.id, questionId: answer.questionId, answerText: answer.answer }));
+      answers.forEach((answer, index) => {
+        dispatch(updateAnswer({ index: index, questionId: answer.questionId, answerText: answer.answer }));
       });
 
       // setWithExpiry(`questions_${groupId}`, questions);

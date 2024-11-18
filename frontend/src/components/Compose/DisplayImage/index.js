@@ -1,10 +1,10 @@
+import { Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Image } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
 import styles from './DisplayImage.module.scss';
 import images from '~/assets/images';
-import { Fragment, useState } from 'react';
 import { useQuestion } from '~/context/QuestionProvider';
 import { isEdit as editing } from '~/redux/features/testSlice';
 

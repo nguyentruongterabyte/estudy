@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { useSelector, useDispatch } from 'react-redux';
 
 import hooks from '~/hooks';
-import Question from './Question';
+import Question from '~/components/Compose/Question';
 import QuestionProvider from '~/context/QuestionProvider';
 import styles from './Questions.module.scss';
 import ErrorFieldsProvider from '~/context/ErrorFieldsProvider';
@@ -24,10 +24,11 @@ import {
 } from '~/redux/features/testSlice';
 import { useTranslation } from 'react-i18next';
 import Quote from '~/components/Quote';
+import { useEnableMedia } from '~/context/EnableMediaProvider';
 
 const cx = classNames.bind(styles);
 
-const Questions = ({ onComplete }) => {
+const Questions = ({ onComplete, quantityOfQuestions = 6, quantityOfAnswersPerQuestion = 4 }) => {
   const { t } = useTranslation();
   const eventLogs = useSelector(changeLog);
   const questions = useSelector(questionList);
@@ -39,21 +40,28 @@ const Questions = ({ onComplete }) => {
   const { getQuestionsByGroupId } = hooks.useQuestionService();
   const [errorFields, setErrorFields] = useState({});
   const [show, setShow] = useState(false);
+  const { isEnablePhoto, isEnableAudio } = useEnableMedia();
 
   // fetch questions data
   const fetchQuestions = async (groupId) => {
-    const audio = true;
-    const photo = true;
-    const questions = await getQuestionsByGroupId(groupId, audio, photo);
+    const questions = await getQuestionsByGroupId(groupId, isEnableAudio, isEnablePhoto);
     return questions;
   };
 
   useEffect(() => {
     if (groupId && !isAddNew) {
       fetchQuestions(groupId).then((loadedQuestions) => {
-        dispatch(changeQuestions({ questions: loadedQuestions }));
+        dispatch(
+          changeQuestions({
+            questions: loadedQuestions.map((question) => ({
+              ...question,
+              answers: question.answers.map((answer, index) => ({ ...answer, index: index })),
+            })),
+          }),
+        );
       });
     }
+
     // eslint-disable-next-line
   }, [groupId]);
 
@@ -61,11 +69,15 @@ const Questions = ({ onComplete }) => {
     if (isAddNew) {
       dispatch(
         changeQuestions({
-          questions: Array.from({ length: 6 }).map((_, index) => ({
+          questions: Array.from({ length: quantityOfQuestions }).map((_, index) => ({
             id: index,
             photo: '',
             audio: '',
-            answers: Array.from({ length: 4 }).map((_, answerIndex) => ({ id: answerIndex, answer: '' })),
+            answers: Array.from({ length: quantityOfAnswersPerQuestion }).map((_, answerIndex) => ({
+              id: answerIndex,
+              index: answerIndex,
+              answer: '',
+            })),
             correctAnswerIndex: 0,
           })),
         }),
@@ -93,12 +105,12 @@ const Questions = ({ onComplete }) => {
         }
       });
 
-      if (!question.photo) {
+      if (isEnablePhoto && !question.photo) {
         complete = false;
         errors[`image_${index}`] = 'No image selected';
       }
 
-      if (!question.audio) {
+      if (isEnableAudio && !question.audio) {
         complete = false;
         errors[`audio_${index}`] = 'No audio selected';
       }
@@ -133,7 +145,12 @@ const Questions = ({ onComplete }) => {
         {Array.isArray(questions) &&
           questions.map((question, index) => (
             <QuestionProvider key={question.id} question={question}>
-              <Question data={question} index={index} isEditable={isAddNew || isEdit} />
+              <Question
+                data={question}
+                index={index}
+                isEditable={isAddNew || isEdit}
+                quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
+              />
             </QuestionProvider>
           ))}
         {(isAddNew || isEdit) && (

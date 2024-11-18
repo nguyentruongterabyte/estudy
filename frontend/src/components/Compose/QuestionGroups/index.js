@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+import Tippy from '@tippyjs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +9,7 @@ import { Fragment, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import styles from './QuestionGroups.module.scss';
-import QuestionGroup from './QuestionGroup';
+import QuestionGroup from '~/components/Compose/QuestionGroup';
 import hooks from '~/hooks';
 import {
   testGroupName,
@@ -22,8 +24,7 @@ import {
 import { isComplete as finished } from '~/redux/features/testSlice';
 import { deleteQuestionGroup, questionGroupList } from '~/redux/features/questionGroupsSilce';
 import CustomModal from '~/components/CustomModal';
-import { toast } from 'react-toastify';
-import Tippy from '@tippyjs/react';
+import { useEnableMedia } from '~/context/EnableMediaProvider';
 
 const cx = classNames.bind(styles);
 
@@ -39,13 +40,12 @@ const QuestionGroups = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { deleteTest } = hooks.useTestService();
+  const { isEnablePhoto, isEnableAudio } = useEnableMedia();
   const { getQuestionsByGroupId } = hooks.useQuestionService();
 
   // fetch questions data
   const fetchQuestions = async (groupId) => {
-    const audio = true;
-    const photo = true;
-    const questions = await getQuestionsByGroupId(groupId, audio, photo);
+    const questions = await getQuestionsByGroupId(groupId, isEnableAudio, isEnablePhoto);
     return questions;
   };
 
@@ -99,7 +99,7 @@ const QuestionGroups = () => {
             size="lg"
             placeholder="Enter test group name"
           />
-          <Tippy placement='bottom' content={t('cancel')}>
+          <Tippy placement="bottom" content={t('cancel')}>
             <Button
               size="lg"
               onClick={() => setShowEditModal(true)}
@@ -109,7 +109,7 @@ const QuestionGroups = () => {
               <FontAwesomeIcon icon={faTimes} />
             </Button>
           </Tippy>
-          <Tippy placement='bottom' content={t('complete')}>
+          <Tippy placement="bottom" content={t('complete')}>
             <Button size="lg" disabled={!isComplete} variant="outline-success" className={cx('complete-button')}>
               <FontAwesomeIcon icon={faCheck} />
             </Button>

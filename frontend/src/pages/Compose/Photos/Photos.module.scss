@@ -1,19 +1,2 @@
 
-.container {
-  // Main
-  .main {
-    position: absolute;
-    top: var(--default-layout-header-height);
-    right: 0;
-    transition: 0.3s ease;
-    width: 100%;
-
-    &.scaled {
-      width: calc(100% - 400px);
-    }
-  }
-
-
-}
-
 

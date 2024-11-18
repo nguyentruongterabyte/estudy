@@ -1,7 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { useTranslation } from 'react-i18next';
-import { ToastContainer } from 'react-toastify';
 import './App.css';
 import { privateRoutes, publicRoutes } from './routes';
 import DefaultLayout from '~/layouts/DefaultLayout';

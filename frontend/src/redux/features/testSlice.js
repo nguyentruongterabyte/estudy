@@ -158,7 +158,7 @@ const testSlice = createSlice({
       const changePhotoLog = {
         field: 'photo',
         questionId: action.payload.questionId,
-        oldValue: state.test.questions.find((q) => q.id === action.payload.questionId).photo,
+        oldValue: state.test.questions?.find((q) => q.id === action.payload.questionId).photo,
         newValue: action.payload.photo,
       };
       return {
@@ -198,12 +198,12 @@ const testSlice = createSlice({
         ...state,
         test: {
           ...state.test,
-          questions: state.test.questions?.map((question) =>
+          questions: state.test.questions.map((question) =>
             question.id === action.payload.questionId
               ? {
                   ...question,
                   answers: question.answers.map((answer) =>
-                    answer.id === action.payload.answerId ? { ...answer, answer: action.payload.answerText } : answer,
+                    answer.index === action.payload.index ? { ...answer, answer: action.payload.answerText } : answer,
                   ),
                 }
               : question,
@@ -211,13 +211,17 @@ const testSlice = createSlice({
         },
       };
 
+      console.log(updatedStateWithAnswer);
+
       const changeAnswerLog = {
         field: 'answer',
         questionId: action.payload.questionId,
-        answerId: action.payload.answerId,
+        answerId: state.test.questions
+          .find((q) => q.id === action.payload.questionId)
+          .answers.find((a) => a.index === action.payload.index).id,
         oldValue: state.test.questions
           .find((q) => q.id === action.payload.questionId)
-          .answers.find((a) => a.id === action.payload.answerId).answer,
+          .answers.find((a) => a.index === action.payload.index).answer,
         newValue: action.payload.answerText,
       };
 

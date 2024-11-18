@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import classNames from 'classnames/bind';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { ListGroup } from 'react-bootstrap';
@@ -5,14 +6,13 @@ import { Fragment } from 'react';
 import { useDispatch } from 'react-redux';
 
 import styles from './Answers.module.scss';
-import Answer from './Answer';
+import Answer from '~/components/Compose/Answer';
 import Button from '~/components/Button';
 import { useQuestion } from '~/context/QuestionProvider';
 import { initCorrectAnswerIndex, updateAnswer } from '~/redux/features/testSlice';
-import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
-const Answers = ( { answers, isEditable } ) => {
+const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const question = useQuestion();
@@ -35,14 +35,20 @@ const Answers = ( { answers, isEditable } ) => {
       .map((line) => line.trim())
       .filter((line) => line !== '');
 
+    console.log( lines );
+    
     // The answers are taken from the first lines
-    const answers = lines.slice(0, 4); // Answers A, B, C, D
-    const correctAnswerIndex = parseInt(lines[4], 10); // index of correct answer
+    const answers = lines.slice(0, quantityOfAnswersPerQuestion); // Answers A, B, C, D
+    const correctAnswerIndex = parseInt(lines[quantityOfAnswersPerQuestion], 10); // index of correct answer
+
+    console.log('answers', answers);
+    console.log( 'answer correct', correctAnswerIndex );
+    
     dispatch(initCorrectAnswerIndex({ questionId: question.id, index: correctAnswerIndex }));
 
     // Update the answers in the inputs
     answers.forEach((answer, index) => {
-      dispatch(updateAnswer({ questionId: question.id, answerId: index, answerText: answer }));
+      dispatch(updateAnswer({ questionId: question.id, index: index, answerText: answer }));
     });
   };
   return (

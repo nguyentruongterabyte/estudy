@@ -9,7 +9,7 @@ const Quote = ({ quote = 'nothingIsMorePreciousThanIndependenceAndFreedom', clas
   const { t } = useTranslation();
   return (
     <div className={cx('container', [className])}>
-      <img className={cx('image')} src={images.note} />
+      <img className={cx('image')} alt={t(quote)} src={images.note} />
       <h1 className={cx('text')}>{t(quote)}</h1>
     </div>
   );

@@ -1,11 +1,12 @@
-import classNames from 'classnames/bind';
-import styles from './AudioPlayer.module.scss';
-import { Fragment, useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft, faPause, faPlay, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { Fragment, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import classNames from 'classnames/bind';
+
+import styles from './AudioPlayer.module.scss';
 import { useQuestion } from '~/context/QuestionProvider';
 import Button from '~/components/Button';
-import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
 

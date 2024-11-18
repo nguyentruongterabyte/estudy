@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import classNames from 'classnames/bind';
 import { useDispatch } from 'react-redux';
 import { ListGroup } from 'react-bootstrap';
@@ -6,7 +7,6 @@ import { useErrorFields } from '~/context/ErrorFieldsProvider';
 import styles from './Answer.module.scss';
 import { useQuestion } from '~/context/QuestionProvider';
 import { updateAnswer, changeCorrectAnswerIndex } from '~/redux/features/testSlice';
-import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
 
@@ -22,7 +22,7 @@ const Answer = ({ answer, index, isEditable }) => {
   const isError = isEditable && errorFields && errorFields[`answer_${question.id}_${index}`];
 
   const handleAnswerChange = (e) => {
-    dispatch(updateAnswer({ questionId: question.id, answerId: answer.id, answerText: e.target.value }));
+    dispatch(updateAnswer({ questionId: question.id, index: index, answerText: e.target.value }));
   };
 
   return (
