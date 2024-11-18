@@ -21,6 +21,22 @@ const handleUpdatePhotos = async (req, res) => {
   }
 };
 
+const handleUpdateMany = async (req, res) => {
+  try {
+    const { questions } = req.body;
+    await questionService.updateMany(questions);
+    res.json({
+      errCode: 0,
+      errMessage: 'OK',
+    });
+  } catch (error) {
+    res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
 const handleUpdateAudios = async (req, res) => {
   try {
     const { audios } = req.body;
@@ -149,4 +165,5 @@ export default {
   handleUpdatePhotos,
   handleUpdateAudios,
   handleCreateQuestionAudio,
+  handleUpdateMany,
 };

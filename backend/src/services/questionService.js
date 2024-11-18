@@ -3,6 +3,22 @@ import answerService from './answerService';
 import audioService from './audioService';
 import photoService from './photoService';
 
+const updateMany = (questions) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updatePromises = questions.map(async (question) => {
+        const { id, ...data } = question;
+        await db.Question.update(data, { where: { id } });
+      });
+
+      await Promise.all(updatePromises);
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const updatePhotos = (photos) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -38,7 +54,6 @@ const updateAudios = (audios) => {
     }
   });
 };
-
 
 const save = (data) => {
   return new Promise(async (resolve, reject) => {
@@ -79,5 +94,6 @@ module.exports = {
   getByGroupId,
   save,
   updatePhotos,
-  updateAudios
+  updateAudios,
+  updateMany
 };

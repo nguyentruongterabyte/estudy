@@ -20,6 +20,7 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [selectedAudio, setSelectedAudio] = useState(audioLink);
   const [audioFileName, setAudioFileName] = useState('');
+  const [file, setFile] = useState(null);
   // update progress
   const handleTimeUpdate = () => {
     const audio = audioRef.current;
@@ -64,20 +65,14 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
-  // Handle audio upload
-  const handleAudioUpload = (e) => {
-    const file = e.target.files[0];
+  useEffect(() => {
     if (file) {
       const audioUrl = URL.createObjectURL(file);
       setSelectedAudio(audioUrl); // Update audio source
       setAudioFileName(file.name);
       onAudioUpload(file);
     }
-  };
-
-  useEffect(() => {
-    if (audioLink) setSelectedAudio(audioLink);
-  }, [audioLink]);
+  }, [file]);
 
   return (
     <div className={cx('container', className)}>
@@ -90,7 +85,7 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
             onClick={() => document.getElementById(`audioInput_${question.id}`).click()}
             className={cx('upload-audio')}
           >
-            {!!selectedAudio ? t('changeAudio') : t('uploadAudio')}
+            {audioFileName ? audioFileName : t('uploadAudio')}
           </Button>
           <input
             type="file"
@@ -98,17 +93,17 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
             style={{ display: 'none' }}
             accept="audio/*"
             value={''}
-            onChange={handleAudioUpload}
+            onChange={(e) => setFile(e.target.files[0])}
           />
         </Fragment>
       )}
 
       {/* Only show audio controls if there is an audio file */}
-      {!isEditable && (
-        <Fragment>
+      {(!isEditable || selectedAudio) && (
+        <div className={cx('player')}>
           <audio
             ref={audioRef}
-            src={audioLink} // Play the uploaded audio or default audio link
+            src={selectedAudio || audioLink} // Play the uploaded audio or default audio link
             type="audio/mpeg"
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
@@ -126,9 +121,8 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
           <div className={cx('time')}>
             <span>{formatTime(currentTime)}</span> / <span>{formatTime(duration)}</span>
           </div>
-        </Fragment>
+        </div>
       )}
-      {audioFileName && <div className={cx('file-name')}>{audioFileName}</div>}
     </div>
   );
 };

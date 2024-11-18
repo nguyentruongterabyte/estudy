@@ -5,6 +5,57 @@ import correctAnswerService from '../services/correctAnswerService';
 import photoService from '../services/photoService';
 import audioService from '../services/audioService';
 
+const handleSaveTest = async (req, res) => {
+  const { name, partId, questions } = req.body;
+
+  try {
+    // Create questionGroup
+    const newQuestionGroup = await questionGroupService.save({
+      name,
+      partId,
+    } );
+    
+    // Create new questions with group id
+    const newQuestions = await Promise.all(
+      questions.map(async (question) => {
+        // Save question
+        const { id, ...questionWithoutId } = question;
+        const newQuestion = await questionService.save({ ...questionWithoutId, groupId: newQuestionGroup.id });
+
+        // save answers
+        const newAnswers = await Promise.all(
+          question.answers.map(async (answer, index) => {
+            const { id, ...answerWithoutId } = answer;
+            const newAnswer = await answerService.save({ questionId: newQuestion.id, ...answerWithoutId });
+            
+            // save correct answer if index of answer equals correct answer index
+            if ( index === question.correctAnswerIndex ) {
+              await correctAnswerService.save({ questionId: newQuestion.id, answerId: newAnswer.id });
+            }
+            return { ...newAnswer.dataValues, index };
+          }),
+        );
+
+        return { ...newQuestion.dataValues, answers: newAnswers, correctAnswerIndex: question.correctAnswerIndex };
+      }),
+    );
+
+    return res.json({
+      errCode: 0,
+      errMessage: 'OK',
+      data: {
+        questionGroup: newQuestionGroup,
+        questions: newQuestions,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
 const handleDeleteTest = async (req, res) => {
   const { groupId } = req.params;
 
@@ -54,74 +105,6 @@ const handleDeleteTest = async (req, res) => {
     return res.json({
       errCode: 0,
       errMessage: 'Delete successfully!',
-    });
-  } catch (error) {
-    return res.status(500).json({
-      errCode: 1,
-      errMessage: error.message,
-    });
-  }
-};
-
-const handleSaveTest = async (req, res) => {
-  const { name, partId, questions } = req.body;
-
-  try {
-    const newQuestionGroup = await questionGroupService.save({ name, partId });
-    // Create questions
-    const newQuestions = await Promise.all(
-      questions.map(async (question) => {
-        const answers = question.answers;
-        const correctAnswerIndex = question.correctAnswerIndex;
-        let newQuestion;
-        if (partId === 1) {
-          const correctAnswer = answers.find((item) => item.id === correctAnswerIndex);
-          newQuestion = await questionService.save({ question: correctAnswer.answer, groupId: newQuestionGroup.id });
-        } else {
-          newQuestion = await questionService.save({ question: question.question, groupId: newQuestionGroup.id });
-        }
-
-        return newQuestion;
-      }),
-    );
-
-    // create answers
-    const questionsWithAnswers = await Promise.all(
-      newQuestions.map(async (question, index) => {
-        const answers = questions[index].answers;
-
-        const newAnswers = [];
-
-        for (const answer of answers) {
-          const newAnswer = await answerService.save({ questionId: question.id, answer: answer.answer });
-          newAnswers.push(newAnswer);
-        }
-
-        return { ...question.dataValues, answers: newAnswers };
-      }),
-    );
-
-    // Create correct answer
-    const questionsWithCorrectAnswers = await Promise.all(
-      questionsWithAnswers.map(async (question, index) => {
-        const correctAnswerIndex = questions[index].correctAnswerIndex;
-        const answers = question.answers;
-        const correctAnswer = answers[correctAnswerIndex];
-        const newCorrectAnswer = await correctAnswerService.save({
-          questionId: question.id,
-          answerId: correctAnswer.id,
-        });
-        return { ...question, correctAnswer: newCorrectAnswer };
-      }),
-    );
-
-    return res.json({
-      errCode: 0,
-      errMessage: 'OK',
-      data: {
-        questionGroup: newQuestionGroup,
-        questions: questionsWithCorrectAnswers,
-      },
     });
   } catch (error) {
     return res.status(500).json({

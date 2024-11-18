@@ -1,19 +1,13 @@
 // import { useSelector } from 'react-redux';
 
 import config from '~/config';
-// import { getWithExpiry, setWithExpiry } from '~/utils/localStorageUtils';
 import useAxiosPrivate from './useAxiosPrivate';
-// import { questionList, testGroupId } from '~/redux/features/testSlice';
 
 const useQuestionService = () => {
   const axiosPrivate = useAxiosPrivate();
-  // const questions = useSelector(questionList);
-  // const groupId = useSelector(testGroupId);
-  // update correct answers
   const updateCorrectAnswers = async (correctAnswers) => {
     try {
       const response = await axiosPrivate.put(config.urls.question.updateCorrectAnswers, { correctAnswers });
-      // setWithExpiry(`questions_${groupId}`, questions);
       return response?.data;
     } catch (e) {
       throw e;
@@ -104,6 +98,14 @@ const useQuestionService = () => {
     }
   };
 
+  const updateMany = async (questions) => {
+    try {
+      const response = await axiosPrivate.put(config.urls.question.updateMany, { questions });
+      return response?.data;
+    } catch (e) {
+      throw e;
+    }
+  };
   return {
     updateCorrectAnswers,
     getQuestionGroups,
@@ -112,6 +114,7 @@ const useQuestionService = () => {
     createQuestionAudio,
     updatePhotos,
     updateAudios,
+    updateMany,
   };
 };
 

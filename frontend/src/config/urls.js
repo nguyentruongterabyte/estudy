@@ -27,6 +27,7 @@ const urls = {
     createQuestionAudio: '/api/question/question-audio',
     createQuestionPhoto: '/api/question/question-photo',
     getByGroupId: '/api/question/get-by-group-id',
+    updateMany: '/api/question/update-many',
   },
   questionGroup: {
     update: '/api/question-group',

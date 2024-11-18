@@ -102,6 +102,10 @@
   "deletedQuestionGroupSuccessfully": "Xóa bài test thành công!",
   "failedToDeleteQuestionGroup": "Xóa bài test thất bại",
 
+  "changingQuestions": "Đang thay đổi các câu hỏi...",
+  "changeQuestionsSuccess": "Thay đổi các câu hỏi thành công!",
+  "changeQuestionsError": "Thay đổi các câu hỏi thất bại",
+
   "deleteQuestionGroup": "Xóa nhóm câu hỏi",
   "confirmDeleteQuestionGroup": "Bạn có chắc muốn xóa nhóm câu hỏi này không?",
 
@@ -112,5 +116,6 @@
   "uploadAudio": "Tải lên audio",
 
   "changeAudio": "Thay đổi Audio",
-  "uploadAnswersTextFile": "Tải lên tệp văn bản câu trả lời"
+  "uploadAnswersTextFile": "Tải lên tệp văn bản câu trả lời",
+  "uploadTextFile": "Tải tệp văn bản"
 }

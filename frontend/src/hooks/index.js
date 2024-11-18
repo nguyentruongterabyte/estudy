@@ -11,9 +11,11 @@ import usePhotoService from './usePhotoService';
 import useTestService from './useTestService';
 import useAnswerService from './useAnswerService';
 import useQuestionGroupService from './useQuestionGroupService';
+import useDebounce from './useDebounce';
 const hooks = {
   useAuth,
   useLocalStorage,
+  useDebounce,
   useInput,
   useLogout,
   useRefreshToken,
@@ -24,7 +26,7 @@ const hooks = {
   usePhotoService,
   useTestService,
   useAnswerService,
-  useQuestionGroupService
+  useQuestionGroupService,
 };
 
 export default hooks;

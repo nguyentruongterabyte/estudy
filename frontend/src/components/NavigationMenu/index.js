@@ -18,7 +18,9 @@ const NavigationMenu = ( { navList } ) => {
         item.dropdownItems ? (
           <NavDropdown key={index} title={t(item.title)} id={`nav-dropdown-${index}`} className={cx('nav-dropdown')}>
             {item.dropdownItems.map((subItem, subIndex) => (
-              <NavDropdown.Item as={Link} to={subItem.href} key={subIndex} className={cx('nav-item')}>
+              <NavDropdown.Item
+                // as={ Link }
+                href={ subItem.href } key={ subIndex } className={ cx( 'nav-item' ) }>
                 {t(subItem.title)}
               </NavDropdown.Item>
             ))}

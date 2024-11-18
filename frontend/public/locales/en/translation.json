@@ -101,6 +101,10 @@
   "deletedQuestionGroupSuccessfully": "Deleted question group successfully!",
   "failedToDeleteQuestionGroup": "Failed to delete question group",
 
+  "changingQuestions": "Changing question...",
+  "changeQuestionsSuccess": "Successfully changed questions!",
+  "changeQuestionsError": "Failed to change questions",
+
   "deleteQuestionGroup": "Delete question group",
   "confirmDeleteQuestionGroup": "Are you sure want to delete this question group?",
 
@@ -111,5 +115,6 @@
   "uploadAudio": "Upload Audio",
 
   "changeAudio": "Change Audio",
-  "uploadAnswersTextFile": "Upload Answers Text File"
+  "uploadAnswersTextFile": "Upload Answers Text File",
+  "uploadTextFile": "Upload Text File"
 }

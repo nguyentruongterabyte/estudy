@@ -25,6 +25,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import Quote from '~/components/Quote';
 import { useEnableMedia } from '~/context/EnableMediaProvider';
+import { useQuestions } from '~/context/QuestionsProvider';
 
 const cx = classNames.bind(styles);
 
@@ -41,6 +42,7 @@ const Questions = ({ onComplete, quantityOfQuestions = 6, quantityOfAnswersPerQu
   const [errorFields, setErrorFields] = useState({});
   const [show, setShow] = useState(false);
   const { isEnablePhoto, isEnableAudio } = useEnableMedia();
+  const { isEnableQuestionText } = useQuestions();
 
   // fetch questions data
   const fetchQuestions = async (groupId) => {
@@ -73,6 +75,7 @@ const Questions = ({ onComplete, quantityOfQuestions = 6, quantityOfAnswersPerQu
             id: index,
             photo: '',
             audio: '',
+            question: '',
             answers: Array.from({ length: quantityOfAnswersPerQuestion }).map((_, answerIndex) => ({
               id: answerIndex,
               index: answerIndex,
@@ -99,20 +102,29 @@ const Questions = ({ onComplete, quantityOfQuestions = 6, quantityOfAnswersPerQu
 
     questions.forEach((question, index) => {
       question.answers?.forEach((answer, answerIndex) => {
+        // Validate answers
         if (!answer.answer || answer.answer.trim() === '') {
           complete = false;
           errors[`answer_${index}_${answerIndex}`] = 'Empty answer';
         }
       });
 
+      // validate question photo
       if (isEnablePhoto && !question.photo) {
         complete = false;
         errors[`image_${index}`] = 'No image selected';
       }
 
+      // validate question audio
       if (isEnableAudio && !question.audio) {
         complete = false;
         errors[`audio_${index}`] = 'No audio selected';
+      }
+
+      // validate question text
+      if (isEnableQuestionText && !question.question) {
+        complete = false;
+        errors[`question_${index}`] = 'Empty question text';
       }
     });
 
@@ -127,15 +139,18 @@ const Questions = ({ onComplete, quantityOfQuestions = 6, quantityOfAnswersPerQu
     }
   };
 
-  const handleCancel = () => {
+  const handleCancel = async () => {
+    await fetchQuestions(groupId).then((loadedQuestions) => dispatch(changeQuestions({ questions: loadedQuestions })));
     if (isAddNew) {
       dispatch(toggleAddNew({ toggle: false }));
     }
 
-    if (isEdit) dispatch(toggleEdit({ toggle: false }));
-    fetchQuestions(groupId).then((loadedQuestions) => dispatch(changeQuestions({ questions: loadedQuestions })));
-    dispatch(removeChangeLogsByField({ field: 'questionGroupName' }));
-    setShow(false);
+    if (isEdit) {
+      dispatch(toggleEdit({ toggle: false }));
+    }
+    setShow( false );
+    
+    // if (isEdit) dispatch(toggleEdit({ toggle: false }));
   };
 
   return (

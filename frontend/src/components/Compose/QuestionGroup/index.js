@@ -12,30 +12,31 @@ import {
   testGroupName,
   updateQuestionGroupName,
   updateQuestionGroupNameWithoutLog,
+  resetChangeLog,
 } from '~/redux/features/testSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-const QuestionGroup = ({onDeleteQuestionGroup, data }) => {
+const QuestionGroup = ({ onDeleteQuestionGroup, data }) => {
   const groupName = useSelector(testGroupName);
   const groupId = useSelector(testGroupId);
   const isAddNew = useSelector(adding);
   const isEdit = useSelector(editing);
   const dispatch = useDispatch();
 
-  const handleEdit = ( event, groupId ) => {
+  const handleEdit = (event, groupId) => {
     event.stopPropagation();
     dispatch(toggleEdit({ toggle: true }));
     dispatch(updateQuestionGroupId({ groupId }));
     dispatch(updateQuestionGroupNameWithoutLog({ name: data.name }));
   };
 
-  const handleDeleteQuestionGroup = ( event, groupId ) => {
+  const handleDeleteQuestionGroup = (event, groupId) => {
     event.stopPropagation();
-    onDeleteQuestionGroup( groupId );
-  }
+    onDeleteQuestionGroup(groupId);
+  };
   return (
     // Question group item
     <ListGroup.Item
@@ -59,7 +60,12 @@ const QuestionGroup = ({onDeleteQuestionGroup, data }) => {
           <Button onClick={(e) => handleEdit(e, data.id)} className={cx('edit-button')} size="lg" variant="success">
             <FontAwesomeIcon icon={faPencil} />
           </Button>
-          <Button onClick={(e) => handleDeleteQuestionGroup(e, data.id)} className={cx('delete-button')} size="lg" variant="danger">
+          <Button
+            onClick={(e) => handleDeleteQuestionGroup(e, data.id)}
+            className={cx('delete-button')}
+            size="lg"
+            variant="danger"
+          >
             <FontAwesomeIcon icon={faTrash} />
           </Button>
         </div>

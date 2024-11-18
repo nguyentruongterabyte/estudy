@@ -65,12 +65,18 @@ let initWebRoutes = (app) => {
 
   // test
   router.post(urls.test.create, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveTest);
-  router.delete( urls.test.delete, testController.handleDeleteTest );
-  
+  router.delete(urls.test.delete, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleDeleteTest);
+
   // Answers
   router.put(urls.answer.update, answerController.handleUpdateAnswers);
 
   // Questions
+  router.put(
+    urls.question.updateMany,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    questionController.handleUpdateMany,
+  );
   router.put(
     urls.question.updateCorrectAnswers,
     verifyJWT,

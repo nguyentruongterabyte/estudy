@@ -20,6 +20,7 @@ import {
   testGroupId,
   changeQuestions,
   updateQuestionGroupId,
+  resetChangeLog,
 } from '~/redux/features/testSlice';
 import { isComplete as finished } from '~/redux/features/testSlice';
 import { deleteQuestionGroup, questionGroupList } from '~/redux/features/questionGroupsSilce';
@@ -119,7 +120,10 @@ const QuestionGroups = () => {
         <Button
           variant="outline-success"
           className={cx('btn-add')}
-          onClick={() => dispatch(toggleAddNew({ toggle: true }))}
+          onClick={() => {
+            dispatch(toggleAddNew({ toggle: true }));
+            dispatch(resetChangeLog());
+          }}
         >
           {t('createNewTest')}
         </Button>

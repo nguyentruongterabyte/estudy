@@ -35,14 +35,11 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion }) => {
       .map((line) => line.trim())
       .filter((line) => line !== '');
 
-    console.log( lines );
     
     // The answers are taken from the first lines
     const answers = lines.slice(0, quantityOfAnswersPerQuestion); // Answers A, B, C, D
     const correctAnswerIndex = parseInt(lines[quantityOfAnswersPerQuestion], 10); // index of correct answer
 
-    console.log('answers', answers);
-    console.log( 'answer correct', correctAnswerIndex );
     
     dispatch(initCorrectAnswerIndex({ questionId: question.id, index: correctAnswerIndex }));
 
@@ -53,7 +50,7 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion }) => {
   };
   return (
     <div className={cx('container')}>
-      <ListGroup>
+      <ListGroup className={cx('group')}>
         {answers.map((answer, index) => (
           <Answer key={answer.id} answer={answer} index={index} isEditable={isEditable} />
         ))}

@@ -1,5 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const logFields = {
+  answer: 'answer',
+  correctAnswer: 'correctAnswer',
+  photo: 'photo',
+  audio: 'audio',
+  questionText: 'questionText',
+  questionGroupName: 'questionGroupName',
+};
+
 const initialState = {
   isAddNew: false,
   isEdit: false,
@@ -69,7 +78,7 @@ const testSlice = createSlice({
       };
 
       const changeNameLog = {
-        field: 'questionGroupName',
+        field: logFields.questionGroupName,
         oldValue: state.test.name,
         newValue: action.payload.name,
       };
@@ -118,7 +127,7 @@ const testSlice = createSlice({
         },
       };
       const changeCorrectAnswerIndexLog = {
-        field: 'correctAnswer',
+        field: logFields.correctAnswer,
         questionId: action.payload.questionId,
         oldValue: state.test.questions.find((q) => q.id === action.payload.questionId).correctAnswer.answerId,
         newValue: action.payload.answerId,
@@ -138,6 +147,35 @@ const testSlice = createSlice({
         questions: action.payload.questions,
       },
     }),
+    // update question text
+    updateQuestionText: (state, action) => {
+      const updatedStateWithQuestionText = {
+        ...state,
+        test: {
+          ...state.test,
+          questions: state.test.questions.map((question) =>
+            question.id === action.payload.questionId
+              ? {
+                  ...question,
+                  question: action.payload.questionText,
+                }
+              : question,
+          ),
+        },
+      };
+
+      const changeQuestionTextLog = {
+        field: logFields.questionText,
+        questionId: action.payload.questionId,
+        oldValue: state.test.questions.find((q) => q.id === action.payload.questionId).question,
+        newValue: action.payload.questionText,
+      };
+
+      return {
+        ...updatedStateWithQuestionText,
+        changeLog: [...updatedStateWithQuestionText.changeLog, changeQuestionTextLog],
+      };
+    },
     // update question photo
     updateQuestionPhoto: (state, action) => {
       const updatedStateWithPhoto = {
@@ -156,9 +194,9 @@ const testSlice = createSlice({
       };
 
       const changePhotoLog = {
-        field: 'photo',
+        field: logFields.photo,
         questionId: action.payload.questionId,
-        oldValue: state.test.questions?.find((q) => q.id === action.payload.questionId).photo,
+        oldValue: state.test.questions.find((q) => q.id === action.payload.questionId).photo,
         newValue: action.payload.photo,
       };
       return {
@@ -180,7 +218,7 @@ const testSlice = createSlice({
       };
 
       const changeAudioLog = {
-        field: 'audio',
+        field: logFields.audio,
         questionId: action.payload.questionId,
         oldValue: state.test.questions.find((q) => q.id === action.payload.questionId).audio,
         newValue: action.payload.audio,
@@ -211,10 +249,8 @@ const testSlice = createSlice({
         },
       };
 
-      console.log(updatedStateWithAnswer);
-
       const changeAnswerLog = {
-        field: 'answer',
+        field: logFields.answer,
         questionId: action.payload.questionId,
         answerId: state.test.questions
           .find((q) => q.id === action.payload.questionId)
@@ -230,6 +266,12 @@ const testSlice = createSlice({
         changeLog: [...updatedStateWithAnswer.changeLog, changeAnswerLog],
       };
     },
+
+    // reset change log
+    resetChangeLog: (state, action) => ({
+      ...state,
+      changeLog: [],
+    }),
   },
 });
 
@@ -237,6 +279,7 @@ export const {
   changeQuestions,
   updateQuestionPhoto,
   updateQuestionAudio,
+  updateQuestionText,
   updateAnswer,
   removeChangeLogsByField,
   changeCorrectAnswerIndex,
@@ -247,6 +290,7 @@ export const {
   toggleAddNew,
   toggleComplete,
   toggleEdit,
+  resetChangeLog,
 } = testSlice.actions;
 export default testSlice.reducer;
 export const questionList = (state) => state.test.test.questions;

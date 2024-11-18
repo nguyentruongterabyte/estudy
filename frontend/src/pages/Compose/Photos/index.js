@@ -1,8 +1,17 @@
-import ComposeContainer from '../ComposeContainer';
+import Template from '../Template';
 
 const Photos = () => {
   return (
-    <ComposeContainer isEnableAudio={true} isEnablePhoto={true} partName="part1_Photos" partId={1} quantityOfQuestions={6} quantityOfAnswersPerQuestion={4} />
+    <Template
+      isEnableAudio={true}
+      isEnablePhoto={true}
+      isEnableQuestionText={false}
+      partName="part1_Photos"
+      partId={1}
+      quantityOfQuestions={6}
+      quantityOfAnswersPerQuestion={ 4 }
+      
+    />
   );
 };
 

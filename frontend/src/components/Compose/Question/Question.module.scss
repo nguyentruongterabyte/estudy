@@ -13,6 +13,33 @@
 
     .group {
       display: flex;
+      padding: 0 20px;
+      .wrapper {
+        flex: 1;
+        .input-group {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          margin: auto;
+          background: var(--white);
+          border-radius: 50px;
+          padding: 0 20px;
+          border-radius: 20px !important;
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12);
+          .text {
+            margin-left: 24px;
+            flex: 1;
+            font-size: 1.6rem;
+            &.error {
+              border: 1px solid red;
+            }
+          }
+
+          .upload-text-question {
+            margin-left: 24px;
+          }
+        }
+      }
     }
 
     .audio {

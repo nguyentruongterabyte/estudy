@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import { Fragment, useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
-import styles from './ComposeContainer.module.scss';
+import styles from './Template.module.scss';
 import Sidebar from '~/components/Compose/Sidebar';
 import QuestionGroups from '~/components/Compose/QuestionGroups';
 import Questions from '~/components/Compose/Questions';
@@ -24,6 +24,8 @@ import {
   updateQuestionPhoto,
   updateQuestionAudio,
   changeQuestions,
+  resetChangeLog,
+  logFields,
 } from '~/redux/features/testSlice';
 import {
   addQuestionGroup,
@@ -31,14 +33,17 @@ import {
   questionGroupList,
   sortQuestionGroupsByName,
 } from '~/redux/features/questionGroupsSilce';
-import QuestionsProvider from '~/context/EnableMediaProvider';
 import EnableMediaProvider from '~/context/EnableMediaProvider';
+import QuestionsProvider from '~/context/QuestionsProvider';
+import handleLastChanges from './handleLastChanges';
 
 const cx = classNames.bind(styles);
 
-const ComposeContainer = ({
+const Template = ({
   isEnablePhoto = false,
   isEnableAudio = false,
+  isEnableQuestionText = false,
+  singleAudio = true,
   partName = 'part1_Photos',
   partId = 1,
   quantityOfQuestions,
@@ -54,7 +59,7 @@ const ComposeContainer = ({
   const questionGroups = useSelector(questionGroupList);
   const [show, setShow] = useState(true);
   const { uploadPhoto } = hooks.usePhotoService();
-  const { getQuestionGroups, updatePhotos } = hooks.useQuestionService();
+  const { getQuestionGroups, updatePhotos, updateMany } = hooks.useQuestionService();
   const { uploadAudio, createAudio } = hooks.useAudioService();
   const { updateAnswers } = hooks.useAnswerService();
   const { createTest } = hooks.useTestService();
@@ -67,9 +72,19 @@ const ComposeContainer = ({
     const mediaURLs = await Promise.all(
       questions.map(async (question, index) => {
         const uploadPromise = async () => {
-          const photoUrl = await uploadPhoto(question.photo);
-          const audioUrl = await uploadAudio(question.audio);
-          return { photo: photoUrl, audio: audioUrl };
+          const mediaURL = {};
+
+          if (isEnablePhoto) {
+            const photoUrl = await uploadPhoto(question.photo);
+            mediaURL.photo = photoUrl;
+          }
+
+          if (isEnableAudio) {
+            const audioUrl = await uploadAudio(question.audio);
+            mediaURL.audio = audioUrl;
+          }
+
+          return mediaURL;
         };
 
         return toast.promise(uploadPromise(), {
@@ -84,27 +99,9 @@ const ComposeContainer = ({
   };
 
   const handleEdit = async () => {
-    // Handle update Answers
-    let lastChanges = Object.values(
-      eventLogs
-        .filter((log) => log.field === 'answer')
-        .reduce((acc, log) => {
-          const key = `${log.questionId}-${log.answerId}`;
-
-          if (!acc[key]) acc[key] = [];
-          acc[key].push(log);
-          return acc;
-        }, {}),
-    )
-      .map((group) => {
-        const firstChange = group[0];
-        const lastChange = group[group.length - 1];
-
-        return firstChange.oldValue !== lastChange.newValue ? lastChange : null;
-      })
-      .filter((change) => change !== null);
-
-    const answers = lastChanges.map((change) => ({
+    // Handle update Answers if have changed
+    const answerLastChanges = handleLastChanges.answers(eventLogs);
+    const answers = answerLastChanges.map((change) => ({
       id: change.answerId,
       answer: change.newValue,
       questionId: change.questionId,
@@ -118,31 +115,14 @@ const ComposeContainer = ({
           error: t('errorUpdatingAnswers'),
         })
         .then(() => {
-          dispatch(removeChangeLogsByField({ field: 'answer' }));
+          dispatch(removeChangeLogsByField({ field: logFields.answer }));
         });
     }
-    console.log('Answers last changes: ', lastChanges);
+    console.log('Answers last changes: ', answerLastChanges);
 
-    // correct Answers
-    lastChanges = Object.values(
-      eventLogs
-        .filter((log) => log.field === 'correctAnswer')
-        .reduce((acc, log) => {
-          const key = log.questionId;
-          if (!acc[key]) acc[key] = [];
-          acc[key].push(log);
-          return acc;
-        }, {}),
-    )
-      .map((group) => {
-        const firstChange = group[0];
-        const lastChange = group[group.length - 1];
-
-        return firstChange.oldValue !== lastChange.newValue ? lastChange : null;
-      })
-      .filter((change) => change !== null);
-
-    const correctAnswers = lastChanges.map((change) => ({
+    //Handle update correct Answers if have changed
+    const correctAnswerLastChanges = handleLastChanges.correctAnswers(eventLogs);
+    const correctAnswers = correctAnswerLastChanges.map((change) => ({
       answerId: change.newValue,
       questionId: change.questionId,
     }));
@@ -155,59 +135,60 @@ const ComposeContainer = ({
           error: t('errorUpdatingCorrectAnswers'),
         })
         .then(() => {
-          dispatch(removeChangeLogsByField({ field: 'correctAnswer' }));
+          dispatch(removeChangeLogsByField({ field: logFields.correctAnswer }));
         });
     }
-    console.log('Correct answers last changes: ', lastChanges);
+    console.log('Correct answers last changes: ', correctAnswerLastChanges);
 
     // Question Group Name
-    const questionGroupNameLogs = eventLogs.filter((log) => log.field === 'questionGroupName');
+    const questionGroupNameLogs = eventLogs.filter((log) => log.field === logFields.questionGroupName);
     if (questionGroupNameLogs.length > 0) {
       const firstChange = questionGroupNameLogs[0];
       const lastChange = questionGroupNameLogs[questionGroupNameLogs.length - 1];
 
-      lastChanges = firstChange.oldValue === lastChange.newValue ? null : lastChange;
+      let lastChanges = firstChange.oldValue === lastChange.newValue ? null : lastChange;
       if (lastChanges !== null) {
         // handle change name
-        await toast
-          .promise(updateQuestionGroup({ id: groupId, name: lastChanges.newValue }), {
-            pending: t('updatingQuestionGroupName'),
-            success: t('updatedQuestionGroupNameSuccessfully'),
-            error: t('errorUpdatingQuestionGroupName'),
-          })
-          .then(() => {
-            dispatch(removeChangeLogsByField({ field: 'questionGroupName' }));
-          });
-      } else {
-        dispatch(removeChangeLogsByField({ field: 'questionGroupName' }));
+        await toast.promise(updateQuestionGroup({ id: groupId, name: lastChanges.newValue }), {
+          pending: t('updatingQuestionGroupName'),
+          success: t('updatedQuestionGroupNameSuccessfully'),
+          error: t('errorUpdatingQuestionGroupName'),
+        });
       }
+      dispatch(removeChangeLogsByField({ field: logFields.questionGroupName }));
     }
 
-    console.log('Question group name last changes: ', lastChanges);
+    console.log('Question group name last changes: ', questionGroupNameLogs);
+
+    // Question Text
+    if (isEnableQuestionText) {
+      const questionTextsLastChanges = handleLastChanges.questionText(eventLogs);
+      const questions = questionTextsLastChanges.map((change) => ({
+        id: change.questionId,
+        question: change.newValue,
+      }));
+
+      if (questions.length > 0) {
+        await toast
+          .promise(updateMany(questions), {
+            pending: t('changingQuestions'),
+            success: t('changeQuestionsSuccess'),
+            error: t('changeQuestionsError'),
+          })
+          .then(() => {
+            dispatch(removeChangeLogsByField({ field: logFields.questionText }));
+          })
+          .catch((e) => console.error(e));
+      }
+
+      console.log('question texts last changes: ', questionTextsLastChanges);
+    }
 
     if (isEnablePhoto) {
       // Question photos
-      lastChanges = Object.values(
-        eventLogs
-          .filter((log) => log.field === 'photo')
-          .reduce((acc, log) => {
-            const key = log.questionId;
-            if (!acc[key]) acc[key] = [];
-            acc[key].push(log);
-            return acc;
-          }, {}),
-      )
-        .map((group) => {
-          const firstChange = group[0];
-          const lastChange = group[group.length - 1];
+      const photosLastChanges = handleLastChanges.photo(eventLogs);
 
-          return firstChange.oldValue !== lastChange.newValue
-            ? { ...lastChange, oldValue: firstChange.oldValue }
-            : null;
-        })
-        .filter((change) => change !== null);
-
-      const photos = lastChanges.map((change) => ({
+      const photos = photosLastChanges.map((change) => ({
         questionId: change.questionId,
         url: change.oldValue,
         file: change.newValue,
@@ -237,36 +218,18 @@ const ComposeContainer = ({
             error: t('errorUpdatingQuestionPhotos'),
           })
           .then(() => {
-            dispatch(removeChangeLogsByField({ field: 'photo' }));
+            dispatch(removeChangeLogsByField({ field: logFields.photo }));
             // localStorage.removeItem(`questions_${groupId}`);
           });
       }
 
-      console.log('Question photos last changes: ', lastChanges);
+      console.log('Question photos last changes: ', photosLastChanges);
     }
 
     if (isEnableAudio) {
       // Audios
-      lastChanges = Object.values(
-        eventLogs
-          .filter((log) => log.field === 'audio')
-          .reduce((acc, log) => {
-            const key = log.questionId;
-            if (!acc[key]) acc[key] = [];
-            acc[key].push(log);
-            return acc;
-          }, {}),
-      )
-        .map((group) => {
-          const firstChange = group[0];
-          const lastChange = group[group.length - 1];
-
-          return firstChange.oldValue !== lastChange.newValue
-            ? { ...lastChange, oldValue: firstChange.oldValue }
-            : null;
-        })
-        .filter((change) => change !== null);
-      const audios = lastChanges.map((change) => ({
+      const audiosLastChanges = handleLastChanges.audio(eventLogs);
+      const audios = audiosLastChanges.map((change) => ({
         questionId: change.questionId,
         url: change.oldValue,
         file: change.newValue,
@@ -296,43 +259,55 @@ const ComposeContainer = ({
             error: t('errorUpdatingQuestionAudios'),
           })
           .then(() => {
-            dispatch(removeChangeLogsByField({ field: 'audio' }));
+            dispatch(removeChangeLogsByField({ field: logFields.audio }));
             // localStorage.removeItem(`questions_${groupId}`);
           });
       }
-      console.log('audio last changes: ', lastChanges);
+      console.log('audio last changes: ', audiosLastChanges);
     }
 
     if (eventLogs.length === 0) dispatch(toggleEdit({ toggle: false }));
   };
 
   const handleAddNew = async (questions) => {
+    // create url from upload firebase
     const mediaURLs = await handleUploadMediaFiles(questions);
 
     // create question group, questions
     const newTest = await createTest({
       name: groupName ? groupName : 'New test',
       partId: partId,
-      questions,
+      questions: questions.map((question) => {
+        const { photo, audio, ...questionWithoutMedia } = question;
+        return questionWithoutMedia;
+      }),
     });
 
-    const { questionGroup, questions: newQuestions } = newTest;
-
+    dispatch(changeQuestions({ questions: newTest.questions }));
     // Create photo, audio for each new question
     await Promise.all(
-      newQuestions.map(async (question, index) => {
-        const newPhoto = await createQuestionPhoto(question.id, mediaURLs[index].photo);
-        const newAudio = await createAudio(mediaURLs[index].audio);
+      newTest.questions.map(async (question, index) => {
+        const newQuestionWithMediaUrl = { ...question };
+        if (isEnablePhoto) {
+          const newPhoto = await createQuestionPhoto(question.id, mediaURLs[index].photo);
+          newQuestionWithMediaUrl.photo = newPhoto.filePath;
+          dispatch(updateQuestionPhoto({ questionId: question.id, photo: newPhoto.filePath }));
+        }
 
-        await createQuestionAudio(question.id, newAudio.id);
-
-        return { ...question, photo: newPhoto.filePath, audio: newAudio.audioLink };
+        if (isEnableAudio) {
+          const newAudio = await createAudio(mediaURLs[index].audio);
+          await createQuestionAudio(question.id, newAudio.id);
+          newQuestionWithMediaUrl.audio = newAudio.audioLink;
+          dispatch(updateQuestionAudio({ questionId: question.id, audio: newAudio.audioLink }));
+        }
+        return newQuestionWithMediaUrl;
       }),
     )
       .then(() => {
-        dispatch(addQuestionGroup({ questionGroup: questionGroup }));
+        dispatch(addQuestionGroup({ questionGroup: newTest.questionGroup }));
         dispatch(toggleAddNew({ toggle: false }));
-        dispatch(updateQuestionGroupId({ groupId: questionGroup.id }));
+        dispatch(updateQuestionGroupId({ groupId: newTest.questionGroup.id }));
+        dispatch(resetChangeLog());
       })
       .catch((e) => console.error(e));
   };
@@ -358,8 +333,8 @@ const ComposeContainer = ({
   };
 
   // handle on group questions on first time
-  let isMounted = true;
   useEffect(() => {
+    let isMounted = true;
     if (isMounted) {
       fetchQuestionGroups(partId);
     }
@@ -384,12 +359,13 @@ const ComposeContainer = ({
           {/* Header */}
           <Header title={partName} show={show} setShow={setShow} />
           {/* Questions */}
-
-          <Questions
-            onComplete={handleComplete}
-            quantityOfQuestions={quantityOfQuestions}
-            quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
-          />
+          <QuestionsProvider isEnableQuestionText={isEnableQuestionText}>
+            <Questions
+              onComplete={handleComplete}
+              quantityOfQuestions={quantityOfQuestions}
+              quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
+            />
+          </QuestionsProvider>
         </div>
         {/* Sidebar: Group question */}
         <Sidebar title={partName} show={show}>
@@ -404,4 +380,4 @@ const ComposeContainer = ({
   );
 };
 
-export default ComposeContainer;
+export default Template;

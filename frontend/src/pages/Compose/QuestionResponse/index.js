@@ -1,17 +1,11 @@
-import { useEffect } from 'react';
-import ComposeContainer from '../ComposeContainer';
-import { useDispatch } from 'react-redux';
-import { changeQuestions } from '~/redux/features/testSlice';
+import Template from '../Template';
 
 const QuestionResponse = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(changeQuestions({ questions: [] }));
-  }, []);
   return (
-    <ComposeContainer
+    <Template
       isEnableAudio={true}
-      isEnablePhoto={false}
+      isEnablePhoto={ false }
+      isEnableQuestionText={true}
       partId={2}
       partName={'part2_QuestionResponse'}
       quantityOfQuestions={25}
