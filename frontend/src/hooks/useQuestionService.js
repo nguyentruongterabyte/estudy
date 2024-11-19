@@ -27,11 +27,24 @@ const useQuestionService = () => {
     }
   };
 
+  // create question photo
+  const createQuestionPhoto = async (questionId, photoId) => {
+    try {
+      const newPhoto = await axiosPrivate.post(config.urls.question.createQuestionPhoto, {
+        questionId,
+        photoId,
+      });
+
+      return newPhoto;
+    } catch (e) {
+      throw e;
+    }
+  };
+
   // update photos
   const updatePhotos = async (photos) => {
     try {
       const response = await axiosPrivate.put(config.urls.question.updatePhotos, { photos });
-      console.log(response?.data);
       return response?.data;
     } catch (e) {
       throw e;
@@ -41,23 +54,8 @@ const useQuestionService = () => {
   // update photos
   const updateAudios = async (audios) => {
     try {
-      const response = await axiosPrivate.put(config.urls.question.updatePhotos, { audios });
-      console.log(response?.data);
+      const response = await axiosPrivate.put(config.urls.question.updateAudios, { audios });
       return response?.data;
-    } catch (e) {
-      throw e;
-    }
-  };
-
-  // create question photo
-  const createQuestionPhoto = async (questionId, filePath) => {
-    try {
-      const newPhoto = await axiosPrivate.post(config.urls.question.createQuestionPhoto, {
-        questionId,
-        filePath,
-      });
-
-      return newPhoto;
     } catch (e) {
       throw e;
     }

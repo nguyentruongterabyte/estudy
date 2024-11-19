@@ -20,7 +20,6 @@ import {
   testGroupId,
   toggleComplete,
   toggleEdit,
-  removeChangeLogsByField,
 } from '~/redux/features/testSlice';
 import { useTranslation } from 'react-i18next';
 import Quote from '~/components/Quote';
@@ -29,7 +28,7 @@ import { useQuestions } from '~/context/QuestionsProvider';
 
 const cx = classNames.bind(styles);
 
-const Questions = ({ onComplete, quantityOfQuestions = 6, quantityOfAnswersPerQuestion = 4 }) => {
+const Questions = ({ onComplete, quantityOfQuestions = 6, quantityOfAnswersPerQuestion = 4, quote }) => {
   const { t } = useTranslation();
   const eventLogs = useSelector(changeLog);
   const questions = useSelector(questionList);
@@ -73,9 +72,12 @@ const Questions = ({ onComplete, quantityOfQuestions = 6, quantityOfAnswersPerQu
         changeQuestions({
           questions: Array.from({ length: quantityOfQuestions }).map((_, index) => ({
             id: index,
+            photoId: index,
+            audioId: index,
             photo: '',
             audio: '',
             question: '',
+
             answers: Array.from({ length: quantityOfAnswersPerQuestion }).map((_, answerIndex) => ({
               id: answerIndex,
               index: answerIndex,
@@ -148,14 +150,14 @@ const Questions = ({ onComplete, quantityOfQuestions = 6, quantityOfAnswersPerQu
     if (isEdit) {
       dispatch(toggleEdit({ toggle: false }));
     }
-    setShow( false );
-    
+    setShow(false);
+
     // if (isEdit) dispatch(toggleEdit({ toggle: false }));
   };
 
   return (
     <div className={cx('container')}>
-      {!isAddNew && !isEdit && questions.length === 0 && <Quote className={cx('quote')} />}
+      {!isAddNew && !isEdit && questions.length === 0 && <Quote quote={quote} className={cx('quote')} />}
       <ErrorFieldsProvider errorFields={errorFields}>
         {Array.isArray(questions) &&
           questions.map((question, index) => (

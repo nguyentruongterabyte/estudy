@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Audio.init({
     audioLink: DataTypes.TEXT,
-    description: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'Audio',

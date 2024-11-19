@@ -13,6 +13,32 @@ const save = (data) => {
   });
 };
 
+const get = ( id ) => {
+  return new Promise(async(resolve, reject) => {
+    try {
+      const photo = await db.Photo.findOne({
+        where: { id },
+      });
+      resolve(photo);
+    } catch (e) {
+      reject(e);
+    }
+  })
+}
+
+const destroy = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const rowEffected = await db.Photo.destroy({
+        where: { id },
+      });
+      resolve(rowEffected);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const update = (photo) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -90,4 +116,6 @@ module.exports = {
   save,
   update,
   deleteFirebasePhotoByUrl,
+  destroy,
+  get
 };

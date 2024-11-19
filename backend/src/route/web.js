@@ -40,31 +40,43 @@ let initWebRoutes = (app) => {
     vocabularyController.handleCreateVocabularyTopic,
   );
   // Audio
-  router.get('/api/audio/get-by-question-id/:questionId', audioController.handleFindByQuestionId);
-
-  router.post(urls.audio.create, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), audioController.handleSaveAudio);
+  router.post(
+    urls.audio.create,
+    // verifyJWT, verifyRoles( ROLES_OBJECT.EDITOR ) ,
+    audioController.handleSave,
+  );
 
   router.post(
     urls.audio.upload,
     upload.single('audio'),
-    verifyJWT,
-    verifyRoles(ROLES_OBJECT.EDITOR),
-    audioController.handleUploadAudio,
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR),
+    audioController.handleUpload,
   );
 
   // Photo
   router.post(
-    urls.photo.upload,
-    upload.single('photo'),
-    verifyJWT,
-    verifyRoles(ROLES_OBJECT.EDITOR),
-    photoController.handleUploadPhoto,
+    urls.photo.create,
+    // verifyJWT,
+    // verifyRoles( ROLES_OBJECT.EDITOR ),
+    photoController.handleSave,
   );
 
-  router.post('/api/photo/delete-firebase', photoController.handleDeleteFirebasePhotoByUrl);
+  router.post(
+    urls.photo.upload,
+    upload.single('photo'),
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR),
+    photoController.handleUpload,
+  );
 
   // test
-  router.post(urls.test.create, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveTest);
+  router.post(
+    urls.test.create,
+    // verifyJWT,
+    // verifyRoles( ROLES_OBJECT.EDITOR ),
+    testController.handleSaveTest,
+  );
   router.delete(urls.test.delete, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleDeleteTest);
 
   // Answers
@@ -104,15 +116,15 @@ let initWebRoutes = (app) => {
 
   router.post(
     urls.question.createQuestionPhoto,
-    verifyJWT,
-    verifyRoles(ROLES_OBJECT.EDITOR),
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR),
     questionController.handleCreateQuestionPhoto,
   );
 
   router.post(
     urls.question.createQuestionAudio,
-    verifyJWT,
-    verifyRoles(ROLES_OBJECT.EDITOR),
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR),
     questionController.handleCreateQuestionAudio,
   );
 

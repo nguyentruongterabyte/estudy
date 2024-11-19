@@ -10,6 +10,7 @@ const urls = {
     delete: '/api/test/delete',
   },
   photo: {
+    create: '/api/photo/create',
     upload: '/api/photo/upload',
   },
 

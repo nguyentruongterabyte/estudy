@@ -4,12 +4,13 @@ const QuestionResponse = () => {
   return (
     <Template
       isEnableAudio={true}
-      isEnablePhoto={ false }
+      isEnablePhoto={false}
       isEnableQuestionText={true}
       partId={2}
       partName={'part2_QuestionResponse'}
       quantityOfQuestions={25}
       quantityOfAnswersPerQuestion={3}
+      quote={'whatWeAreTheWorldIs'}
     />
   );
 };

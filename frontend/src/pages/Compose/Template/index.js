@@ -36,6 +36,8 @@ import {
 import EnableMediaProvider from '~/context/EnableMediaProvider';
 import QuestionsProvider from '~/context/QuestionsProvider';
 import handleLastChanges from './handleLastChanges';
+import CustomModal from '~/components/CustomModal';
+import { getWithExpiry, setWithExpiry } from '~/utils/localStorageUtils';
 
 const cx = classNames.bind(styles);
 
@@ -48,6 +50,7 @@ const Template = ({
   partId = 1,
   quantityOfQuestions,
   quantityOfAnswersPerQuestion,
+  quote,
 }) => {
   const { t } = useTranslation();
   const eventLogs = useSelector(changeLog);
@@ -58,15 +61,15 @@ const Template = ({
   const isEdit = useSelector(editing);
   const questionGroups = useSelector(questionGroupList);
   const [show, setShow] = useState(true);
-  const { uploadPhoto } = hooks.usePhotoService();
-  const { getQuestionGroups, updatePhotos, updateMany } = hooks.useQuestionService();
+  const { uploadPhoto, createPhoto } = hooks.usePhotoService();
+  const { getQuestionGroups, updatePhotos, updateAudios, updateMany } = hooks.useQuestionService();
   const { uploadAudio, createAudio } = hooks.useAudioService();
   const { updateAnswers } = hooks.useAnswerService();
   const { createTest } = hooks.useTestService();
-  const { updateCorrectAnswers } = hooks.useQuestionService();
+  const { updateCorrectAnswers, getQuestionsByGroupId } = hooks.useQuestionService();
   const { createQuestionPhoto, createQuestionAudio } = hooks.useQuestionService();
   const { updateQuestionGroup } = hooks.useQuestionGroupService();
-
+  const [showAskCancel, setShowAskCancel] = useState(false);
   const handleUploadMediaFiles = async (questions) => {
     // upload audio and photo file to get their urls
     const mediaURLs = await Promise.all(
@@ -94,11 +97,32 @@ const Template = ({
         });
       }),
     );
-
     return mediaURLs;
   };
 
+  // fetch questions data
+  const fetchQuestions = async (groupId) => {
+    const questions = await getQuestionsByGroupId(groupId, isEnableAudio, isEnablePhoto);
+    return questions;
+  };
+
+  const handleCancel = async () => {
+    await fetchQuestions(groupId).then((loadedQuestions) => dispatch(changeQuestions({ questions: loadedQuestions })));
+    if (isAddNew) {
+      dispatch(toggleAddNew({ toggle: false }));
+    }
+
+    if (isEdit) {
+      dispatch(toggleEdit({ toggle: false }));
+    }
+    setShowAskCancel(false);
+
+    // if (isEdit) dispatch(toggleEdit({ toggle: false }));
+  };
+
   const handleEdit = async () => {
+    const history = getWithExpiry(`editHistory_${groupId}`) || [];
+    const newHistory = [];
     // Handle update Answers if have changed
     const answerLastChanges = handleLastChanges.answers(eventLogs);
     const answers = answerLastChanges.map((change) => ({
@@ -116,6 +140,7 @@ const Template = ({
         })
         .then(() => {
           dispatch(removeChangeLogsByField({ field: logFields.answer }));
+          newHistory.push({ type: logFields.answer, changes: answerLastChanges });
         });
     }
     console.log('Answers last changes: ', answerLastChanges);
@@ -136,6 +161,7 @@ const Template = ({
         })
         .then(() => {
           dispatch(removeChangeLogsByField({ field: logFields.correctAnswer }));
+          newHistory.push({ type: logFields.correctAnswer, changes: correctAnswerLastChanges });
         });
     }
     console.log('Correct answers last changes: ', correctAnswerLastChanges);
@@ -156,6 +182,7 @@ const Template = ({
         });
       }
       dispatch(removeChangeLogsByField({ field: logFields.questionGroupName }));
+      newHistory.push({ type: logFields.questionGroupName, changes: questionGroupNameLogs });
     }
 
     console.log('Question group name last changes: ', questionGroupNameLogs);
@@ -177,6 +204,7 @@ const Template = ({
           })
           .then(() => {
             dispatch(removeChangeLogsByField({ field: logFields.questionText }));
+            newHistory.push({ type: logFields.questionText, changes: questionTextsLastChanges });
           })
           .catch((e) => console.error(e));
       }
@@ -190,6 +218,7 @@ const Template = ({
 
       const photos = photosLastChanges.map((change) => ({
         questionId: change.questionId,
+        id: change.photoId,
         url: change.oldValue,
         file: change.newValue,
       }));
@@ -200,7 +229,7 @@ const Template = ({
             const uploadPromise = async () => {
               const photoUrl = await uploadPhoto(photo.file);
               dispatch(updateQuestionPhoto({ questionId: photo.questionId, photo: photoUrl }));
-              return { questionId: photo.questionId, url: photoUrl };
+              return { questionId: photo.questionId, id: photo.id, url: photoUrl };
             };
 
             return await toast.promise(uploadPromise(), {
@@ -220,6 +249,7 @@ const Template = ({
           .then(() => {
             dispatch(removeChangeLogsByField({ field: logFields.photo }));
             // localStorage.removeItem(`questions_${groupId}`);
+            newHistory.push({ type: logFields.photo, changes: photosLastChanges });
           });
       }
 
@@ -231,6 +261,7 @@ const Template = ({
       const audiosLastChanges = handleLastChanges.audio(eventLogs);
       const audios = audiosLastChanges.map((change) => ({
         questionId: change.questionId,
+        id: change.audioId,
         url: change.oldValue,
         file: change.newValue,
       }));
@@ -239,9 +270,9 @@ const Template = ({
         const audioURLs = await Promise.all(
           audios.map(async (audio) => {
             const uploadPromise = async () => {
-              const audioUrl = await uploadPhoto(audio.file);
+              const audioUrl = await uploadAudio(audio.file);
               dispatch(updateQuestionAudio({ questionId: audio.questionId, audio: audioUrl }));
-              return { questionId: audio.questionId, url: audioUrl };
+              return { questionId: audio.questionId, id: audio.id, url: audioUrl };
             };
 
             return await toast.promise(uploadPromise(), {
@@ -253,7 +284,7 @@ const Template = ({
         );
 
         await toast
-          .promise(updatePhotos(audioURLs), {
+          .promise(updateAudios(audioURLs), {
             pending: t('updatingQuestionAudios'),
             success: t('updatedQuestionAudiosSuccessfully'),
             error: t('errorUpdatingQuestionAudios'),
@@ -261,10 +292,14 @@ const Template = ({
           .then(() => {
             dispatch(removeChangeLogsByField({ field: logFields.audio }));
             // localStorage.removeItem(`questions_${groupId}`);
+            newHistory.push({ type: logFields.audio, changes: audiosLastChanges });
           });
       }
       console.log('audio last changes: ', audiosLastChanges);
     }
+
+    const updatedHistory = [...history, ...newHistory];
+    setWithExpiry(`editHistory_${groupId}`, updatedHistory);
 
     if (eventLogs.length === 0) dispatch(toggleEdit({ toggle: false }));
   };
@@ -278,7 +313,7 @@ const Template = ({
       name: groupName ? groupName : 'New test',
       partId: partId,
       questions: questions.map((question) => {
-        const { photo, audio, ...questionWithoutMedia } = question;
+        const { photo, photoId, audioId, audio, ...questionWithoutMedia } = question;
         return questionWithoutMedia;
       }),
     });
@@ -286,21 +321,22 @@ const Template = ({
     dispatch(changeQuestions({ questions: newTest.questions }));
     // Create photo, audio for each new question
     await Promise.all(
-      newTest.questions.map(async (question, index) => {
-        const newQuestionWithMediaUrl = { ...question };
+      newTest.questions.map( async ( question, index ) => {
+        // compose photo and audios
+        let questionWithMedias = { ...question };
         if (isEnablePhoto) {
-          const newPhoto = await createQuestionPhoto(question.id, mediaURLs[index].photo);
-          newQuestionWithMediaUrl.photo = newPhoto.filePath;
+          const newPhoto = await createPhoto(mediaURLs[index].photo);
+          await createQuestionPhoto(question.id, newPhoto.id);
+          questionWithMedias.photo = newPhoto.filePath;
           dispatch(updateQuestionPhoto({ questionId: question.id, photo: newPhoto.filePath }));
         }
-
         if (isEnableAudio) {
           const newAudio = await createAudio(mediaURLs[index].audio);
           await createQuestionAudio(question.id, newAudio.id);
-          newQuestionWithMediaUrl.audio = newAudio.audioLink;
+          questionWithMedias.audio = newAudio.audioLink;
           dispatch(updateQuestionAudio({ questionId: question.id, audio: newAudio.audioLink }));
         }
-        return newQuestionWithMediaUrl;
+        return questionWithMedias;
       }),
     )
       .then(() => {
@@ -352,6 +388,19 @@ const Template = ({
     // eslint-disable-next-line
   }, [isAddNew]);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const key = e.key;
+      if (key === 'Escape') if (isAddNew || isEdit) setShowAskCancel(true);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isAddNew, isEdit]);
+
   return (
     <div className={cx('container')}>
       <EnableMediaProvider isEnablePhoto={isEnablePhoto} isEnableAudio={isEnableAudio}>
@@ -361,6 +410,7 @@ const Template = ({
           {/* Questions */}
           <QuestionsProvider isEnableQuestionText={isEnableQuestionText}>
             <Questions
+              quote={quote}
               onComplete={handleComplete}
               quantityOfQuestions={quantityOfQuestions}
               quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
@@ -374,7 +424,14 @@ const Template = ({
           </Fragment>
         </Sidebar>
       </EnableMediaProvider>
-
+      {/* Modal ask cancel edit */}
+      <CustomModal
+        title={t('cancelEdit')}
+        body={t('confirmCancelEdit')}
+        show={showAskCancel}
+        setShow={setShowAskCancel}
+        handleAgreeButtonClick={handleCancel}
+      />
       <ToastContainer stacked draggable />
     </div>
   );

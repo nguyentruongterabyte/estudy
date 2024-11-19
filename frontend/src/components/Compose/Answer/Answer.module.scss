@@ -20,10 +20,13 @@
 
   .group {
     display: flex;
-    margin-left: 4px;
     flex: 1;
+    margin-left: 4px;
     .input {
       flex: 1;
+    }
+    .history {
+      width: 42px;
     }
   }
 }

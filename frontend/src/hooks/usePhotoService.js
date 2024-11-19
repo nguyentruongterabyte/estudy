@@ -4,6 +4,17 @@ import useAxiosPrivate from './useAxiosPrivate';
 const usePhotoService = () => {
   const axiosPrivate = useAxiosPrivate();
 
+  // create photo
+  const createPhoto = async (filePath) => {
+    try {
+      const response = await axiosPrivate.post(config.urls.photo.create, { filePath });
+      // return new photo
+      return response?.data?.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
   const uploadPhoto = async (file) => {
     const formData = new FormData();
     formData.append('photo', file);
@@ -21,7 +32,7 @@ const usePhotoService = () => {
     }
   };
 
-  return { uploadPhoto };
+  return { uploadPhoto, createPhoto };
 };
 
 export default usePhotoService;

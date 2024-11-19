@@ -100,15 +100,13 @@
   "deletingQuestionGroup": "正在删除问题组...",
   "deletedQuestionGroupSuccessfully": "问题组删除成功！",
   "failedToDeleteQuestionGroup": "删除问题组失败",
-  
+
   "changingQuestions": "正在更改问题...",
   "changeQuestionsSuccess": "问题更改成功!",
-  "changeQuestionsError": "问题更改失败", 
+  "changeQuestionsError": "问题更改失败",
 
   "deleteQuestionGroup": "删除问题组",
   "confirmDeleteQuestionGroup": "您确定要删除这个问题组吗？",
-
-  "nothingIsMorePreciousThanIndependenceAndFreedom": "没有什么比独立和自由更珍贵",
 
   "answer": "答案",
 
@@ -116,5 +114,10 @@
   "changeAudio": "更改音频",
 
   "uploadAnswersTextFile": "上传答案文本文件",
-  "uploadTextFile": "上传文本文件"
+  "uploadTextFile": "上传文本文件",
+
+  "historyChanges": "更改历史",
+
+  "nothingIsMorePreciousThanIndependenceAndFreedom": "没有什么比独立和自由更珍贵",
+  "whatWeAreTheWorldIs": "我们是什么，世界就是什么。"
 }

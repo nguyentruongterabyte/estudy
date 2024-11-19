@@ -108,13 +108,16 @@
   "deleteQuestionGroup": "Delete question group",
   "confirmDeleteQuestionGroup": "Are you sure want to delete this question group?",
 
-  "nothingIsMorePreciousThanIndependenceAndFreedom": "Nothing is more precious than independence and freedom.",
-
   "answer": "Answer",
 
   "uploadAudio": "Upload Audio",
 
   "changeAudio": "Change Audio",
   "uploadAnswersTextFile": "Upload Answers Text File",
-  "uploadTextFile": "Upload Text File"
+  "uploadTextFile": "Upload Text File",
+
+  "historyChanges": "History changes",
+
+  "nothingIsMorePreciousThanIndependenceAndFreedom": "Nothing is more precious than independence and freedom.",
+  "whatWeAreTheWorldIs": "What we are, the world is."
 }

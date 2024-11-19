@@ -9,10 +9,13 @@ import styles from './Answer.module.scss';
 import { useQuestion } from '~/context/QuestionProvider';
 import { updateAnswer, changeCorrectAnswerIndex, questionList } from '~/redux/features/testSlice';
 import hooks from '~/hooks';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import History from '~/components/History';
 
 const cx = classNames.bind(styles);
 
-const Answer = ({ answer, index, isEditable }) => {
+const Answer = ({ answer, index, isEditable, historyChanges }) => {
   const { t } = useTranslation();
 
   const [inputValue, setInputValue] = useState(answer.answer);
@@ -29,6 +32,10 @@ const Answer = ({ answer, index, isEditable }) => {
   const answerText = questions.find((q) => q.id === question.id).answers[index].answer;
 
   const isError = isEditable && errorFields && errorFields[`answer_${question.id}_${index}`];
+
+  const handleOnItemClick = (item) => {
+    dispatch(updateAnswer({ questionId: question.id, index, answerText: item.title }));
+  };
 
   // Dispatch action only if debouncedValue changes
   useEffect(() => {
@@ -58,7 +65,19 @@ const Answer = ({ answer, index, isEditable }) => {
             className={cx('input')}
             id={`answer_${question.id}_${index}`}
           />
-          {/* Radio button để chọn câu trả lời đúng */}
+          {historyChanges.length > 0 && (
+            <History
+              onItemClick={handleOnItemClick}
+              className={cx('history')}
+              items={historyChanges.map((history) => {
+                return {
+                  title: history.oldValue,
+                  icon: faClockRotateLeft,
+                };
+              })}
+            />
+          )}
+          {/* Radio button choose correct answer */}
           <input
             type="radio"
             name={`correctAnswer-${question.id}`}

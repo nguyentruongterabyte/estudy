@@ -9,8 +9,8 @@ const Photos = () => {
       partName="part1_Photos"
       partId={1}
       quantityOfQuestions={6}
-      quantityOfAnswersPerQuestion={ 4 }
-      
+      quantityOfAnswersPerQuestion={4}
+      quote={'nothingIsMorePreciousThanIndependenceAndFreedom'}
     />
   );
 };

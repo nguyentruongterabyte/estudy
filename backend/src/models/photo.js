@@ -14,9 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Photo.init({
-    questionId: DataTypes.INTEGER,
     filePath: DataTypes.TEXT,
-    caption: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Photo',

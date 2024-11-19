@@ -2,7 +2,6 @@ import correctAnswerService from '../services/correctAnswerService';
 import questionService from '../services/questionService';
 import audioService from '../services/audioService';
 import photoService from '../services/photoService';
-import questionAudioService from '../services/questionAudioService';
 
 const handleUpdatePhotos = async (req, res) => {
   try {
@@ -21,13 +20,14 @@ const handleUpdatePhotos = async (req, res) => {
   }
 };
 
-const handleUpdateMany = async (req, res) => {
+const handleUpdateAudios = async (req, res) => {
   try {
-    const { questions } = req.body;
-    await questionService.updateMany(questions);
+    const { audios } = req.body;
+    await questionService.updateAudios(audios);
     res.json({
       errCode: 0,
       errMessage: 'OK',
+      // data: updatedAudios
     });
   } catch (error) {
     res.status(500).json({
@@ -37,14 +37,13 @@ const handleUpdateMany = async (req, res) => {
   }
 };
 
-const handleUpdateAudios = async (req, res) => {
+const handleUpdateMany = async (req, res) => {
   try {
-    const { audios } = req.body;
-    await questionService.updateAudios(audios);
+    const { questions } = req.body;
+    await questionService.updateMany(questions);
     res.json({
       errCode: 0,
       errMessage: 'OK',
-      // data: updatedAudios
     });
   } catch (error) {
     res.status(500).json({
@@ -85,13 +84,13 @@ const handleGetQuestionsByGroupId = async (req, res) => {
     let questions = await questionService.getByGroupId(groupId);
 
     for (let question of questions) {
-      if (audio) {
-        const questionAudio = await audioService.getByQuestionId(question.id);
+      if (audio && question.audioId) {
+        const questionAudio = await audioService.get(question.audioId);
         question.audio = questionAudio.audioLink;
       }
 
-      if (photo) {
-        const questionPhoto = await photoService.getByQuestionId(question.id);
+      if (photo && question.photoId) {
+        const questionPhoto = await photoService.get(question.photoId);
         question.photo = questionPhoto.filePath;
       }
     }
@@ -100,31 +99,6 @@ const handleGetQuestionsByGroupId = async (req, res) => {
       errCode: 0,
       errMessage: 'OK',
       data: questions,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      errCode: 1,
-      errMessage: error.message,
-    });
-  }
-};
-
-const handleCreateQuestionPhoto = async (req, res) => {
-  const { filePath, questionId } = req.body;
-
-  if (!filePath || !questionId) {
-    return res.status(400).json({
-      errCode: 1,
-      errMessage: 'Missing required parameters',
-    });
-  }
-
-  try {
-    const newPhoto = await photoService.save({ questionId, filePath });
-    return res.json({
-      errCode: 0,
-      errMessage: 'OK',
-      data: newPhoto,
     });
   } catch (error) {
     return res.status(500).json({
@@ -144,11 +118,10 @@ const handleCreateQuestionAudio = async (req, res) => {
   }
 
   try {
-    const newQuestionAudio = await questionAudioService.save({ questionId, audioId });
+    await questionService.update({ id: questionId, audioId });
     return res.json({
       errCode: 0,
       errMessage: 'OK',
-      data: newQuestionAudio,
     });
   } catch (error) {
     return res.status(500).json({
@@ -158,12 +131,37 @@ const handleCreateQuestionAudio = async (req, res) => {
   }
 };
 
+const handleCreateQuestionPhoto = async (req, res) => {
+  const { photoId, questionId } = req.body;
+
+  if (!questionId || !photoId) {
+    return res.status(400).json({
+      errCode: 1,
+      errMessage: 'Missing required parameters',
+    });
+  }
+  try {
+    await questionService.update({ id: questionId, photoId });
+    return res.json({
+      errCode: 0,
+      errMessage: 'OK',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
+
+
 export default {
   handleCreateQuestionPhoto,
+  handleCreateQuestionAudio,
   handleGetQuestionsByGroupId,
   handleUpdateCorrectAnswers,
   handleUpdatePhotos,
   handleUpdateAudios,
-  handleCreateQuestionAudio,
   handleUpdateMany,
 };

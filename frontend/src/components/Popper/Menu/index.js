@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 
 const defaultFn = () => {};
 
-const Menu = ({ children, items = [], onChange = defaultFn, hideOnClick = false }) => {
+const Menu = ({ className, children, items = [], onChange = defaultFn, hideOnClick = false }) => {
   const [history, setHistory] = useState([{ data: items }]);
   const current = history[history.length - 1];
 
@@ -34,7 +34,7 @@ const Menu = ({ children, items = [], onChange = defaultFn, hideOnClick = false 
     });
 
   return (
-    <span>
+    <span className={cx('container', className)}>
       <Tippy
         trigger="click"
         placement="bottom-end"

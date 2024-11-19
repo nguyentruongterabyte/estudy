@@ -18,12 +18,12 @@ const initialState = {
     partId: 1,
     groupId: 1,
     questions: [
-      { id: 0, photo: '', audio: '', answers: [], correctAnswerIndex: 0 },
-      { id: 1, photo: '', audio: '', answers: [], correctAnswerIndex: 0 },
-      { id: 2, photo: '', audio: '', answers: [], correctAnswerIndex: 0 },
-      { id: 3, photo: '', audio: '', answers: [], correctAnswerIndex: 0 },
-      { id: 4, photo: '', audio: '', answers: [], correctAnswerIndex: 0 },
-      { id: 5, photo: '', audio: '', answers: [], correctAnswerIndex: 0 },
+      { id: 0, photoId: 0, photo: '', audioId: 1, audio: '', answers: [], correctAnswerIndex: 0 },
+      { id: 1, photoId: 1, photo: '', audioId: 2, audio: '', answers: [], correctAnswerIndex: 0 },
+      { id: 2, photoId: 2, photo: '', audioId: 3, audio: '', answers: [], correctAnswerIndex: 0 },
+      { id: 3, photoId: 3, photo: '', audioId: 4, audio: '', answers: [], correctAnswerIndex: 0 },
+      { id: 4, photoId: 4, photo: '', audioId: 5, audio: '', answers: [], correctAnswerIndex: 0 },
+      { id: 5, photoId: 5, photo: '', audioId: 6, audio: '', answers: [], correctAnswerIndex: 0 },
     ],
   },
 
@@ -195,6 +195,7 @@ const testSlice = createSlice({
 
       const changePhotoLog = {
         field: logFields.photo,
+        photoId: state.test.questions.find((q) => q.id === action.payload.questionId).photoId,
         questionId: action.payload.questionId,
         oldValue: state.test.questions.find((q) => q.id === action.payload.questionId).photo,
         newValue: action.payload.photo,
@@ -219,6 +220,7 @@ const testSlice = createSlice({
 
       const changeAudioLog = {
         field: logFields.audio,
+        audioId: state.test.questions.find((q) => q.id === action.payload.questionId).audioId,
         questionId: action.payload.questionId,
         oldValue: state.test.questions.find((q) => q.id === action.payload.questionId).audio,
         newValue: action.payload.audio,

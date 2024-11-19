@@ -15,7 +15,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Question.init({
     groupId: DataTypes.INTEGER,
-    question: DataTypes.TEXT
+    question: DataTypes.TEXT,
+    photoId: DataTypes.INTEGER,
+    audioId: DataTypes.INTEGER,
+    explanationTextId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Question',

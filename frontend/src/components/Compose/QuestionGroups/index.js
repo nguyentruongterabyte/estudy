@@ -73,6 +73,7 @@ const QuestionGroups = () => {
       })
       .then(() => {
         dispatch(deleteQuestionGroup({ groupId }));
+        dispatch(changeQuestions({ questions: [] }));
       });
 
     setShowDeleteModal(false);

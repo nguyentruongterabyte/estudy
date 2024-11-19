@@ -99,7 +99,7 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
       )}
 
       {/* Only show audio controls if there is an audio file */}
-      {(!isEditable || selectedAudio) && (
+      {(!isEditable || selectedAudio || audioLink) && (
         <div className={cx('player')}>
           <audio
             ref={audioRef}

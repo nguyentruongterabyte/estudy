@@ -3,19 +3,26 @@ import classNames from 'classnames/bind';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { ListGroup } from 'react-bootstrap';
 import { Fragment } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Answers.module.scss';
 import Answer from '~/components/Compose/Answer';
 import Button from '~/components/Button';
 import { useQuestion } from '~/context/QuestionProvider';
-import { initCorrectAnswerIndex, updateAnswer } from '~/redux/features/testSlice';
+import { initCorrectAnswerIndex, logFields, testGroupId, updateAnswer } from '~/redux/features/testSlice';
+import { getWithExpiry } from '~/utils/localStorageUtils';
 
 const cx = classNames.bind(styles);
 const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const question = useQuestion();
+  const groupId = useSelector(testGroupId);
+  const historyChanges = (getWithExpiry(`editHistory_${groupId}`) || [])
+    .filter((history) => history.type === logFields.answer) // get history changes of answers
+    .map((history) => history.changes) // get fiels `changes` each history changes
+    .flat(); // merged array
+  // console.log(historyChanges);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -35,12 +42,10 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion }) => {
       .map((line) => line.trim())
       .filter((line) => line !== '');
 
-    
     // The answers are taken from the first lines
     const answers = lines.slice(0, quantityOfAnswersPerQuestion); // Answers A, B, C, D
     const correctAnswerIndex = parseInt(lines[quantityOfAnswersPerQuestion], 10); // index of correct answer
 
-    
     dispatch(initCorrectAnswerIndex({ questionId: question.id, index: correctAnswerIndex }));
 
     // Update the answers in the inputs
@@ -52,7 +57,13 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion }) => {
     <div className={cx('container')}>
       <ListGroup className={cx('group')}>
         {answers.map((answer, index) => (
-          <Answer key={answer.id} answer={answer} index={index} isEditable={isEditable} />
+          <Answer
+            key={answer.id}
+            historyChanges={historyChanges.filter((history) => history.answerId === answer.id)}
+            answer={answer}
+            index={index}
+            isEditable={isEditable}
+          />
         ))}
       </ListGroup>
       {isEditable ? (

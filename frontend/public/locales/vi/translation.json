@@ -109,13 +109,16 @@
   "deleteQuestionGroup": "Xóa nhóm câu hỏi",
   "confirmDeleteQuestionGroup": "Bạn có chắc muốn xóa nhóm câu hỏi này không?",
 
-  "nothingIsMorePreciousThanIndependenceAndFreedom": "Không có gì quý hơn độc lập, tự do.",
-
   "answer": "Đáp án",
 
   "uploadAudio": "Tải lên audio",
 
   "changeAudio": "Thay đổi Audio",
   "uploadAnswersTextFile": "Tải lên tệp văn bản câu trả lời",
-  "uploadTextFile": "Tải tệp văn bản"
+  "uploadTextFile": "Tải tệp văn bản",
+
+  "historyChanges": "Lịch sử thay đổi",
+
+  "nothingIsMorePreciousThanIndependenceAndFreedom": "Không có gì quý hơn độc lập, tự do.",
+  "whatWeAreTheWorldIs": "Chúng ta thế nào, thế giới thế ấy."
 }

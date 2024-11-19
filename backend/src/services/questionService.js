@@ -19,11 +19,23 @@ const updateMany = (questions) => {
   });
 };
 
+const update = (question) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { id, ...data } = question;
+      await db.Question.update(data, { where: { id } });
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const updatePhotos = (photos) => {
   return new Promise(async (resolve, reject) => {
     try {
       const updatePromises = photos.map(async (photo) => {
-        const photoDB = await photoService.getByQuestionId(photo.questionId);
+        const photoDB = await photoService.get(photo.id);
         await photoService.deleteFirebasePhotoByUrl(photoDB.filePath);
         photoDB.filePath = photo.url;
         await photoService.update(photoDB);
@@ -41,7 +53,7 @@ const updateAudios = (audios) => {
   return new Promise(async (resolve, reject) => {
     try {
       const updatePromises = audios.map(async (audio) => {
-        const audioDB = await audioService.getByQuestionId(audio.questionId);
+        const audioDB = await audioService.get(audio.id);
         await audioService.deleteFirebaseAudioByUrl(audioDB.audioLink);
         audioDB.audioLink = audio.url;
         await audioService.update(audioDB);
@@ -66,11 +78,24 @@ const save = (data) => {
   });
 };
 
+const get = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const question = await db.Question.findOne({
+        where: { id },
+      });
+      resolve(question);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const getByGroupId = (groupId) => {
   return new Promise(async (resolve, reject) => {
     try {
       const questions = await db.Question.findAll({
-        attributes: ['id', 'question'],
+        attributes: ['id', 'photoId', 'audioId', 'question'],
         where: { groupId },
         raw: true,
       });
@@ -93,7 +118,9 @@ const getByGroupId = (groupId) => {
 module.exports = {
   getByGroupId,
   save,
+  update,
   updatePhotos,
   updateAudios,
-  updateMany
+  updateMany,
+  get,
 };

@@ -5,10 +5,23 @@ import { unlinkSync } from 'fs';
 const destroy = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const rowEffected = await db.Audio.destroy({
+      const audio = await db.Audio.destroy({
         where: { id },
       });
-      resolve(rowEffected);
+      resolve(audio);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const get = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const audio = await db.Audio.findOne({
+        where: { id },
+      });
+      resolve(audio);
     } catch (e) {
       reject(e);
     }
@@ -108,4 +121,4 @@ const deleteFirebaseAudioByUrl = async (url) => {
   });
 };
 
-module.exports = { getByQuestionId, uploadFirebase, save, deleteFirebaseAudioByUrl, update, destroy };
+module.exports = { get, getByQuestionId, uploadFirebase, save, deleteFirebaseAudioByUrl, update, destroy };

@@ -5,7 +5,6 @@ const updateAnswers = (answers) => {
     try {
       const updatePromises = answers.map(async (answer) => {
         const { id, ...data } = answer;
-
         return await db.Answer.update(data, { where: { id } });
       });
 

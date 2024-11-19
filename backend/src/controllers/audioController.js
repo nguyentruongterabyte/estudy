@@ -1,29 +1,6 @@
 import audioService from '../services/audioService';
 
-const handleFindByQuestionId = async ( req, res ) => {
-  const questionId = req.params.questionId
-  if ( !questionId ) {
-    return res.status(400).json({
-      errCode: 1,
-      errMessage: 'Missing required parameters',
-    });
-  }
-  try { 
-    const audio = await audioService.getByQuestionId(questionId);
-    res.json({
-      errCode: 0,
-      errMessage: 'OK',
-      data: audio,
-    });
-  } catch ( error ) {
-     res.status(500).json({
-       errCode: 1,
-       errMessage: error.message,
-     });
-  }
-}
-
-const handleSaveAudio = async (req, res) => {
+const handleSave = async (req, res) => {
   const { audioLink } = req.body;
   if (!audioLink)
     return res.status(400).json({
@@ -45,7 +22,7 @@ const handleSaveAudio = async (req, res) => {
   }
 };
 
-const handleUploadAudio = async (req, res) => {
+const handleUpload = async (req, res) => {
   try {
     const file = req.file;
 
@@ -63,8 +40,31 @@ const handleUploadAudio = async (req, res) => {
   }
 };
 
+const handleDeleteFirebaseAudioByUrl = async (req, res) => {
+  const { url } = req.body;
+  if (!url)
+    return res.status(400).json({
+      errCode: 1,
+      errMessage: 'Missing required parameters',
+    });
+  try {
+    await audioService.deleteFirebaseAudioByUrl(url);
+
+    res.json({
+      errCode: 0,
+      errMessage: 'OK',
+      data: url,
+    });
+  } catch (error) {
+    res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
 export default {
-  handleUploadAudio,
-  handleSaveAudio,
-  handleFindByQuestionId,
+  handleUpload,
+  handleSave,
+  handleDeleteFirebaseAudioByUrl
 };
