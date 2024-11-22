@@ -7,14 +7,14 @@ import styles from './Header.module.scss';
 
 const cx = classNames.bind( styles );
 
-const Header = ({ setShow, show, title = 'part1_Photos' }) => {
+const Header = ({className, setShow, show, title = 'part1_Photos' }) => {
   const { t } = useTranslation();
   const handleToggleCanvas = () => {
     setShow((prev) => !prev);
   };
 
   return (
-    <div className={cx('container')}>
+    <div className={cx('container', className)}>
       <FontAwesomeIcon
         className={cx('canvas-button')}
         icon={show ? faBars : faArrowRight}

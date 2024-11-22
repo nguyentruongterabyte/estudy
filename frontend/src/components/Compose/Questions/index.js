@@ -1,108 +1,70 @@
+import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
-import { useSelector, useDispatch } from 'react-redux';
 
-import hooks from '~/hooks';
 import Question from '~/components/Compose/Question';
 import QuestionProvider from '~/context/QuestionProvider';
 import styles from './Questions.module.scss';
 import ErrorFieldsProvider from '~/context/ErrorFieldsProvider';
 import Button from '~/components/Button';
 import CustomModal from '~/components/CustomModal';
-import {
-  isAddNew as adding,
-  isEdit as editing,
-  isComplete as finished,
-  changeLog,
-  questionList,
-  changeQuestions,
-  toggleAddNew,
-  testGroupId,
-  toggleComplete,
-  toggleEdit,
-} from '~/redux/features/testSlice';
-import { useTranslation } from 'react-i18next';
+import { logFields } from '~/redux/features/testSlice';
 import Quote from '~/components/Quote';
 import { useEnableMedia } from '~/context/EnableMediaProvider';
 import { useQuestions } from '~/context/QuestionsProvider';
+import { getWithExpiry } from '~/utils/localStorageUtils';
 
 const cx = classNames.bind(styles);
 
-const Questions = ({ onComplete, quantityOfQuestions = 6, quantityOfAnswersPerQuestion = 4, quote }) => {
+const fn = () => {};
+
+const Questions = ({
+  className,
+  data,
+  quantityOfAnswersPerQuestion = 4,
+  quote,
+  groupId,
+  eventLogs = [],
+  isAddNew,
+  isEdit,
+  isComplete,
+  isEnableAudio,
+  isEnablePhoto,
+  onAddNew = fn,
+  onComplete = fn,
+  onToggleComplete = fn,
+  onToggleAddNew = fn,
+  onToggleEdit = fn,
+}) => {
   const { t } = useTranslation();
-  const eventLogs = useSelector(changeLog);
-  const questions = useSelector(questionList);
-  const isAddNew = useSelector(adding);
-  const groupId = useSelector(testGroupId);
-  const isEdit = useSelector(editing);
-  const isComplete = useSelector(finished);
-  const dispatch = useDispatch();
-  const { getQuestionsByGroupId } = hooks.useQuestionService();
+  // const questions = useSelector(questionList);
   const [errorFields, setErrorFields] = useState({});
   const [show, setShow] = useState(false);
-  const { isEnablePhoto, isEnableAudio } = useEnableMedia();
   const { isEnableQuestionText } = useQuestions();
-
-  // fetch questions data
-  const fetchQuestions = async (groupId) => {
-    const questions = await getQuestionsByGroupId(groupId, isEnableAudio, isEnablePhoto);
-    return questions;
-  };
-
-  useEffect(() => {
-    if (groupId && !isAddNew) {
-      fetchQuestions(groupId).then((loadedQuestions) => {
-        dispatch(
-          changeQuestions({
-            questions: loadedQuestions.map((question) => ({
-              ...question,
-              answers: question.answers.map((answer, index) => ({ ...answer, index: index })),
-            })),
-          }),
-        );
-      });
-    }
-
-    // eslint-disable-next-line
-  }, [groupId]);
+  const historyChanges = (getWithExpiry(`editHistory_${groupId}`) || [])
+    .filter((history) => history.type === logFields.questionText) // get history changes of question text
+    .map((history) => history.changes) // get fiels `changes` each history changes
+    .flat(); // merged array
 
   useEffect(() => {
     if (isAddNew) {
-      dispatch(
-        changeQuestions({
-          questions: Array.from({ length: quantityOfQuestions }).map((_, index) => ({
-            id: index,
-            photoId: index,
-            audioId: index,
-            photo: '',
-            audio: '',
-            question: '',
-
-            answers: Array.from({ length: quantityOfAnswersPerQuestion }).map((_, answerIndex) => ({
-              id: answerIndex,
-              index: answerIndex,
-              answer: '',
-            })),
-            correctAnswerIndex: 0,
-          })),
-        }),
-      );
+      onAddNew();
     }
     // eslint-disable-next-line
   }, [isAddNew]);
 
   // validate questions when change
   useEffect(() => {
-    if (Array.isArray(questions)) validateQuestions();
+    if (Array.isArray(data)) validateQuestions();
     // eslint-disable-next-line
-  }, [questions]);
+  }, [data]);
 
   // validate questions
   const validateQuestions = () => {
     let complete = true;
     const errors = {};
 
-    questions.forEach((question, index) => {
+    data.forEach((question, index) => {
       question.answers?.forEach((answer, answerIndex) => {
         // Validate answers
         if (!answer.answer || answer.answer.trim() === '') {
@@ -130,39 +92,39 @@ const Questions = ({ onComplete, quantityOfQuestions = 6, quantityOfAnswersPerQu
       }
     });
 
-    dispatch(toggleComplete({ toggle: complete }));
+    onToggleComplete(complete);
     setErrorFields(errors);
   };
 
   // handle on complete button click
   const handleComplete = () => {
     if (isComplete && onComplete) {
-      onComplete(questions);
+      onComplete(data);
     }
   };
 
   const handleCancel = async () => {
-    await fetchQuestions(groupId).then((loadedQuestions) => dispatch(changeQuestions({ questions: loadedQuestions })));
     if (isAddNew) {
-      dispatch(toggleAddNew({ toggle: false }));
+      onToggleAddNew(false);
     }
 
     if (isEdit) {
-      dispatch(toggleEdit({ toggle: false }));
+      onToggleEdit(false);
     }
     setShow(false);
-
-    // if (isEdit) dispatch(toggleEdit({ toggle: false }));
   };
 
   return (
-    <div className={cx('container')}>
-      {!isAddNew && !isEdit && questions.length === 0 && <Quote quote={quote} className={cx('quote')} />}
+    <div className={cx('container', className)}>
+      {!isAddNew && !isEdit && data.length === 0 && <Quote quote={quote} className={cx('quote')} />}
       <ErrorFieldsProvider errorFields={errorFields}>
-        {Array.isArray(questions) &&
-          questions.map((question, index) => (
+        {Array.isArray(data) &&
+          data.map((question, index) => (
             <QuestionProvider key={question.id} question={question}>
               <Question
+                isEnableAudio={isEnableAudio}
+                isEnablePhoto={isEnablePhoto}
+                historyChanges={historyChanges.filter((history) => history.questionId === question.id)}
                 data={question}
                 index={index}
                 isEditable={isAddNew || isEdit}

@@ -10,10 +10,30 @@
   padding: 20px;
   border-radius: 20px !important;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12);
+  overflow: hidden;
 
-  .upload-audio {
-      margin:0 20px;
+  .upload-audio-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:0 20px;
+    background: var(--primary);
+    padding: 8px 16px;
+    border-radius: 6px;
+    color: var(--white);
+    user-select: none;
+
+    .icon ~ .text {
+      margin-left: 8px;
     }
+
+    &:hover {
+      cursor: pointer;
+    }
+    &.small {
+      width: 20px !important;
+    }
+  }
   .player {
     display: flex;
     flex: 1;

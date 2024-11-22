@@ -4,7 +4,6 @@ const QuestionResponse = () => {
   return (
     <Template
       isEnableAudio={true}
-      isEnablePhoto={false}
       isEnableQuestionText={true}
       partId={2}
       partName={'part2_QuestionResponse'}

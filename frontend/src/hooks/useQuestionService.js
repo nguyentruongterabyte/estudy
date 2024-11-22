@@ -41,25 +41,6 @@ const useQuestionService = () => {
     }
   };
 
-  // update photos
-  const updatePhotos = async (photos) => {
-    try {
-      const response = await axiosPrivate.put(config.urls.question.updatePhotos, { photos });
-      return response?.data;
-    } catch (e) {
-      throw e;
-    }
-  };
-
-  // update photos
-  const updateAudios = async (audios) => {
-    try {
-      const response = await axiosPrivate.put(config.urls.question.updateAudios, { audios });
-      return response?.data;
-    } catch (e) {
-      throw e;
-    }
-  };
 
   // get question when knew group id
   const getQuestionsByGroupId = async (groupId, audio = false, photo = false) => {
@@ -110,8 +91,6 @@ const useQuestionService = () => {
     getQuestionsByGroupId,
     createQuestionPhoto,
     createQuestionAudio,
-    updatePhotos,
-    updateAudios,
     updateMany,
   };
 };

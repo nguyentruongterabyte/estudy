@@ -15,6 +15,16 @@ const usePhotoService = () => {
     }
   };
 
+  // update photos
+  const updatePhotos = async (photos) => {
+    try {
+      const response = await axiosPrivate.put(config.urls.question.updatePhotos, { photos });
+      return response?.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
   const uploadPhoto = async (file) => {
     const formData = new FormData();
     formData.append('photo', file);
@@ -32,7 +42,7 @@ const usePhotoService = () => {
     }
   };
 
-  return { uploadPhoto, createPhoto };
+  return { uploadPhoto, createPhoto, updatePhotos };
 };
 
 export default usePhotoService;

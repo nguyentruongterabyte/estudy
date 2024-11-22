@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+  background: var(--white);
+  border-radius: 50px;
+  padding: 0 20px;
+  border-radius: 20px !important;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12);
+
+  .text {
+    margin-left: 24px;
+    flex: 1;
+    font-size: 1.6rem;
+
+    &.error {
+      border: 1px solid red;
+    }
+  }
+
+  .history {
+    margin: 0 12px;
+    padding: 8px 0;
+    width: 42px;
+    height: 100%;
+  }
+
+  .upload-text-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 20px;
+    background: var(--primary);
+    padding: 8px 16px;
+    border-radius: 6px;
+    color: var(--white);
+    user-select: none;
+  
+    &:hover {
+      cursor: pointer;
+    }
+    
+  }
+}

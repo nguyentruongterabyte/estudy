@@ -5,62 +5,56 @@ import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, ListGroup } from 'react-bootstrap';
 import classNames from 'classnames/bind';
-import { Fragment, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { Fragment, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './QuestionGroups.module.scss';
 import QuestionGroup from '~/components/Compose/QuestionGroup';
 import hooks from '~/hooks';
+import { resetChangeLog } from '~/redux/features/testSlice';
+
+import { resetChangeLog as resetBundleChangeLog } from '~/redux/features/questionBundlesSlice';
+
 import {
-  testGroupName,
-  updateQuestionGroupName,
-  isAddNew as adding,
-  isEdit as editing,
+  activeGroup,
+  adding,
+  deleteQuestionGroup,
+  editing,
+  questionGroupList,
   toggleAddNew,
-  testGroupId,
-  changeQuestions,
-  updateQuestionGroupId,
-  resetChangeLog,
-} from '~/redux/features/testSlice';
-import { isComplete as finished } from '~/redux/features/testSlice';
-import { deleteQuestionGroup, questionGroupList } from '~/redux/features/questionGroupsSilce';
+  updateName,
+} from '~/redux/features/questionGroupsSilce';
 import CustomModal from '~/components/CustomModal';
-import { useEnableMedia } from '~/context/EnableMediaProvider';
 
 const cx = classNames.bind(styles);
 
-const QuestionGroups = () => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const isComplete = useSelector(finished);
+const fn = () => {};
+
+const QuestionGroups = ({ isComplete, onCancel = fn, onDelete = fn }) => {
+  const data = useSelector(questionGroupList);
+  const active = useSelector(activeGroup);
   const isAddNew = useSelector(adding);
   const isEdit = useSelector(editing);
-  const groupName = useSelector(testGroupName);
-  const groupId = useSelector(testGroupId);
-  const questionGroups = useSelector(questionGroupList);
+  const groupId = active.id;
+  const groupName = active.name;
+  const [inputValue, setInputValue] = useState(groupName);
+  const debouncedValue = hooks.useDebounce(inputValue, 10);
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { deleteTest } = hooks.useTestService();
-  const { isEnablePhoto, isEnableAudio } = useEnableMedia();
-  const { getQuestionsByGroupId } = hooks.useQuestionService();
 
-  // fetch questions data
-  const fetchQuestions = async (groupId) => {
-    const questions = await getQuestionsByGroupId(groupId, isEnableAudio, isEnablePhoto);
-    return questions;
-  };
-
+  // handle cancel
   const handleCancel = () => {
-    dispatch(toggleAddNew({ toggle: false }));
-    fetchQuestions(groupId).then((loadedQuestions) => {
-      dispatch(changeQuestions({ questions: loadedQuestions }));
-    });
+    onCancel();
     setShowEditModal(false);
   };
 
-  const handleConfirmDeleteQuestionGroup = (groupId) => {
+  const handleConfirmDeleteQuestionGroup = () => {
     setShowDeleteModal(true);
-    dispatch(updateQuestionGroupId({ groupId }));
+    // dispatch(updateQuestionGroupId({ groupId }));
   };
 
   const handleDeleteQuestionGroup = async () => {
@@ -73,16 +67,32 @@ const QuestionGroups = () => {
       })
       .then(() => {
         dispatch(deleteQuestionGroup({ groupId }));
-        dispatch(changeQuestions({ questions: [] }));
+        onDelete();
       });
 
     setShowDeleteModal(false);
   };
 
+  const handleAddNew = () => {
+    dispatch(toggleAddNew({ toggle: true }));
+    dispatch(resetChangeLog());
+    dispatch(resetBundleChangeLog());
+  };
+
+  useEffect(() => {
+    if (debouncedValue !== groupName) {
+      dispatch(updateName({ id: groupId, name: debouncedValue }));
+    }
+  }, [debouncedValue]);
+
+  useEffect(() => {
+    setInputValue(groupName);
+  }, [groupName]);
+
   return (
     <div className={cx('container')}>
       <ListGroup as="ul">
-        {questionGroups.map((questionGroup) => (
+        {data.map((questionGroup) => (
           // Question group item
           <QuestionGroup
             onDeleteQuestionGroup={(groupId) => handleConfirmDeleteQuestionGroup(groupId)}
@@ -95,8 +105,8 @@ const QuestionGroups = () => {
       {isAddNew ? (
         <div className={cx('input-wrapper')}>
           <Form.Control
-            value={groupName}
-            onChange={(e) => dispatch(updateQuestionGroupName({ name: e.target.value }))}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
             className={cx('input-name')}
             size="lg"
             placeholder="Enter test group name"
@@ -118,14 +128,7 @@ const QuestionGroups = () => {
           </Tippy>
         </div>
       ) : !isEdit ? (
-        <Button
-          variant="outline-success"
-          className={cx('btn-add')}
-          onClick={() => {
-            dispatch(toggleAddNew({ toggle: true }));
-            dispatch(resetChangeLog());
-          }}
-        >
+        <Button variant="outline-success" className={cx('btn-add')} onClick={handleAddNew}>
           {t('createNewTest')}
         </Button>
       ) : (

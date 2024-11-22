@@ -12,6 +12,7 @@ import useTestService from './useTestService';
 import useAnswerService from './useAnswerService';
 import useQuestionGroupService from './useQuestionGroupService';
 import useDebounce from './useDebounce';
+import useNewQuestionGroup from './useNewQuestionGroup';
 const hooks = {
   useAuth,
   useLocalStorage,
@@ -27,6 +28,7 @@ const hooks = {
   useTestService,
   useAnswerService,
   useQuestionGroupService,
+  useNewQuestionGroup
 };
 
 export default hooks;

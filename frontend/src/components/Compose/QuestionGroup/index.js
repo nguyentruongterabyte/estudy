@@ -3,25 +3,14 @@ import classNames from 'classnames/bind';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './QuestionGroup.module.scss';
-import {
-  updateQuestionGroupId,
-  testGroupId,
-  toggleEdit,
-  isAddNew as adding,
-  isEdit as editing,
-  testGroupName,
-  updateQuestionGroupName,
-  updateQuestionGroupNameWithoutLog,
-  resetChangeLog,
-} from '~/redux/features/testSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { activeGroup, adding, editing, setActive, toggleEdit, updateName } from '~/redux/features/questionGroupsSilce';
 
 const cx = classNames.bind(styles);
 
 const QuestionGroup = ({ onDeleteQuestionGroup, data }) => {
-  const groupName = useSelector(testGroupName);
-  const groupId = useSelector(testGroupId);
+  const active = useSelector(activeGroup);
   const isAddNew = useSelector(adding);
   const isEdit = useSelector(editing);
   const dispatch = useDispatch();
@@ -29,8 +18,7 @@ const QuestionGroup = ({ onDeleteQuestionGroup, data }) => {
   const handleEdit = (event, groupId) => {
     event.stopPropagation();
     dispatch(toggleEdit({ toggle: true }));
-    dispatch(updateQuestionGroupId({ groupId }));
-    dispatch(updateQuestionGroupNameWithoutLog({ name: data.name }));
+    dispatch(setActive({ id: groupId, name: data.name }));
   };
 
   const handleDeleteQuestionGroup = (event, groupId) => {
@@ -40,22 +28,22 @@ const QuestionGroup = ({ onDeleteQuestionGroup, data }) => {
   return (
     // Question group item
     <ListGroup.Item
-      onClick={() => dispatch(updateQuestionGroupId({ groupId: data.id }))}
+      onClick={() => dispatch(setActive({ id: data.id, name: data.name }))}
       as="li"
-      active={!isAddNew && !isEdit && data.id === groupId}
-      disabled={isEdit && data.id !== groupId}
+      active={!isAddNew && !isEdit && data.id === active.id}
+      disabled={isEdit && data.id !== active.id}
       className={cx('container')}
     >
-      {isEdit && groupId === data.id ? (
+      {isEdit && active.id === data.id ? (
         <FormControl
           className={cx('input')}
-          value={groupName}
-          onChange={(e) => dispatch(updateQuestionGroupName({ name: e.target.value }))}
+          value={active.name}
+          onChange={(e) => dispatch(updateName({ id: data.id, name: e.target.value }))}
         />
       ) : (
         <span className={cx('name')}>{data.name}</span>
       )}
-      {!isEdit && (
+      {!isEdit && !isAddNew && (
         <div className={cx('button-group')}>
           <Button onClick={(e) => handleEdit(e, data.id)} className={cx('edit-button')} size="lg" variant="success">
             <FontAwesomeIcon icon={faPencil} />

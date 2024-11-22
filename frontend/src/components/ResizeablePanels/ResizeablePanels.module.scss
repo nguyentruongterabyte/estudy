@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  height: calc(100vh - 2 * var(--default-layout-header-height));
+
+  .right-panel {
+    flex: 1;
+    background-color: #dcdcdc;
+    overflow: auto;
+  }
+
+  .left-panel {
+    background-color: #f0f0f0;
+    overflow: auto;
+  }
+
+  .resizer {
+    width: 10px;
+    cursor: ew-resize;
+    background-color: #ccc;
+    height: 100%;
+  }
+}

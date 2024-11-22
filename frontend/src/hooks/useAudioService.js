@@ -15,6 +15,16 @@ const useAudioService = () => {
     }
   };
 
+  // update audio
+  const updateAudios = async (audios) => {
+    try {
+      const response = await axiosPrivate.put(config.urls.question.updateAudios, { audios });
+      return response?.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
   // upload audio and get its url
   const uploadAudio = async (file) => {
     const formData = new FormData();
@@ -34,7 +44,7 @@ const useAudioService = () => {
     }
   };
 
-  return { uploadAudio, createAudio };
+  return { uploadAudio, createAudio, updateAudios };
 };
 
 export default useAudioService;

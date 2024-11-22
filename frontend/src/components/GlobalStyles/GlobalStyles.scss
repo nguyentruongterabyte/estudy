@@ -20,6 +20,12 @@
 
   // Default layout
   --default-layout-header-height: 60px;
+
+  // Sidebar width
+  --sidebar-width: 350px;
+
+  // Bottombar height
+  --bottombar-height: 150px;
 }
 
 // Reset css
@@ -36,7 +42,7 @@ html {
   *::-webkit-scrollbar {
     border-radius: 0;
     width: 8px;
-    display: none;
+    // display: none;
   }
 
   *::-webkit-scrollbar-thumb {
@@ -152,6 +158,10 @@ html {
       top: -8px;
     }
   }
+}
+
+.no-select {
+  user-select: none;
 }
 
 // Fonts embedded

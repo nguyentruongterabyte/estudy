@@ -9,15 +9,17 @@ import styles from './Answers.module.scss';
 import Answer from '~/components/Compose/Answer';
 import Button from '~/components/Button';
 import { useQuestion } from '~/context/QuestionProvider';
-import { initCorrectAnswerIndex, logFields, testGroupId, updateAnswer } from '~/redux/features/testSlice';
+import { initCorrectAnswerIndex, logFields, updateAnswer } from '~/redux/features/testSlice';
 import { getWithExpiry } from '~/utils/localStorageUtils';
+import { activeGroup } from '~/redux/features/questionGroupsSilce';
 
 const cx = classNames.bind(styles);
-const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion }) => {
+const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, onAnswerChange }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const question = useQuestion();
-  const groupId = useSelector(testGroupId);
+  const active = useSelector(activeGroup);
+  const groupId = active.id;
   const historyChanges = (getWithExpiry(`editHistory_${groupId}`) || [])
     .filter((history) => history.type === logFields.answer) // get history changes of answers
     .map((history) => history.changes) // get fiels `changes` each history changes
@@ -63,6 +65,7 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion }) => {
             answer={answer}
             index={index}
             isEditable={isEditable}
+            onAnswerChange={onAnswerChange}
           />
         ))}
       </ListGroup>

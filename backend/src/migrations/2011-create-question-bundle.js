@@ -2,14 +2,14 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Questions', {
+    await queryInterface.createTable('QuestionBundles', {
       id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
       },
-      groupId: {
+      questionGroupId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'QuestionGroups',
@@ -18,34 +18,30 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+
       photoId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Photos',
           key: 'id',
         },
-        onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+        allowNull: true,
       },
+
       audioId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Audios',
           key: 'id',
         },
-        onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
-      },
-      bundleId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'QuestionBundles',
-          key: 'id',
-        },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        allowNull: true,
       },
-      question: {
+
+      text: {
         type: Sequelize.TEXT,
       },
       createdAt: {
@@ -59,6 +55,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Questions');
+    await queryInterface.dropTable('ExplanationTexts');
   },
 };

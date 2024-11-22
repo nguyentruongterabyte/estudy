@@ -40,7 +40,7 @@ const Menu = ({ className, children, items = [], onChange = defaultFn, hideOnCli
         placement="bottom-end"
         offset={[12, 8]}
         interactive
-        delay={[0, 700]}
+        delay={ [ 0, 700 ] }
         hideOnClick={hideOnClick}
         onHide={() => setHistory((prev) => prev.slice(0, 1))}
         render={(attrs) => (

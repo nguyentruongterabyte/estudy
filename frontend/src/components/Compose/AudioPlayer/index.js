@@ -5,20 +5,17 @@ import { useTranslation } from 'react-i18next';
 import classNames from 'classnames/bind';
 
 import styles from './AudioPlayer.module.scss';
-import { useQuestion } from '~/context/QuestionProvider';
-import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
-const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
+const AudioPlayer = ({ displayButtonText = true, audioLink, className, isEditable, onAudioUpload, audioId }) => {
   const { t } = useTranslation();
-  const question = useQuestion();
   const audioRef = useRef(null);
   const [progress, setProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const [selectedAudio, setSelectedAudio] = useState(audioLink);
+  const [selectedAudio, setSelectedAudio] = useState(null);
   const [audioFileName, setAudioFileName] = useState('');
   const [file, setFile] = useState(null);
   // update progress
@@ -72,24 +69,32 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
       setAudioFileName(file.name);
       onAudioUpload(file);
     }
+    // eslint-disable-next-line
   }, [file]);
+
+  useEffect(() => {
+    if ( !!selectedAudio )
+      setSelectedAudio( audioLink );
+  }, [audioLink]);
 
   return (
     <div className={cx('container', className)}>
       {isEditable && (
         <Fragment>
-          <Button
-            primary
-            success={!!selectedAudio}
-            leftIcon={!!selectedAudio ? faArrowRightArrowLeft : faUpload}
-            onClick={() => document.getElementById(`audioInput_${question.id}`).click()}
-            className={cx('upload-audio')}
+          <span
+            onClick={() => document.getElementById(`audio_input_${audioId}`).click()}
+            className={cx('upload-audio-button', { small: !displayButtonText })}
           >
-            {audioFileName ? audioFileName : t('uploadAudio')}
-          </Button>
+            <FontAwesomeIcon className={cx('icon')} icon={!!selectedAudio ? faArrowRightArrowLeft : faUpload} />
+            {displayButtonText && (
+              <span className={cx('text', 'hide-on-mobile-tablet')}>
+                {audioFileName ? audioFileName : t('uploadAudio')}
+              </span>
+            )}
+          </span>
           <input
             type="file"
-            id={`audioInput_${question.id}`}
+            id={`audio_input_${audioId}`}
             style={{ display: 'none' }}
             accept="audio/*"
             value={''}
@@ -112,7 +117,7 @@ const AudioPlayer = ({ audioLink, className, isEditable, onAudioUpload }) => {
             {isPlaying ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}
           </button>
           <input
-            id={`audioProgress_${question.id}`}
+            id={`audio_progress_${audioId}`}
             type="range"
             value={progress}
             onChange={handleProgressChange}
