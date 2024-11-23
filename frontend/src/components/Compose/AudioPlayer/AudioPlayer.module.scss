@@ -12,6 +12,10 @@
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12);
   overflow: hidden;
 
+  &.error {
+    border: 1px solid red;
+  }
+
   .upload-audio-button {
     display: flex;
     justify-content: center;

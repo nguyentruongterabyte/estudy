@@ -14,64 +14,53 @@ import {
   updateQuestionText,
   updateAnswer,
   changeCorrectAnswerIndex,
-  updateBundles,
-  toggleActive,
   toggleEnablePhoto,
+  updateAudio,
+  updatePhoto,
+  finished,
 } from '~/redux/features/questionBundlesSlice';
 import CustomTextArea from '~/components/CustomTextArea';
 import styles from './QuestionBundle.module.scss';
 import { Form } from 'react-bootstrap';
-import { activeGroup, adding, editing, toggleAddNew, toggleEdit } from '~/redux/features/questionGroupsSilce';
+import { deleteQuestionGroup, toggleAddNew, toggleEdit } from '~/redux/features/questionGroupsSilce';
 
 const cx = classNames.bind(styles);
 
-const QuestionBundle = ({ className, data, quote, isEnablePhoto, isEnableAudio }) => {
+const fn = () => {};
+
+const QuestionBundle = ({
+  isAddNew,
+  isEdit,
+  groupId,
+  className,
+  data,
+  quote,
+  isEnablePhoto,
+  isEnableAudio,
+  quantityOfAnswersPerQuestion,
+  onComplete = fn,
+}) => {
   const dispatch = useDispatch();
+  const isComplete = useSelector(finished);
+  const newQuestionGroup = hooks.useNewQuestionGroup();
 
-  const isEdit = useSelector(editing);
-  const isAddNew = useSelector(adding);
-
-  const active = useSelector( activeGroup );
-  const groupId = activeGroup.id;
-
-  const isEditable = isEdit || isAddNew;
-
-  const text = data.text;
-  const audio = data.audio.audioLink;
+  const isEditable = isAddNew || isEdit;
 
   const [inputValue, setInputValue] = useState(data.text);
   const [photoChecked, setPhotoChecked] = useState(false);
   const debouncedValue = hooks.useDebounce(inputValue, 300);
   const debouncedPhotoChecked = hooks.useDebounce(photoChecked, 150);
 
-  const [isQuestionComplete, setIsQuestionComplete] = useState(false);
+  const [selectedAudio, setSelectedAudio] = useState(
+    data.audio instanceof File ? URL.createObjectURL(data.audio) : data.audio,
+  );
+  const [isEmptyAudio, setIsEmptyAudio] = useState(false);
 
-  const newBundles = Array.from({ length: 13 }).map((_, bundleIndex) => ({
-    active: false,
-    id: bundleIndex,
-    photo: {
-      id: bundleIndex,
-      filePath: '',
-    },
-    audio: {
-      id: bundleIndex,
-      audioLink: '',
-    },
-    text: '',
-    isEnablePhoto: false,
-    questions: Array.from({ length: 3 }).map((_, questionIndex) => ({
-      id: questionIndex,
-      question: '',
-      order: bundleIndex * 3 + questionIndex + 1,
-      correctAnswerIndex: 0,
-      correctAnswer: { answerId: 0 },
-      answers: Array.from({ length: 4 }).map((_, answerIndex) => ({
-        id: answerIndex,
-        answer: '',
-        index: answerIndex,
-      })),
-    })),
-  }));
+  const [selectedPhoto, setSelectedPhoto] = useState(
+    data.photo instanceof File ? URL.createObjectURL(data.photo) : data.photo,
+  );
+  const [isEmptyPhoto, setIsEmptyPhoto] = useState(false);
+
   // handle answer change
   const handleAnswerChange = (answer) => {
     dispatch(updateAnswer({ id: data.id, ...answer }));
@@ -79,17 +68,22 @@ const QuestionBundle = ({ className, data, quote, isEnablePhoto, isEnableAudio }
 
   // handle correct answer change
   const handleCorrectAnswerChange = (correctAnswer) => {
+    console.log(correctAnswer);
     dispatch(changeCorrectAnswerIndex({ id: data.id, ...correctAnswer }));
   };
 
   // handle audio updload
   const handleAudioUpload = (newAudio) => {
-    console.log(newAudio);
+    dispatch(updateAudio({ id: data.id, audio: newAudio }));
+    setIsEmptyAudio(false);
+    setSelectedAudio(newAudio instanceof File ? URL.createObjectURL(newAudio) : newAudio);
   };
 
   // handle photo upload
   const handlePhotoUpload = (newPhoto) => {
-    console.log(newPhoto);
+    dispatch(updatePhoto({ id: data.id, photo: newPhoto }));
+    setIsEmptyPhoto(false);
+    setSelectedPhoto(newPhoto instanceof File ? URL.createObjectURL(newPhoto) : newPhoto);
   };
 
   // handle question text change
@@ -104,7 +98,14 @@ const QuestionBundle = ({ className, data, quote, isEnablePhoto, isEnableAudio }
       const reader = new FileReader();
       reader.onload = (event) => {
         // Handle update text
-        console.log('text: ', event.target.result);
+        const textContent = event.target.result;
+
+        // split text to seperate sentence
+        const formattedText = textContent
+          .split(/(?<=[.!?])\s+/) // seperate by (., !, ?) and space
+          .map((sentence) => sentence.trim()) // remove space
+          .join(' \n');
+        dispatch(updateText({ id: data.id, text: formattedText }));
       };
       reader.readAsText(file);
     }
@@ -115,7 +116,11 @@ const QuestionBundle = ({ className, data, quote, isEnablePhoto, isEnableAudio }
     console.log(item); // item.title
   };
 
-  const handleBundleQuestionAddNew = () => {};
+  // cancel add new
+  const handleToggleAddNew = (toggle) => {
+    dispatch(toggleAddNew({ toggle }));
+    dispatch(deleteQuestionGroup({ groupId: newQuestionGroup.id }));
+  };
 
   useEffect(() => {
     if (debouncedValue !== data.question) {
@@ -131,19 +136,16 @@ const QuestionBundle = ({ className, data, quote, isEnablePhoto, isEnableAudio }
   }, [debouncedPhotoChecked]);
 
   useEffect(() => {
-    setInputValue(text);
-  }, [text]);
+    if (!data.audio) setIsEmptyAudio(true);
+  }, [data.audio]);
 
   useEffect(() => {
-    setPhotoChecked(data.isEnablePhoto);
-  }, [data.isEnablePhoto]);
+    if (!data.photo) setIsEmptyPhoto(true);
+  }, [data.photo]);
 
   useEffect(() => {
-    if (isAddNew) {
-      dispatch(updateBundles({ bundles: newBundles }));
-      dispatch(toggleActive({ index: 0 }));
-    }
-  }, [isAddNew]);
+    if (data.text !== inputValue) setInputValue(data.text);
+  }, [data.text]);
 
   return (
     <ResizeablePanels
@@ -152,9 +154,10 @@ const QuestionBundle = ({ className, data, quote, isEnablePhoto, isEnableAudio }
         <div className={cx('left-panel')}>
           {isEnableAudio && (
             <AudioPlayer
+              isError={isEditable && isEmptyAudio}
               className={cx('audio')}
-              audioId={data.id}
-              audioLink={audio}
+              audioId={`bundle_audio_${data.id}`}
+              audioLink={selectedAudio || data.audio}
               isEditable={isEditable}
               onAudioUpload={(newAudio) => handleAudioUpload(newAudio)}
               displayButtonText={false}
@@ -162,7 +165,7 @@ const QuestionBundle = ({ className, data, quote, isEnablePhoto, isEnableAudio }
           )}
           {isEnablePhoto && (
             <Fragment>
-              {(isAddNew || isEdit) && (
+              {isEditable && (
                 <Form.Check
                   label="Enable Photo"
                   className={cx('photo-enabled-check')}
@@ -173,11 +176,12 @@ const QuestionBundle = ({ className, data, quote, isEnablePhoto, isEnableAudio }
               )}
               {data.isEnablePhoto && (
                 <DisplayImage
+                  isError={isEditable && isEmptyPhoto}
                   className={cx('photo')}
-                  photoId={data.id}
+                  photoId={`bundle_photo_${data.id}`}
                   isEditable={isEditable}
-                  imageUrl={data.photo.filePath}
-                  altText={data.photo.filePath}
+                  imageUrl={selectedPhoto || data.photo}
+                  altText={data.photo}
                   onImageUpload={(newPhoto) => handlePhotoUpload(newPhoto)}
                 />
               )}
@@ -196,7 +200,7 @@ const QuestionBundle = ({ className, data, quote, isEnablePhoto, isEnableAudio }
             isError={false}
             onHistoryItemClick={handleHistoryItemClick}
             onFileChange={handleTextUpload}
-            textId={data.id}
+            textId={`bundle_text_${data.id}`}
           />
         </div>
       }
@@ -217,14 +221,12 @@ const QuestionBundle = ({ className, data, quote, isEnablePhoto, isEnableAudio }
               groupId={groupId}
               isAddNew={isAddNew}
               isEdit={isEdit}
-              isComplete={false}
+              isComplete={isComplete}
               quote={quote}
-              quantityOfQuestions={39}
-              quantityOfAnswersPerQuestion={4}
-              onAddNew={handleBundleQuestionAddNew}
-              onToggleComplete={(toggle) => setIsQuestionComplete(toggle)}
-              onToggleAddNew={(toggle) => dispatch(toggleAddNew(toggle))}
+              onComplete={onComplete}
+              onToggleAddNew={handleToggleAddNew}
               onToggleEdit={(toggle) => dispatch(toggleEdit(toggle))}
+              quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
             />
           </AnswerChangeProvider>
         </QuestionsProvider>

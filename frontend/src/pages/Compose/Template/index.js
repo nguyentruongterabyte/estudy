@@ -27,13 +27,13 @@ import {
   toggleEdit,
 } from '~/redux/features/questionGroupsSilce';
 
-import QuestionBundle from '~/components/Compose/QuestionBundle';
 import CustomModal from '~/components/CustomModal';
 import Bottombar from '~/components/Compose/Bottombar';
 import { questionBundles } from '~/redux/features/questionBundlesSlice';
 import Loading from '~/components/Loading';
 import BundleCards from '~/components/Compose/BundleCards';
 import QuestionSingle from '~/components/Compose/QuestionSingle';
+import QuestionBundles from '~/components/Compose/QuestionBundles';
 
 const cx = classNames.bind(styles);
 
@@ -47,6 +47,8 @@ const Template = ({
   partId = 1,
   quantityOfQuestions,
   quantityOfAnswersPerQuestion,
+  quantityOfBundles,
+  quantityOfQuestionsPerBundle,
   quote,
 }) => {
   const { t } = useTranslation();
@@ -64,16 +66,15 @@ const Template = ({
 
   const questions = useSelector(questionList);
 
-  const bundles = useSelector(questionBundles);
-  const [bundle, setBundle] = useState(bundles.length > 0 ? bundles[0] : null);
-
+  const bundles = useSelector( questionBundles );
+  
   const [showSidebar, setShowSidebar] = useState(true);
   const [showBottombar, setShowBottombar] = useState(true);
   const { getQuestionGroups } = hooks.useQuestionService();
   const { getQuestionsByGroupId } = hooks.useQuestionService();
   const [showAskCancel, setShowAskCancel] = useState(false);
   const [isQuestionsLoading, setIsQuestionsLoading] = useState(false);
-  const [ isQuestionGroupsLoading, setIsQuestionGroupsLoading ] = useState( false );
+  const [isQuestionGroupsLoading, setIsQuestionGroupsLoading] = useState(false);
   const newQuestionGroup = hooks.useNewQuestionGroup();
 
   // fetch questions data
@@ -93,7 +94,6 @@ const Template = ({
       dispatch(toggleEdit({ toggle: false }));
     }
     setShowAskCancel(false);
-
   };
 
   // fetch question groups data
@@ -188,10 +188,6 @@ const Template = ({
     };
   }, [isAddNew, isEdit]);
 
-  useEffect(() => {
-    const activeBundle = bundles.find((b) => b.active === true);
-    setBundle(activeBundle);
-  }, [bundles]);
   return (
     <div className={cx('container')}>
       {/* Header */}
@@ -201,16 +197,17 @@ const Template = ({
         show={showSidebar}
         setShow={setShowSidebar}
       />
-      <div className={cx('main', { scaled: showSidebar })}>
+      <div className={cx('main', { 'sidebar-scaled': showSidebar, 'bottombar-scaled': showBottombar })}>
         {/* Questions bundle/Question single*/}
-
+        <div className={cx('top')}></div>
         {questionBundle ? (
-          <QuestionBundle
-            className={cx('question-bundle', { scaled: showBottombar })}
-            isEnablePhoto={isEnablePhoto}
+          <QuestionBundles
+            data={bundles}
             isEnableAudio={isEnableAudio}
-            quote={quote}
-            data={bundle}
+            isEnablePhoto={isEnablePhoto}
+            quantityOfBundles={quantityOfBundles}
+            quantityOfQuestionsPerBundle={quantityOfQuestionsPerBundle}
+            quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
           />
         ) : (
           <QuestionSingle
@@ -233,7 +230,7 @@ const Template = ({
           <Loading />
         ) : (
           <QuestionGroups
-              isComplete={ isComplete }
+            isComplete={isComplete}
             groupName={groupName}
             groupId={groupId}
             onCancel={handleCancelAddNew}
@@ -258,7 +255,8 @@ const Template = ({
             <FontAwesomeIcon icon={showBottombar ? faCheck : faChevronUp} />
           </div>
         </Fragment>
-      )}
+      ) }
+      
       {/* Modal ask cancel edit */}
       <CustomModal
         title={t('cancelEdit')}

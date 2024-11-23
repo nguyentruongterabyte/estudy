@@ -34,6 +34,9 @@ import {
   toggleAddNew,
   toggleEdit,
 } from '~/redux/features/questionGroupsSilce';
+import Button from '~/components/Button';
+import CustomModal from '~/components/CustomModal';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -69,6 +72,7 @@ const QuestionSingle = ({
   const groupName = active.name;
   const isEdit = useSelector(editing);
   const isComplete = useSelector(finished);
+  const [show, setShow] = useState(false);
 
   const newQuestions = Array.from({ length: quantityOfQuestions }).map((_, index) => ({
     id: index,
@@ -86,9 +90,20 @@ const QuestionSingle = ({
     correctAnswerIndex: 0,
   }));
 
-  const handleComplete = async (questions) => {
+  const handleComplete = (questions) => {
     if (isAddNew) handleAddNew(questions);
     if (isEdit) handleEdit();
+  };
+
+  const handleCancel = async () => {
+    if (isAddNew) {
+      dispatch(toggleAddNew({ toggle: false }));
+    }
+
+    if (isEdit) {
+      dispatch(toggleEdit({ toggle: false }));
+    }
+    setShow(false);
   };
 
   // handle edit test
@@ -377,7 +392,7 @@ const QuestionSingle = ({
       >
         <AnswerChangeProvider
           onAnswerChange={(answer) => dispatch(updateAnswer(answer))}
-          onCorrectAnswerChange={(correctAnswer) => changeCorrectAnswerIndex(correctAnswer)}
+          onCorrectAnswerChange={(correctAnswer) => dispatch(changeCorrectAnswerIndex(correctAnswer))}
         >
           {isQuestionsLoading ? (
             <Loading />
@@ -389,8 +404,8 @@ const QuestionSingle = ({
               eventLogs={eventLogs}
               data={questions}
               isAddNew={isAddNew}
-              groupId={groupId}
               isEdit={isEdit}
+              groupId={groupId}
               isComplete={isComplete}
               quote={quote}
               quantityOfQuestions={quantityOfQuestions}
@@ -404,6 +419,39 @@ const QuestionSingle = ({
           )}
         </AnswerChangeProvider>
       </QuestionsProvider>
+
+      {/* Cancel/complete button */}
+      {(isAddNew || isEdit) && (
+        <div className={cx('button-group')}>
+          <Button
+            onClick={() => {
+              if (eventLogs.length === 0) handleCancel();
+              else setShow(true);
+            }}
+            className={cx('cancel-button')}
+            outline
+          >
+            {t('cancel')}
+          </Button>
+          <Button
+            success={isComplete}
+            onClick={handleComplete}
+            disabled={!isComplete}
+            className={cx('complete-button')}
+          >
+            {t('complete')}
+          </Button>
+        </div>
+      )}
+
+      {/* Modal ask cancel edit */}
+      <CustomModal
+        title={t('cancelEdit')}
+        body={t('confirmCancelEdit')}
+        show={show}
+        setShow={setShow}
+        handleAgreeButtonClick={handleCancel}
+      />
     </div>
   );
 };

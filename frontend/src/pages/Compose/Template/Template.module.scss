@@ -17,15 +17,27 @@
     right: 0;
     transition: all 0.3s ease;
     width: 100%;
-    overflow: hidden;
+    overflow-y: auto;
    
-    &.scaled {
-        width: calc(100% - var(--sidebar-width));
+    &.sidebar-scaled {
+      width: calc(100% - var(--sidebar-width));
+
+    }
+
+    &.bottombar-scaled {
+      transform: translateY(calc(var(--bottombar-height) * -1));
+      height: calc(100% + var(--bottombar-height));
+      .top {
+        height: var(--bottombar-height);
       }
+    }
     .questions {
       top: var(--default-layout-header-height);
     }
 
+    .top {
+      width: 100%;
+    }
   }
 
   .toggle-bottom-bar-button {

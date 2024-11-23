@@ -82,7 +82,7 @@ const Answer = ({ answer, index, isEditable, historyChanges }) => {
             type="radio"
             name={`correctAnswer-${question.id}`}
             checked={question.correctAnswerIndex === index}
-            onChange={() => onCorrectAnswerChange({ questionId: question.id, answerId: answer.id })}
+            onChange={() => onCorrectAnswerChange({ questionId: question.id, index: index })}
             className={cx('correct-answer-radio')}
           />
         </div>

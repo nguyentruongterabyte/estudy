@@ -6,11 +6,9 @@ import Question from '~/components/Compose/Question';
 import QuestionProvider from '~/context/QuestionProvider';
 import styles from './Questions.module.scss';
 import ErrorFieldsProvider from '~/context/ErrorFieldsProvider';
-import Button from '~/components/Button';
 import CustomModal from '~/components/CustomModal';
 import { logFields } from '~/redux/features/testSlice';
 import Quote from '~/components/Quote';
-import { useEnableMedia } from '~/context/EnableMediaProvider';
 import { useQuestions } from '~/context/QuestionsProvider';
 import { getWithExpiry } from '~/utils/localStorageUtils';
 
@@ -24,14 +22,11 @@ const Questions = ({
   quantityOfAnswersPerQuestion = 4,
   quote,
   groupId,
-  eventLogs = [],
   isAddNew,
   isEdit,
-  isComplete,
   isEnableAudio,
   isEnablePhoto,
   onAddNew = fn,
-  onComplete = fn,
   onToggleComplete = fn,
   onToggleAddNew = fn,
   onToggleEdit = fn,
@@ -96,13 +91,6 @@ const Questions = ({
     setErrorFields(errors);
   };
 
-  // handle on complete button click
-  const handleComplete = () => {
-    if (isComplete && onComplete) {
-      onComplete(data);
-    }
-  };
-
   const handleCancel = async () => {
     if (isAddNew) {
       onToggleAddNew(false);
@@ -132,28 +120,6 @@ const Questions = ({
               />
             </QuestionProvider>
           ))}
-        {(isAddNew || isEdit) && (
-          <div className={cx('button-group')}>
-            <Button
-              onClick={() => {
-                if (eventLogs.length === 0) handleCancel();
-                else setShow(true);
-              }}
-              className={cx('cancel-button')}
-              outline
-            >
-              {t('cancel')}
-            </Button>
-            <Button
-              success={isComplete}
-              onClick={handleComplete}
-              disabled={!isComplete}
-              className={cx('complete-button')}
-            >
-              {t('complete')}
-            </Button>
-          </div>
-        )}
       </ErrorFieldsProvider>
       {/* Modal ask cancel edit */}
       <CustomModal

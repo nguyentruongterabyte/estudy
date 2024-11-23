@@ -41,19 +41,6 @@ const testSlice = createSlice({
       changeLog: state.changeLog.filter((log) => log.field !== action.payload.field),
     }),
 
-    // index of correct answer
-    initCorrectAnswerIndex: (state, action) => ({
-      ...state,
-      test: {
-        ...state.test,
-        questions: state.test.questions.map((question) =>
-          question.id === action.payload.questionId
-            ? { ...question, correctAnswerIndex: action.payload.index }
-            : question,
-        ),
-      },
-    }),
-
     // change correct answer index (by id)
     changeCorrectAnswerIndex: (state, action) => {
       const updatedStateWithCorrectAnswerIndex = {
@@ -64,8 +51,8 @@ const testSlice = createSlice({
             question.id === action.payload.questionId
               ? {
                   ...question,
-                  correctAnswerIndex: question.answers.findIndex((answer) => answer.id === action.payload.answerId),
-                  correctAnswer: { answerId: action.payload.answerId },
+                  correctAnswerIndex: action.payload.index,
+                  correctAnswer: { answerId: question.answers[action.payload.index].id },
                 }
               : question,
           ),
@@ -121,6 +108,7 @@ const testSlice = createSlice({
         changeLog: [...updatedStateWithQuestionText.changeLog, changeQuestionTextLog],
       };
     },
+
     // update question photo
     updateQuestionPhoto: (state, action) => {
       const updatedStateWithPhoto = {
@@ -138,11 +126,13 @@ const testSlice = createSlice({
         },
       };
 
+      const oldQuestion = state.test.questions.find((q) => q.id === action.payload.questionId);
+
       const changePhotoLog = {
         field: logFields.photo,
-        photoId: state.test.questions.find((q) => q.id === action.payload.questionId).photoId,
+        photoId: oldQuestion.photoId,
         questionId: action.payload.questionId,
-        oldValue: state.test.questions.find((q) => q.id === action.payload.questionId).photo,
+        oldValue: oldQuestion.photo,
         newValue: action.payload.photo,
       };
       return {
@@ -196,10 +186,9 @@ const testSlice = createSlice({
         },
       };
 
-
       const oldAnswer = state.test.questions
-        .find( ( q ) => q.id === action.payload.questionId )
-        .answers.find( ( a ) => a.index === action.payload.index );
+        .find((q) => q.id === action.payload.questionId)
+        .answers.find((a) => a.index === action.payload.index);
 
       const changeAnswerLog = {
         field: logFields.answer,
@@ -231,7 +220,6 @@ export const {
   updateAnswer,
   removeChangeLogsByField,
   changeCorrectAnswerIndex,
-  initCorrectAnswerIndex,
   toggleComplete,
   resetChangeLog,
 } = testSlice.actions;

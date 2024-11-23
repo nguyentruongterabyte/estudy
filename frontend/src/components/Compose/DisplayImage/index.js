@@ -9,7 +9,16 @@ import { isEdit as editing } from '~/redux/features/testSlice';
 
 const cx = classNames.bind(styles);
 
-const DisplayImage = ({ imageUrl, altText, isEditable, onImageUpload, photoId, className, ...props }) => {
+const DisplayImage = ({
+  isError = false,
+  imageUrl,
+  altText,
+  isEditable,
+  onImageUpload,
+  photoId,
+  className,
+  ...props
+}) => {
   const isEdit = useSelector(editing);
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -27,7 +36,7 @@ const DisplayImage = ({ imageUrl, altText, isEditable, onImageUpload, photoId, c
     setSelectedImage(imageUrl);
   }, [imageUrl]);
   return (
-    <div className={cx('container', className)}>
+    <div className={cx('container', className, {error: isError})}>
       {isEditable ? (
         <Fragment>
           <Image

@@ -8,7 +8,8 @@ const Conversations = () => {
       resizeablePanels={true}
       partName="part3_Conversations"
       partId={3}
-      quantityOfQuestions={39}
+      quantityOfBundles={2}
+      quantityOfQuestionsPerBundle={3}
       quantityOfAnswersPerQuestion={4}
       questionBundle={true}
       quote={'nothingIsMorePreciousThanIndependenceAndFreedom'}

@@ -8,7 +8,15 @@ import styles from './AudioPlayer.module.scss';
 
 const cx = classNames.bind(styles);
 
-const AudioPlayer = ({ displayButtonText = true, audioLink, className, isEditable, onAudioUpload, audioId }) => {
+const AudioPlayer = ({
+  displayButtonText = true,
+  isError = false,
+  audioLink,
+  className,
+  isEditable,
+  onAudioUpload,
+  audioId,
+}) => {
   const { t } = useTranslation();
   const audioRef = useRef(null);
   const [progress, setProgress] = useState(0);
@@ -73,12 +81,11 @@ const AudioPlayer = ({ displayButtonText = true, audioLink, className, isEditabl
   }, [file]);
 
   useEffect(() => {
-    if ( !!selectedAudio )
-      setSelectedAudio( audioLink );
+    if (!!selectedAudio) setSelectedAudio(audioLink);
   }, [audioLink]);
 
   return (
-    <div className={cx('container', className)}>
+    <div className={cx('container', className, {error: isError})}>
       {isEditable && (
         <Fragment>
           <span

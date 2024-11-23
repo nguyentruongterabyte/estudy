@@ -7,7 +7,6 @@ import AudioPlayer from '~/components/Compose/AudioPlayer';
 import DisplayImage from '~/components/Compose/DisplayImage';
 import Answers from '~/components/Compose/Answers';
 import styles from './Question.module.scss';
-import { useEnableMedia } from '~/context/EnableMediaProvider';
 import { useQuestions } from '~/context/QuestionsProvider';
 import hooks from '~/hooks';
 import { useErrorFields } from '~/context/ErrorFieldsProvider';
@@ -38,7 +37,7 @@ const Question = ({
 
   const [inputValue, setInputValue] = useState(data.question);
   const errorFields = useErrorFields();
-  const debouncedValue = hooks.useDebounce(inputValue, 300);
+  const debouncedValue = hooks.useDebounce(inputValue, 500);
 
   const isError = isEditable && errorFields && errorFields[`question_${data.id}`];
 
@@ -99,7 +98,7 @@ const Question = ({
                 thumbnail
                 isEditable={isEditable}
                 onImageUpload={(newPhoto) => onImageUpload({ questionId: data.id, photo: newPhoto })}
-                photoId={data.id}
+                photoId={`question_photo${data.id}`}
               />
             )}
             <div className={cx('wrapper')}>
@@ -116,7 +115,7 @@ const Question = ({
                   isError={isError}
                   onHistoryItemClick={handleOnItemClick}
                   onFileChange={handleFileChange}
-                  textId={data.id}
+                  textId={`question_text_${data.id}`}
                 />
               )}
               {/* Answers/ Editable Answers */}
@@ -133,7 +132,7 @@ const Question = ({
               audioLink={data.audio}
               className={cx('audio')}
               isEditable={isEditable}
-              audioId={data.id}
+              audioId={`question_audio_${data.id}`}
               onAudioUpload={(newAudio) => onAudioUpload({ questionId: data.id, audio: newAudio })}
             />
           )}
