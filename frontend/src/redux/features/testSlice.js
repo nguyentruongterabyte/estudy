@@ -1,13 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-export const logFields = {
-  answer: 'answer',
-  correctAnswer: 'correctAnswer',
-  photo: 'photo',
-  audio: 'audio',
-  questionText: 'questionText',
-  questionGroupName: 'questionGroupName',
-};
+import logFields from '../logFields';
 
 const initialState = {
   isComplete: false,

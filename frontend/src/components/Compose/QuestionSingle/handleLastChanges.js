@@ -1,4 +1,4 @@
-import { logFields } from '~/redux/features/testSlice';
+import logFields from '~/redux/logFields';
 
 const getLastChangesByField = (eventLogs, field, keyGenerator) => {
   return Object.values(

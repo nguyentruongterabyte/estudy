@@ -3,13 +3,13 @@ import classNames from 'classnames/bind';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { ListGroup } from 'react-bootstrap';
 import { Fragment } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
+import logFields from '~/redux/logFields';
 import styles from './Answers.module.scss';
 import Answer from '~/components/Compose/Answer';
 import Button from '~/components/Button';
 import { useQuestion } from '~/context/QuestionProvider';
-import { logFields, updateAnswer } from '~/redux/features/testSlice';
 import { getWithExpiry } from '~/utils/localStorageUtils';
 import { activeGroup } from '~/redux/features/questionGroupsSilce';
 import { useAnswerChange } from '~/context/AnswerChangeProvider';
@@ -17,7 +17,6 @@ import { useAnswerChange } from '~/context/AnswerChangeProvider';
 const cx = classNames.bind(styles);
 const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const question = useQuestion();
   const active = useSelector(activeGroup);
   const groupId = active.id;
@@ -46,6 +45,8 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion }) => {
       .map((line) => line.trim())
       .filter((line) => line !== '');
 
+    if (lines.length < quantityOfAnswersPerQuestion) return;
+
     // The answers are taken from the first lines
     const answers = lines.slice(0, quantityOfAnswersPerQuestion); // Answers A, B, C, D
     const correctAnswerIndex = parseInt(lines[quantityOfAnswersPerQuestion], 10); // index of correct answer
@@ -54,7 +55,6 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion }) => {
       onAnswerChange({ questionId: question.id, index: index, answerText: answer });
     });
     // update correct answer
-    console.log('correct answer', correctAnswerIndex);
     onCorrectAnswerChange({ questionId: question.id, index: correctAnswerIndex });
   };
   return (

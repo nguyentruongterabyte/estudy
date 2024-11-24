@@ -6,7 +6,6 @@ import classNames from 'classnames/bind';
 
 import styles from './CustomTextArea.module.scss';
 import History from '../History';
-import Button from '~/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const cx = classNames.bind(styles);

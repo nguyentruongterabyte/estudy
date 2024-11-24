@@ -65,9 +65,9 @@
   "close": "关闭",
   "agree": "同意",
 
-  "uploadingMediaForQuestion": "正在为问题 # 上传媒体",
-  "uploadedMediaForQuestion": "已上传媒体到问题 #",
-  "failedToUploadMediaForQuestion": "上传问题 # 的媒体失败",
+  "uploadingMediaForQuestion": "正在上传媒体文件...",
+  "uploadedMediaForQuestion": "媒体文件已上传！",
+  "failedToUploadMediaForQuestion": "上传媒体文件失败",
 
   "updatingAnswers": "正在更新答案...",
   "updatedAnswersSuccessfully": "答案更新成功！",

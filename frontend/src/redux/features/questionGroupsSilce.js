@@ -1,9 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-export const logFields = {
-  questionGroupName: 'questionGroupName',
-};
-
+import logFields from '../logFields';
 
 const initialState = {
   changeLog: [],
@@ -47,15 +43,6 @@ const questionGroupsSlice = createSlice({
     addQuestionGroup: (state, action) => ({
       ...state,
       questionGroups: [...state.questionGroups, { id: action.payload.id, name: action.payload.name }],
-    }),
-
-    // change group name
-    changeGroupName: (state, action) => ({
-      ...state,
-      questionGroups: [
-        ...state.questionGroups.filter((group) => group.id !== action.payload.id),
-        { id: action.payload.id, name: action.payload.name },
-      ],
     }),
 
     // delete question group
@@ -105,24 +92,32 @@ const questionGroupsSlice = createSlice({
         oldValue: state.questionGroups.find((g) => g.id === action.payload.id).name,
         newValue: action.payload.name,
       };
+
+      console.log('change name log: ', changeNameLog);
       return {
         ...updatedStateWithGroupName,
         changeLog: [...updatedStateWithGroupName.changeLog, changeNameLog],
       };
     },
+
+    // remove change log field
+    removeChangeLogsByField: (state, action) => ({
+      ...state,
+      changeLog: state.changeLog.filter((log) => log.field !== action.payload.field),
+    }),
   },
 });
 
 export const {
   changeQuestionGroups,
   addQuestionGroup,
-  changeGroupName,
   sortQuestionGroupsByName,
   deleteQuestionGroup,
   setActive,
   toggleEdit,
   toggleAddNew,
   updateName,
+  removeChangeLogsByField,
 } = questionGroupsSlice.actions;
 
 export default questionGroupsSlice.reducer;
@@ -131,3 +126,5 @@ export const questionGroupList = (state) => state.questionGroups.questionGroups;
 export const activeGroup = (state) => state.questionGroups.active;
 export const adding = (state) => state.questionGroups.isAddNew;
 export const editing = (state) => state.questionGroups.isEdit;
+
+export const changeLog = (state) => state.questionGroups.changeLog;

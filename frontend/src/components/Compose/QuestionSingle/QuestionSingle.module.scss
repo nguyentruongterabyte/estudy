@@ -1,11 +1,19 @@
 .container {
+  position: relative;
+  
   .button-group {
-    position: fixed;
+  
+    position: absolute;
+  
     z-index: 5;
+  
     top: calc(var(--default-layout-header-height) + 8px);
+  
     right: 20px;
 
+  
     .cancel-button {
+  
       margin-right: 8px;
     }
   }

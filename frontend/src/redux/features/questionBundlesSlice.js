@@ -1,14 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-export const logFields = {
-  answer: 'answer',
-  text: 'text',
-  correctAnswer: 'correctAnswer',
-  questionText: 'questionText',
-  photo: 'photo',
-  audio: 'audio',
-  bundleText: 'bundleText',
-};
+import logFields from '../logFields';
 
 const initialState = {
   changeLog: [],

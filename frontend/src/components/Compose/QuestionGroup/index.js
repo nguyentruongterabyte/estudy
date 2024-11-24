@@ -6,6 +6,8 @@ import styles from './QuestionGroup.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { activeGroup, adding, editing, setActive, toggleEdit, updateName } from '~/redux/features/questionGroupsSilce';
+import { useEffect, useState } from 'react';
+import hooks from '~/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -14,6 +16,8 @@ const QuestionGroup = ({ onDeleteQuestionGroup, data }) => {
   const isAddNew = useSelector(adding);
   const isEdit = useSelector(editing);
   const dispatch = useDispatch();
+  const [inputValue, setInputValue] = useState(data.name);
+  const debouncedValue = hooks.useDebounce(inputValue, 300);
 
   const handleEdit = (event, groupId) => {
     event.stopPropagation();
@@ -25,6 +29,13 @@ const QuestionGroup = ({ onDeleteQuestionGroup, data }) => {
     event.stopPropagation();
     onDeleteQuestionGroup(groupId);
   };
+
+  useEffect(() => {
+    if ( debouncedValue !== data.name ) {
+      dispatch( updateName( { id: data.id, name: debouncedValue } ) );
+    }
+  }, [debouncedValue]);
+
   return (
     // Question group item
     <ListGroup.Item
@@ -35,11 +46,7 @@ const QuestionGroup = ({ onDeleteQuestionGroup, data }) => {
       className={cx('container')}
     >
       {isEdit && active.id === data.id ? (
-        <FormControl
-          className={cx('input')}
-          value={active.name}
-          onChange={(e) => dispatch(updateName({ id: data.id, name: e.target.value }))}
-        />
+        <FormControl className={cx('input')} value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
       ) : (
         <span className={cx('name')}>{data.name}</span>
       )}

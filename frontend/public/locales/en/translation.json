@@ -65,9 +65,9 @@
   "close": "Close",
   "agree": "Agree",
 
-  "uploadingMediaForQuestion": "Uploading media for question #",
-  "uploadedMediaForQuestion": "Uploaded media for question #",
-  "failedToUploadMediaForQuestion": "Failed to upload media for question #",
+  "uploadingMediaForQuestion": "Uploading media file...",
+  "uploadedMediaForQuestion": "Media file uploaded!",
+  "failedToUploadMediaForQuestion": "Failed to upload media",
 
   "updatingAnswers": "Updating answers...",
   "updatedAnswersSuccessfully": "Updated answers successfully!",

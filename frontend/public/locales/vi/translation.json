@@ -66,9 +66,9 @@
   "close": "Đóng",
   "agree": "Đồng ý",
 
-  "uploadingMediaForQuestion": "Đang tải phương tiện lên cho câu hỏi #",
-  "uploadedMediaForQuestion": "Đã tải phương tiện lên cho câu hỏi #",
-  "failedToUploadMediaForQuestion": "Tải phương tiện lên cho câu hỏi thất bại #",
+  "uploadingMediaForQuestion": "Đang tải file phương tiện...",
+  "uploadedMediaForQuestion": "Đã tải file phương tiện!",
+  "failedToUploadMediaForQuestion": "Tải phương tiện thất bại",
 
   "updatingAnswers": "Đang cập nhật các câu trả lời...",
   "updatedAnswersSuccessfully": "Cập nhật các câu trả lời thành công!",

@@ -1,0 +1,208 @@
+[
+  {
+    "active": false,
+    "id": 0,
+    "photo": "",
+    "audio": {},
+    "text": "M: Joanne, did you hear that all employees will be receiving free tablet computers next week? \nQ1 I’m excited about it, but actually I don’t know how to use one. \nEven my mobile phone is not a smartphone. \nW: Don’t worry about it. \nI have one at home and they are very user-friendly. \nYou won’t have any trouble familiarizing yourself with it. \nM: I’m glad to hear that. \nQ2 As a logo design company, we can definitely use the tablet computers to increase work efficiency. \nW: You’re right. \nQ3 If you have any questions, feel free to ask me for help.",
+    "isEnablePhoto": false,
+    "questions": [
+      {
+        "id": 0,
+        "question": "What is the man concerned about?",
+        "order": 1,
+        "correctAnswerIndex": 3,
+        "correctAnswer": {
+          "answerId": 3
+        },
+        "answers": [
+          {
+            "id": 0,
+            "answer": "Finishing a project on time",
+            "index": 0
+          },
+          {
+            "id": 1,
+            "answer": "Paying for his new mobile phone",
+            "index": 1
+          },
+          {
+            "id": 2,
+            "answer": "Repairing a piece of equipment",
+            "index": 2
+          },
+          {
+            "id": 3,
+            "answer": "Learning a new skill",
+            "index": 3
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "question": "Where do the speakers work?",
+        "order": 2,
+        "correctAnswerIndex": 3,
+        "correctAnswer": {
+          "answerId": 3
+        },
+        "answers": [
+          {
+            "id": 0,
+            "answer": "At a repair shop",
+            "index": 0
+          },
+          {
+            "id": 1,
+            "answer": "At an electronics store",
+            "index": 1
+          },
+          {
+            "id": 2,
+            "answer": "At a marketing firm",
+            "index": 2
+          },
+          {
+            "id": 3,
+            "answer": "At a design company",
+            "index": 3
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "question": "What does the woman offer to do?",
+        "order": 3,
+        "correctAnswerIndex": 0,
+        "correctAnswer": {
+          "answerId": 0
+        },
+        "answers": [
+          {
+            "id": 0,
+            "answer": "Provide assistance",
+            "index": 0
+          },
+          {
+            "id": 1,
+            "answer": "Pay in cash",
+            "index": 1
+          },
+          {
+            "id": 2,
+            "answer": "Fill in for the man",
+            "index": 2
+          },
+          {
+            "id": 3,
+            "answer": "E-mail a user manual",
+            "index": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "active": true,
+    "id": 1,
+    "photo": "",
+    "audio": {},
+    "text": "M: Hi, Linda. \nI’m responsible for putting together a slide show for Greg’s going-away party this Friday. \nQ1 However, I can’t find many pictures. \nDo you happen to have any photos of Greg that you could send to me? \nW: What? \nGreg is leaving the company? \nI had no idea. \nM: Yeah, he is taking a job at a design company. \nQ2 He said the job is more suited to his skills. \nW: Oh, I’m happy for him. \nI have a few photos from last year’s Christmas party. \nQ3 I’ll find the ones with Greg in them and e-mail them to you. \n",
+    "isEnablePhoto": false,
+    "questions": [
+      {
+        "id": 0,
+        "question": "What is the man concerned about?",
+        "order": 4,
+        "correctAnswerIndex": 2,
+        "correctAnswer": {
+          "answerId": 2
+        },
+        "answers": [
+          {
+            "id": 0,
+            "answer": "Getting his camera fixed",
+            "index": 0
+          },
+          {
+            "id": 1,
+            "answer": "Receiving sick leave from work",
+            "index": 1
+          },
+          {
+            "id": 2,
+            "answer": "Preparing for a party",
+            "index": 2
+          },
+          {
+            "id": 3,
+            "answer": "Introducing a client",
+            "index": 3
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "question": "According to the man, why does Greg like his new job?",
+        "order": 5,
+        "correctAnswerIndex": 2,
+        "correctAnswer": {
+          "answerId": 2
+        },
+        "answers": [
+          {
+            "id": 0,
+            "answer": "It offers better vacation time.",
+            "index": 0
+          },
+          {
+            "id": 1,
+            "answer": "It pays a higher salary.",
+            "index": 1
+          },
+          {
+            "id": 2,
+            "answer": "It matches his abilities.",
+            "index": 2
+          },
+          {
+            "id": 3,
+            "answer": "It provides health benefits.",
+            "index": 3
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "question": "What most likely will the woman do next?",
+        "order": 6,
+        "correctAnswerIndex": 3,
+        "correctAnswer": {
+          "answerId": 3
+        },
+        "answers": [
+          {
+            "id": 0,
+            "answer": "Take a group photo",
+            "index": 0
+          },
+          {
+            "id": 1,
+            "answer": "Attend a Christmas party",
+            "index": 1
+          },
+          {
+            "id": 2,
+            "answer": "Contact Greg",
+            "index": 2
+          },
+          {
+            "id": 3,
+            "answer": "Send an e-mail attachment",
+            "index": 3
+          }
+        ]
+      }
+    ]
+  }
+]

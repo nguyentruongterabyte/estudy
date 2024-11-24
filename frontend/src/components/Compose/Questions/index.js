@@ -2,12 +2,12 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 
+import logFields from '~/redux/logFields';
 import Question from '~/components/Compose/Question';
 import QuestionProvider from '~/context/QuestionProvider';
 import styles from './Questions.module.scss';
 import ErrorFieldsProvider from '~/context/ErrorFieldsProvider';
 import CustomModal from '~/components/CustomModal';
-import { logFields } from '~/redux/features/testSlice';
 import Quote from '~/components/Quote';
 import { useQuestions } from '~/context/QuestionsProvider';
 import { getWithExpiry } from '~/utils/localStorageUtils';

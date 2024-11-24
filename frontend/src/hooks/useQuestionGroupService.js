@@ -1,7 +1,7 @@
 import config from '~/config';
 import useAxiosPrivate from './useAxiosPrivate';
 import { useDispatch } from 'react-redux';
-import { changeGroupName } from '~/redux/features/questionGroupsSilce';
+import { updateName } from '~/redux/features/questionGroupsSilce';
 
 const useQuestionGroupService = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -10,7 +10,7 @@ const useQuestionGroupService = () => {
   const updateQuestionGroup = async (questionGroup) => {
     try {
       const response = await axiosPrivate.put(config.urls.questionGroup.update, { questionGroup });
-      dispatch(changeGroupName({ id: questionGroup.id, name: questionGroup.name }));
+      dispatch(updateName({ id: questionGroup.id, name: questionGroup.name }));
       return response?.data;
     } catch (e) {
       throw e;

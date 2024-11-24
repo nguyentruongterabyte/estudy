@@ -5,18 +5,31 @@
   z-index: 4;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100%; 
   height: var(--default-layout-header-height);
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   background-color: rgba(var(--bs-tertiary-bg-rgb));
-  .canvas-button {
-    padding: 20px;
-    font-size: 2rem;
-    color: var(--primary);
+  .group {
+    display: flex;
+    align-items: center; 
+    .canvas-button {
+      padding: 20px;
+      font-size: 2rem;
+      color: var(--primary);
+    }
+  
+    h1 {
+      margin-bottom: 0;
+      color: var(--primary);
+    }
   }
 
-  h1 {
-    margin-bottom: 0;
-    color: var(--primary)
+  .button-group {
+
+    .cancel-button {
+      margin-right: 8px;
+    }
   }
+
 }
