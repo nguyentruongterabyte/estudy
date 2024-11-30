@@ -10,7 +10,9 @@ module.exports = {
       { name: 'Bài nói ngắn' },
       { name: 'Hoàn thành câu' },
       { name: 'Hoàn thành đoạn văn' },
-      { name: 'Đọc hiểu' },
+      { name: 'Đọc hiểu - Đoạn đơn' },
+      { name: 'Đọc hiểu - Đoạn kép' },
+      { name: 'Đọc hiểu - Đoạn ba' },
     ]);
   },
 

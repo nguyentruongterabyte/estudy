@@ -1,4 +1,3 @@
-
 import routes from './routes';
 
 const navigationItems = {
@@ -9,6 +8,10 @@ const navigationItems = {
     },
   ],
   editor: [
+    {
+      title: 'vocabulary',
+      href: routes.vocabulary.compose,
+    },
     {
       title: 'composeRL',
       // href: '/compose/compose-reading-listening',
@@ -94,10 +97,6 @@ const navigationItems = {
           href: '/practice/part-7-triple-passages',
         },
       ],
-    },
-    {
-      title: 'practiceSW',
-      href: '/practice/practice-speaking-writing',
     },
     {
       title: 'mockTest',

@@ -1,0 +1,39 @@
+.container {
+  display: flex !important;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  &.correct {
+    color: #00f418
+  }
+  &.incorrect {
+    color: red;
+  }
+
+  &.error {
+    border: 1px solid red;
+  }
+
+  &+.container {
+    margin-top: 10px;
+  }
+
+  .label {
+    align-content: center;
+  }
+
+  .group {
+    display: flex;
+    flex: 1;
+    margin-left: 4px;
+    .input {
+      flex: 1;
+    }
+    .history {
+      width: 42px;
+    }
+  }
+}

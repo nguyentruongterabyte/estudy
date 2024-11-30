@@ -30,17 +30,16 @@ const useQuestionService = () => {
   // create question photo
   const createQuestionPhoto = async (questionId, photoId) => {
     try {
-      const newPhoto = await axiosPrivate.post(config.urls.question.createQuestionPhoto, {
+      const newQuestionPhoto = await axiosPrivate.post(config.urls.question.createQuestionPhoto, {
         questionId,
         photoId,
       });
 
-      return newPhoto;
+      return newQuestionPhoto;
     } catch (e) {
       throw e;
     }
   };
-
 
   // get question when knew group id
   const getQuestionsByGroupId = async (groupId, audio = false, photo = false) => {
@@ -85,6 +84,37 @@ const useQuestionService = () => {
       throw e;
     }
   };
+
+  // handle save question
+  const saveQuestion = async (question) => {
+    try {
+      const response = await axiosPrivate.post(config.urls.question.save, { question });
+      return response?.data?.data; // return new question
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  // handle save questions
+  const saveQuestions = async (questions) => {
+    try {
+      const response = await axiosPrivate.post(config.urls.question.saveMany, { questions });
+      return response?.data?.data; // return new questions
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  // handle delete question
+  const deleteQuestion = async (id) => {
+    try {
+      const response = await axiosPrivate.delete(`${config.urls.question.delete}/${id}`);
+      return response?.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
   return {
     updateCorrectAnswers,
     getQuestionGroups,
@@ -92,6 +122,9 @@ const useQuestionService = () => {
     createQuestionPhoto,
     createQuestionAudio,
     updateMany,
+    saveQuestion,
+    saveQuestions,
+    deleteQuestion,
   };
 };
 

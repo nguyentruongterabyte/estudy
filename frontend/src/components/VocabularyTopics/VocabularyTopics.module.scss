@@ -1,0 +1,22 @@
+.container {
+  .input-wrapper {
+    display: flex !important;
+    align-items: center;
+
+    .input-name {
+      width: 98%;
+      margin: 20px 0;
+      border: solid 1px cyan;
+    }
+
+    .cancel-button,
+    .complete-button {
+      margin-left: 6px;
+    }
+  }
+
+  .btn-add {
+    margin-top: 12px;
+    width: 100%;
+  }
+}

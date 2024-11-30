@@ -7,11 +7,15 @@ const urls = {
   },
   test: {
     create: '/api/test/create',
+    createBundle: '/api/test/create-bundle',
     delete: '/api/test/delete/:groupId',
+    deleteBundle: '/api/test/delete-bundle/:groupId',
+    getUserAnswers: '/api/test/user-answers/:userId/:groupId',
   },
   photo: {
     create: '/api/photo/create',
     upload: '/api/photo/upload',
+    delete: '/api/photo/:photoId',
   },
 
   audio: {
@@ -21,6 +25,29 @@ const urls = {
   answer: {
     update: '/api/answer',
   },
+
+  vocabularyTopic: {
+    create: '/api/vocabulary-topic',
+    delete: '/api/vocabulary-topic/:topicId',
+    update: '/api/vocabulary-topic',
+    getAll: '/api/vocabulary-topic'
+  },
+
+  vocabulary: {
+    getByTopicId: '/api/vocabulary/:topicId',
+  },
+
+  userAnswer: {
+    create: '/api/user-answer/:userId/:questionId/:answerId',
+  },
+  questionBundle: {
+    createBundlePhoto: '/api/question-bundle/bundle-photo',
+    createBundleAudio: '/api/question-bundle/bundle-audio',
+    updatePhotos: '/api/question-bundle/photos',
+    updateAudios: '/api/question-bundle/audios',
+    getByGroupId: '/api/question-bundle/get-by-group-id/:groupId',
+    updateMany: '/api/question-bundle/update-many',
+  },
   question: {
     updateCorrectAnswers: '/api/question/correct-answer',
     updatePhotos: '/api/question/photos',
@@ -29,6 +56,9 @@ const urls = {
     createQuestionPhoto: '/api/question/question-photo',
     getByGroupId: '/api/question/get-by-group-id/:groupId',
     updateMany: '/api/question/update-many',
+    save: '/api/question/save',
+    saveMany: '/api/question/save-many',
+    delete: '/api/question/delete/:id',
   },
   questionGroup: {
     update: '/api/question-group',

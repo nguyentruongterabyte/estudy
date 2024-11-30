@@ -2,12 +2,7 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class VocabularyTopic extends Model {
-    static associate(models) {
-      VocabularyTopic.hasMany(models.Vocabulary, {
-        foreignKey: 'vocabularyTopicId',
-        as: 'vocabularies',
-      });
-    }
+    static associate(models) {}
   }
   VocabularyTopic.init(
     {

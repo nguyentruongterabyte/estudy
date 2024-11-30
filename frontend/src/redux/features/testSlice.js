@@ -63,7 +63,7 @@ const testSlice = createSlice({
       };
     },
 
-    // change question
+    // change questions
     changeQuestions: (state, action) => ({
       ...state,
       test: {
@@ -201,6 +201,70 @@ const testSlice = createSlice({
       ...state,
       changeLog: [],
     }),
+
+    // delete question
+    deleteQuestion: (state, action) => {
+      const deleteQuestion = state.test.questions.find((question) => question.id === action.payload.id);
+
+      const updatedStateWithQuestionDeletion = {
+        ...state,
+        test: {
+          ...state.test,
+          questions: [...state.test.questions.filter((question) => question.id !== action.payload.id)],
+        },
+      };
+
+      const log = {
+        field: logFields.deleteQuestion,
+        id: deleteQuestion.id,
+      };
+
+      const oldChangeLog = [
+        ...updatedStateWithQuestionDeletion.changeLog.filter(
+          (change) => !(change.questionId && change.questionId === action.payload.id),
+        ),
+      ];
+
+      // only write log with questions which get from db
+      return deleteQuestion.isAddNew
+        ? {
+            ...updatedStateWithQuestionDeletion,
+            changeLog: [...oldChangeLog],
+          }
+        : {
+            ...updatedStateWithQuestionDeletion,
+            changeLog: [...oldChangeLog, log],
+          };
+    },
+
+    // add new question
+    addQuestion: (state, action) => {
+      const id = state.test.questions.length + 1;
+      const newQuestion = {
+        id,
+        isAddNew: true,
+        photoId: id,
+        audioId: id,
+        photo: '',
+        audio: '',
+        question: '',
+        correctAnswer: { answerId: 0 },
+        correctAnswerIndex: 0,
+        answers: Array.from({ length: action.payload.quantityOfAnswersPerQuestion }).map((_, answerIndex) => ({
+          id: answerIndex,
+          index: answerIndex,
+          answer: '',
+        })),
+      };
+
+      return {
+        ...state,
+        test: {
+          ...state.test,
+          questions: [...state.test.questions, newQuestion],
+        },
+      };
+    },
   },
 });
 
@@ -214,6 +278,8 @@ export const {
   changeCorrectAnswerIndex,
   toggleComplete,
   resetChangeLog,
+  deleteQuestion,
+  addQuestion,
 } = testSlice.actions;
 export default testSlice.reducer;
 export const questionList = (state) => state.test.test.questions;

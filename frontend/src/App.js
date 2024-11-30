@@ -26,13 +26,14 @@ function App() {
             }
 
             const Page = route.component;
+            const props = route.props;
             return (
               <Route
                 key={index}
                 path={route.path}
                 element={
                   <Layout>
-                    <Page />
+                    <Page {...props} />
                   </Layout>
                 }
               />
@@ -51,13 +52,14 @@ function App() {
               }
 
               const Page = route.component;
+              const props = route.props;
               return (
                 <Route key={index} element={<RequireAuth allowedRoles={route.allowedRoles} />}>
                   <Route
                     path={route.path}
                     element={
                       <Layout headerSearch={route.headerSearch}>
-                        <Page />
+                        <Page {...props} />
                       </Layout>
                     }
                   />

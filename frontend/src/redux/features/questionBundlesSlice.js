@@ -124,7 +124,7 @@ const questionBundlesSlice = createSlice({
       };
 
       const log = {
-        field: logFields.text,
+        field: logFields.bundleText,
         id: action.payload.id,
         oldValue: state.bundles.find((bundle) => bundle.id === action.payload.id).text,
         newValue: action.payload.text,
@@ -153,14 +153,16 @@ const questionBundlesSlice = createSlice({
     }),
 
     // Toggle enable photo
-    toggleEnablePhoto: (state, action) => ({
-      ...state,
-      bundles: [
-        ...state.bundles.map((bundle) =>
-          bundle.id === action.payload.id ? { ...bundle, isEnablePhoto: !bundle.isEnablePhoto } : bundle,
-        ),
-      ],
-    }),
+    toggleEnablePhoto: (state, action) => {
+      return {
+        ...state,
+        bundles: [
+          ...state.bundles.map((bundle) =>
+            bundle.id === action.payload.id ? { ...bundle, isEnablePhoto: !bundle.isEnablePhoto } : bundle,
+          ),
+        ],
+      };
+    },
 
     // update question text
     updateQuestionText: (state, action) => {
@@ -173,7 +175,7 @@ const questionBundlesSlice = createSlice({
               ? {
                   ...bundle,
                   questions: bundle.questions.map((question) =>
-                    question.id === action.payload.questionId
+                    question.id === deleteQuestion.id
                       ? {
                           ...question,
                           question: action.payload.questionText,
@@ -188,7 +190,7 @@ const questionBundlesSlice = createSlice({
       const changeQuestionTextLog = {
         field: logFields.questionText,
         id: action.payload.id,
-        questionId: action.payload.questionId,
+        questionId: deleteQuestion.id,
         oldValue: state.bundles
           .find((b) => b.id === action.payload.id)
           .questions.find((q) => q.id === action.payload.questionId).question,
@@ -235,7 +237,6 @@ const questionBundlesSlice = createSlice({
 
       const changeAnswerLog = {
         field: logFields.answer,
-        id: action.payload.id,
         questionId: action.payload.questionId,
         answerId: oldAnswer.id,
         oldValue: oldAnswer.answer,
@@ -296,6 +297,7 @@ const questionBundlesSlice = createSlice({
     updatePhoto: (state, action) => {
       const updatedStateWithPhoto = {
         ...state,
+        isEnablePhoto: true,
         bundles: state.bundles.map((bundle) =>
           bundle.id === action.payload.id
             ? {
@@ -311,6 +313,7 @@ const questionBundlesSlice = createSlice({
       const changePhotoLog = {
         field: logFields.photo,
         id: action.payload.id,
+        photoId: action.payload.photoId,
         oldValue: oldBundle.photo,
         newValue: action.payload.photo,
       };
@@ -339,6 +342,7 @@ const questionBundlesSlice = createSlice({
       const changePhotoLog = {
         field: logFields.audio,
         id: action.payload.id,
+        audioId: action.payload.audioId,
         oldValue: oldBundle.audio,
         newValue: action.payload.audio,
       };
@@ -353,6 +357,93 @@ const questionBundlesSlice = createSlice({
       ...state,
       isComplete: action.payload.toggle,
     }),
+
+    // change bundles
+    changeBundles: (state, action) => ({ ...state, bundles: action.payload.bundles }),
+
+    // remove change log field
+    removeChangeLogsByField: (state, action) => ({
+      ...state,
+      changeLog: state.changeLog.filter((log) => log.field !== action.payload.field),
+    }),
+
+    // delete question
+    deleteQuestion: (state, action) => {
+      let currentOrder = 1;
+      const deleteQuestion = state.bundles
+        .find((bundle) => bundle.id === action.payload.id)
+        .questions.find((question) => question.id === action.payload.questionId);
+      const updatedStateWithQuestionDeletion = {
+        ...state,
+        bundles: [
+          ...state.bundles.map((bundle) =>
+            bundle.id === action.payload.id
+              ? {
+                  ...bundle,
+                  questions: bundle.questions
+                    .filter((question) => question.id !== action.payload.questionId)
+                    .map((question) => ({ ...question, order: currentOrder++ })),
+                }
+              : {
+                  ...bundle,
+                  questions: bundle.questions.map((question) => ({ ...question, order: currentOrder++ })),
+                },
+          ),
+        ],
+      };
+
+      const log = {
+        field: logFields.deleteQuestion,
+        id: deleteQuestion.id,
+      };
+
+      // only write log with questions which get from db
+      return deleteQuestion.isAddNew
+        ? updatedStateWithQuestionDeletion
+        : {
+            ...updatedStateWithQuestionDeletion,
+            changeLog: [...updatedStateWithQuestionDeletion.changeLog, log],
+          };
+    },
+
+    // add new question
+    addQuestion: (state, action) => {
+      const oldBundle = state.bundles.find((bundle) => bundle.id === action.payload.id);
+      const newQuestion = {
+        id: oldBundle.questions.length + 1,
+        isAddNew: true,
+        bundleId: action.payload.id,
+        question: '',
+        correctAnswerIndex: 0,
+        correctAnswer: { answerId: 0 },
+        answers: Array.from({ length: action.payload.quantityOfAnswersPerQuestion }).map((_, answerIndex) => ({
+          id: answerIndex,
+          answer: '',
+          index: answerIndex,
+        })),
+      };
+
+      let currentOrder = 1;
+      return {
+        ...state,
+        bundles: [
+          ...state.bundles.map((bundle) =>
+            bundle.id === oldBundle.id
+              ? {
+                  ...bundle,
+                  questions: [
+                    ...bundle.questions.map((question) => ({ ...question, order: currentOrder++ })),
+                    { ...newQuestion, order: currentOrder++ },
+                  ],
+                }
+              : {
+                  ...bundle,
+                  questions: [...bundle.questions.map((question) => ({ ...question, order: currentOrder++ }))],
+                },
+          ),
+        ],
+      };
+    },
   },
 });
 
@@ -369,8 +460,13 @@ export const {
   updateBundles,
   updatePhoto,
   updateAudio,
+  changeBundles,
+  removeChangeLogsByField,
+  deleteQuestion,
+  addQuestion,
 } = questionBundlesSlice.actions;
 
 export default questionBundlesSlice.reducer;
 export const questionBundles = (state) => state.questionBundles.bundles;
 export const finished = (state) => state.questionBundles.isComplete;
+export const changeLog = (state) => state.questionBundles.changeLog;

@@ -154,7 +154,95 @@ const handleCreateQuestionPhoto = async (req, res) => {
   }
 };
 
+// handle delete question
+const handleDeleteQuestion = async (req, res) => {
+  const { id } = req.params;
 
+  try {
+    const question = await questionService.get(id);
+    if (!question)
+      return res.status(404).json({
+        errCode: 1,
+        errMessage: 'Question not found',
+      });
+
+    // handle delete photo
+    if (question.photoId) {
+      const photo = await photoService.get(question.photoId);
+
+      if (photo) {
+        await photoService.deleteFirebasePhotoByUrl(photo.filePath);
+        await photoService.destroy(photo.id);
+      }
+    }
+
+    // handle delete audio
+    if (question.audioId) {
+      const audio = await photoService.get(question.audioId);
+
+      if (audio) {
+        await audioService.deleteFirebaseAudioByUrl(audio.audioLink); // Delete audio from firebase
+        await audioService.destroy(audio.id);
+      }
+    }
+
+    // delete question
+    await questionService.destroy(id);
+
+    return res.json({
+      errCode: 0,
+      errMessage: 'Delete successfully!',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
+const handleSaveQuestion = async (req, res) => {
+  const { question } = req.body;
+  try {
+    const newQuestion = await questionService.save(question);
+    return res.json({
+      errCode: 0,
+      errMessage: 'Save successfully!',
+      data: newQuestion,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
+const handleSaveQuestions = async (req, res) => {
+  const { questions } = req.body;
+
+  if (!Array.isArray(questions)) {
+    return res.status(400).json({
+      errCode: 1,
+      errMessage: "Invalid input: 'questions' must be an array.",
+    });
+  }
+
+  try {
+    const newQuestions = await Promise.all(questions.map(async (question) => await questionService.save(question)));
+
+    return res.json({
+      errCode: 0,
+      errMessage: 'Save successfully!',
+      data: newQuestions,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
 
 export default {
   handleCreateQuestionPhoto,
@@ -164,4 +252,7 @@ export default {
   handleUpdatePhotos,
   handleUpdateAudios,
   handleUpdateMany,
+  handleDeleteQuestion,
+  handleSaveQuestions,
+  handleSaveQuestion,
 };

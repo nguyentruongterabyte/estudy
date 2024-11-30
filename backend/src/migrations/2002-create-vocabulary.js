@@ -13,22 +13,30 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'VocabularyTopics',
-          key: 'id'
+          key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      photoId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Photos',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       word: {
         type: Sequelize.STRING(50),
       },
-      pronounciation: {
+      pronunciation: {
         type: Sequelize.STRING(100),
       },
       definition: {
         type: Sequelize.TEXT,
       },
       example: {
-        type: Sequelize.TEXT,
-      },
-      image: {
         type: Sequelize.TEXT,
       },
       createdAt: {

@@ -6,6 +6,7 @@ import verifyJWT from '../middleware/verifyJWT';
 import { ROLES_OBJECT } from '../config/rolesList';
 import verifyRoles from '../middleware/verifyRoles';
 import verifyUserOwnership from '../middleware/verifyUserOwnership';
+import urls from '../config/urls';
 // import controller
 import userController from '../controllers/userController';
 import vocabularyController from '../controllers/vocabularyController';
@@ -15,7 +16,9 @@ import photoController from '../controllers/photoController';
 import answerController from '../controllers/answerController';
 import questionController from '../controllers/questionController';
 import questionGroupController from '../controllers/questionGroupController';
-import urls from '../config/urls';
+import questionBundleController from '../controllers/questionBundleController';
+import userAnswerController from '../controllers/userAnswerController';
+import vocabularyTopicController from '../controllers/vocabularyTopicController';
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -33,54 +36,119 @@ let initWebRoutes = (app) => {
   router.get(urls.user.logout, userController.handleLogout);
 
   // vocabulary
-  router.post(
-    '/api/vocabulary/create-topic',
-    verifyJWT,
-    verifyRoles(ROLES_OBJECT.EDITOR),
-    vocabularyController.handleCreateVocabularyTopic,
+  router.get(
+    urls.vocabulary.getByTopicId,
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    vocabularyController.handleGetByTopicId,
   );
+
+  // vocabulary topic
+  router.post(
+    urls.vocabularyTopic.create,
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR),
+    vocabularyTopicController.handleSaveVocabularyTopic,
+  );
+
+  router.get(
+    urls.vocabularyTopic.getAll,
+    // verifyJWT,
+    // verifyRoles( ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER ),
+    vocabularyTopicController.handleGetAll,
+  );
+
+  router.delete(
+    urls.vocabularyTopic.delete,
+    // verifyJWT,
+    // verifyRoles( ROLES_OBJECT.EDITOR ),
+    vocabularyTopicController.handleDelete,
+  );
+
+  router.put(
+    urls.vocabularyTopic.update,
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR),
+    vocabularyTopicController.handleUpdate,
+  );
+
   // Audio
-  router.post(
-    urls.audio.create,
-    // verifyJWT, verifyRoles( ROLES_OBJECT.EDITOR ) ,
-    audioController.handleSave,
-  );
+  router.post(urls.audio.create, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), audioController.handleSave);
 
   router.post(
     urls.audio.upload,
     upload.single('audio'),
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
     audioController.handleUpload,
   );
 
   // Photo
-  router.post(
-    urls.photo.create,
-    // verifyJWT,
-    // verifyRoles( ROLES_OBJECT.EDITOR ),
-    photoController.handleSave,
-  );
+  router.post(urls.photo.create, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), photoController.handleSave);
 
   router.post(
     urls.photo.upload,
     upload.single('photo'),
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
     photoController.handleUpload,
   );
 
-  // test
-  router.post(
-    urls.test.create,
-    // verifyJWT,
-    // verifyRoles( ROLES_OBJECT.EDITOR ),
-    testController.handleSaveTest,
-  );
-  router.delete(urls.test.delete, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleDeleteTest);
+  router.delete(urls.photo.delete, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), photoController.handleDestroy);
 
+  // test
+  router.post(urls.test.create, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveTest);
+
+  router.post(urls.test.createBundle, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveBundleTest);
+
+  router.delete(urls.test.delete, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleDeleteTest);
+  router.delete(
+    urls.test.deleteBundle,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    testController.handleDeleleBundleTest,
+  );
+
+  router.get(urls.test.getUserAnswers, verifyJWT, verifyRoles(ROLES_OBJECT.USER), testController.handleGetUserAnswers);
   // Answers
-  router.put(urls.answer.update, answerController.handleUpdateAnswers);
+  router.put(urls.answer.update, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), answerController.handleUpdateAnswers);
+
+  // User answer
+  router.get(
+    urls.userAnswer.create,
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.USER),
+    userAnswerController.handleCreateUserAnswer,
+  );
+
+  // Bundle Question
+  router.put(
+    urls.questionBundle.updateMany,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    questionBundleController.handleUpdateMany,
+  );
+
+  router.get(
+    urls.questionBundle.getByGroupId,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    questionBundleController.handleGetQuestionBundlesByGroupId,
+  );
+
+  router.post(
+    urls.questionBundle.createBundlePhoto,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    questionBundleController.handleCreateBundlePhoto,
+  );
+
+  router.post(
+    urls.questionBundle.createBundleAudio,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    questionBundleController.handleCreateBundleAudio,
+  );
 
   // Questions
   router.put(
@@ -116,16 +184,32 @@ let initWebRoutes = (app) => {
 
   router.post(
     urls.question.createQuestionPhoto,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
     questionController.handleCreateQuestionPhoto,
   );
 
   router.post(
     urls.question.createQuestionAudio,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
     questionController.handleCreateQuestionAudio,
+  );
+
+  router.delete(
+    urls.question.delete,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    questionController.handleDeleteQuestion,
+  );
+
+  router.post(urls.question.save, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), questionController.handleSaveQuestion);
+
+  router.post(
+    urls.question.saveMany,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
+    questionController.handleSaveQuestions,
   );
 
   // Question Group
@@ -139,7 +223,7 @@ let initWebRoutes = (app) => {
   router.get(
     urls.questionGroup.getAll,
     verifyJWT,
-    verifyRoles(ROLES_OBJECT.EDITOR),
+    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
     questionGroupController.handleGetQuestionGroupsByPartId,
   );
   return app.use('/', router);

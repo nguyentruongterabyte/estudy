@@ -38,9 +38,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-    } );
+    });
     await queryInterface.addConstraint('UserAnswers', {
-      fields: ['userId', 'questionId', 'answerId'],
+      fields: ['userId', 'questionId'],
       type: 'primary key',
       name: 'PK_UserAnswers',
     });

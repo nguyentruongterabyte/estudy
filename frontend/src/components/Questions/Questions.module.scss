@@ -1,0 +1,18 @@
+.container {
+  .button-group
+  {
+    position: fixed;
+    z-index: 5;
+    top: calc(var(--default-layout-header-height) + 8px);
+    right: 20px;
+
+    .cancel-button {
+      margin-right: 8px;
+    }
+
+  }
+  .add-button {
+    width: 100%;
+    margin: 8px 0;
+  }
+}

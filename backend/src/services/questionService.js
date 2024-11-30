@@ -19,6 +19,19 @@ const updateMany = (questions) => {
   });
 };
 
+const destroy = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const rowEffected = await db.Question.destroy({
+        where: { id },
+      });
+      resolve(rowEffected);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const update = (question) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -115,7 +128,31 @@ const getByGroupId = (groupId) => {
   });
 };
 
-module.exports = {
+const getByQuestionBundleId = (bundleId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const questions = await db.Question.findAll({
+        attributes: ['id', 'question', 'bundleId'],
+        where: { bundleId },
+        raw: true,
+      });
+
+      const questionWithAnswers = await Promise.all(
+        questions.map(async (question) => {
+          const answers = await answerService.getByQuestionId(question.id);
+          const correctAnswer = await answerService.getCorrectAnswer(question.id);
+          return { ...question, answers, correctAnswer };
+        }),
+      );
+
+      resolve(questionWithAnswers);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+export default {
   getByGroupId,
   save,
   update,
@@ -123,4 +160,6 @@ module.exports = {
   updateAudios,
   updateMany,
   get,
+  getByQuestionBundleId,
+  destroy,
 };

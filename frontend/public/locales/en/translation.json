@@ -101,12 +101,20 @@
   "deletedQuestionGroupSuccessfully": "Deleted question group successfully!",
   "failedToDeleteQuestionGroup": "Failed to delete question group",
 
+  "deletingVocabularyTopic": "Deleting vocabulary topic",
+  "deleteVocabularyTopicSuccess": "Successfully deleted vocabulary topic",
+  "deleteVocabularyTopicFailed": "Failed to delete vocabulary topic",
+
   "changingQuestions": "Changing question...",
   "changeQuestionsSuccess": "Successfully changed questions!",
   "changeQuestionsError": "Failed to change questions",
 
   "deleteQuestionGroup": "Delete question group",
   "confirmDeleteQuestionGroup": "Are you sure want to delete this question group?",
+
+  "deleteQuestion": "Delete Question",
+  "confirmDeleteQuestion": "Are you sure you want to delete this question?",
+  "addQuestion": "Add Question",
 
   "answer": "Answer",
 
@@ -121,5 +129,12 @@
   "nothingIsMorePreciousThanIndependenceAndFreedom": "Nothing is more precious than independence and freedom.",
   "whatWeAreTheWorldIs": "What we are, the world is.",
 
-  "transcripts": "Transcripts"
+  "transcripts": "Transcripts",
+
+  "createNewVocabularyTopic": "Create new vocabulary topic",
+  "enterWordsInThisBox": "Enter words in this box",
+
+  "example": "Example",
+  "definition": "Definition",
+  "pronunciation": "Pronunciation"
 }

@@ -13,8 +13,8 @@ const save = (data) => {
   });
 };
 
-const get = ( id ) => {
-  return new Promise(async(resolve, reject) => {
+const get = (id) => {
+  return new Promise(async (resolve, reject) => {
     try {
       const photo = await db.Photo.findOne({
         where: { id },
@@ -23,8 +23,8 @@ const get = ( id ) => {
     } catch (e) {
       reject(e);
     }
-  })
-}
+  });
+};
 
 const destroy = (id) => {
   return new Promise(async (resolve, reject) => {
@@ -110,12 +110,12 @@ const deleteFirebasePhotoByUrl = async (url) => {
   });
 };
 
-module.exports = {
+export default {
   getByQuestionId,
   uploadFirebase,
   save,
   update,
   deleteFirebasePhotoByUrl,
   destroy,
-  get
+  get,
 };

@@ -13,6 +13,7 @@
   .group {
     display: flex;
     align-items: center; 
+    user-select: none;
     .canvas-button {
       padding: 20px;
       font-size: 2rem;

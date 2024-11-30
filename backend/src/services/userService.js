@@ -219,7 +219,7 @@ const comparePassword = (password, hashedPassword) => {
   });
 };
 
-module.exports = {
+export default {
   getAllUsers,
   getById,
   checkUserEmail,

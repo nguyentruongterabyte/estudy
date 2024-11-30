@@ -1,20 +1,21 @@
 import config from '~/config';
 import HomeLayout from '~/layouts/HomeLayout';
 import LoginLayout from '~/layouts/LoginLayout';
-import Conversations from '~/pages/Compose/Conversations';
-import DoublePassages from '~/pages/Compose/DoublePassages';
-import IncompleteSentences from '~/pages/Compose/IncompleteSentences';
-import Photos from '~/pages/Compose/Photos';
-import QuestionResponse from '~/pages/Compose/QuestionResponse';
-import ShortTalks from '~/pages/Compose/ShortTalks';
-import SinglePassages from '~/pages/Compose/SinglePassages';
-import TextCompletion from '~/pages/Compose/TextCompletion';
-import TriplePassages from '~/pages/Compose/TriplePassages';
+import Conversations from '~/pages/Conversations';
+import DoublePassages from '~/pages/DoublePassages';
+import IncompleteSentences from '~/pages/IncompleteSentences';
+import Photos from '~/pages/Photos';
+import QuestionResponse from '~/pages/QuestionResponse';
+import ShortTalks from '~/pages/ShortTalks';
+import SinglePassages from '~/pages/SinglePassages';
+import TextCompletion from '~/pages/TextCompletion';
+import TriplePassages from '~/pages/TriplePassages';
 import Home from '~/pages/Home';
 import { Admin, Editor, User } from '~/pages/HomeHasLogged';
 import Login from '~/pages/Login';
 import Register from '~/pages/Register';
 import Unauthorized from '~/pages/Unauthorized';
+import Vocabulary from '~/pages/Vocabulary';
 
 const publicRoutes = [
   { path: config.routes.register, component: Register, layout: LoginLayout },
@@ -43,7 +44,7 @@ const privateRoutes = [
     layout: HomeLayout,
   },
 
-  // compose
+  // compose question
   {
     path: config.routes.compose.part1_Photos,
     component: Photos,
@@ -96,6 +97,78 @@ const privateRoutes = [
     path: config.routes.compose.part7_TriplePassages,
     component: TriplePassages,
     allowedRoles: [config.roles.editor],
+    layout: HomeLayout,
+  },
+  // practice question
+  {
+    path: config.routes.practice.part1_Photos,
+    component: Photos,
+    allowedRoles: [config.roles.user],
+    layout: HomeLayout,
+    props: { isUser: true },
+  },
+  {
+    path: config.routes.practice.part2_QuestionResponse,
+    component: QuestionResponse,
+    allowedRoles: [config.roles.user],
+    layout: HomeLayout,
+    props: { isUser: true },
+  },
+  {
+    path: config.routes.practice.part3_Conversations,
+    component: Conversations,
+    allowedRoles: [config.roles.user],
+    layout: HomeLayout,
+    props: { isUser: true },
+  },
+  {
+    path: config.routes.practice.part4_ShortTalks,
+    component: ShortTalks,
+    allowedRoles: [config.roles.user],
+    layout: HomeLayout,
+    props: { isUser: true },
+  },
+  {
+    path: config.routes.practice.part5_IncompleteSentences,
+    component: IncompleteSentences,
+    allowedRoles: [config.roles.user],
+    layout: HomeLayout,
+    props: { isUser: true },
+  },
+  {
+    path: config.routes.practice.part6_TextCompletion,
+    component: TextCompletion,
+    allowedRoles: [config.roles.user],
+    layout: HomeLayout,
+    props: { isUser: true },
+  },
+  {
+    path: config.routes.practice.part7_SinglePassages,
+    component: SinglePassages,
+    allowedRoles: [config.roles.user],
+    layout: HomeLayout,
+    props: { isUser: true },
+  },
+  {
+    path: config.routes.practice.part7_DoublePassages,
+    component: DoublePassages,
+    allowedRoles: [config.roles.user],
+    layout: HomeLayout,
+    props: { isUser: true },
+  },
+  {
+    path: config.routes.practice.part7_TriplePassages,
+    component: TriplePassages,
+    allowedRoles: [config.roles.user],
+    layout: HomeLayout,
+    props: { isUser: true },
+  },
+
+  // vocabulary
+  {
+    path: config.routes.vocabulary.compose,
+    component: Vocabulary,
+    allowedRoles: [config.roles.user],
     layout: HomeLayout,
   },
 ];

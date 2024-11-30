@@ -16,6 +16,17 @@ const updateAnswers = (answers) => {
   });
 };
 
+const get = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const answer = await db.Answer.findOne({ where: { id }, raw: true });
+      resolve(answer);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const save = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -57,9 +68,10 @@ const getCorrectAnswer = (questionId) => {
   });
 };
 
-module.exports = {
+export default {
   getByQuestionId,
   getCorrectAnswer,
   save,
-  updateAnswers
+  get,
+  updateAnswers,
 };

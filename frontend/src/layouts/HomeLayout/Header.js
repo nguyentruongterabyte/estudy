@@ -8,10 +8,10 @@ import { useTranslation } from 'react-i18next';
 import styles from '~/layouts/Header.module.scss';
 import config from '~/config';
 import hooks from '~/hooks';
-import LanguageSelector from '~/components/LanguageSelector';
-import NavigationMenu from '~/components/NavigationMenu';
-import NavbarBrand from '~/components/NavbarBrand';
-import ProfileMenu from '~/components/ProfileMenu';
+import LanguageSelector from '../LanguageSelector';
+import NavigationMenu from '../NavigationMenu';
+import NavbarBrand from '../NavbarBrand';
+import ProfileMenu from '../ProfileMenu';
 
 const cx = classNames.bind(styles);
 

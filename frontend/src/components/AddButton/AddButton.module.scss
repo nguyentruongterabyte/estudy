@@ -1,0 +1,6 @@
+.container {
+  font-size: 1.6rem !important;
+  &:not(:hover) {
+    border: dotted 2px !important;
+  }
+}

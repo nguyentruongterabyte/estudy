@@ -1,18 +1,11 @@
 FROM node:14-alpine
 # Chuẩn bị môi trường node.js, version 14/alpine
-
 WORKDIR /estudy/backend
-
 COPY package*.json ./
-
 RUN npm install
-
 RUN npm install -g @babel/core @babel/cli
-
 COPY . . 
-
 RUN npm run build-src
-
 CMD ["npm", "run", "build"]
 
 # docker build --tag node-docker .

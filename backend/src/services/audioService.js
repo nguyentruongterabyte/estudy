@@ -121,4 +121,4 @@ const deleteFirebaseAudioByUrl = async (url) => {
   });
 };
 
-module.exports = { get, getByQuestionId, uploadFirebase, save, deleteFirebaseAudioByUrl, update, destroy };
+export default { get, getByQuestionId, uploadFirebase, save, deleteFirebaseAudioByUrl, update, destroy };

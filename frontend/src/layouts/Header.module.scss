@@ -1,4 +1,4 @@
-// Header
+// Header Styles
 .header-wrapper {
   position: fixed;
   top: 0;
@@ -8,30 +8,38 @@
 
   .header-nav {
     height: var(--default-layout-header-height);
+
     .navbar-collapse {
       display: flex;
       flex-direction: row-reverse;
+
       .navbar-nav {
-        flex-direction: row;
         display: flex;
+        flex-direction: row;
         align-items: center;
+        // flex: 1;
+
         .nav-link-item {
+          display: flex;
+          align-items: center;
           font-weight: bold;
-          color: var(--black) !important;
-          opacity: .8;
-          margin-left: 12px;
           min-width: 120px;
+          color: var(--black) !important;
+          opacity: 0.8;
+          margin-left: 12px;
+          transition: opacity 0.2s;
+
           &:hover {
             opacity: 1;
           }
-      
+
           .nav-icon {
             margin-right: 6px;
           }
         }
+
+        
       }
     }
   }
 }
-
-

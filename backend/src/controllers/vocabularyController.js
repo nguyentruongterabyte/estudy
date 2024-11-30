@@ -1,25 +1,32 @@
 import vocabularyService from '../services/vocabularyService';
+import vocabularyTopicService from '../services/vocabularyTopicService';
 
-const handleCreateVocabularyTopic = async (req, res) => {
-  const data = req.body;
+const handleGetByTopicId = async (req, res) => {
+  try {
+    const { topicId } = req.params;
 
-  vocabularyService
-    .createVocabularyTopic(data)
-    .then((newTopic) => {
-      res.status(201).json({
-        errCode: 0,
-        errMessage: 'Vocabulary Topic created successfully',
-        data: newTopic,
-      });
-    })
-    .catch((error) => {
-      res.status(500).json({
-        errCode: 1,
-        errMessage: error.message,
-      });
+    // const topic = await vocabularyTopicService.get(topicId);
+    // if (!topic)
+    //   return res.status(404).json({
+    //     errCode: 1,
+    //     errMessage: 'Vocabulary topic not found',
+    //   });
+
+    const vocabularies = await vocabularyService.getByTopicId(topicId);
+
+    return res.json({
+      errCode: 0,
+      errMessage: 'OK',
+      data: vocabularies,
     });
+  } catch (error) {
+    res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
 };
 
-module.exports = {
-  handleCreateVocabularyTopic,
+export default {
+  handleGetByTopicId,
 };

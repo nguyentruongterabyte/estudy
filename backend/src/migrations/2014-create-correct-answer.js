@@ -23,6 +23,7 @@ module.exports = {
       },
       explain: {
         type: Sequelize.TEXT,
+        defaultValue: '',
       },
       createdAt: {
         allowNull: false,

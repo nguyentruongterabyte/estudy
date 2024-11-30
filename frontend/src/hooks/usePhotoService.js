@@ -42,7 +42,17 @@ const usePhotoService = () => {
     }
   };
 
-  return { uploadPhoto, createPhoto, updatePhotos };
+  // delete photo
+  const deletePhoto = async (photoId) => {
+    try {
+      const response = await axiosPrivate.delete(`${config.urls.photo.delete}/${photoId}`);
+      return response?.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  return { uploadPhoto, createPhoto, updatePhotos, deletePhoto };
 };
 
 export default usePhotoService;

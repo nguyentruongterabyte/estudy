@@ -101,12 +101,20 @@
   "deletedQuestionGroupSuccessfully": "问题组删除成功！",
   "failedToDeleteQuestionGroup": "删除问题组失败",
 
+   "deletingVocabularyTopic": "正在删除词汇主题",
+  "deleteVocabularyTopicSuccess": "词汇主题删除成功",
+  "deleteVocabularyTopicFailed": "删除词汇主题失败",
+
   "changingQuestions": "正在更改问题...",
   "changeQuestionsSuccess": "问题更改成功!",
   "changeQuestionsError": "问题更改失败",
 
   "deleteQuestionGroup": "删除问题组",
   "confirmDeleteQuestionGroup": "您确定要删除这个问题组吗？",
+
+  "deleteQuestion": "删除问题",
+  "confirmDeleteQuestion": "您确定要删除此问题吗？",
+  "addQuestion": "添加问题",
 
   "answer": "答案",
 
@@ -121,5 +129,12 @@
   "nothingIsMorePreciousThanIndependenceAndFreedom": "没有什么比独立和自由更珍贵",
   "whatWeAreTheWorldIs": "我们是什么，世界就是什么。",
 
-  "transcripts": "文字记录"
+  "transcripts": "文字记录",
+
+  "createNewVocabularyTopic": "创建新词汇主题",
+  "enterWordsInThisBox": "在此框中输入单词",
+
+  "example": "例子",
+  "definition": "定义",
+  "pronunciation": "发音"
 }

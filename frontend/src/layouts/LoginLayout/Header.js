@@ -9,8 +9,8 @@ import { useTranslation } from 'react-i18next';
 
 import config from '~/config';
 import styles from '~/layouts/Header.module.scss';
-import LanguageSelector from '~/components/LanguageSelector';
-import NavbarBrand from '~/components/NavbarBrand';
+import LanguageSelector from '../LanguageSelector';
+import NavbarBrand from '../NavbarBrand';
 
 const cx = classNames.bind(styles);
 

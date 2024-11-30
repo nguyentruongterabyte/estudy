@@ -62,8 +62,42 @@ const handleDeleteFirebasePhotoByUrl = async (req, res) => {
   }
 };
 
-module.exports = {
+const handleDestroy = async (req, res) => {
+  const { photoId } = req.params;
+
+  if (!photoId)
+    return res.status(400).json({
+      errCode: 1,
+      errMessage: 'Missing required parameters',
+    });
+
+  try {
+    const photo = await photoService.get(photoId);
+
+    if (!photo) {
+      return res.status(404).json({
+        errCode: 1,
+        errMessage: 'Photo not found',
+      });
+    }
+
+    await photoService.deleteFirebasePhotoByUrl( photo.filePath );
+    await photoService.destroy( photoId );
+    return res.json({
+      errCode: 0,
+      errMessage: 'Delete successfully!',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
+export default {
   handleUpload,
   handleDeleteFirebasePhotoByUrl,
   handleSave,
+  handleDestroy
 };

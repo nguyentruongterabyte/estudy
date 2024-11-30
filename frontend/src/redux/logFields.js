@@ -6,6 +6,8 @@ const logFields = {
   questionText: 'questionText',
   questionGroupName: 'questionGroupName',
   bundleText: 'bundleText',
+  deleteQuestion: 'deleteQuestion',
+  vocabularyTopicName: 'vocabularyTopicName',
 };
 
 export default logFields;

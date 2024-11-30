@@ -102,12 +102,20 @@
   "deletedQuestionGroupSuccessfully": "Xóa bài test thành công!",
   "failedToDeleteQuestionGroup": "Xóa bài test thất bại",
 
+  "deletingVocabularyTopic": "Đang xóa chủ đề từ vựng",
+  "deleteVocabularyTopicSuccess": "Xóa chủ đề từ vựng thành công",
+  "deleteVocabularyTopicFailed": "Xóa chủ đề từ vựng thất bại",
+
   "changingQuestions": "Đang thay đổi các câu hỏi...",
   "changeQuestionsSuccess": "Thay đổi các câu hỏi thành công!",
   "changeQuestionsError": "Thay đổi các câu hỏi thất bại",
 
   "deleteQuestionGroup": "Xóa nhóm câu hỏi",
   "confirmDeleteQuestionGroup": "Bạn có chắc muốn xóa nhóm câu hỏi này không?",
+
+  "deleteQuestion": "Xóa câu hỏi",
+  "confirmDeleteQuestion": "Bạn có chắc muốn xóa câu hỏi này?",
+  "addQuestion": "Thêm câu hỏi",
 
   "answer": "Đáp án",
 
@@ -122,5 +130,12 @@
   "nothingIsMorePreciousThanIndependenceAndFreedom": "Không có gì quý hơn độc lập, tự do.",
   "whatWeAreTheWorldIs": "Chúng ta thế nào, thế giới thế ấy.",
 
-  "transcripts": "Lời giải thích"
+  "transcripts": "Lời giải thích",
+
+  "createNewVocabularyTopic": "Tạo chủ đề từ vựng mới",
+  "enterWordsInThisBox": "Nhập các từ vào ô này",
+
+  "example": "Ví dụ",
+  "definition": "Định nghĩa",
+  "pronunciation": "Phát âm"
 }

@@ -7,10 +7,11 @@ module.exports = (sequelize, DataTypes) => {
   Vocabulary.init(
     {
       word: DataTypes.STRING(50),
-      pronounciation: DataTypes.STRING(100),
+      pronunciation: DataTypes.STRING(100),
       definition: DataTypes.TEXT,
       example: DataTypes.TEXT,
-      image: DataTypes.TEXT,
+      photoId: DataTypes.INTEGER,
+      topicId: DataTypes.INTEGER,
     },
     {
       sequelize,

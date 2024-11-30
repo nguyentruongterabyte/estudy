@@ -6,17 +6,33 @@ const fn = () => {};
 
 const QuestionsProvider = ({
   isEnableQuestionText,
+  isEnableChooseNumberOfQuestion = false,
   questions,
   children,
   displayButtonText = true,
   questionTextRow = 1,
   onQuestionTextChange = fn,
   onImageUpload = fn,
-  onAudioUpload = fn
+  onAudioUpload = fn,
+  onDeleteQuestion = fn,
+  onAddQuestion = fn,
+  onUserSelectAnswer = fn,
 }) => {
   return (
     <QuestionsContext.Provider
-      value={{ isEnableQuestionText, questions, displayButtonText, questionTextRow, onQuestionTextChange, onImageUpload, onAudioUpload }}
+      value={{
+        isEnableQuestionText,
+        isEnableChooseNumberOfQuestion,
+        questions,
+        displayButtonText,
+        questionTextRow,
+        onQuestionTextChange,
+        onImageUpload,
+        onAudioUpload,
+        onDeleteQuestion,
+        onAddQuestion,
+        onUserSelectAnswer,
+      }}
     >
       {children}
     </QuestionsContext.Provider>

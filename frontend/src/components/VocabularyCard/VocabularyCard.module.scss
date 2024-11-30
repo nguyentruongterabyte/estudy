@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 600px;
+
+  .input {
+    font-size: 1.6rem;
+    &.error {
+      border: 1px solid red !important;
+    }
+  }
+
+  .front {
+    .photo {
+      user-select: none;
+      margin-bottom: 20px;
+    }
+    .word {
+      text-align: center;
+      font-size: 2.6rem;
+    }
+    .pronunciation {
+      text-align: center;
+      color: #0D6EFD;
+    }
+  }
+  .back {
+    padding: 24px;
+    .definition {
+      font-size: 2.2rem;
+      font-weight: 800;
+      text-align: center;
+    }
+    
+    .example {
+      margin-top: 24px;
+      text-align: center;
+    }
+  }
+}

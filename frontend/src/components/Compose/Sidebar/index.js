@@ -6,10 +6,10 @@ import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
 
-const Sidebar = ({ show, title = 'part1_Photos', children }) => {
+const Sidebar = ({ show, className, title = 'part1_Photos', children }) => {
   const { t } = useTranslation();
   return (
-    <Offcanvas show={show} className={cx('container')} scroll={true} backdrop={false}>
+    <Offcanvas show={show} className={cx('container', className)} scroll={true} backdrop={false}>
       <Offcanvas.Header className={cx('header')}>
         <Offcanvas.Title className={cx('title')}>{t(title)}</Offcanvas.Title>
       </Offcanvas.Header>
