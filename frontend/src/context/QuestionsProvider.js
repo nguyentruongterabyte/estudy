@@ -7,6 +7,7 @@ const fn = () => {};
 const QuestionsProvider = ({
   isEnableQuestionText,
   isEnableChooseNumberOfQuestion = false,
+  isEnableExplainText = false,
   questions,
   children,
   displayButtonText = true,
@@ -17,16 +18,19 @@ const QuestionsProvider = ({
   onDeleteQuestion = fn,
   onAddQuestion = fn,
   onUserSelectAnswer = fn,
+  onExplainTextChange = fn,
 }) => {
   return (
     <QuestionsContext.Provider
       value={{
         isEnableQuestionText,
         isEnableChooseNumberOfQuestion,
+        isEnableExplainText,
         questions,
         displayButtonText,
         questionTextRow,
         onQuestionTextChange,
+        onExplainTextChange,
         onImageUpload,
         onAudioUpload,
         onDeleteQuestion,

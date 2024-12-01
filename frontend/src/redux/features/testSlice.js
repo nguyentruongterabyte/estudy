@@ -5,12 +5,66 @@ const initialState = {
   isComplete: false,
   test: {
     questions: [
-      { id: 0, photoId: 0, photo: '', audioId: 1, audio: '', answers: [], correctAnswerIndex: 0 },
-      { id: 1, photoId: 1, photo: '', audioId: 2, audio: '', answers: [], correctAnswerIndex: 0 },
-      { id: 2, photoId: 2, photo: '', audioId: 3, audio: '', answers: [], correctAnswerIndex: 0 },
-      { id: 3, photoId: 3, photo: '', audioId: 4, audio: '', answers: [], correctAnswerIndex: 0 },
-      { id: 4, photoId: 4, photo: '', audioId: 5, audio: '', answers: [], correctAnswerIndex: 0 },
-      { id: 5, photoId: 5, photo: '', audioId: 6, audio: '', answers: [], correctAnswerIndex: 0 },
+      {
+        id: 0,
+        photoId: 0,
+        photo: '',
+        audioId: 1,
+        audio: '',
+        answers: [],
+        correctAnswerIndex: 0,
+        correctAnswer: { answerId: 0, explain: '' },
+      },
+      {
+        id: 1,
+        photoId: 1,
+        photo: '',
+        audioId: 2,
+        audio: '',
+        answers: [],
+        correctAnswerIndex: 0,
+        correctAnswer: { answerId: 0, explain: '' },
+      },
+      {
+        id: 2,
+        photoId: 2,
+        photo: '',
+        audioId: 3,
+        audio: '',
+        answers: [],
+        correctAnswerIndex: 0,
+        correctAnswer: { answerId: 0, explain: '' },
+      },
+      {
+        id: 3,
+        photoId: 3,
+        photo: '',
+        audioId: 4,
+        audio: '',
+        answers: [],
+        correctAnswerIndex: 0,
+        correctAnswer: { answerId: 0, explain: '' },
+      },
+      {
+        id: 4,
+        photoId: 4,
+        photo: '',
+        audioId: 5,
+        audio: '',
+        answers: [],
+        correctAnswerIndex: 0,
+        correctAnswer: { answerId: 0, explain: '' },
+      },
+      {
+        id: 5,
+        photoId: 5,
+        photo: '',
+        audioId: 6,
+        audio: '',
+        answers: [],
+        correctAnswerIndex: 0,
+        correctAnswer: { answerId: 0, explain: '' },
+      },
     ],
   },
 
@@ -265,6 +319,39 @@ const testSlice = createSlice({
         },
       };
     },
+
+    // update explain text
+    updateExplainText: (state, action) => {
+      const updatedStateWithExplainText = {
+        ...state,
+        test: {
+          ...state.test,
+          questions: state.test.questions.map((question) =>
+            question.id === action.payload.questionId
+              ? {
+                  ...question,
+                  correctAnswer: {
+                    ...question.correctAnswer,
+                    explain: action.payload.explainText,
+                  },
+                }
+              : question,
+          ),
+        },
+      };
+
+      const changeQuestionTextLog = {
+        field: logFields.explainText,
+        questionId: action.payload.questionId,
+        oldValue: state.test.questions.find((q) => q.id === action.payload.questionId).correctAnswer.explain,
+        newValue: action.payload.explainText,
+      };
+
+      return {
+        ...updatedStateWithExplainText,
+        changeLog: [...updatedStateWithExplainText.changeLog, changeQuestionTextLog],
+      };
+    },
   },
 });
 
@@ -280,6 +367,7 @@ export const {
   resetChangeLog,
   deleteQuestion,
   addQuestion,
+  updateExplainText
 } = testSlice.actions;
 export default testSlice.reducer;
 export const questionList = (state) => state.test.test.questions;

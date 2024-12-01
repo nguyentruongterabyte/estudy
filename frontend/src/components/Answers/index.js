@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import classNames from 'classnames/bind';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { ListGroup } from 'react-bootstrap';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import logFields from '~/redux/logFields';
@@ -13,11 +13,18 @@ import { useQuestion } from '~/context/QuestionProvider';
 import { getWithExpiry } from '~/utils/localStorageUtils';
 import { activeGroup } from '~/redux/features/questionGroupsSilce';
 import { useAnswerChange } from '~/context/AnswerChangeProvider';
+import { useQuestions } from '~/context/QuestionsProvider';
+import CustomTextArea from '../CustomTextArea';
+import hooks from '~/hooks';
 
 const cx = classNames.bind(styles);
 const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer, isUserSelected }) => {
   const { t } = useTranslation();
   const question = useQuestion();
+
+  const [inputValue, setInputValue] = useState(question.correctAnswer.explain);
+  const debouncedValue = hooks.useDebounce(inputValue, 300);
+  const { isEnableExplainText, onExplainTextChange } = useQuestions();
   const active = useSelector(activeGroup);
   const groupId = active.id;
   const { onAnswerChange, onCorrectAnswerChange } = useAnswerChange();
@@ -34,6 +41,34 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer
       const reader = new FileReader();
       reader.onload = (event) => {
         updateAnswers(event.target.result);
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  // handle explain text upload
+  const handleTextUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        // Handle update text
+        const textContent = event.target.result;
+
+        // split text to seperate sentence
+        // Preserve blank lines and split sentences properly
+        const formattedText = textContent
+          .split(/\r?\n/) // Split by new lines, keeping blank lines
+          .map(
+            (line) =>
+              line
+                .split(/(?<=[.!?])\s+/) // Split sentences by punctuation and space
+                .map((sentence) => sentence.trim()) // Trim each sentence
+                .join(' '), // Join sentences within the same line
+          )
+          .join('\n'); // Rejoin lines, preserving blank lines
+
+        onExplainTextChange({ questionId: question.id, explainText: formattedText });
       };
       reader.readAsText(file);
     }
@@ -57,22 +92,51 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer
     // update correct answer
     onCorrectAnswerChange({ questionId: question.id, index: correctAnswerIndex });
   };
+
+  useEffect(() => {
+    if (debouncedValue !== question.correctAnswer.explain) {
+      onExplainTextChange({ questionId: question.id, explainText: debouncedValue });
+    }
+    // eslint-disable-next-line
+  }, [debouncedValue]);
+
+  useEffect(() => {
+    setInputValue(question.correctAnswer.explain);
+    // eslint-disable-next-line
+  }, [question.correctAnswer.explain]);
+
   return (
     <div className={cx('container')}>
-      <ListGroup className={cx('group')}>
-        {answers.map((answer, index) => (
-          <Answer
-            key={answer.id}
-            historyChanges={historyChanges.filter((history) => history.answerId === answer.id)}
-            answer={answer}
-            index={index}
+      <div className={cx('answer-group')}>
+        <ListGroup className={cx('group')}>
+          {answers.map((answer, index) => (
+            <Answer
+              key={answer.id}
+              historyChanges={historyChanges.filter((history) => history.answerId === answer.id)}
+              answer={answer}
+              index={index}
+              isEditable={isEditable}
+              onAnswerChange={onAnswerChange}
+              isUserAnswer={userAnswer && userAnswer.userAnswerId === answer.id}
+              isUserSelected={isUserSelected}
+            />
+          ))}
+        </ListGroup>
+
+        {isEnableExplainText && (
+          <CustomTextArea
+            className={cx('explain')}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            title="transcripts"
             isEditable={isEditable}
-            onAnswerChange={onAnswerChange}
-            isUserAnswer={userAnswer && userAnswer.userAnswerId === answer.id}
-            isUserSelected={isUserSelected}
+            rows={4}
+            onFileChange={handleTextUpload}
+            textId={`explain_${question.id}`}
+            boldWords={answers.map((answer) => answer.answer)}
           />
-        ))}
-      </ListGroup>
+        )}
+      </div>
       {isEditable ? (
         <Fragment>
           <Button

@@ -12,11 +12,22 @@
   padding: 20px 20px;
   border-radius: 20px !important;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12);  
-  .group {
+  .answer-group {
     width: 100%;
+    display: flex;
+    .group {
+      flex: 1;
+      width: 100%;
+    }
+
+    .explain {
+      height: 100%;
+      width: 400px;
+      margin-left: 20px;
+    }
   }
   .upload-text-answers {
     margin-top: 20px;
-    align-self: flex-end;
+    align-self: flex-start;
   }
 }

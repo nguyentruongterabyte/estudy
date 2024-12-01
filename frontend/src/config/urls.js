@@ -26,6 +26,10 @@ const urls = {
     update: '/api/answer',
   },
 
+  correctAnswer: {
+    updateMany: '/api/correct-answer',
+  },
+
   vocabularyTopic: {
     create: '/api/vocabulary-topic',
     delete: '/api/vocabulary-topic',

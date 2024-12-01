@@ -24,7 +24,7 @@ const CustomTextArea = ({
   onFileChange,
   textId,
   className,
-  boldWords = ['(1)', '(2)', '(3)', '(4)'],
+  boldWords = ['(1)', '(2)', '(3)', '(4)', 'Q1', 'Q2', 'Q3', 'Q4'],
 }) => {
   const { t } = useTranslation();
 
@@ -34,11 +34,19 @@ const CustomTextArea = ({
     return text.replace(regex, '<b>$1</b>');
   };
 
-  const highlightValue = highlightWords(value || '', boldWords);
+  const convertNewLineToBr = (text) => {
+    return text.replace(/\n/g, '<br>');
+  };
+
+  const convertTabsToSpaces = (text) => {
+    return text.replace(/\t/g, '<span style="display:inline-block; width:2em;"></span>');
+  };
+
+  const highlightValue = convertTabsToSpaces(convertNewLineToBr(highlightWords(value || '', boldWords)));
 
   return (
     <Form.Group className={cx('container', 'mb-3', className)} controlId="exampleForm.ControlTextarea1">
-      <Form.Label>{t(title)}</Form.Label>
+      <Form.Label className={cx('title')}>{t(title)}</Form.Label>
       <div className={cx('text-wrapper')}>
         {isEditable ? (
           <Form.Control

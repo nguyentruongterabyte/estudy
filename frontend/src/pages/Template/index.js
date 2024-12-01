@@ -62,6 +62,7 @@ import UserModeProvider from '~/context/UserModeProvider';
 const cx = classNames.bind(styles);
 
 const Template = ({
+  isEnableExplainText,
   isEnablePhoto = false,
   isEnableAudio = false,
   isEnableQuestionText = false,
@@ -126,8 +127,11 @@ const Template = ({
   const [isQuestionsLoading, setIsQuestionsLoading] = useState(false);
   const [isQuestionGroupsLoading, setIsQuestionGroupsLoading] = useState(false);
   const newQuestionGroup = hooks.useNewQuestionGroup();
+  const { updateManyByQuestionId } = hooks.useCorrectAnswerService();
 
   const [newHistory, setNewHistory] = useState([]);
+
+  const { saveItem: saveNewItem, removeItem: removeNewItem } = hooks.useSaveData('new_test');
 
   // fetch questions data
   const fetchQuestions = async (groupId) => {
@@ -199,6 +203,7 @@ const Template = ({
     dispatch(toggleAddNew({ toggle: false }));
     dispatch(deleteQuestionGroup({ groupId: newQuestionGroup.id }));
     handleLoading();
+    removeNewItem(partId);
   };
 
   // handle delete question group
@@ -240,6 +245,7 @@ const Template = ({
     if (isAddNew) {
       dispatch(toggleAddNew({ toggle: false }));
       dispatch(deleteQuestionGroup({ groupId: newQuestionGroup.id }));
+      removeNewItem(partId);
     }
 
     if (isEdit) {
@@ -345,7 +351,7 @@ const Template = ({
 
     const eventLogs = questionBundle ? bundleEventLogs : singleEventLogs;
 
-    console.log(eventLogs);
+    // console.log(eventLogs);
 
     // handle add questions
     // handleAddQuestions(eventLogs);
@@ -414,6 +420,30 @@ const Template = ({
         });
     }
     console.log('Correct answers last changes: ', correctAnswerLastChanges);
+
+    // Explain Text
+    if (isEnableExplainText) {
+      const explainTextLastChanges = handleLastChanges.explaionText(eventLogs);
+      const correctAnswers = explainTextLastChanges.map((change) => ({
+        questionId: change.questionId,
+        explain: change.newValue,
+      }));
+
+      if (correctAnswers.length > 0) {
+        await toast
+          .promise(updateManyByQuestionId(correctAnswers), {
+            pending: t('updatingExplanation'),
+            success: t('updatedExplanationSuccessfully'),
+            error: t('errorUpdatingExplanation'),
+          })
+          .then(() => {
+            dispatch(removeChangeLogsByField({ field: logFields.explainText }));
+            dispatch(questionBundleRemoveChangeLogsByField({ field: logFields.explainText }));
+            setNewHistory((prev) => [...prev, { type: logFields.explainText, changes: explainTextLastChanges }]);
+          })
+          .catch((e) => console.error(e));
+      }
+    }
 
     // Question Text
     if (isEnableQuestionText) {
@@ -876,6 +906,54 @@ const Template = ({
     };
   }, [isAddNew, isEdit]);
 
+  useEffect(() => {
+    const getFileAsBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          resolve(reader.result); // Trả về chuỗi Base64 khi đọc xong
+        };
+        reader.onerror = (error) => {
+          reject(error); // Báo lỗi nếu có vấn đề trong quá trình đọc file
+        };
+        reader.readAsDataURL(file);
+      });
+    };
+    const processItems = async (items) => {
+      return Promise.all(
+        items.map(async (item) => {
+          const itemBase64 = { ...item };
+
+          if (item.photo instanceof File) {
+            const photoBase64 = await getFileAsBase64(item.photo);
+            itemBase64.photo = photoBase64;
+          }
+
+          if (item.audio instanceof File) {
+            const audioBase64 = await getFileAsBase64(item.audio);
+            itemBase64.audio = audioBase64;
+          }
+
+          return itemBase64;
+        }),
+      );
+    };
+    const processSaveData = async () => {
+      if (isAddNew) {
+        if (questionBundle) {
+          const saveBundles = await processItems(bundles);
+          saveNewItem(partId, { bundles: saveBundles });
+        } else {
+          const saveQuestions = await processItems(questions);
+          saveNewItem(partId, { questions: saveQuestions });
+        }
+      }
+    };
+
+    processSaveData(); // Chạy hàm xử lý bất đồng bộ
+    // eslint-disable-next-line
+  }, [isAddNew, bundles, questions]);
+
   return (
     <div className={cx('container')}>
       <UserModeProvider
@@ -900,7 +978,9 @@ const Template = ({
           <div className={cx('top')}></div>
           {questionBundle ? (
             <QuestionBundles
+              partId={partId}
               data={bundles}
+              isEnableExplainText={isEnableExplainText}
               isEnableChooseNumberOfQuestion={isEnableChooseNumberOfQuestion}
               isEnableAudio={isEnableAudio}
               isEnablePhoto={isEnablePhoto}
@@ -911,6 +991,7 @@ const Template = ({
             />
           ) : (
             <QuestionSingle
+              isEnableExplainText={isEnableExplainText}
               isEnableQuestionText={isEnableQuestionText}
               isQuestionsLoading={isQuestionsLoading}
               questions={questions}

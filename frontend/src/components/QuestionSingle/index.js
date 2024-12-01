@@ -16,6 +16,7 @@ import {
   questionList,
   deleteQuestion,
   addQuestion,
+  updateExplainText,
 } from '~/redux/features/testSlice';
 import AnswerChangeProvider from '~/context/AnswerChangeProvider';
 import Loading from '~/components/Loading';
@@ -32,9 +33,10 @@ import {
 } from '~/redux/features/questionGroupsSilce';
 
 import CustomModal from '~/components/CustomModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUserMode } from '~/context/UserModeProvider';
 import { updateUserAnswer } from '~/redux/features/userAnswersSlice';
+import base64 from '~/utils/base64';
 
 const cx = classNames.bind(styles);
 
@@ -46,6 +48,8 @@ const QuestionSingle = ({
   quantityOfAnswersPerQuestion,
   isEnableAudio,
   isEnablePhoto,
+  isEnableExplainText,
+  partId,
 }) => {
   const { t } = useTranslation();
 
@@ -66,6 +70,8 @@ const QuestionSingle = ({
   const { createUserAnswer } = hooks.useUserAnswerService();
 
   const questions = useSelector(questionList);
+  const { getItem: getNewSavedItem } = hooks.useSaveData('new_test');
+
   const newQuestions = Array.from({ length: quantityOfQuestions }).map((_, index) => ({
     id: index,
     photoId: index,
@@ -80,7 +86,7 @@ const QuestionSingle = ({
       answer: '',
     })),
     correctAnswerIndex: 0,
-    correctAnswer: { answerId: 0 },
+    correctAnswer: { answerId: 0, explain: '' },
   }));
 
   const handleCancel = async () => {
@@ -92,14 +98,6 @@ const QuestionSingle = ({
       dispatch(toggleEdit({ toggle: false }));
     }
     setShow(false);
-  };
-
-  const handleQuestionsAddNew = () => {
-    dispatch(
-      changeQuestions({
-        questions: newQuestions,
-      }),
-    );
   };
 
   // cancel add new
@@ -114,6 +112,11 @@ const QuestionSingle = ({
     setShowDeleteModal(false);
   };
 
+  // handle explain text change: `questionId` and `explain`
+  const handleExplainTextChange = (explainData) => {
+    dispatch(updateExplainText(explainData));
+  };
+
   // add question
   const handleAddQuestion = () => {
     dispatch(addQuestion({ quantityOfAnswersPerQuestion }));
@@ -124,12 +127,40 @@ const QuestionSingle = ({
     dispatch(updateUserAnswer({ groupId, questionId, answerId }));
   };
 
+  useEffect(() => {
+    if (isAddNew) {
+      const saveData = getNewSavedItem(partId);
+
+      if (saveData) {
+        const questionsWithFiles = saveData.questions.map((question) => {
+          const questionWithFiles = { ...question };
+
+          if (question.photo) {
+            questionWithFiles.photo = base64.base64ToFile(question.photo, `question_photo_${question.id}.jpg`);
+          }
+
+          if (question.audio) {
+            questionWithFiles.audio = base64.base64ToFile(question.audio, `question_audio_${question.id}.mp3`);
+          }
+
+          return questionWithFiles;
+        });
+        dispatch(changeQuestions({ questions: questionsWithFiles }));
+      } else {
+        dispatch(changeQuestions({ questions: newQuestions }));
+      }
+    }
+    // eslint-disable-next-line
+  }, [isAddNew]);
+
   return (
     <div className={cx('container')}>
       <QuestionsProvider
+        isEnableExplainText={isEnableExplainText}
         isEnableQuestionText={isEnableQuestionText}
         questions={questions}
         questionTextRow={2}
+        onExplainTextChange={handleExplainTextChange}
         onDeleteQuestion={(id) => {
           setQuestionId(id);
           setShowDeleteModal(true);
@@ -160,7 +191,6 @@ const QuestionSingle = ({
               quote={quote}
               quantityOfQuestions={quantityOfQuestions}
               quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
-              onAddNew={handleQuestionsAddNew}
               onToggleComplete={(toggle) => dispatch(toggleComplete({ toggle }))}
               onToggleAddNew={handleToggleAddNew}
               onToggleEdit={(toggle) => dispatch(toggleEdit({ toggle }))}

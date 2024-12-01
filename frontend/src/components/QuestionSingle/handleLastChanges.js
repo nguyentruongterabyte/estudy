@@ -21,12 +21,13 @@ const getLastChangesByField = (eventLogs, field, keyGenerator) => {
 
 const handleLastChanges = {
   answers: (eventLogs) =>
-  getLastChangesByField(eventLogs, logFields.answer, (log) => `${log.questionId}-${log.answerId}`),
+    getLastChangesByField(eventLogs, logFields.answer, (log) => `${log.questionId}-${log.answerId}`),
   correctAnswers: (eventLogs) => getLastChangesByField(eventLogs, logFields.correctAnswer, (log) => log.questionId),
   photo: (eventLogs) => getLastChangesByField(eventLogs, logFields.photo, (log) => log.questionId || log.id),
   audio: (eventLogs) => getLastChangesByField(eventLogs, logFields.audio, (log) => log.questionId || log.id),
-  questionText: ( eventLogs ) => getLastChangesByField( eventLogs, logFields.questionText, ( log ) => log.questionId ),
-  bundleText: ( eventLogs ) => getLastChangesByField( eventLogs, logFields.bundleText, ( log ) => log.id )
+  questionText: (eventLogs) => getLastChangesByField(eventLogs, logFields.questionText, (log) => log.questionId),
+  explaionText: (eventLogs) => getLastChangesByField(eventLogs, logFields.explainText, (log) => log.questionId),
+  bundleText: (eventLogs) => getLastChangesByField(eventLogs, logFields.bundleText, (log) => log.id),
 };
 
 export default handleLastChanges;

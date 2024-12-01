@@ -109,6 +109,10 @@
   "changeQuestionsSuccess": "Successfully changed questions!",
   "changeQuestionsError": "Failed to change questions",
 
+  "updatingExplanation": "Updating explanation...",
+  "updatedExplanationSuccessfully": "Updated explanation successfully!",
+  "errorUpdatingExplanation": "Error updating explanation.",
+
   "deleteQuestionGroup": "Delete question group",
   "confirmDeleteQuestionGroup": "Are you sure want to delete this question group?",
 

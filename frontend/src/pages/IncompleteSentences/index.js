@@ -3,6 +3,7 @@ import Template from '../Template';
 const IncompleteSentences = ({ isUser = false }) => {
   return (
     <Template
+      isEnableExplainText={true}
       isEnableAudio={false}
       isEnablePhoto={false}
       isEnableQuestionText={true}

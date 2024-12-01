@@ -8,6 +8,7 @@ const logFields = {
   bundleText: 'bundleText',
   deleteQuestion: 'deleteQuestion',
   vocabularyTopicName: 'vocabularyTopicName',
+  explainText: 'explainText'
 };
 
 export default logFields;

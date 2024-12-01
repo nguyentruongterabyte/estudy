@@ -280,24 +280,6 @@ const Vocabulary = ({ isUser = false }) => {
             </VocabularyTopicProvider>
           )}
         </Sidebar>
-
-        {/* {isEnableBottombar && (
-          <Fragment>
-            <Bottombar className={cx('bottom-bar', { scaled: showSidebar })} show={showBottombar}>
-              <BundleCards data={bundles} />
-            </Bottombar>
-            <div
-              onClick={() => setShowBottombar((prev) => !prev)}
-              className={cx('toggle-bottom-bar-button', {
-                scaled: showSidebar,
-                offset: !showBottombar,
-              })}
-            >
-              <FontAwesomeIcon icon={showBottombar ? faCheck : faChevronUp} />
-            </div>
-          </Fragment>
-        )} */}
-
         {/* Modal ask cancel edit */}
         <CustomModal
           title={t('cancelEdit')}

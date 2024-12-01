@@ -110,6 +110,10 @@
   "changeQuestionsSuccess": "Thay đổi các câu hỏi thành công!",
   "changeQuestionsError": "Thay đổi các câu hỏi thất bại",
 
+  "updatingExplanation": "Đang thay đổi lời giải thích.",
+  "updatedExplanationSuccessfully": "Thay đổi lời giải thích thành công.",
+  "errorUpdatingExplanation": "Thay đổi lời giải thích thất bại.",
+
   "deleteQuestionGroup": "Xóa nhóm câu hỏi",
   "confirmDeleteQuestionGroup": "Bạn có chắc muốn xóa nhóm câu hỏi này không?",
 

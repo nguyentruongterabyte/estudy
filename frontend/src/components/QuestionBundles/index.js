@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import QuestionBundle from '../QuestionBundle';
 import { activeGroup, adding, editing } from '~/redux/features/questionGroupsSilce';
 import Quote from '~/components/Quote';
+import hooks from '~/hooks';
+import base64 from '~/utils/base64';
 
 const cx = classNames.bind(styles);
 
@@ -15,10 +17,12 @@ const QuestionBundles = ({
   isEnablePhoto,
   isEnableAudio,
   isEnableChooseNumberOfQuestion,
+  isEnableExplainText,
   quantityOfQuestionsPerBundle = 3,
   quantityOfBundles = 13,
   quantityOfAnswersPerQuestion,
   quote,
+  partId,
 }) => {
   const dispatch = useDispatch();
 
@@ -28,6 +32,7 @@ const QuestionBundles = ({
   const active = useDispatch(activeGroup);
 
   const groupId = active.id;
+  const { getItem: getNewSavedItem } = hooks.useSaveData('new_test');
 
   const newBundles = Array.from({ length: quantityOfBundles }).map((_, bundleIndex) => ({
     active: false,
@@ -35,13 +40,13 @@ const QuestionBundles = ({
     photo: '',
     audio: '',
     text: '',
-    isEnablePhoto: false,
+    isEnablePhoto: true,
     questions: Array.from({ length: quantityOfQuestionsPerBundle }).map((_, questionIndex) => ({
       id: questionIndex,
       question: '',
       order: bundleIndex * quantityOfQuestionsPerBundle + questionIndex + 1,
       correctAnswerIndex: 0,
-      correctAnswer: { answerId: 0 },
+      correctAnswer: { answerId: 0, explain: '' },
       answers: Array.from({ length: quantityOfAnswersPerQuestion }).map((_, answerIndex) => ({
         id: answerIndex,
         answer: '',
@@ -103,7 +108,27 @@ const QuestionBundles = ({
 
   useEffect(() => {
     if (isAddNew) {
-      dispatch(updateBundles({ bundles: newBundles }));
+      const savedData = getNewSavedItem(partId);
+      if (savedData) {
+        const bundlesWithFiles = savedData.bundles.map((bundle) => {
+          const bundleWithFiles = { ...bundle };
+
+          if (bundle.photo) {
+            bundleWithFiles.photo = base64.base64ToFile(bundle.photo, `bundle_photo_${bundle.id}.jpg`);
+          }
+
+          if (bundle.audio) {
+            bundleWithFiles.audio = base64.base64ToFile(bundle.audio, `bundle_audio_${bundle.id}.mp3`);
+          }
+
+          return bundleWithFiles;
+        });
+
+        dispatch(updateBundles({ bundles: bundlesWithFiles }));
+      } else {
+        dispatch(updateBundles({ bundles: newBundles }));
+      }
+
       dispatch(toggleActive({ index: 0 }));
     }
     // eslint-disable-next-line
@@ -117,6 +142,7 @@ const QuestionBundles = ({
               {bundle.active && (
                 <QuestionBundle
                   data={bundle}
+                  isEnableExplainText={isEnableExplainText}
                   isEnableChooseNumberOfQuestion={isEnableChooseNumberOfQuestion}
                   isAddNew={isAddNew}
                   isEdit={isEdit}

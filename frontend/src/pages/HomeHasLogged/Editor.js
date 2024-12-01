@@ -3,19 +3,12 @@ import { About } from './components/About';
 import { Contact } from './components/Contact';
 import { Features } from './components/Features';
 import { Gallery } from './components/Gallery';
-import { Header } from './components/Header';
-import { Navigation } from './components/Navigation';
 import { Services } from './components/Services';
 import { Team } from './components/Team';
 import { Testimonials } from './components/Testimonials';
 import JsonData from './data.json';
-import SmoothScroll from 'smooth-scroll';
 import './style.css';
 
-export const scroll = new SmoothScroll('a[href*="#"]', {
-  speed: 1000,
-  speedAsDuration: true,
-});
 
 const Editor = () => {
   const [landingPageData, setLandingPageData] = useState({});

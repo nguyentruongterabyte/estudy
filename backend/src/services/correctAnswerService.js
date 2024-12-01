@@ -26,4 +26,20 @@ const update = (correctAnswers) => {
   });
 };
 
-module.exports = { save, update };
+// update correct answers by question id
+const updateManyByQuestionId = (correctAnswers) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updatePromises = correctAnswers.map(async (ca) => {
+        const { questionId, ...data } = ca;
+        return await db.CorrectAnswer.update(data, { where: { questionId } });
+      });
+      await Promise.all(updatePromises);
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+export default { save, update, updateManyByQuestionId };

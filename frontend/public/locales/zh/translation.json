@@ -109,6 +109,11 @@
   "changeQuestionsSuccess": "问题更改成功!",
   "changeQuestionsError": "问题更改失败",
 
+  "updatingExplanation": "正在更新解释...",
+  "updatedExplanationSuccessfully": "成功更新了解释！",
+  "errorUpdatingExplanation": "更新解释时出错。",
+
+
   "deleteQuestionGroup": "删除问题组",
   "confirmDeleteQuestionGroup": "您确定要删除这个问题组吗？",
 

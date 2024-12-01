@@ -21,6 +21,7 @@ import {
   finished,
   deleteQuestion,
   addQuestion,
+  updateExplainText,
 } from '~/redux/features/questionBundlesSlice';
 import CustomTextArea from '~/components/CustomTextArea';
 import styles from './QuestionBundle.module.scss';
@@ -45,6 +46,7 @@ const QuestionBundle = ({
   isEnableChooseNumberOfQuestion,
   isEnablePhoto,
   isEnableAudio,
+  isEnableExplainText,
   quantityOfAnswersPerQuestion,
   onComplete = fn,
 }) => {
@@ -152,6 +154,11 @@ const QuestionBundle = ({
     dispatch(updateUserAnswer({ groupId, questionId, answerId }));
   };
 
+  // handle explain text change: `questionId` and `explain`
+  const handleExplainTextChange = (explainData) => {
+    dispatch(updateExplainText({ id: data.id, ...explainData }));
+  };
+
   useEffect(() => {
     if (debouncedValue !== data.question) {
       dispatch(updateText({ id: data.id, text: debouncedValue }));
@@ -241,12 +248,14 @@ const QuestionBundle = ({
           }
           rightChildren={
             <QuestionsProvider
+              isEnableExplainText={isEnableExplainText}
               questionTextRow={4}
               onQuestionTextChange={handleQuestionTextChange}
               onDeleteQuestion={(id) => {
                 setQuestionId(id);
                 setShowDeleteModal(true);
               }}
+              onExplainTextChange={handleExplainTextChange}
               onAddQuestion={handleAddQuestion}
               isEnableQuestionText={true}
               isEnableChooseNumberOfQuestion={isEnableChooseNumberOfQuestion}

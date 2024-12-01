@@ -19,6 +19,7 @@ import questionGroupController from '../controllers/questionGroupController';
 import questionBundleController from '../controllers/questionBundleController';
 import userAnswerController from '../controllers/userAnswerController';
 import vocabularyTopicController from '../controllers/vocabularyTopicController';
+import correctAnswerController from '../controllers/correctAnswerController';
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -38,37 +39,37 @@ let initWebRoutes = (app) => {
   // vocabulary
   router.get(
     urls.vocabulary.getByTopicId,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
     vocabularyController.handleGetByTopicId,
   );
 
   // vocabulary topic
   router.post(
     urls.vocabularyTopic.create,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
     vocabularyTopicController.handleSaveVocabularyTopic,
   );
 
   router.get(
     urls.vocabularyTopic.getAll,
-    // verifyJWT,
-    // verifyRoles( ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER ),
+    verifyJWT,
+    verifyRoles( ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER ),
     vocabularyTopicController.handleGetAll,
   );
 
   router.delete(
     urls.vocabularyTopic.delete,
-    // verifyJWT,
-    // verifyRoles( ROLES_OBJECT.EDITOR ),
+    verifyJWT,
+    verifyRoles( ROLES_OBJECT.EDITOR ),
     vocabularyTopicController.handleDelete,
   );
 
   router.put(
     urls.vocabularyTopic.update,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR),
     vocabularyTopicController.handleUpdate,
   );
 
@@ -113,11 +114,19 @@ let initWebRoutes = (app) => {
   // Answers
   router.put(urls.answer.update, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), answerController.handleUpdateAnswers);
 
+
+  // Correct Answers
+  router.put( urls.correctAnswer.updateMany,
+    // verifyJWT,
+    // verifyRoles( ROLES_OBJECT.EDITOR ),
+    correctAnswerController.handleUpdateManyByQuestionId
+  )
+
   // User answer
   router.get(
     urls.userAnswer.create,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.USER),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.USER),
     userAnswerController.handleCreateUserAnswer,
   );
 

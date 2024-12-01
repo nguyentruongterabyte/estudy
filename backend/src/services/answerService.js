@@ -58,7 +58,7 @@ const getCorrectAnswer = (questionId) => {
     try {
       const correctAnswer = await db.CorrectAnswer.findOne({
         where: { questionId },
-        attributes: ['answerId'],
+        attributes: ['answerId', 'explain'],
         raw: true,
       });
       resolve(correctAnswer);

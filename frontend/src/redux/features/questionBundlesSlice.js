@@ -39,7 +39,7 @@ const initialState = {
             },
           ],
           correctAnswerIndex: 2,
-          correctAnswer: { answerId: 3 },
+          correctAnswer: { answerId: 3, explain: '' },
         },
         {
           id: 2,
@@ -67,7 +67,7 @@ const initialState = {
             },
           ],
           correctAnswerIndex: 3,
-          correctAnswer: { answerId: 4 },
+          correctAnswer: { answerId: 4, explain: '' },
         },
         {
           id: 3,
@@ -95,7 +95,7 @@ const initialState = {
             },
           ],
           correctAnswerIndex: 0,
-          correctAnswer: { answerId: 1 },
+          correctAnswer: { answerId: 1, explain: '' },
         },
       ],
     },
@@ -164,6 +164,48 @@ const questionBundlesSlice = createSlice({
       };
     },
 
+    // update explain text
+    updateExplainText: (state, action) => {
+      const updatedStateWithExplainText = {
+        ...state,
+
+        bundles: [
+          ...state.bundles.map((bundle) =>
+            bundle.id === action.payload.id
+              ? {
+                  ...bundle,
+                  questions: bundle.questions.map((question) =>
+                    question.id === action.payload.questionId
+                      ? {
+                          ...question,
+                          correctAnswer: {
+                            ...question.correctAnswer,
+                            explain: action.payload.explainText,
+                          },
+                        }
+                      : question,
+                  ),
+                }
+              : bundle,
+          ),
+        ],
+      };
+      const changeQuestionTextLog = {
+        field: logFields.explainText,
+        id: action.payload.id,
+        questionId: action.payload.questionId,
+        oldValue: state.bundles
+          .find((b) => b.id === action.payload.id)
+          .questions.find((q) => q.id === action.payload.questionId).correctAnswer.explain,
+        newValue: action.payload.explainText,
+      };
+
+      return {
+        ...updatedStateWithExplainText,
+        changeLog: [...updatedStateWithExplainText.changeLog, changeQuestionTextLog],
+      };
+    },
+
     // update question text
     updateQuestionText: (state, action) => {
       const updatedStateWithQuestionText = {
@@ -175,7 +217,7 @@ const questionBundlesSlice = createSlice({
               ? {
                   ...bundle,
                   questions: bundle.questions.map((question) =>
-                    question.id === deleteQuestion.id
+                    question.id === action.payload.questionId
                       ? {
                           ...question,
                           question: action.payload.questionText,
@@ -190,7 +232,7 @@ const questionBundlesSlice = createSlice({
       const changeQuestionTextLog = {
         field: logFields.questionText,
         id: action.payload.id,
-        questionId: deleteQuestion.id,
+        questionId: action.payload.questionId,
         oldValue: state.bundles
           .find((b) => b.id === action.payload.id)
           .questions.find((q) => q.id === action.payload.questionId).question,
@@ -464,6 +506,7 @@ export const {
   removeChangeLogsByField,
   deleteQuestion,
   addQuestion,
+  updateExplainText
 } = questionBundlesSlice.actions;
 
 export default questionBundlesSlice.reducer;
