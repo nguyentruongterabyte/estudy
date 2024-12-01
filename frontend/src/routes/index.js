@@ -165,11 +165,21 @@ const privateRoutes = [
   },
 
   // vocabulary
+  // editor
   {
     path: config.routes.vocabulary.compose,
     component: Vocabulary,
+    allowedRoles: [config.roles.editor],
+    layout: HomeLayout,
+  },
+
+  // user
+  {
+    path: config.routes.vocabulary.practice,
+    component: Vocabulary,
     allowedRoles: [config.roles.user],
     layout: HomeLayout,
+    props: { isUser: true },
   },
 ];
 

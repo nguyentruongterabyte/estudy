@@ -132,7 +132,9 @@ const VocabularyCard = ({ data }) => {
             />
           ) : (
             <p className={cx('example')} dangerouslySetInnerHTML={{ __html: highlightedExample() }}></p>
-          )}
+          ) }
+          
+          
         </div>
       }
     />

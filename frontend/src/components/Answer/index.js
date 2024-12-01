@@ -16,9 +16,7 @@ import { useUserMode } from '~/context/UserModeProvider';
 
 const cx = classNames.bind(styles);
 
-const fn = () => {};
-
-const Answer = ({ answer, index, isEditable, historyChanges, isUserAnswer, isUserSelected, onUserSelect = fn }) => {
+const Answer = ({ answer, index, isEditable, historyChanges, isUserAnswer, isUserSelected }) => {
   const { t } = useTranslation();
   const { questions, onUserSelectAnswer } = useQuestions();
   const { onAnswerChange, onCorrectAnswerChange } = useAnswerChange();

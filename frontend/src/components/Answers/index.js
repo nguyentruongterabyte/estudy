@@ -16,6 +16,7 @@ import { useAnswerChange } from '~/context/AnswerChangeProvider';
 import { useQuestions } from '~/context/QuestionsProvider';
 import CustomTextArea from '../CustomTextArea';
 import hooks from '~/hooks';
+import { useUserMode } from '~/context/UserModeProvider';
 
 const cx = classNames.bind(styles);
 const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer, isUserSelected }) => {
@@ -27,6 +28,7 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer
   const { isEnableExplainText, onExplainTextChange } = useQuestions();
   const active = useSelector(activeGroup);
   const groupId = active.id;
+  const { isUserMode } = useUserMode();
   const { onAnswerChange, onCorrectAnswerChange } = useAnswerChange();
   const historyChanges = (getWithExpiry(`editHistory_${groupId}`) || [])
     .filter((history) => history.type === logFields.answer) // get history changes of answers
@@ -123,7 +125,7 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer
           ))}
         </ListGroup>
 
-        {isEnableExplainText && (
+        {isEnableExplainText && (!isUserMode || (isUserMode && isUserSelected)) && (
           <CustomTextArea
             className={cx('explain')}
             value={inputValue}

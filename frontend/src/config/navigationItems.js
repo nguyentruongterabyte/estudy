@@ -58,43 +58,42 @@ const navigationItems = {
   user: [
     {
       title: 'practiceRL',
-      href: '/practice/practice-reading-listening',
       dropdownItems: [
         {
           title: 'part1_Photos',
-          href: '/practice/part-1-photos',
+          href: routes.practice.part1_Photos,
         },
         {
           title: 'part2_QuestionResponse',
-          href: '/practice/part-2-question-response',
+          href: routes.practice.part2_QuestionResponse,
         },
         {
           title: 'part3_Conversations',
-          href: '/practice/part-3-conversations',
+          href: routes.practice.part3_Conversations,
         },
         {
           title: 'part4_ShortTalks',
-          href: '/practice/part-4-short-talks',
+          href: routes.practice.part4_ShortTalks,
         },
         {
           title: 'part5_IncompleteSentences',
-          href: '/practice/part-5-incomplete-sentences',
+          href: routes.practice.part5_IncompleteSentences,
         },
         {
           title: 'part6_TextCompletion',
-          href: '/practice/part-6-text-completion',
+          href: routes.practice.part6_TextCompletion,
         },
         {
           title: 'part7_SinglePassages',
-          href: '/practice/part-7-single-passages',
+          href: routes.practice.part7_SinglePassages,
         },
         {
           title: 'part7_DoublePassages',
-          href: '/practice/part-7-double-passages',
+          href: routes.practice.part7_DoublePassages,
         },
         {
           title: 'part7_TriplePassages',
-          href: '/practice/part-7-triple-passages',
+          href: routes.practice.part7_TriplePassages,
         },
       ],
     },
@@ -122,7 +121,7 @@ const navigationItems = {
     },
     {
       title: 'vocabulary',
-      href: '/practice/vocabulary',
+      href: routes.vocabulary.practice,
     },
   ],
 };

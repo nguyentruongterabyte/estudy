@@ -5,6 +5,7 @@ import questionBundlesReducer from './features/questionBundlesSlice';
 import userAnswersReducer from './features/userAnswersSlice';
 import vocabularyTopicsReducer from './features/vocabularyTopicsSlice';
 import vocabulariesReducer from './features/vocabulariesSlice';
+import vocabularyPracticeStatusesReducer from './features/vocabularyPracticeStatusesSlice';
 export const store = configureStore({
   reducer: {
     test: testReducer,
@@ -13,6 +14,7 @@ export const store = configureStore({
     userAnswers: userAnswersReducer,
     vocabularyTopics: vocabularyTopicsReducer,
     vocabularies: vocabulariesReducer,
+    vocabularyPracticeStatuses: vocabularyPracticeStatusesReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });

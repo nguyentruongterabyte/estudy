@@ -18,23 +18,23 @@ import hooks from '~/hooks';
 import { useVocabularyTopic } from '~/context/VocabularyTopicProvider';
 import { useUserMode } from '~/context/UserModeProvider';
 import CircularProgress from '../CircularProgress';
-import { addUserAnswers, groups } from '~/redux/features/userAnswersSlice';
+import { vocabularyPracticeStatusList } from '~/redux/features/vocabularyPracticeStatusesSlice';
+import { statuses } from '~/redux/features/vocabularyPracticeStatusesSlice';
 
 const cx = classNames.bind(styles);
 
 const VocabularyTopic = ({ data }) => {
   const active = useSelector(activeTopic);
-  const userAnswerGroups = useSelector(groups);
   const isAddNew = useSelector(adding);
   const isEdit = useSelector(editing);
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState(data.name);
   const debouncedValue = hooks.useDebounce(inputValue, 300);
-  const { getUserAnswers } = hooks.useTestService();
   const { onDelete } = useVocabularyTopic();
-  const { isUserMode, userId } = useUserMode();
+  const { isUserMode } = useUserMode();
   const [percentage, setPercentage] = useState(0);
-  const [userAnswers, setUserAnswers] = useState([]);
+  const vocabularyPracticeStatuses = useSelector(vocabularyPracticeStatusList);
+  const vocabularyPracticeStatusesByTopicId = vocabularyPracticeStatuses.filter((vps) => vps.topicId === data.id);
 
   const handleEdit = (event, topicId) => {
     event.stopPropagation();
@@ -47,36 +47,18 @@ const VocabularyTopic = ({ data }) => {
     onDelete(topicId);
   };
 
-  // handle get answer user
-  const fetchUserAnswers = async (topicId, userId) => {
-    const userAnswers = await getUserAnswers(userId, topicId);
-    return userAnswers;
-  };
-
   useEffect(() => {
-    if (isUserMode) {
-      fetchUserAnswers(data.id, userId)
-        .then((userAnswers) => {
-          setUserAnswers(userAnswers);
-          dispatch(addUserAnswers({ id: data.id, userAnswers }));
-          // console.log(userAnswers);
-        })
-        .catch((error) => console.error(error));
-    }
-    // eslint-disable-next-line
-  }, [isUserMode, data.id, userId]);
+    if (vocabularyPracticeStatusesByTopicId.length > 0) {
+      const memorizedCount = vocabularyPracticeStatusesByTopicId.filter(
+        (vps) => vps.status === statuses.memorized,
+      ).length;
 
-  useEffect(() => {
-    if (userAnswers.length > 0) {
-      let percentage = 0;
-      const lengthOfQuestions = userAnswers.length;
-      userAnswers.forEach((userAnswer) => {
-        if (userAnswer.userAnswerId === userAnswer.correctAnswerId) percentage += (1 / lengthOfQuestions) * 100;
-      });
-
-      setPercentage(Math.round(percentage));
+      const percentage = Math.round((memorizedCount / vocabularyPracticeStatusesByTopicId.length) * 100);
+      setPercentage(percentage);
+    } else {
+      setPercentage(0); // Nếu không có dữ liệu, đặt về 0%
     }
-  }, [userAnswers]);
+  }, [vocabularyPracticeStatusesByTopicId, statuses.memorized]);
 
   useEffect(() => {
     if (debouncedValue !== data.name) {
@@ -84,13 +66,6 @@ const VocabularyTopic = ({ data }) => {
     }
     // eslint-disable-next-line
   }, [debouncedValue]);
-
-  useEffect(() => {
-    if (isUserMode) {
-      const userAnswerGroup = userAnswerGroups.find((uag) => uag.id === data.id);
-      if (userAnswerGroup) setUserAnswers(userAnswerGroup.userAnswers);
-    }
-  }, [userAnswerGroups, data.id, isUserMode]);
 
   return (
     // Question group item

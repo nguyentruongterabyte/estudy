@@ -1,10 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { useDispatch, useSelector } from 'react-redux';
-import Header from '~/components/Compose/Header';
 import VocabularyTopics from '~/components/VocabularyTopics';
-import UserModeProvider from '~/context/UserModeProvider';
 import VocabularyTopicProvider from '~/context/VocabularyTopicProvider';
 import {
   activeTopic,
@@ -24,21 +22,25 @@ import {
   removeVocabularies,
   vocabularyList,
 } from '~/redux/features/vocabulariesSlice';
-import CustomModal from '~/components/CustomModal';
 import styles from './Vocabulary.module.scss';
-import Sidebar from '~/components/Compose/Sidebar';
 import Loading from '~/components/Loading';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import CustomTextArea from '~/components/CustomTextArea';
 import Vocabularies from '~/components/Vocabularies';
 import hooks from '~/hooks';
+import ContentManager from '~/components/ContentManager';
+import {
+  changeVocabularyPracticeStatuses,
+  statuses,
+  vocabularyPracticeStatusList,
+} from '~/redux/features/vocabularyPracticeStatusesSlice';
+import { jwtDecode } from 'jwt-decode';
 
 const cx = classNames.bind(styles);
 
 const Vocabulary = ({ isUser = false }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [showSidebar, setShowSidebar] = useState(true);
   const isComplete = useSelector(finished);
   const active = useSelector(activeTopic);
   const vocabularies = useSelector(vocabularyList);
@@ -57,7 +59,28 @@ const Vocabulary = ({ isUser = false }) => {
     hooks.useVocabularyTopicService();
   const { getByTopicId } = hooks.useVocabularyService();
   const newVocabularyTopic = hooks.useNewVocabularyTopic();
+  const { auth } = hooks.useAuth();
+  const accessToken = auth.accessToken;
+  const decoded = accessToken && jwtDecode(accessToken);
+  const userId = decoded.userInfo.id;
+  const vocabularyPracticeStatuses = useSelector(vocabularyPracticeStatusList);
+  const vocabularyPracticeStatusesByTopicId = vocabularyPracticeStatuses.filter((vps) => vps.topicId === active.id);
 
+  const { memorized, unmemorized, unanswered } = vocabularyPracticeStatusesByTopicId.reduce(
+    (acc, vps) => {
+      if (vps.status === statuses.memorized) {
+        acc.memorized++;
+      } else if (vps.status === statuses.unmemorized) {
+        acc.unmemorized++;
+      } else {
+        acc.unanswered++;
+      }
+      return acc;
+    },
+    { memorized: 0, unmemorized: 0, unanswered: 0 },
+  );
+
+  const { getVocabularyStatusesByUserId } = hooks.useVocaburyPracticeStatusesService();
   // handle delete vocabulary topic
   const handleDeleteVocabularyTopic = async () => {
     setShowDeleteModal(false);
@@ -175,6 +198,14 @@ const Vocabulary = ({ isUser = false }) => {
       dispatch(changeVocabularyTopics({ vocabularyTopics }));
     };
 
+    const fetchVocabularyPracticeStatuses = async () => {
+      const vocabularyPracticeStatuses = await getVocabularyStatusesByUserId(userId);
+
+      dispatch(changeVocabularyPracticeStatuses({ vocabularyPracticeStatuses }));
+    };
+
+    fetchVocabularyPracticeStatuses();
+
     fetchVocabularyTopics();
     // eslint-disable-next-line
   }, []);
@@ -230,28 +261,34 @@ const Vocabulary = ({ isUser = false }) => {
   }, [isEdit]);
 
   return (
-    <div className={cx('container')}>
-      <UserModeProvider isUserMode={isUser}>
-        {/* Header */}
-        <Header
-          className={cx('header', { scaled: showSidebar })}
-          title={'vocabulary'}
-          show={showSidebar}
-          setShow={setShowSidebar}
-          isAddNew={isAddNew}
-          isEdit={isEdit}
-          isComplete={isComplete}
-          onCancel={handleCancel}
-          onComplete={handleComplete}
-        />
-        <div
-          className={cx('main', {
-            'sidebar-scaled': showSidebar,
-            // 'bottombar-scaled': showBottombar
-          })}
-        >
-          {/* Vocabularies */}
-          <div className={cx('top')}></div>
+    <ContentManager
+      className={cx('container')}
+      isUser={isUser}
+      isEdit={isEdit}
+      isAddNew={isAddNew}
+      isComplete={isComplete}
+      headerTitle={'vocabulary'}
+      onHeaderCancel={handleCancel}
+      onHeaderComplete={handleComplete}
+      sidebarTitle={'vocabulary'}
+      sidebarChildren={
+        <Fragment>
+          {isVocabularyTopicsLoading ? (
+            <Loading />
+          ) : (
+            <VocabularyTopicProvider
+              onDelete={(topicId) => {
+                setShowDeleteModal(true);
+                setTopicId(topicId);
+              }}
+            >
+              <VocabularyTopics isComplete={isComplete} onCancel={handleCancelAddNew} />
+            </VocabularyTopicProvider>
+          )}
+        </Fragment>
+      }
+      mainChildren={
+        <div className={cx('main')}>
           {(isEdit || isAddNew) && (
             <CustomTextArea
               rows={3}
@@ -265,42 +302,35 @@ const Vocabulary = ({ isUser = false }) => {
 
           {isVocabulariesLoading ? <Loading /> : <Vocabularies className={cx('vocabularies')} />}
         </div>
-        {/* Sidebar: Group question */}
-        <Sidebar className={cx('sidebar', 'hide-on-mobile-tablet')} title={'vocabulary'} show={showSidebar}>
-          {isVocabularyTopicsLoading ? (
-            <Loading />
-          ) : (
-            <VocabularyTopicProvider
-              onDelete={(topicId) => {
-                setShowDeleteModal(true);
-                setTopicId(topicId);
-              }}
-            >
-              <VocabularyTopics isComplete={isComplete} onCancel={handleCancelAddNew} />
-            </VocabularyTopicProvider>
-          )}
-        </Sidebar>
-        {/* Modal ask cancel edit */}
-        <CustomModal
-          title={t('cancelEdit')}
-          body={t('confirmCancelEdit')}
-          show={showAskCancel}
-          setShow={setShowAskCancel}
-          handleAgreeButtonClick={handleCancel}
-        />
-
-        {/* Modal ask delete */}
-        <CustomModal
-          title={t('deleteQuestionGroup')}
-          body={t('confirmDeleteQuestionGroup')}
-          show={showDeleteModal}
-          setShow={setShowDeleteModal}
-          handleAgreeButtonClick={handleDeleteVocabularyTopic}
-        />
-
-        <ToastContainer stacked draggable />
-      </UserModeProvider>
-    </div>
+      }
+      isEnableBottombar={isUser && vocabularyPracticeStatusesByTopicId.length > 0}
+      bottombarChildren={
+        <div className={cx('practice-status')}>
+          <h2 className={cx('topic-name')}>{active.name}</h2>
+          <div className={cx('group')}>
+            <div className={cx('memorized', 'item')}>{memorized} Đã thuộc</div>
+            <div className={cx('unmemorized', 'item')}>{unmemorized} Chưa thuộc</div>
+            <div className={cx('unanswered', 'item')}>{unanswered} Chưa trả lời</div>
+          </div>
+        </div>
+      }
+      modalData={[
+        {
+          title: 'cancelEdit',
+          body: 'confirmCancelEdit',
+          show: showAskCancel,
+          setShow: setShowAskCancel,
+          handleAgreeButtonClick: handleCancel,
+        },
+        {
+          title: 'deleteQuestionGroup',
+          body: 'confirmDeleteQuestionGroup',
+          show: showDeleteModal,
+          setShow: setShowDeleteModal,
+          handleAgreeButtonClick: handleDeleteVocabularyTopic,
+        },
+      ]}
+    />
   );
 };
 

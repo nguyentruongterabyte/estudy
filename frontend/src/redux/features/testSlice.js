@@ -108,7 +108,8 @@ const testSlice = createSlice({
         field: logFields.correctAnswer,
         questionId: action.payload.questionId,
         oldValue: state.test.questions.find((q) => q.id === action.payload.questionId).correctAnswer.answerId,
-        newValue: action.payload.answerId,
+        newValue: state.test.questions.find((q) => q.id === action.payload.questionId).answers[action.payload.index]
+          ?.id,
       };
 
       return {
@@ -367,7 +368,7 @@ export const {
   resetChangeLog,
   deleteQuestion,
   addQuestion,
-  updateExplainText
+  updateExplainText,
 } = testSlice.actions;
 export default testSlice.reducer;
 export const questionList = (state) => state.test.test.questions;

@@ -39,6 +39,12 @@ const urls = {
   vocabulary: {
     getByTopicId: '/api/vocabulary',
   },
+
+  vocabularyStatuses: {
+    getByUserId: '/api/vocabulary-statuses/get-by-user-id',
+    update: '/api/vocabulary-statuses',
+  },
+
   userAnswer: {
     create: '/api/user-answer',
   },

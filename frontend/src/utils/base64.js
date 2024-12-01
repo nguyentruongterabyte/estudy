@@ -8,9 +8,11 @@ const base64ToFile = (base64Data, filename) => {
   }
 
   const byteArray = new Uint8Array(byteArrays);
-  return new File([byteArray], filename, { type: 'image/png' }); 
+  return new File([byteArray], filename, { type: 'image/png' });
 };
 
-export default {
+const base64 = {
   base64ToFile,
 };
+
+export default base64;

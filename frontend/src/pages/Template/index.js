@@ -1,16 +1,11 @@
-import { faCheck, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import classNames from 'classnames/bind';
 import { Fragment, useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
-import styles from './Template.module.scss';
-import Sidebar from '~/components/Compose/Sidebar';
 import QuestionGroups from '~/components/QuestionGroups';
-import Header from '~/components/Compose/Header';
 import hooks from '~/hooks';
+import ContentManager from '../../components/ContentManager';
 import {
   isComplete as finished,
   changeLog,
@@ -46,8 +41,6 @@ import {
   removeChangeLogsByField as questionGroupRemoveChangeLogsByField,
 } from '~/redux/features/questionGroupsSilce';
 
-import CustomModal from '~/components/CustomModal';
-import Bottombar from '~/components/Bottombar';
 import { questionBundles } from '~/redux/features/questionBundlesSlice';
 import Loading from '~/components/Loading';
 import BundleCards from '~/components/BundleCards';
@@ -57,9 +50,6 @@ import { getWithExpiry, setWithExpiry } from '~/utils/localStorageUtils';
 import handleLastChanges from '~/components/QuestionSingle/handleLastChanges';
 import logFields from '~/redux/logFields';
 import QuestionGroupProvider from '~/context/QuestionGroupProvider';
-import UserModeProvider from '~/context/UserModeProvider';
-
-const cx = classNames.bind(styles);
 
 const Template = ({
   isEnableExplainText,
@@ -120,8 +110,6 @@ const Template = ({
 
   const bundles = useSelector(questionBundles);
 
-  const [showSidebar, setShowSidebar] = useState(true);
-  const [showBottombar, setShowBottombar] = useState(true);
   const [showAskCancel, setShowAskCancel] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isQuestionsLoading, setIsQuestionsLoading] = useState(false);
@@ -337,14 +325,6 @@ const Template = ({
     }
   };
 
-  // const handleAddQuestions = async (eventLogs) => {
-  //   if (questionBundle) {
-  //   } else {
-  //     const newAddedQuestions = questions.filter((question) => question.isAddNew);
-  //     console.log(newAddedQuestions);
-  //   }
-  // };
-
   // handle edit
   const handleEdit = async () => {
     const history = getWithExpiry(`editHistory_${groupId}`) || [];
@@ -405,6 +385,8 @@ const Template = ({
       answerId: change.newValue,
       questionId: change.questionId,
     }));
+
+    console.log('correctAnswers', correctAnswers);
 
     if (correctAnswers.length > 0) {
       await toast
@@ -955,27 +937,35 @@ const Template = ({
   }, [isAddNew, bundles, questions]);
 
   return (
-    <div className={cx('container')}>
-      <UserModeProvider
-        isUserMode={isUser}
-        isDisplayAnswerText={isDisplayAnswerText}
-        isDisplayQuestionText={isDisplayQuestionText}
-      >
-        {/* Header */}
-        <Header
-          className={cx('header', { scaled: showSidebar })}
-          title={partName}
-          show={showSidebar}
-          setShow={setShowSidebar}
-          isAddNew={isAddNew}
-          isEdit={isEdit}
-          isComplete={isComplete}
-          onCancel={handleCancel}
-          onComplete={handleComplete}
-        />
-        <div className={cx('main', { 'sidebar-scaled': showSidebar, 'bottombar-scaled': showBottombar })}>
-          {/* Questions bundle/Question single*/}
-          <div className={cx('top')}></div>
+    <ContentManager
+      isUser={isUser}
+      isDisplayAnswerText={isDisplayAnswerText}
+      isDisplayQuestionText={isDisplayQuestionText}
+      isEdit={isEdit}
+      isAddNew={isAddNew}
+      isComplete={isComplete}
+      headerTitle={partName}
+      onHeaderCancel={handleCancel}
+      onHeaderComplete={handleComplete}
+      sidebarTitle={partName}
+      sidebarChildren={
+        <Fragment>
+          {isQuestionGroupsLoading ? (
+            <Loading />
+          ) : (
+            <QuestionGroupProvider
+              onDelete={(groupId) => {
+                setShowDeleteModal(true);
+                setGroupId(groupId);
+              }}
+            >
+              <QuestionGroups isComplete={isComplete} onCancel={handleCancelAddNew} />
+            </QuestionGroupProvider>
+          )}
+        </Fragment>
+      }
+      mainChildren={
+        <Fragment>
           {questionBundle ? (
             <QuestionBundles
               partId={partId}
@@ -1003,61 +993,27 @@ const Template = ({
               partId={partId}
             />
           )}
-        </div>
-        {/* Sidebar: Group question */}
-        <Sidebar title={partName} show={showSidebar}>
-          {isQuestionGroupsLoading ? (
-            <Loading />
-          ) : (
-            <QuestionGroupProvider
-              onDelete={(groupId) => {
-                setShowDeleteModal(true);
-                setGroupId(groupId);
-              }}
-            >
-              <QuestionGroups isComplete={isComplete} onCancel={handleCancelAddNew} />
-            </QuestionGroupProvider>
-          )}
-        </Sidebar>
-
-        {isEnableBottombar && (
-          <Fragment>
-            <Bottombar className={cx('bottom-bar', { scaled: showSidebar })} show={showBottombar}>
-              <BundleCards data={bundles} />
-            </Bottombar>
-            <div
-              onClick={() => setShowBottombar((prev) => !prev)}
-              className={cx('toggle-bottom-bar-button', {
-                scaled: showSidebar,
-                offset: !showBottombar,
-              })}
-            >
-              <FontAwesomeIcon icon={showBottombar ? faCheck : faChevronUp} />
-            </div>
-          </Fragment>
-        )}
-
-        {/* Modal ask cancel edit */}
-        <CustomModal
-          title={t('cancelEdit')}
-          body={t('confirmCancelEdit')}
-          show={showAskCancel}
-          setShow={setShowAskCancel}
-          handleAgreeButtonClick={handleCancel}
-        />
-
-        {/* Modal ask delete */}
-        <CustomModal
-          title={t('deleteQuestionGroup')}
-          body={t('confirmDeleteQuestionGroup')}
-          show={showDeleteModal}
-          setShow={setShowDeleteModal}
-          handleAgreeButtonClick={handleDeleteQuestionGroup}
-        />
-
-        <ToastContainer stacked draggable />
-      </UserModeProvider>
-    </div>
+        </Fragment>
+      }
+      isEnableBottombar={isEnableBottombar}
+      bottombarChildren={<BundleCards data={bundles} />}
+      modalData={[
+        {
+          title: 'cancelEdit',
+          body: 'confirmCancelEdit',
+          show: showAskCancel,
+          setShow: setShowAskCancel,
+          handleAgreeButtonClick: handleCancel,
+        },
+        {
+          title: 'deleteQuestionGroup',
+          body: 'confirmDeleteQuestionGroup',
+          show: showDeleteModal,
+          setShow: setShowDeleteModal,
+          handleAgreeButtonClick: handleDeleteQuestionGroup,
+        },
+      ]}
+    />
   );
 };
 

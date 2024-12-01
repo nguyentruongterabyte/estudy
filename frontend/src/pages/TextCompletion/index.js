@@ -3,6 +3,7 @@ import Template from '../Template';
 const TextCompletion = ({ isUser = false }) => {
   return (
     <Template
+      isEnableExplainText={true}
       isEnableBottombar={true}
       isEnableQuestionText={true}
       resizeablePanels={true}

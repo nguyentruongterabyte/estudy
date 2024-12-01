@@ -11,19 +11,19 @@ const initialState = {
   },
   vocabularyTopics: [
     {
-      id: 1,
+      id: -1,
       name: 'Chào',
     },
     {
-      id: 2,
+      id: -2,
       name: 'Mừng',
     },
     {
-      id: 3,
+      id: -3,
       name: 'Trở',
     },
     {
-      id: 4,
+      id: -4,
       name: 'Lại',
     },
   ],
@@ -122,12 +122,6 @@ export const {
   updateName,
   removeChangeLogsByField,
 } = vocabularyTopicsSlice.actions;
-
-export const vocabularyPracticeStatuses = {
-  memorized: 1,
-  unmemorized: 2,
-  unanswered: 3,
-};
 
 export default vocabularyTopicsSlice.reducer;
 export const vocabularyTopicList = (state) => state.vocabularyTopics.vocabularyTopics;

@@ -27,18 +27,23 @@ const urls = {
   },
 
   correctAnswer: {
-    updateMany: '/api/correct-answer'
+    updateMany: '/api/correct-answer',
   },
 
   vocabularyTopic: {
     create: '/api/vocabulary-topic',
     delete: '/api/vocabulary-topic/:topicId',
     update: '/api/vocabulary-topic',
-    getAll: '/api/vocabulary-topic'
+    getAll: '/api/vocabulary-topic',
   },
 
   vocabulary: {
     getByTopicId: '/api/vocabulary/:topicId',
+  },
+
+  vocabularyStatuses: {
+    getByUserId: '/api/vocabulary-statuses/get-by-user-id/:userId',
+    update: '/api/vocabulary-statuses/:userId/:vocabularyId',
   },
 
   userAnswer: {

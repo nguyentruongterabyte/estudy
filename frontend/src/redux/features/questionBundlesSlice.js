@@ -314,13 +314,16 @@ const questionBundlesSlice = createSlice({
           ),
         ],
       };
+
       const changeCorrectAnswerIndexLog = {
         field: logFields.correctAnswer,
         questionId: action.payload.questionId,
         oldValue: state.bundles
           .find((b) => b.id === action.payload.id)
           .questions.find((q) => q.id === action.payload.questionId).correctAnswer.answerId,
-        newValue: action.payload.answerId,
+        newValue: state.bundles
+          .find((b) => b.id === action.payload.id)
+          .questions.find((q) => q.id === action.payload.questionId).answers[action.payload.index]?.id, // Lấy answerId từ index
       };
 
       return {
@@ -506,7 +509,7 @@ export const {
   removeChangeLogsByField,
   deleteQuestion,
   addQuestion,
-  updateExplainText
+  updateExplainText,
 } = questionBundlesSlice.actions;
 
 export default questionBundlesSlice.reducer;
