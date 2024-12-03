@@ -13,7 +13,18 @@ const useVocaburyPracticeStatusesService = () => {
     }
   };
 
-  return { getVocabularyStatusesByUserId };
+  const updateVocabularyStatus = async (userId, vocabularyId, status) => {
+    try {
+      const response = await axiosPrivate.put(`${config.urls.vocabularyStatuses.update}/${userId}/${vocabularyId}`, {
+        status,
+      });
+      return response?.data?.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  return { getVocabularyStatusesByUserId, updateVocabularyStatus };
 };
 
 export default useVocaburyPracticeStatusesService;

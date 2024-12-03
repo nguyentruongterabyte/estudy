@@ -12,6 +12,14 @@ const urls = {
     deleteBundle: '/api/test/delete-bundle',
     getUserAnswers: '/api/test/user-answers',
   },
+
+  grammar: {
+    getAll: '/api/grammar',
+    update: '/api/grammar',
+    delete: '/api/grammar',
+    create: '/api/grammar',
+  },
+
   photo: {
     create: '/api/photo/create',
     upload: '/api/photo/upload',
@@ -70,7 +78,8 @@ const urls = {
   },
   questionGroup: {
     update: '/api/question-group',
-    getAll: '/api/question-group/all',
+    getByPartId: '/api/question-group/by-part-id',
+    getByGrammarId: '/api/question-group/by-grammar-id',
   },
 };
 

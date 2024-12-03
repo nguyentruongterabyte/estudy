@@ -101,7 +101,7 @@
   "deletedQuestionGroupSuccessfully": "问题组删除成功！",
   "failedToDeleteQuestionGroup": "删除问题组失败",
 
-   "deletingVocabularyTopic": "正在删除词汇主题",
+  "deletingVocabularyTopic": "正在删除词汇主题",
   "deleteVocabularyTopicSuccess": "词汇主题删除成功",
   "deleteVocabularyTopicFailed": "删除词汇主题失败",
 
@@ -113,13 +113,18 @@
   "updatedExplanationSuccessfully": "成功更新了解释！",
   "errorUpdatingExplanation": "更新解释时出错。",
 
-
   "deleteQuestionGroup": "删除问题组",
   "confirmDeleteQuestionGroup": "您确定要删除这个问题组吗？",
 
   "deleteQuestion": "删除问题",
   "confirmDeleteQuestion": "您确定要删除此问题吗？",
   "addQuestion": "添加问题",
+
+  "deleteGrammar": "删除语法",
+  "confirmDeleteGrammar": "您确定要删除此语法吗？",
+  "deletingGrammar": "正在删除语法...",
+  "deleteGrammarSuccess": "语法删除成功！",
+  "deleteGrammarError": "删除语法失败",
 
   "answer": "答案",
 
@@ -131,9 +136,6 @@
 
   "historyChanges": "更改历史",
 
-  "nothingIsMorePreciousThanIndependenceAndFreedom": "没有什么比独立和自由更珍贵",
-  "whatWeAreTheWorldIs": "我们是什么，世界就是什么。",
-
   "transcripts": "文字记录",
 
   "createNewVocabularyTopic": "创建新词汇主题",
@@ -141,5 +143,31 @@
 
   "example": "例子",
   "definition": "定义",
-  "pronunciation": "发音"
+  "pronunciation": "发音",
+
+  "memorized": "已记住",
+  "unmemorized": "未记住",
+  "unanswered": "未回答",
+
+  "studyAgain": "稍后再学习",
+  "gotIt": "记住了",
+  "new": "未学习",
+
+  "createNewGrammar": "创建新语法",
+
+  "enterQuestionGroupName": "输入问题组名称",
+
+  "enterTopicName": "输入主题名称",
+
+
+  "quote1": "没有什么比独立和自由更珍贵",
+  "quote2": "我们是什么，世界就是什么。",
+  "quote3": "如果你设定的目标高得离谱却失败了，你的失败也会超越他人的成功。",
+  "quote4": "你可以说我只是一个梦想家，但我不是唯一一个。我希望有一天你会加入我们。然后，世界将作为一个整体共同生活。",
+  "quote5": "如果你看着你生活中拥有的东西，你将永远拥有更多。如果你看着你生活中没有的东西，你永远不会觉得满足。",
+  "quote6": "生活中最大的荣耀不在于从不跌倒，而在于每次跌倒后都能站起来。",
+  "quote7": "开始的方式是停止谈论并开始行动。",
+  "quote8": "你的时间有限，所以不要浪费它过别人的生活。不要被教条束缚——那就是过着别人思维结果的生活。",
+  "quote9": "未来属于那些相信自己梦想美丽的人。",
+  "quote10": "黑暗无法驱逐黑暗；只有光明才能做到这一点。仇恨无法驱逐仇恨：只有爱才能做到这一点。"
 }

@@ -35,6 +35,7 @@ import {
   vocabularyPracticeStatusList,
 } from '~/redux/features/vocabularyPracticeStatusesSlice';
 import { jwtDecode } from 'jwt-decode';
+import Quote from '~/components/Quote';
 
 const cx = classNames.bind(styles);
 
@@ -65,7 +66,8 @@ const Vocabulary = ({ isUser = false }) => {
   const userId = decoded.userInfo.id;
   const vocabularyPracticeStatuses = useSelector(vocabularyPracticeStatusList);
   const vocabularyPracticeStatusesByTopicId = vocabularyPracticeStatuses.filter((vps) => vps.topicId === active.id);
-
+  const showMainContent = vocabularyPracticeStatusesByTopicId.length > 0 || (!isUser && (isEdit || isAddNew));
+  const isEditable = isAddNew || isEdit;
   const { memorized, unmemorized, unanswered } = vocabularyPracticeStatusesByTopicId.reduce(
     (acc, vps) => {
       if (vps.status === statuses.memorized) {
@@ -267,10 +269,10 @@ const Vocabulary = ({ isUser = false }) => {
       isEdit={isEdit}
       isAddNew={isAddNew}
       isComplete={isComplete}
-      headerTitle={'vocabulary'}
+      headerTitle="vocabulary"
       onHeaderCancel={handleCancel}
       onHeaderComplete={handleComplete}
-      sidebarTitle={'vocabulary'}
+      sidebarTitle="vocabulary"
       sidebarChildren={
         <Fragment>
           {isVocabularyTopicsLoading ? (
@@ -282,26 +284,32 @@ const Vocabulary = ({ isUser = false }) => {
                 setTopicId(topicId);
               }}
             >
-              <VocabularyTopics isComplete={isComplete} onCancel={handleCancelAddNew} />
+              <VocabularyTopics isComplete={isComplete} onComplete={handleComplete} onCancel={handleCancelAddNew} />
             </VocabularyTopicProvider>
           )}
         </Fragment>
       }
       mainChildren={
-        <div className={cx('main')}>
-          {(isEdit || isAddNew) && (
-            <CustomTextArea
-              rows={3}
-              isEnableUploadButton={false}
-              value={vocabulariesStr}
-              onChange={(e) => setVocabulariesStr(e.target.value)}
-              isEditable={isAddNew || isEdit}
-              title="enterWordsInThisBox"
-            />
-          )}
+        <Fragment>
+          {showMainContent ? (
+            <div className={cx('main')}>
+              {isEditable && (
+                <CustomTextArea
+                  rows={3}
+                  isEnableUploadButton={false}
+                  value={vocabulariesStr}
+                  onChange={(e) => setVocabulariesStr(e.target.value)}
+                  isEditable={isAddNew || isEdit}
+                  title="enterWordsInThisBox"
+                />
+              )}
 
-          {isVocabulariesLoading ? <Loading /> : <Vocabularies className={cx('vocabularies')} />}
-        </div>
+              {isVocabulariesLoading ? <Loading /> : <Vocabularies className={cx('vocabularies')} />}
+            </div>
+          ) : (
+            <Quote quote="quote10" />
+          )}
+        </Fragment>
       }
       isEnableBottombar={isUser && vocabularyPracticeStatusesByTopicId.length > 0}
       bottombarChildren={

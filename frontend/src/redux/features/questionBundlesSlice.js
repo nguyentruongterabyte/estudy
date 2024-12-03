@@ -5,100 +5,100 @@ const initialState = {
   changeLog: [],
   isComplete: false,
   bundles: [
-    {
-      active: true,
-      id: 1,
-      isEnablePhoto: true,
-      photo: '',
-      audio: '',
-      text: 'W: Hi, we are renovating our boardroom and I’d like to purchase some cherry wood tables for our conference room. Q1 I am having a meeting with some very important clients on Friday. So I’d like to have them delivered tomorrow. What is the cost for an emergency delivery? M: Hold a moment please... Next day delivery is an extra seventy-five dollars. W: Really? That is expensive. I thought if my order was over three hundred dollars, delivery would be free of charge. M: Well, yes. Q2 Are you planning to order the cherry wood tables? W: Q2 Yes, I would like two of them. M: OK then, Q3 I will make sure that your order arrives tomorrow morning before midday, and delivery will be free of charge.',
-      questions: [
-        {
-          id: 1,
-          question: 'What does the woman have on Friday?',
-          answers: [
-            {
-              id: 1,
-              answer: 'A dinner meeting',
-              index: 0,
-            },
-            {
-              id: 2,
-              answer: 'A seminar',
-              index: 1,
-            },
-            {
-              id: 3,
-              answer: 'A meeting',
-              index: 2,
-            },
-            {
-              id: 4,
-              answer: 'A work party',
-              index: 3,
-            },
-          ],
-          correctAnswerIndex: 2,
-          correctAnswer: { answerId: 3, explain: '' },
-        },
-        {
-          id: 2,
-          question: 'Look at the graphic. How much does the woman pay for the furniture?',
-          answers: [
-            {
-              id: 1,
-              answer: '$165',
-              index: 0,
-            },
-            {
-              id: 2,
-              answer: '$195',
-              index: 1,
-            },
-            {
-              id: 3,
-              answer: '$307',
-              index: 2,
-            },
-            {
-              id: 4,
-              answer: '$614',
-              index: 3,
-            },
-          ],
-          correctAnswerIndex: 3,
-          correctAnswer: { answerId: 4, explain: '' },
-        },
-        {
-          id: 3,
-          question: 'What does the man say he will do?',
-          answers: [
-            {
-              id: 1,
-              answer: 'What does the man say he will do?',
-              index: 0,
-            },
-            {
-              id: 2,
-              answer: 'Deliver the furniture in the evening',
-              index: 1,
-            },
-            {
-              id: 3,
-              answer: 'Send a confirmation',
-              index: 2,
-            },
-            {
-              id: 4,
-              answer: 'Deliver the table himself',
-              index: 3,
-            },
-          ],
-          correctAnswerIndex: 0,
-          correctAnswer: { answerId: 1, explain: '' },
-        },
-      ],
-    },
+    // {
+    //   active: true,
+    //   id: 1,
+    //   isEnablePhoto: true,
+    //   photo: '',
+    //   audio: '',
+    //   text: 'W: Hi, we are renovating our boardroom and I’d like to purchase some cherry wood tables for our conference room. Q1 I am having a meeting with some very important clients on Friday. So I’d like to have them delivered tomorrow. What is the cost for an emergency delivery? M: Hold a moment please... Next day delivery is an extra seventy-five dollars. W: Really? That is expensive. I thought if my order was over three hundred dollars, delivery would be free of charge. M: Well, yes. Q2 Are you planning to order the cherry wood tables? W: Q2 Yes, I would like two of them. M: OK then, Q3 I will make sure that your order arrives tomorrow morning before midday, and delivery will be free of charge.',
+    //   questions: [
+    //     {
+    //       id: 1,
+    //       question: 'What does the woman have on Friday?',
+    //       answers: [
+    //         {
+    //           id: 1,
+    //           answer: 'A dinner meeting',
+    //           index: 0,
+    //         },
+    //         {
+    //           id: 2,
+    //           answer: 'A seminar',
+    //           index: 1,
+    //         },
+    //         {
+    //           id: 3,
+    //           answer: 'A meeting',
+    //           index: 2,
+    //         },
+    //         {
+    //           id: 4,
+    //           answer: 'A work party',
+    //           index: 3,
+    //         },
+    //       ],
+    //       correctAnswerIndex: 2,
+    //       correctAnswer: { answerId: 3, explain: '' },
+    //     },
+    //     {
+    //       id: 2,
+    //       question: 'Look at the graphic. How much does the woman pay for the furniture?',
+    //       answers: [
+    //         {
+    //           id: 1,
+    //           answer: '$165',
+    //           index: 0,
+    //         },
+    //         {
+    //           id: 2,
+    //           answer: '$195',
+    //           index: 1,
+    //         },
+    //         {
+    //           id: 3,
+    //           answer: '$307',
+    //           index: 2,
+    //         },
+    //         {
+    //           id: 4,
+    //           answer: '$614',
+    //           index: 3,
+    //         },
+    //       ],
+    //       correctAnswerIndex: 3,
+    //       correctAnswer: { answerId: 4, explain: '' },
+    //     },
+    //     {
+    //       id: 3,
+    //       question: 'What does the man say he will do?',
+    //       answers: [
+    //         {
+    //           id: 1,
+    //           answer: 'What does the man say he will do?',
+    //           index: 0,
+    //         },
+    //         {
+    //           id: 2,
+    //           answer: 'Deliver the furniture in the evening',
+    //           index: 1,
+    //         },
+    //         {
+    //           id: 3,
+    //           answer: 'Send a confirmation',
+    //           index: 2,
+    //         },
+    //         {
+    //           id: 4,
+    //           answer: 'Deliver the table himself',
+    //           index: 3,
+    //         },
+    //       ],
+    //       correctAnswerIndex: 0,
+    //       correctAnswer: { answerId: 1, explain: '' },
+    //     },
+    //   ],
+    // },
   ],
 };
 

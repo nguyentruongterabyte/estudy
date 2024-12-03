@@ -121,6 +121,12 @@
   "confirmDeleteQuestion": "Bạn có chắc muốn xóa câu hỏi này?",
   "addQuestion": "Thêm câu hỏi",
 
+  "deleteGrammar": "Xóa ngữ pháp",
+  "confirmDeleteGrammar": "Bạn có chắc muốn xóa ngữ pháp này?",
+  "deletingGrammar": "Đang xóa ngữ pháp...",
+  "deleteGrammarSuccess": "Xóa ngữ pháp thành công!",
+  "deleteGrammarError": "Xóa ngữ pháp thất bại",
+
   "answer": "Đáp án",
 
   "uploadAudio": "Tải lên audio",
@@ -131,9 +137,6 @@
 
   "historyChanges": "Lịch sử thay đổi",
 
-  "nothingIsMorePreciousThanIndependenceAndFreedom": "Không có gì quý hơn độc lập, tự do.",
-  "whatWeAreTheWorldIs": "Chúng ta thế nào, thế giới thế ấy.",
-
   "transcripts": "Giải thích",
 
   "createNewVocabularyTopic": "Tạo chủ đề từ vựng mới",
@@ -141,5 +144,30 @@
 
   "example": "Ví dụ",
   "definition": "Định nghĩa",
-  "pronunciation": "Phát âm"
+  "pronunciation": "Phát âm",
+
+  "memorized": "Đã thuộc",
+  "unmemorized": "Chưa thuộc",
+  "unanswered": "Chưa trả lời",
+
+  "studyAgain": "Học lại sau",
+  "gotIt": "Đã nhớ",
+  "new": "Chưa học",
+
+  "createNewGrammar": "Tạo ngữ pháp mới",
+
+  "enterQuestionGroupName": "Nhập tên nhóm câu hỏi",
+
+  "enterTopicName": "Nhập tên chủ đề",
+
+  "quote1": "Không có gì quý hơn độc lập, tự do.",
+  "quote2": "Chúng ta thế nào, thế giới thế ấy.",
+  "quote3": "Nếu bạn đặt mục tiêu của mình quá cao và thất bại, bạn sẽ thất bại ở một tầm cao mà vượt qua cả thành công của người khác.",
+  "quote4": "Bạn có thể nói tôi là một người mơ mộng, nhưng tôi không phải là người duy nhất. Tôi hy vọng một ngày nào đó bạn sẽ tham gia cùng chúng tôi. Và thế giới sẽ sống như một.",
+  "quote5": "Nếu bạn nhìn vào những gì bạn có trong cuộc sống, bạn sẽ luôn có nhiều hơn. Nếu bạn nhìn vào những gì bạn không có trong cuộc sống, bạn sẽ không bao giờ cảm thấy đủ.",
+  "quote6": "Vinh quang lớn nhất trong cuộc sống không phải là không bao giờ ngã, mà là đứng dậy mỗi lần ta ngã.",
+  "quote7": "Cách để bắt đầu là ngừng nói và bắt đầu hành động.",
+  "quote8": "Thời gian của bạn là có hạn, vì vậy đừng lãng phí nó sống cuộc sống của người khác. Đừng bị giam cầm bởi giáo điều – đó là sống với kết quả của suy nghĩ của người khác.",
+  "quote9": "Tương lai thuộc về những người tin vào vẻ đẹp của những giấc mơ của họ.",
+  "quote10": "Bóng tối không thể xua tan bóng tối; chỉ có ánh sáng mới có thể làm được điều đó. Thù hận không thể xua tan thù hận: chỉ có tình yêu mới có thể làm được điều đó."
 }

@@ -21,6 +21,8 @@ import useNewVocabularyTopic from './useNewVocabularyTopic';
 import useCorrectAnswerService from './useCorrectAnswerService';
 import useSaveData from './useSaveData';
 import useVocaburyPracticeStatusesService from './useVocaburyPracticeStatusesService';
+import useGrammarService from './useGrammarService';
+import useNewGrammar from './useNewGrammar';
 
 import useNewQuestionGroup from './useNewQuestionGroup';
 const hooks = {
@@ -47,6 +49,8 @@ const hooks = {
   useCorrectAnswerService,
   useVocaburyPracticeStatusesService,
   useSaveData,
+  useGrammarService,
+  useNewGrammar
 };
 
 export default hooks;

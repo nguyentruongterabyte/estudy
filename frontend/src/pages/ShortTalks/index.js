@@ -1,4 +1,4 @@
-import Template from '../Template';
+import Template from '../TestTemplate';
 
 const ShortTalks = ({ isUser = false }) => {
   return (
@@ -12,7 +12,7 @@ const ShortTalks = ({ isUser = false }) => {
       quantityOfQuestionsPerBundle={3}
       quantityOfAnswersPerQuestion={4}
       questionBundle={true}
-      quote={'nothingIsMorePreciousThanIndependenceAndFreedom'}
+      quote="quote4"
       isEnablePhoto={true}
       isEnableAudio={true}
       isUser={isUser}

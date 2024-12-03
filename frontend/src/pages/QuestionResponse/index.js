@@ -1,4 +1,4 @@
-import Template from '../Template';
+import Template from '../TestTemplate';
 
 const QuestionResponse = ({ isUser = false }) => {
   return (
@@ -9,7 +9,7 @@ const QuestionResponse = ({ isUser = false }) => {
       partName={'part2_QuestionResponse'}
       quantityOfQuestions={25}
       quantityOfAnswersPerQuestion={3}
-      quote={'whatWeAreTheWorldIs'}
+      quote="quote2"
       isUser={isUser}
       isDisplayAnswerText={false}
       isDisplayQuestionText={false}

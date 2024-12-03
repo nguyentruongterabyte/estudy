@@ -1,4 +1,4 @@
-import Template from '../Template';
+import Template from '../TestTemplate';
 
 const IncompleteSentences = ({ isUser = false }) => {
   return (
@@ -11,7 +11,7 @@ const IncompleteSentences = ({ isUser = false }) => {
       partName={'part5_IncompleteSentences'}
       quantityOfQuestions={30}
       quantityOfAnswersPerQuestion={4}
-      quote={'whatWeAreTheWorldIs'}
+      quote="quote5"
       isUser={isUser}
     />
   );

@@ -24,12 +24,13 @@ import CustomModal from '~/components/CustomModal';
 import AddButton from '~/components/AddButton';
 import { useUserMode } from '~/context/UserModeProvider';
 import VocabularyTopic from '../VocabularyTopic';
+import NameInputWithButtons from '../NameInputWithButtons';
 
 const cx = classNames.bind(styles);
 
 const fn = () => {};
 
-const VocabularyTopics = ({ isComplete, onCancel = fn }) => {
+const VocabularyTopics = ({ isComplete, onCancel = fn, onComplete = fn }) => {
   const data = useSelector(vocabularyTopicList);
   const active = useSelector(activeTopic);
   const isAddNew = useSelector(adding);
@@ -78,37 +79,20 @@ const VocabularyTopics = ({ isComplete, onCancel = fn }) => {
       {!isUserMode && (
         <Fragment>
           {/* Add new question group */}
-          {isAddNew ? (
-            <div className={cx('input-wrapper')}>
-              <Form.Control
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                className={cx('input-name')}
-                size="lg"
-                placeholder="Enter test group name"
-              />
-              <Tippy placement="bottom" content={t('cancel')}>
-                <Button
-                  size="lg"
-                  onClick={() => setShowEditModal(true)}
-                  className={cx('cancel-button')}
-                  variant="outline-danger"
-                >
-                  <FontAwesomeIcon icon={faTimes} />
-                </Button>
-              </Tippy>
-              <Tippy placement="bottom" content={t('complete')}>
-                <Button size="lg" disabled={!isComplete} variant="outline-success" className={cx('complete-button')}>
-                  <FontAwesomeIcon icon={faCheck} />
-                </Button>
-              </Tippy>
-            </div>
-          ) : !isEdit ? (
+          {isAddNew && (
+            <NameInputWithButtons
+              isComplete={isComplete}
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+              onCancel={() => setShowEditModal(true)}
+              onComplete={onComplete}
+              placeholder={t('enterTopicName')}
+            />
+          )}
+          {!isAddNew && !isEdit && (
             <AddButton onClick={handleAddNew} className={cx('btn-add')}>
               {t('createNewVocabularyTopic')}
             </AddButton>
-          ) : (
-            <Fragment />
           )}
           {/* Modal ask cancel edit */}
           <CustomModal

@@ -6,11 +6,13 @@ import DisplayImage from '../DisplayImage';
 import { adding, editing } from '~/redux/features/vocabularyTopicsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateDefinition, updateExample, updatePhoto, updatePronunciation } from '~/redux/features/vocabulariesSlice';
-import { useEffect, useState } from 'react';
-import { Form } from 'react-bootstrap';
+import { Fragment, useEffect, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import hooks from '~/hooks';
 import { useErrorFields } from '~/context/ErrorFieldsProvider';
+import { useUserMode } from '~/context/UserModeProvider';
+import { statuses, updateStatus, vocabularyPracticeStatusList } from '~/redux/features/vocabularyPracticeStatusesSlice';
 
 const cx = classNames.bind(styles);
 
@@ -18,6 +20,8 @@ const VocabularyCard = ({ data }) => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
+  const vocabularyPracticeStatuses = useSelector(vocabularyPracticeStatusList);
+  const vocabularyPracticeStatus = vocabularyPracticeStatuses.find((vps) => vps.vocabularyId === data.id);
 
   const isAddNew = useSelector(adding);
   const isEdit = useSelector(editing);
@@ -30,6 +34,9 @@ const VocabularyCard = ({ data }) => {
   const definitionDebouncedValue = hooks.useDebounce(definitionInputnValue, 300);
   const exampleDebouncedValue = hooks.useDebounce(exampleInputValue, 300);
   const errorFields = useErrorFields();
+  const { isUserMode, userId } = useUserMode();
+
+  const { updateVocabularyStatus } = hooks.useVocaburyPracticeStatusesService();
 
   const photo = data.photo;
 
@@ -44,6 +51,15 @@ const VocabularyCard = ({ data }) => {
 
   const handleImageUpload = (file) => {
     dispatch(updatePhoto({ id: data.id, photo: file }));
+  };
+
+  const handleUpdateVocabularyStatus = async (e, status) => {
+    e.stopPropagation();
+    await updateVocabularyStatus(userId, data.id, status).then(() => {
+      dispatch(updateStatus({ vocabularyId: data.id, status: status }));
+    });
+
+    console.log(data.id, status);
   };
 
   useEffect(() => {
@@ -67,6 +83,28 @@ const VocabularyCard = ({ data }) => {
   return (
     <FlipCard
       className={cx('container')}
+      headerContent={
+        <Fragment>
+          {isUserMode && (
+            <Button
+              className={cx('button', 'status')}
+              variant={
+                vocabularyPracticeStatus?.status === statuses.memorized
+                  ? 'outline-info'
+                  : vocabularyPracticeStatus?.status === statuses.unmemorized
+                  ? 'outline-danger'
+                  : 'outline-secondary'
+              }
+            >
+              {vocabularyPracticeStatus?.status === statuses.memorized
+                ? t('memorized')
+                : vocabularyPracticeStatus?.status === statuses.unmemorized
+                ? t('unmemorized')
+                : t('new')}
+            </Button>
+          )}
+        </Fragment>
+      }
       frontChildrend={
         <div className={cx('front')}>
           <DisplayImage
@@ -132,9 +170,29 @@ const VocabularyCard = ({ data }) => {
             />
           ) : (
             <p className={cx('example')} dangerouslySetInnerHTML={{ __html: highlightedExample() }}></p>
-          ) }
-          
-          
+          )}
+
+          {isUserMode && (
+            <div className={cx('button-group')}>
+              <Button
+                onClick={(e) => handleUpdateVocabularyStatus(e, statuses.unmemorized)}
+                className={cx('unmemorized-button', 'button')}
+                variant="danger"
+                size="lg"
+              >
+                {t('studyAgain')}
+              </Button>
+
+              <Button
+                onClick={(e) => handleUpdateVocabularyStatus(e, statuses.memorized)}
+                className={cx('unmemorized-button', 'button')}
+                variant="info"
+                size="lg"
+              >
+                {t('gotIt')}
+              </Button>
+            </div>
+          )}
         </div>
       }
     />

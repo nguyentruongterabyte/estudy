@@ -23,7 +23,7 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer
   const { t } = useTranslation();
   const question = useQuestion();
 
-  const [inputValue, setInputValue] = useState(question.correctAnswer.explain);
+  const [inputValue, setInputValue] = useState(question.correctAnswer?.explain || '');
   const debouncedValue = hooks.useDebounce(inputValue, 300);
   const { isEnableExplainText, onExplainTextChange } = useQuestions();
   const active = useSelector(activeGroup);
@@ -103,9 +103,9 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer
   }, [debouncedValue]);
 
   useEffect(() => {
-    setInputValue(question.correctAnswer.explain);
+    if (question.correctAnswer) setInputValue(question.correctAnswer.explain);
     // eslint-disable-next-line
-  }, [question.correctAnswer.explain]);
+  }, [question.correctAnswer]);
 
   return (
     <div className={cx('container')}>

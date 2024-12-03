@@ -65,10 +65,26 @@ const getByPartId = (partId) => {
   });
 };
 
-module.exports = {
+const getByGrammarId = (grammarId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const questionGroups = await db.QuestionGroup.findAll({
+        attributes: ['id', 'name', 'grammarId'],
+        where: { grammarId },
+        raw: true,
+      });
+      resolve(questionGroups);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+export default {
   getByPartId,
   save,
   update,
   get,
-  destroy
+  destroy,
+  getByGrammarId,
 };

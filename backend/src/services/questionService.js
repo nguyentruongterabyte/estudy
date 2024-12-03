@@ -121,6 +121,8 @@ const getByGroupId = (groupId) => {
         }),
       );
 
+      console.log(questionWithAnswers);
+
       resolve(questionWithAnswers);
     } catch (e) {
       reject(e);

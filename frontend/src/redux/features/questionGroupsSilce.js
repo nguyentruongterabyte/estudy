@@ -37,7 +37,7 @@ const questionGroupsSlice = createSlice({
     changeQuestionGroups: (state, action) => ({
       ...state,
       questionGroups: [...action.payload.questionGroups],
-    }),
+    } ),
 
     // add question group
     addQuestionGroup: (state, action) => ({

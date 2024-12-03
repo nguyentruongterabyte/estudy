@@ -120,6 +120,12 @@
   "confirmDeleteQuestion": "Are you sure you want to delete this question?",
   "addQuestion": "Add Question",
 
+  "deleteGrammar": "Delete grammar",
+  "confirmDeleteGrammar": "Are you sure you want to delete this grammar?",
+  "deletingGrammar": "Deleting grammar...",
+  "deleteGrammarSuccess": "Grammar deleted successfully!",
+  "deleteGrammarError": "Failed to delete grammar",
+
   "answer": "Answer",
 
   "uploadAudio": "Upload Audio",
@@ -130,9 +136,6 @@
 
   "historyChanges": "History changes",
 
-  "nothingIsMorePreciousThanIndependenceAndFreedom": "Nothing is more precious than independence and freedom.",
-  "whatWeAreTheWorldIs": "What we are, the world is.",
-
   "transcripts": "Transcripts",
 
   "createNewVocabularyTopic": "Create new vocabulary topic",
@@ -140,5 +143,30 @@
 
   "example": "Example",
   "definition": "Definition",
-  "pronunciation": "Pronunciation"
+  "pronunciation": "Pronunciation",
+
+  "memorized": "Memorized",
+  "unmemorized": "Unmemorized",
+  "unanswered": "Unanswered",
+
+  "studyAgain": "Study again",
+  "gotIt": "Got it",
+  "new": "New",
+
+  "createNewGrammar": "Create new grammar",
+
+  "enterQuestionGroupName": "Enter question group name",
+
+  "enterTopicName": "Enter topic name",
+
+  "quote1": "Nothing is more precious than independence and freedom.",
+  "quote2": "What we are, the world is.",
+  "quote3": "If you set your goals ridiculously high and it's a failure, you will fail above everyone else's success.",
+  "quote4": "You may say I'm a dreamer, but I'm not the only one. I hope someday you'll join us. And the world will live as one.",
+  "quote5": "If you look at what you have in life, you'll always have more. If you look at what you don't have in life, you'll never have enough.",
+  "quote6": "The greatest glory in living lies not in never falling, but in rising every time we fall.",
+  "quote7": "The way to get started is to quit talking and begin doing.",
+  "quote8": "Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking.",
+  "quote9": "The future belongs to those who believe in the beauty of their dreams.",
+  "quote10": "Darkness cannot drive out darkness; only light can do that. Hate cannot drive out hate: only love can do that."
 }

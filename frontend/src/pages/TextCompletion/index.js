@@ -1,4 +1,4 @@
-import Template from '../Template';
+import Template from '../TestTemplate';
 
 const TextCompletion = ({ isUser = false }) => {
   return (
@@ -13,7 +13,7 @@ const TextCompletion = ({ isUser = false }) => {
       quantityOfQuestionsPerBundle={4}
       quantityOfAnswersPerQuestion={4}
       questionBundle={true}
-      quote={'nothingIsMorePreciousThanIndependenceAndFreedom'}
+      quote="quote6"
       isEnablePhoto={false}
       isEnableAudio={false}
       isUser={isUser}

@@ -51,7 +51,7 @@ import handleLastChanges from '~/components/QuestionSingle/handleLastChanges';
 import logFields from '~/redux/logFields';
 import QuestionGroupProvider from '~/context/QuestionGroupProvider';
 
-const Template = ({
+const TestTemplate = ({
   isEnableExplainText,
   isEnablePhoto = false,
   isEnableAudio = false,
@@ -68,7 +68,7 @@ const Template = ({
   quantityOfAnswersPerQuestion,
   quantityOfBundles,
   quantityOfQuestionsPerBundle,
-  quote,
+  quote = 'quote1',
 }) => {
   const { uploadPhoto, createPhoto, updatePhotos, deletePhoto } = hooks.usePhotoService();
   const { uploadAudio, createAudio, updateAudios } = hooks.useAudioService();
@@ -331,10 +331,6 @@ const Template = ({
 
     const eventLogs = questionBundle ? bundleEventLogs : singleEventLogs;
 
-    // console.log(eventLogs);
-
-    // handle add questions
-    // handleAddQuestions(eventLogs);
     // Question Group Name
     const questionGroupNameLogs = questionGroupEventLogs.filter((log) => log.field === logFields.questionGroupName);
     if (questionGroupNameLogs.length > 0) {
@@ -825,7 +821,6 @@ const Template = ({
     if (groupId && !isAddNew) {
       handleLoading();
     }
-
     // eslint-disable-next-line
   }, [groupId, isAddNew]);
 
@@ -959,7 +954,7 @@ const Template = ({
                 setGroupId(groupId);
               }}
             >
-              <QuestionGroups isComplete={isComplete} onCancel={handleCancelAddNew} />
+              <QuestionGroups onComplete={handleComplete} isComplete={isComplete} onCancel={handleCancelAddNew} />
             </QuestionGroupProvider>
           )}
         </Fragment>
@@ -995,7 +990,7 @@ const Template = ({
           )}
         </Fragment>
       }
-      isEnableBottombar={isEnableBottombar}
+      isEnableBottombar={isEnableBottombar && (questions.length > 0 || bundles.length > 0)}
       bottombarChildren={<BundleCards data={bundles} />}
       modalData={[
         {
@@ -1017,4 +1012,4 @@ const Template = ({
   );
 };
 
-export default Template;
+export default TestTemplate;

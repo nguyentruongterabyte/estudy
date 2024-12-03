@@ -1,4 +1,4 @@
-import Template from '../Template';
+import Template from '../TestTemplate';
 
 const SinglePassages = ({ isUser = false }) => {
   return (
@@ -12,7 +12,7 @@ const SinglePassages = ({ isUser = false }) => {
       quantityOfQuestionsPerBundle={4}
       quantityOfAnswersPerQuestion={4}
       questionBundle={true}
-      quote={'nothingIsMorePreciousThanIndependenceAndFreedom'}
+      quote="quote7"
       isEnablePhoto={false}
       isEnableAudio={false}
       isEnableValidate={false}

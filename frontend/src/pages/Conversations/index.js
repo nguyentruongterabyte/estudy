@@ -1,4 +1,4 @@
-import Template from '../Template';
+import Template from '../TestTemplate';
 
 const Conversations = ({ isUser = false }) => {
   return (
@@ -12,7 +12,7 @@ const Conversations = ({ isUser = false }) => {
       quantityOfQuestionsPerBundle={3}
       quantityOfAnswersPerQuestion={4}
       questionBundle={true}
-      quote={'nothingIsMorePreciousThanIndependenceAndFreedom'}
+      quote="quote3"
       isEnablePhoto={true}
       isEnableAudio={true}
       isUser={isUser}

@@ -23,7 +23,7 @@ const createOrUpdate = (userId, vocabularyId, status) => {
       });
 
       if (!created) {
-        await record.update({ status });
+        await db.VocabularyPracticeStatus.update({ status }, { where: { userId, vocabularyId } });
       }
       resolve(record);
     } catch (e) {

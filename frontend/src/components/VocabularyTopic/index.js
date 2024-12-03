@@ -34,8 +34,7 @@ const VocabularyTopic = ({ data }) => {
   const { isUserMode } = useUserMode();
   const [percentage, setPercentage] = useState(0);
   const vocabularyPracticeStatuses = useSelector(vocabularyPracticeStatusList);
-  const vocabularyPracticeStatusesByTopicId = vocabularyPracticeStatuses.filter((vps) => vps.topicId === data.id);
-
+  
   const handleEdit = (event, topicId) => {
     event.stopPropagation();
     dispatch(toggleEdit({ toggle: true }));
@@ -48,6 +47,8 @@ const VocabularyTopic = ({ data }) => {
   };
 
   useEffect(() => {
+    const vocabularyPracticeStatusesByTopicId = vocabularyPracticeStatuses.filter((vps) => vps.topicId === data.id);
+
     if (vocabularyPracticeStatusesByTopicId.length > 0) {
       const memorizedCount = vocabularyPracticeStatusesByTopicId.filter(
         (vps) => vps.status === statuses.memorized,
@@ -58,7 +59,9 @@ const VocabularyTopic = ({ data }) => {
     } else {
       setPercentage(0); // Nếu không có dữ liệu, đặt về 0%
     }
-  }, [vocabularyPracticeStatusesByTopicId, statuses.memorized]);
+
+    console.log(vocabularyPracticeStatusesByTopicId);
+  }, [vocabularyPracticeStatuses, data.id]); 
 
   useEffect(() => {
     if (debouncedValue !== data.name) {

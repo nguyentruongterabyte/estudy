@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  font-size: 1.4rem;
+  font-weight: bold;
+  align-items: center;
+  width: 100%;
+
+  &:hover .button-group {
+    visibility: visible;
+    opacity: 1;
+  }
+  .order {
+    flex: 1
+  }
+
+  .button-group {
+    margin-right: 10px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .3s ease;
+
+    .delete-button {
+      margin-left: 6px;
+    }
+  }
+  
+}

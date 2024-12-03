@@ -42,7 +42,25 @@ const handleGetQuestionGroupsByPartId = async (req, res) => {
   }
 };
 
-module.exports = {
+const handleGetQuestionGroupsByGrammarId = async (req, res) => {
+  const grammarId = req.params.grammarId;
+  try {
+    const groupQuestions = await questionGroupService.getByGrammarId(grammarId);
+    return res.json({
+      errCode: 0,
+      errMessage: 'OK',
+      data: groupQuestions,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
+export default {
   handleUpdate,
   handleGetQuestionGroupsByPartId,
+  handleGetQuestionGroupsByGrammarId,
 };

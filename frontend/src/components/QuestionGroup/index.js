@@ -12,6 +12,7 @@ import { useQuestionGroup } from '~/context/QuestionGroupProvider';
 import { useUserMode } from '~/context/UserModeProvider';
 import CircularProgress from '../CircularProgress';
 import { addUserAnswers, groups } from '~/redux/features/userAnswersSlice';
+import { adding as grammarAdding, editing as grammarEditing } from '~/redux/features/grammarsSlice';
 
 const cx = classNames.bind(styles);
 
@@ -20,6 +21,8 @@ const QuestionGroup = ({ data }) => {
   const userAnswerGroups = useSelector(groups);
   const isAddNew = useSelector(adding);
   const isEdit = useSelector(editing);
+  const isGrammarAddNew = useSelector(grammarAdding);
+  const isGrammarEdit = useSelector(grammarEditing);
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState(data.name);
   const debouncedValue = hooks.useDebounce(inputValue, 300);
@@ -99,7 +102,7 @@ const QuestionGroup = ({ data }) => {
       ) : (
         <span className={cx('name')}>{data.name}</span>
       )}
-      {!(isUserMode || isEdit || isAddNew) && (
+      {!(isUserMode || isEdit || isAddNew || isGrammarAddNew || isGrammarEdit) && (
         <div className={cx('button-group')}>
           <Button onClick={(e) => handleEdit(e, data.id)} className={cx('edit-button')} size="lg" variant="success">
             <FontAwesomeIcon icon={faPencil} />

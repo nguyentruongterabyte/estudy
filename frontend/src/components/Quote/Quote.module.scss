@@ -6,11 +6,13 @@
   justify-content: center;
   .image {
     display: block;
+    width: 500px;
+    height: 100%;
   }
   
   .text {
     font-weight: bold;
-    width: 190px;
+    width: 250px;
     position: absolute;
     top: 50%;
     left: 50%;

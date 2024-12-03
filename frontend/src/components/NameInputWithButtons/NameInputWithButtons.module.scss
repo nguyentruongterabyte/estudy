@@ -1,0 +1,16 @@
+.container {
+  display: flex !important;
+  align-items: center;
+
+  .input-name {
+    width: 98%;
+    margin: 20px 0;
+    border: solid 1px cyan;
+    font-size: 1.8rem;
+  }
+
+  .cancel-button,
+  .complete-button {
+    margin-left: 6px;
+  }
+}

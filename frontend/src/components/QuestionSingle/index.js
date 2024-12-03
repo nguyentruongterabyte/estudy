@@ -50,6 +50,8 @@ const QuestionSingle = ({
   isEnablePhoto,
   isEnableExplainText,
   partId,
+  isGrammar = false,
+  grammarId,
 }) => {
   const { t } = useTranslation();
 
@@ -70,7 +72,7 @@ const QuestionSingle = ({
   const { createUserAnswer } = hooks.useUserAnswerService();
 
   const questions = useSelector(questionList);
-  const { getItem: getNewSavedItem } = hooks.useSaveData('new_test');
+  const { getItem: getNewSavedItem } = hooks.useSaveData(isGrammar ? 'new_grammar' : 'new_test');
 
   const newQuestions = Array.from({ length: quantityOfQuestions }).map((_, index) => ({
     id: index,
@@ -129,7 +131,7 @@ const QuestionSingle = ({
 
   useEffect(() => {
     if (isAddNew) {
-      const saveData = getNewSavedItem(partId);
+      const saveData = getNewSavedItem(isGrammar ? grammarId : partId);
 
       if (saveData) {
         const questionsWithFiles = saveData.questions.map((question) => {
@@ -151,7 +153,7 @@ const QuestionSingle = ({
       }
     }
     // eslint-disable-next-line
-  }, [isAddNew]);
+  }, [isAddNew, grammarId, isGrammar]);
 
   return (
     <div className={cx('container')}>

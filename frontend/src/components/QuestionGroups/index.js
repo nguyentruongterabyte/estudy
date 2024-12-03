@@ -25,14 +25,24 @@ import {
 import CustomModal from '~/components/CustomModal';
 import AddButton from '~/components/AddButton';
 import { useUserMode } from '~/context/UserModeProvider';
+import {
+  activeGrammar as activeG,
+  setActive,
+  adding as grammarAdding,
+  editing as grammarEditing,
+} from '~/redux/features/grammarsSlice';
+import NameInputWithButtons from '../NameInputWithButtons';
 
 const cx = classNames.bind(styles);
 
 const fn = () => {};
 
-const QuestionGroups = ({ isComplete, onCancel = fn }) => {
-  const data = useSelector(questionGroupList);
+const QuestionGroups = ({ isComplete, isGrammar = false, grammar, onCancel = fn, onComplete = fn }) => {
+  const questionGroups = useSelector(questionGroupList);
+  const [data, setData] = useState([]);
   const active = useSelector(activeGroup);
+  const isGrammarAddNew = useSelector(grammarAdding);
+  const isGrammarEdit = useSelector(grammarEditing);
   const isAddNew = useSelector(adding);
   const isEdit = useSelector(editing);
   const groupId = active.id;
@@ -42,8 +52,8 @@ const QuestionGroups = ({ isComplete, onCancel = fn }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { isUserMode } = useUserMode();
-
   const [showEditModal, setShowEditModal] = useState(false);
+  const activeGrammar = useSelector(activeG);
 
   // handle cancel
   const handleCancel = () => {
@@ -55,10 +65,15 @@ const QuestionGroups = ({ isComplete, onCancel = fn }) => {
     dispatch(toggleAddNew({ toggle: true }));
     dispatch(resetChangeLog());
     dispatch(resetBundleChangeLog());
+    if (isGrammar) {
+      dispatch(setActive({ id: grammar.id, name: grammar.name }));
+    }
   };
 
   useEffect(() => {
     if (debouncedValue !== groupName) {
+      console.log(groupId, groupName);
+      console.log(data);
       dispatch(updateName({ id: groupId, name: debouncedValue }));
     }
     // eslint-disable-next-line
@@ -67,6 +82,13 @@ const QuestionGroups = ({ isComplete, onCancel = fn }) => {
   useEffect(() => {
     setInputValue(groupName);
   }, [groupName]);
+
+  useEffect(() => {
+    if (isGrammar) {
+      setData([...questionGroups.filter((questionGroup) => questionGroup.grammarId === grammar.id)]);
+    }
+    // eslint-disable-next-line
+  }, [isGrammar, questionGroups]);
 
   return (
     <div className={cx('container')}>
@@ -78,39 +100,23 @@ const QuestionGroups = ({ isComplete, onCancel = fn }) => {
       </ListGroup>
       {!isUserMode && (
         <Fragment>
-          {/* Add new question group */}
-          {isAddNew ? (
-            <div className={cx('input-wrapper')}>
-              <Form.Control
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                className={cx('input-name')}
-                size="lg"
-                placeholder="Enter test group name"
-              />
-              <Tippy placement="bottom" content={t('cancel')}>
-                <Button
-                  size="lg"
-                  onClick={() => setShowEditModal(true)}
-                  className={cx('cancel-button')}
-                  variant="outline-danger"
-                >
-                  <FontAwesomeIcon icon={faTimes} />
-                </Button>
-              </Tippy>
-              <Tippy placement="bottom" content={t('complete')}>
-                <Button size="lg" disabled={!isComplete} variant="outline-success" className={cx('complete-button')}>
-                  <FontAwesomeIcon icon={faCheck} />
-                </Button>
-              </Tippy>
-            </div>
-          ) : !isEdit ? (
+          {isAddNew && (isGrammar ? activeGrammar.id === grammar.id : true) && (
+            <NameInputWithButtons
+              isComplete={isComplete}
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+              onCancel={() => setShowEditModal(true)}
+              onComplete={onComplete}
+              placeholder={t('enterQuestionGroupName')}
+            />
+          )}
+
+          {!isAddNew && !isEdit && !isGrammarAddNew && !isGrammarEdit && (
             <AddButton onClick={handleAddNew} className={cx('btn-add')}>
               {t('createNewTest')}
             </AddButton>
-          ) : (
-            <Fragment />
           )}
+
           {/* Modal ask cancel edit */}
           <CustomModal
             title={t('cancelEdit')}

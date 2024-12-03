@@ -1,4 +1,4 @@
-import Template from '../Template';
+import Template from '../TestTemplate';
 
 const TriplePassages = ({ isUser = false }) => {
   return (
@@ -12,7 +12,7 @@ const TriplePassages = ({ isUser = false }) => {
       quantityOfQuestionsPerBundle={5}
       quantityOfAnswersPerQuestion={4}
       questionBundle={true}
-      quote={'nothingIsMorePreciousThanIndependenceAndFreedom'}
+      quote="quote9"
       isEnablePhoto={false}
       isEnableAudio={false}
       isUser={isUser}

@@ -9,50 +9,54 @@ const navigationItems = {
   ],
   editor: [
     {
-      title: 'vocabulary',
-      href: routes.vocabulary.compose,
-    },
-    {
       title: 'composeRL',
       // href: '/compose/compose-reading-listening',
       dropdownItems: [
         {
           title: 'part1_Photos',
-          href: routes.compose.part1_Photos,
+          href: routes.test.compose.part1_Photos,
         },
         {
           title: 'part2_QuestionResponse',
-          href: routes.compose.part2_QuestionResponse,
+          href: routes.test.compose.part2_QuestionResponse,
         },
         {
           title: 'part3_Conversations',
-          href: routes.compose.part3_Conversations,
+          href: routes.test.compose.part3_Conversations,
         },
         {
           title: 'part4_ShortTalks',
-          href: routes.compose.part4_ShortTalks,
+          href: routes.test.compose.part4_ShortTalks,
         },
         {
           title: 'part5_IncompleteSentences',
-          href: routes.compose.part5_IncompleteSentences,
+          href: routes.test.compose.part5_IncompleteSentences,
         },
         {
           title: 'part6_TextCompletion',
-          href: routes.compose.part6_TextCompletion,
+          href: routes.test.compose.part6_TextCompletion,
         },
         {
           title: 'part7_SinglePassages',
-          href: routes.compose.part7_SinglePassages,
+          href: routes.test.compose.part7_SinglePassages,
         },
         {
           title: 'part7_DoublePassages',
-          href: routes.compose.part7_DoublePassages,
+          href: routes.test.compose.part7_DoublePassages,
         },
         {
           title: 'part7_TriplePassages',
-          href: routes.compose.part7_TriplePassages,
+          href: routes.test.compose.part7_TriplePassages,
         },
       ],
+    },
+    {
+      title: 'grammar',
+      href: routes.grammar.compose,
+    },
+    {
+      title: 'vocabulary',
+      href: routes.vocabulary.compose,
     },
   ],
   user: [
@@ -61,39 +65,39 @@ const navigationItems = {
       dropdownItems: [
         {
           title: 'part1_Photos',
-          href: routes.practice.part1_Photos,
+          href: routes.test.practice.part1_Photos,
         },
         {
           title: 'part2_QuestionResponse',
-          href: routes.practice.part2_QuestionResponse,
+          href: routes.test.practice.part2_QuestionResponse,
         },
         {
           title: 'part3_Conversations',
-          href: routes.practice.part3_Conversations,
+          href: routes.test.practice.part3_Conversations,
         },
         {
           title: 'part4_ShortTalks',
-          href: routes.practice.part4_ShortTalks,
+          href: routes.test.practice.part4_ShortTalks,
         },
         {
           title: 'part5_IncompleteSentences',
-          href: routes.practice.part5_IncompleteSentences,
+          href: routes.test.practice.part5_IncompleteSentences,
         },
         {
           title: 'part6_TextCompletion',
-          href: routes.practice.part6_TextCompletion,
+          href: routes.test.practice.part6_TextCompletion,
         },
         {
           title: 'part7_SinglePassages',
-          href: routes.practice.part7_SinglePassages,
+          href: routes.test.practice.part7_SinglePassages,
         },
         {
           title: 'part7_DoublePassages',
-          href: routes.practice.part7_DoublePassages,
+          href: routes.test.practice.part7_DoublePassages,
         },
         {
           title: 'part7_TriplePassages',
-          href: routes.practice.part7_TriplePassages,
+          href: routes.test.practice.part7_TriplePassages,
         },
       ],
     },
@@ -117,7 +121,7 @@ const navigationItems = {
     },
     {
       title: 'grammar',
-      href: '/practice/grammar',
+      href: routes.grammar.compose,
     },
     {
       title: 'vocabulary',

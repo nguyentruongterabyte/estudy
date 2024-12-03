@@ -8,14 +8,21 @@ import questionBundleService from '../services/questionBundleService';
 import testService from '../services/testService';
 
 const handleSaveTest = async (req, res) => {
-  const { name, partId, questions } = req.body;
+  const { name, partId, grammarId, questions } = req.body;
 
   try {
+    const questionGroupData = { name };
+
+    if (partId) {
+      questionGroupData.partId = partId;
+    }
+
+    if (grammarId) {
+      questionGroupData.grammarId = grammarId;
+    }
+
     // Create questionGroup
-    const newQuestionGroup = await questionGroupService.save({
-      name,
-      partId,
-    });
+    const newQuestionGroup = await questionGroupService.save(questionGroupData);
 
     // Create new questions with group id
     const newQuestions = [];
@@ -31,7 +38,11 @@ const handleSaveTest = async (req, res) => {
 
         // Save correct answer if index of answer equals correct answer index
         if (index === question.correctAnswerIndex) {
-          await correctAnswerService.save({ questionId: newQuestion.id, answerId: newAnswer.id });
+          await correctAnswerService.save({
+            questionId: newQuestion.id,
+            answerId: newAnswer.id,
+            explain: question.correctAnswer.explain,
+          });
         }
 
         newAnswers.push({ ...newAnswer.dataValues, index });
@@ -101,7 +112,11 @@ const handleSaveBundleTest = async (req, res) => {
 
           // Save correct answer if index of answer equals correct answer index
           if (index === question.correctAnswerIndex) {
-            await correctAnswerService.save({ questionId: newQuestion.id, answerId: newAnswer.id });
+            await correctAnswerService.save({
+              questionId: newQuestion.id,
+              answerId: newAnswer.id,
+              explain: question.correctAnswer.explain,
+            });
           }
 
           newAnswers.push({ ...newAnswer.dataValues, index });

@@ -1,4 +1,4 @@
-import Template from '../Template';
+import Template from '../TestTemplate';
 
 const Photos = ({ isUser = false }) => {
   return (
@@ -9,7 +9,7 @@ const Photos = ({ isUser = false }) => {
       partId={1}
       quantityOfQuestions={6}
       quantityOfAnswersPerQuestion={4}
-      quote={'nothingIsMorePreciousThanIndependenceAndFreedom'}
+      quote="quote1"
       isUser={isUser}
       isDisplayAnswerText={false}
     />

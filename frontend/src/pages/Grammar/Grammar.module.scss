@@ -1,0 +1,36 @@
+
+// grammarAccordion
+.grammar-accordion-container {
+  .btn-add {
+    margin: 16px 0;
+    width: 100%;
+  }
+}
+
+
+.grammar-header-container {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:hover .button-group {
+    visibility: visible;
+    opacity: 1;
+  }
+  .button-group {
+    // float: right;
+    position: absolute;
+    right: 28px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .3s ease;
+
+    .delete-button {
+      margin-left: 6px;
+    }
+  }
+}

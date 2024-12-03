@@ -21,6 +21,7 @@ import userAnswerController from '../controllers/userAnswerController';
 import vocabularyTopicController from '../controllers/vocabularyTopicController';
 import correctAnswerController from '../controllers/correctAnswerController';
 import vocabularyPracticeStatusController from '../controllers/vocabularyPracticeStatusController';
+import grammarController from '../controllers/grammarController';
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -128,7 +129,35 @@ let initWebRoutes = (app) => {
     testController.handleDeleleBundleTest,
   );
 
-  router.get(urls.test.getUserAnswers, verifyJWT, verifyRoles(ROLES_OBJECT.USER), testController.handleGetUserAnswers);
+  // Grammars
+  router.get(
+    urls.grammar.getAll,
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    grammarController.handleGetAll,
+  );
+
+  router.put(
+    urls.grammar.update,
+    // verifyJWT,
+    // verifyRoles( ROLES_OBJECT.EDITOR ),
+    grammarController.handleUpdate,
+  );
+
+  router.delete(
+    urls.grammar.delete,
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    grammarController.handleDelete,
+  );
+
+  router.post(
+    urls.grammar.create,
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    grammarController.handleSave,
+  );
+
   // Answers
   router.put(urls.answer.update, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), answerController.handleUpdateAnswers);
 
@@ -141,6 +170,7 @@ let initWebRoutes = (app) => {
   );
 
   // User answer
+  router.get(urls.test.getUserAnswers, verifyJWT, verifyRoles(ROLES_OBJECT.USER), testController.handleGetUserAnswers);
   router.get(
     urls.userAnswer.create,
     verifyJWT,
@@ -249,10 +279,17 @@ let initWebRoutes = (app) => {
   );
 
   router.get(
-    urls.questionGroup.getAll,
+    urls.questionGroup.getByPartId,
     verifyJWT,
     verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
     questionGroupController.handleGetQuestionGroupsByPartId,
+  );
+
+  router.get(
+    urls.questionGroup.getByGrammarId,
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    questionGroupController.handleGetQuestionGroupsByGrammarId,
   );
   return app.use('/', router);
 };

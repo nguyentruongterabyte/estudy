@@ -14,28 +14,35 @@ const routes = {
     practice: '/vocabulary/practice',
   },
 
-  compose: {
-    part1_Photos: '/compose/part-1-photos',
-    part2_QuestionResponse: '/compose/part-2-question-response',
-    part3_Conversations: '/compose/part-3-conversations',
-    part4_ShortTalks: '/compose/part-4-short-talks',
-    part5_IncompleteSentences: '/compose/part-5-incomplete-sentences',
-    part6_TextCompletion: '/compose/part-6-text-completion',
-    part7_SinglePassages: '/compose/part-7-single-passages',
-    part7_DoublePassages: '/compose/part-7-double-passages',
-    part7_TriplePassages: '/compose/part-7-triple-passages',
+  grammar: {
+    compose: '/grammar/compose',
+    practice: '/grammar/practice',
   },
 
-  practice: {
-    part1_Photos: '/practice/part-1-photos',
-    part2_QuestionResponse: '/practice/part-2-question-response',
-    part3_Conversations: '/practice/part-3-conversations',
-    part4_ShortTalks: '/practice/part-4-short-talks',
-    part5_IncompleteSentences: '/practice/part-5-incomplete-sentences',
-    part6_TextCompletion: '/practice/part-6-text-completion',
-    part7_SinglePassages: '/practice/part-7-single-passages',
-    part7_DoublePassages: '/practice/part-7-double-passages',
-    part7_TriplePassages: '/practice/part-7-triple-passages',
+  test: {
+    compose: {
+      part1_Photos: '/test/compose/part-1-photos',
+      part2_QuestionResponse: '/test/compose/part-2-question-response',
+      part3_Conversations: '/test/compose/part-3-conversations',
+      part4_ShortTalks: '/test/compose/part-4-short-talks',
+      part5_IncompleteSentences: '/test/compose/part-5-incomplete-sentences',
+      part6_TextCompletion: '/test/compose/part-6-text-completion',
+      part7_SinglePassages: '/test/compose/part-7-single-passages',
+      part7_DoublePassages: '/test/compose/part-7-double-passages',
+      part7_TriplePassages: '/test/compose/part-7-triple-passages',
+    },
+
+    practice: {
+      part1_Photos: '/test/practice/part-1-photos',
+      part2_QuestionResponse: '/test/practice/part-2-question-response',
+      part3_Conversations: '/test/practice/part-3-conversations',
+      part4_ShortTalks: '/test/practice/part-4-short-talks',
+      part5_IncompleteSentences: '/test/practice/part-5-incomplete-sentences',
+      part6_TextCompletion: '/test/practice/part-6-text-completion',
+      part7_SinglePassages: '/test/practice/part-7-single-passages',
+      part7_DoublePassages: '/test/practice/part-7-double-passages',
+      part7_TriplePassages: '/test/practice/part-7-triple-passages',
+    },
   },
 };
 

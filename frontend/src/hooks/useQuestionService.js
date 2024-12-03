@@ -67,7 +67,19 @@ const useQuestionService = () => {
   // get group question when knew part id
   const getQuestionGroups = async (partId) => {
     try {
-      const response = await axiosPrivate.get(`${config.urls.questionGroup.getAll}/${partId}`);
+      const response = await axiosPrivate.get(`${config.urls.questionGroup.getByPartId}/${partId}`);
+      const questionGroups = response?.data?.data;
+
+      return questionGroups;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  // get group question when knew grammar id
+  const getQuestionGroupsByGrammarId = async (grammarId) => {
+    try {
+      const response = await axiosPrivate.get(`${config.urls.questionGroup.getByGrammarId}/${grammarId}`);
       const questionGroups = response?.data?.data;
 
       return questionGroups;
@@ -118,6 +130,7 @@ const useQuestionService = () => {
   return {
     updateCorrectAnswers,
     getQuestionGroups,
+    getQuestionGroupsByGrammarId,
     getQuestionsByGroupId,
     createQuestionPhoto,
     createQuestionAudio,

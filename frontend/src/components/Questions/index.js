@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 
 import logFields from '~/redux/logFields';
@@ -12,6 +12,11 @@ import Quote from '~/components/Quote';
 import { useQuestions } from '~/context/QuestionsProvider';
 import { getWithExpiry } from '~/utils/localStorageUtils';
 import AddButton from '~/components/AddButton';
+import CustomAccordion from '../CustomAccordion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button } from 'react-bootstrap';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import QuestionHeader from './QuestionHeader';
 
 const cx = classNames.bind(styles);
 
@@ -19,7 +24,7 @@ const fn = () => {};
 
 const Questions = ({
   className,
-  data,
+  data = [],
   quantityOfAnswersPerQuestion = 4,
   quote,
   groupId,
@@ -29,31 +34,15 @@ const Questions = ({
   isEnablePhoto,
   onAddNew = fn,
   onToggleComplete = fn,
-  onToggleAddNew = fn,
-  onToggleEdit = fn,
 }) => {
   const { t } = useTranslation();
-  const { onAddQuestion } = useQuestions();
+  const { onAddQuestion, onDeleteQuestion } = useQuestions();
   const [errorFields, setErrorFields] = useState({});
-  const [show, setShow] = useState(false);
   const { isEnableQuestionText } = useQuestions();
   const historyChanges = (getWithExpiry(`editHistory_${groupId}`) || [])
     .filter((history) => history.type === logFields.questionText) // get history changes of question text
     .map((history) => history.changes) // get fiels `changes` each history changes
     .flat(); // merged array
-
-  useEffect(() => {
-    if (isAddNew) {
-      onAddNew();
-    }
-    // eslint-disable-next-line
-  }, [isAddNew]);
-
-  // validate questions when change
-  useEffect(() => {
-    if (Array.isArray(data)) validateQuestions();
-    // eslint-disable-next-line
-  }, [data]);
 
   // validate questions
   const validateQuestions = () => {
@@ -92,52 +81,48 @@ const Questions = ({
     setErrorFields(errors);
   };
 
-  const handleCancel = async () => {
+  useEffect(() => {
     if (isAddNew) {
-      onToggleAddNew(false);
+      onAddNew();
     }
+    // eslint-disable-next-line
+  }, [isAddNew]);
 
-    if (isEdit) {
-      onToggleEdit(false);
-    }
-    setShow(false);
-  };
+  // validate questions when change
+  useEffect(() => {
+    if (Array.isArray(data)) validateQuestions();
+    // eslint-disable-next-line
+  }, [data]);
 
   return (
     <div className={cx('container', className)}>
       {!isAddNew && !isEdit && data.length === 0 && <Quote quote={quote} className={cx('quote')} />}
       <ErrorFieldsProvider errorFields={errorFields}>
-        {Array.isArray(data) &&
-          data.map((question, index) => (
-            <QuestionProvider key={question.id} question={question}>
+        <CustomAccordion
+          className={cx('accordion')}
+          items={data.map((question, index) => ({
+            header: <QuestionHeader question={question} isAddNew={isAddNew} index={index} />,
+            body: (
               <Question
+                data={question}
+                isEditable={isAddNew || isEdit}
                 isEnableAudio={isEnableAudio}
                 isEnablePhoto={isEnablePhoto}
-                historyChanges={historyChanges.filter((history) => history.questionId === question.id)}
-                data={question}
-                index={index}
-                isAddNew={isAddNew}
-                isEditable={isAddNew || isEdit}
+                historyChanges={historyChanges}
                 quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
               />
-            </QuestionProvider>
-          ))}
+            ),
+          }))}
+        />
       </ErrorFieldsProvider>
       {isAddNew && (
         <AddButton className={cx('add-button')} onClick={() => onAddQuestion()}>
           {t('addQuestion')}
         </AddButton>
       )}
-      {/* Modal ask cancel edit */}
-      <CustomModal
-        title={t('cancelEdit')}
-        body={t('confirmCancelEdit')}
-        show={show}
-        setShow={setShow}
-        handleAgreeButtonClick={handleCancel}
-      />
     </div>
   );
 };
+
 
 export default Questions;

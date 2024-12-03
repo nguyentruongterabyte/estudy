@@ -27,14 +27,14 @@ const vocabularyPracticeStatusesSlice = createSlice({
     changeVocabularyPracticeStatuses: (state, action) => action.payload.vocabularyPracticeStatuses,
 
     // update status
-    updateStatus: (state, action) => [
-      ...state.map((vocabularyStatus) =>
-        vocabularyStatus.vocabularyId === action.payload.vocabularyId
-          ? { ...vocabularyStatus, status: action.payload.status }
-          : vocabularyStatus,
-      ),
-    ],
-  },
+    updateStatus: ( state, action ) => {
+       return state.map((vocabularyStatus) =>
+         vocabularyStatus.vocabularyId === action.payload.vocabularyId
+           ? { ...vocabularyStatus, status: action.payload.status }
+           : vocabularyStatus,
+       );
+    }
+  }
 });
 
 export const { changeVocabularyPracticeStatuses, updateStatus } = vocabularyPracticeStatusesSlice.actions;

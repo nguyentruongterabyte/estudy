@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
     }
   }
-  QuestionGroup.init({
+  QuestionGroup.init( {
+    grammarId: DataTypes.INTEGER,
     partId: DataTypes.INTEGER,
     name: DataTypes.STRING
   }, {
