@@ -39,7 +39,7 @@ const fn = () => {};
 
 const QuestionGroups = ({ isComplete, isGrammar = false, grammar, onCancel = fn, onComplete = fn }) => {
   const questionGroups = useSelector(questionGroupList);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(questionGroups);
   const active = useSelector(activeGroup);
   const isGrammarAddNew = useSelector(grammarAdding);
   const isGrammarEdit = useSelector(grammarEditing);

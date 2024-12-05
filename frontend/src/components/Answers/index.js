@@ -48,34 +48,6 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer
     }
   };
 
-  // handle explain text upload
-  const handleTextUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        // Handle update text
-        const textContent = event.target.result;
-
-        // split text to seperate sentence
-        // Preserve blank lines and split sentences properly
-        const formattedText = textContent
-          .split(/\r?\n/) // Split by new lines, keeping blank lines
-          .map(
-            (line) =>
-              line
-                .split(/(?<=[.!?])\s+/) // Split sentences by punctuation and space
-                .map((sentence) => sentence.trim()) // Trim each sentence
-                .join(' '), // Join sentences within the same line
-          )
-          .join('\n'); // Rejoin lines, preserving blank lines
-
-        onExplainTextChange({ questionId: question.id, explainText: formattedText });
-      };
-      reader.readAsText(file);
-    }
-  };
-
   const updateAnswers = (content) => {
     const lines = content
       .split('\n')
@@ -129,11 +101,10 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer
           <CustomTextArea
             className={cx('explain')}
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(content) => setInputValue(content)}
             title="transcripts"
             isEditable={isEditable}
             rows={4}
-            onFileChange={handleTextUpload}
             textId={`explain_${question.id}`}
             boldWords={answers.map((answer) => answer.answer)}
           />

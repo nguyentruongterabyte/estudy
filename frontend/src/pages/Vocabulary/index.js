@@ -298,7 +298,7 @@ const Vocabulary = ({ isUser = false }) => {
                   rows={3}
                   isEnableUploadButton={false}
                   value={vocabulariesStr}
-                  onChange={(e) => setVocabulariesStr(e.target.value)}
+                  onChange={(content) => setVocabulariesStr(content)}
                   isEditable={isAddNew || isEdit}
                   title="enterWordsInThisBox"
                 />

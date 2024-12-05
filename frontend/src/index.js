@@ -10,6 +10,8 @@ import { AuthProvider } from '~/context/AuthProvider';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 import './i18n';
 import 'react-toastify/dist/ReactToastify.css';
+import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 import { store } from './redux/store';
 
 if (process.env.REACT_APP_NODE_ENV === 'production') {

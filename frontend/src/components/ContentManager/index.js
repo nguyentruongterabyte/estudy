@@ -7,7 +7,7 @@ import Sidebar from '~/components/Compose/Sidebar';
 import Bottombar from '~/components/Bottombar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { ToastContainer } from 'react-bootstrap';
+import { ToastContainer } from 'react-toastify';
 import CustomModal from '~/components/CustomModal';
 import { useTranslation } from 'react-i18next';
 

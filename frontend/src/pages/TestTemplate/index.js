@@ -597,7 +597,7 @@ const TestTemplate = ({
       text: change.newValue,
     }));
 
-    if (questions.length > 0) {
+    if (questionBundles.length > 0) {
       await toast
         .promise(updateManyBundles(questionBundles), {
           pending: t('changingQuestions'),

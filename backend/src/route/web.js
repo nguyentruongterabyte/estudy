@@ -86,9 +86,9 @@ let initWebRoutes = (app) => {
 
   router.put(
     urls.vocabularyStatuses.update,
-    // verifyJWT,
-    // verifyUserOwnership,
-    // verifyRoles(ROLES_OBJECT.USER),
+    verifyJWT,
+    verifyUserOwnership,
+    verifyRoles(ROLES_OBJECT.USER),
     vocabularyPracticeStatusController.handleCreateOrUpdate,
   );
 
@@ -132,29 +132,29 @@ let initWebRoutes = (app) => {
   // Grammars
   router.get(
     urls.grammar.getAll,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
     grammarController.handleGetAll,
   );
 
   router.put(
     urls.grammar.update,
-    // verifyJWT,
-    // verifyRoles( ROLES_OBJECT.EDITOR ),
+    verifyJWT,
+    verifyRoles( ROLES_OBJECT.EDITOR ),
     grammarController.handleUpdate,
   );
 
   router.delete(
     urls.grammar.delete,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
     grammarController.handleDelete,
   );
 
   router.post(
     urls.grammar.create,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
     grammarController.handleSave,
   );
 

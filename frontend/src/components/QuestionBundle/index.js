@@ -107,26 +107,6 @@ const QuestionBundle = ({
     dispatch(updateQuestionText({ id: data.id, ...question }));
   };
 
-  // handle transcript text upload
-  const handleTextUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        // Handle update text
-        const textContent = event.target.result;
-
-        // split text to seperate sentence
-        const formattedText = textContent
-          .split(/(?<=[.!?])\s+/) // seperate by (., !, ?) and space
-          .map((sentence) => sentence.trim()) // remove space
-          .join(' \n');
-        dispatch(updateText({ id: data.id, text: formattedText }));
-      };
-      reader.readAsText(file);
-    }
-  };
-
   // handle history item click
   const handleHistoryItemClick = (item) => {
     console.log(item); // item.title
@@ -231,17 +211,17 @@ const QuestionBundle = ({
               )}
 
               <CustomTextArea
+                isEnableRaw={true}
                 displayButtonText={false}
                 className={cx('text')}
-                title="transcripts"
+                title="paragraph"
                 isEditable={isEditable}
                 historyChanges={[]}
                 rows={10}
-                onChange={(e) => setInputValue(e.target.value)}
+                onChange={(content) => setInputValue(content)}
                 value={inputValue}
                 isError={false}
                 onHistoryItemClick={handleHistoryItemClick}
-                onFileChange={handleTextUpload}
                 textId={`bundle_text_${data.id}`}
               />
             </div>

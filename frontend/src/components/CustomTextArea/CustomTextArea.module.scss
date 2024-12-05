@@ -36,8 +36,9 @@
   }
 
   .upload-text-button {
+    // float: right;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     margin: 20px;
     background: var(--primary);

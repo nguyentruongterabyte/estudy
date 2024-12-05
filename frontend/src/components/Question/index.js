@@ -40,17 +40,6 @@ const Question = ({ data, isEditable, isEnableAudio, isEnablePhoto, quantityOfAn
   const [userAnswer, setUserAnswer] = useState(null);
   const { isUserMode, isDisplayQuestionText } = useUserMode();
   const [isUserSelected, setIsUserSelected] = useState(false);
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        updateQuestion(event.target.result);
-      };
-      reader.readAsText(file);
-    }
-  };
 
   const handleOnItemClick = (item) => {
     onQuestionTextChange({ questionId: data.id, questionText: item.title });
@@ -118,11 +107,10 @@ const Question = ({ data, isEditable, isEnableAudio, isEnablePhoto, quantityOfAn
                 isEditable={isEditable}
                 historyChanges={historyChanges}
                 rows={questionTextRow}
-                onChange={(e) => setInputValue(e.target.value)}
+                onChange={(content) => setInputValue(content)}
                 value={(isDisplayQuestionText || (isUserMode ? isUserSelected : true)) && inputValue}
                 isError={isError}
                 onHistoryItemClick={handleOnItemClick}
-                onFileChange={handleFileChange}
                 textId={`question_text_${data.id}`}
               />
             )}

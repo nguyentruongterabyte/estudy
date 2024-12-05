@@ -8,13 +8,13 @@ const handleGetById = async (req, res) => {
   if (!id) {
     return res.status(400).json({
       errCode: 1,
-      errMessage: 'Missing required parameters'
+      errMessage: 'Missing required parameters',
     });
   }
 
   try {
     const user = await userService.getById(id);
-    if ( user ) {
+    if (user) {
       delete user.roles;
     }
     return res.json({
@@ -272,7 +272,7 @@ const handleLogout = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   handleGetAllUser,
   handleNewUser,
   handleGetById,
