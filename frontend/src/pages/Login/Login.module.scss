@@ -24,6 +24,11 @@
 
   label {
     color: var(--white);
+    font-size: 1.6rem;
+  }
+
+  .input {
+    padding: 4px 16px;
   }
 }
 
@@ -53,4 +58,10 @@
 .need-account,
 .need-account a {
   color: var(--white)
+}
+
+.role-button-wrapper {
+  .role-button {
+    font-size: 1.4rem;
+  }
 }

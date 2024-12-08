@@ -36,7 +36,7 @@ const DisplayImage = ({
     setSelectedImage(imageUrl);
   }, [imageUrl]);
   return (
-    <div className={cx('container', className, { error: isError })} {...props}>
+    <div className={cx('container', className, { error: isError })}>
       {isEditable ? (
         <Fragment>
           <Image
@@ -46,17 +46,17 @@ const DisplayImage = ({
             src={isEdit ? selectedImage || imageUrl : selectedImage || images.addImage}
             alt="Add"
           />
-          <input
-            type="file"
-            id={`image_${photoId}`}
-            style={{ display: 'none' }}
-            accept="image/*"
-            onChange={handleImageUpload}
-          />
         </Fragment>
       ) : (
         <Image className={cx('photo')} src={imageUrl} alt={altText} {...props} />
       )}
+      <input
+        type="file"
+        id={`image_${photoId}`}
+        style={{ display: 'none' }}
+        accept="image/*"
+        onChange={handleImageUpload}
+      />
     </div>
   );
 };

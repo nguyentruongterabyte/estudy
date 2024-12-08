@@ -23,6 +23,7 @@ import useSaveData from './useSaveData';
 import useVocaburyPracticeStatusesService from './useVocaburyPracticeStatusesService';
 import useGrammarService from './useGrammarService';
 import useNewGrammar from './useNewGrammar';
+import useUserService from './useUserService';
 
 import useNewQuestionGroup from './useNewQuestionGroup';
 const hooks = {
@@ -50,7 +51,8 @@ const hooks = {
   useVocaburyPracticeStatusesService,
   useSaveData,
   useGrammarService,
-  useNewGrammar
+  useNewGrammar,
+  useUserService,
 };
 
 export default hooks;

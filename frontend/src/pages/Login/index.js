@@ -82,7 +82,7 @@ const Login = () => {
   const handleRoleSelection = (selectedRole) => {
     setShowRoleModal(false);
     const roleName = Object.keys(config.roles).find((key) => config.roles[key] === selectedRole);
-    navigate(`/home/${roleName}`, {replace: true});
+    navigate(`/home/${roleName}`, { replace: true });
     setAuth((prev) => ({ ...prev, currentRole: selectedRole }));
     localStorage.setItem('currentRole', selectedRole);
     resetEmail();
@@ -98,6 +98,7 @@ const Login = () => {
       <form onSubmit={handleSubmit} className={cx('form')}>
         <label htmlFor="email">{t('email')}</label>
         <input
+          className={cx('input')}
           type="email"
           id="email"
           ref={emailRef}
@@ -108,7 +109,14 @@ const Login = () => {
         />
 
         <label htmlFor="password">{t('password')}</label>
-        <input type="password" id="password" onChange={(e) => setPassword(e.target.value)} value={password} required />
+        <input
+          className={cx('input')}
+          type="password"
+          id="password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          required
+        />
         <Button className={cx('login-btn')}>{t('sign_in')}</Button>
         <div className={cx('persistCheck')}>
           <input type="checkbox" id="persist" onChange={toggleCheck} checked={check} />
@@ -132,8 +140,8 @@ const Login = () => {
         <Modal.Body>
           <ul>
             {userRoles.map((role) => (
-              <li key={role}>
-                <ButtonB variant="link" onClick={() => handleRoleSelection(role)}>
+              <li key={role} className={cx('role-button-wrapper')}>
+                <ButtonB className={cx('role-button')} variant="link" onClick={() => handleRoleSelection(role)}>
                   {Object.keys(config.roles).find((key) => config.roles[key] === role)}
                 </ButtonB>
               </li>

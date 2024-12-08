@@ -26,18 +26,22 @@ let router = express.Router();
 
 let initWebRoutes = (app) => {
   // user
-  router.get('/api/user', verifyJWT, verifyUserOwnership, userController.handleGetById);
+  router.get(urls.user.get, verifyJWT, verifyUserOwnership, userController.handleGetById);
   router.get(
     '/api/user/get-all',
     verifyJWT,
-    verifyRoles(ROLES_OBJECT.ADMIN, ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    verifyRoles(ROLES_OBJECT.ADMIN),
     userController.handleGetAllUser,
   );
   router.post(urls.user.register, userController.handleNewUser);
   router.post(urls.user.login, userController.handleUserLogin);
   router.get(urls.user.refreshToken, userController.handleRefreshToken);
   router.get(urls.user.logout, userController.handleLogout);
-
+  router.put(urls.user.update, verifyJWT, verifyUserOwnership, userController.handleUpdate);
+  router.put( urls.user.updateAvatar,
+    // verifyJWT,
+    // verifyUserOwnership,
+     userController.handleUpdateAvatar );
   // vocabulary
   router.get(
     urls.vocabulary.getByTopicId,
@@ -110,7 +114,7 @@ let initWebRoutes = (app) => {
     urls.photo.upload,
     upload.single('photo'),
     verifyJWT,
-    verifyRoles(ROLES_OBJECT.EDITOR),
+    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
     photoController.handleUpload,
   );
 
@@ -137,12 +141,7 @@ let initWebRoutes = (app) => {
     grammarController.handleGetAll,
   );
 
-  router.put(
-    urls.grammar.update,
-    verifyJWT,
-    verifyRoles( ROLES_OBJECT.EDITOR ),
-    grammarController.handleUpdate,
-  );
+  router.put(urls.grammar.update, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), grammarController.handleUpdate);
 
   router.delete(
     urls.grammar.delete,
@@ -287,8 +286,8 @@ let initWebRoutes = (app) => {
 
   router.get(
     urls.questionGroup.getByGrammarId,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
     questionGroupController.handleGetQuestionGroupsByGrammarId,
   );
   return app.use('/', router);

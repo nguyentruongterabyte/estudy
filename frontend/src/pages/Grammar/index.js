@@ -62,6 +62,7 @@ import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import QuestionSingle from '~/components/QuestionSingle';
+import Loading from '~/components/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -112,12 +113,15 @@ const Grammar = ({ isUser }) => {
   const fetchQuestionGroups = async (grammarId) => {
     setIsQuestionGroupsLoading(true);
     const questionGroups = await getQuestionGroupsByGrammarId(grammarId);
+    setIsQuestionGroupsLoading(false);
     return questionGroups;
   };
 
   // fetch grammars
   const fetchGrammars = async () => {
+    setIsQuestionGroupsLoading(true);
     const grammars = await getAllGrammars();
+    setIsQuestionGroupsLoading(false);
     return grammars;
   };
 
@@ -403,18 +407,24 @@ const Grammar = ({ isUser }) => {
       onHeaderComplete={handleComplete}
       sidebarTitle="grammar"
       sidebarChildren={
-        <GrammarAccordion
-          setShowAskCancel={setShowAskCancel}
-          onCancelAddNewQuestionGroup={handleCancelAddNewQuestionGroup}
-          onDeleteQuestionGroup={(groupId) => {
-            setShowDeleteQuestionGroupModal(true);
-            setGroupId(groupId);
-          }}
-          onDelete={(grammarId) => {
-            setShowDeleteGrammarModal(true);
-            setGrammarId(grammarId);
-          }}
-        />
+        <Fragment>
+          {isQuestionGroupsLoading ? (
+            <Loading />
+          ) : (
+            <GrammarAccordion
+              setShowAskCancel={setShowAskCancel}
+              onCancelAddNewQuestionGroup={handleCancelAddNewQuestionGroup}
+              onDeleteQuestionGroup={(groupId) => {
+                setShowDeleteQuestionGroupModal(true);
+                setGroupId(groupId);
+              }}
+              onDelete={(grammarId) => {
+                setShowDeleteGrammarModal(true);
+                setGrammarId(grammarId);
+              }}
+            />
+          )}
+        </Fragment>
       }
       mainChildren={
         <QuestionSingle

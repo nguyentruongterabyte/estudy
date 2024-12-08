@@ -4,6 +4,9 @@ const urls = {
     register: '/api/user/register',
     login: '/api/user/login',
     logout: '/api/user/logout',
+    get: '/api/user/get-by-id',
+    update: '/api/user',
+    updateAvatar: '/api/user/update-avatar',
   },
   test: {
     create: '/api/test/create',

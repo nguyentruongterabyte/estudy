@@ -26,7 +26,7 @@ const NavigationMenu = ( { navList } ) => {
             ))}
           </NavDropdown>
         ) : (
-          <Nav.Link as={Link} to={item.href} key={index} className={cx('nav-link')}>
+          <Nav.Link as={Link} to={item.href} key={index} className={cx('nav-link', 'nav-item')}>
             {t(item.title)}
           </Nav.Link>
         ),

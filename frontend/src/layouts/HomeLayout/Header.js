@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +19,7 @@ const Header = () => {
   const { auth } = hooks.useAuth();
   const { t } = useTranslation();
   const logout = hooks.useLogout();
+  const navigate = useNavigate();
 
   const navList =
     auth.currentRole === config.roles.admin
@@ -33,6 +34,7 @@ const Header = () => {
         logout();
         break;
       case 'viewProfile':
+        navigate(config.routes.profile);
         break;
       default:
         break;

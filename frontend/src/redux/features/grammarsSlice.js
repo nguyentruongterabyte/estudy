@@ -81,7 +81,7 @@ const grammarsSlice = createSlice({
 
       const changeNameLog = {
         field: logFields.grammarName,
-        oldValue: state.grammars.find((g) => g.id === action.payload.id).name,
+        oldValue: state.grammars.find((g) => g.id === action.payload.id)?.name,
         newValue: action.payload.name,
       };
 

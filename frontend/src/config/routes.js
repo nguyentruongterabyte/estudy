@@ -2,6 +2,9 @@ const routes = {
   login: '/login',
   register: '/register',
   unauthorized: '/unauthorized',
+
+  profile: '/profile',
+
   home: {
     user: '/home/user',
     editor: '/home/editor',

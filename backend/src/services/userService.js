@@ -1,6 +1,7 @@
 import db from '../models/index';
 import bcrypt from 'bcrypt';
 const salt = bcrypt.genSaltSync(10);
+import photoService from './photoService';
 
 const hashUserPassword = (password) => {
   return new Promise(async (resolve, reject) => {
@@ -43,7 +44,7 @@ const getById = (userId) => {
       });
 
       const roles = await getUserRoles(user.id);
-      const roleArr = roles.map( role => role.id );
+      const roleArr = roles.map((role) => role.id);
       resolve({ ...user, roles: roleArr });
     } catch (e) {
       reject(e);
@@ -64,7 +65,7 @@ const getAllUsers = () => {
       const usersWithRoles = await Promise.all(
         users.map(async (user) => {
           const roles = await getUserRoles(user.id);
-          const roleArr = roles.map(role => role.id);
+          const roleArr = roles.map((role) => role.id);
           return { ...user, roles: roleArr };
         }),
       );
@@ -84,8 +85,8 @@ const getUserByEmail = (email) => {
         where: { email: email },
         raw: true,
       });
-      const roles = await getUserRoles( user.id );
-      const roleArr = roles.map( role => role.id );
+      const roles = await getUserRoles(user.id);
+      const roleArr = roles.map((role) => role.id);
       resolve({ ...user, roles: roleArr });
     } catch (error) {
       reject(error);
@@ -135,7 +136,6 @@ const deleteRefreshToken = (id) => {
     }
   });
 };
-
 
 const createNewRefreshToken = (userId, refreshToken) => {
   return new Promise(async (resolve, reject) => {
@@ -219,6 +219,25 @@ const comparePassword = (password, hashedPassword) => {
   });
 };
 
+const updateAvatar = (filePath, id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await getById(id);
+
+      if (user.photoId) {
+        const photoDB = await photoService.get(user.photoId);
+        await photoService.deleteFirebasePhotoByUrl(photoDB.filePath);
+      }
+
+      const newPhoto = await photoService.save({ filePath });
+      await updateUser({ id, photoId: newPhoto.id });
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 export default {
   getAllUsers,
   getById,
@@ -232,4 +251,5 @@ export default {
   deleteAllRefreshTokensByUserId,
   createNewRefreshToken,
   deleteRefreshToken,
+  updateAvatar,
 };

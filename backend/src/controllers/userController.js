@@ -1,10 +1,12 @@
 import userService from '../services/userService';
+import photoService from '../services/photoService';
 import jwt from 'jsonwebtoken';
 
 require('dotenv').config();
 
 const handleGetById = async (req, res) => {
-  const id = req.query.id;
+  const { id } = req.params;
+  // const id = req.query.id;
   if (!id) {
     return res.status(400).json({
       errCode: 1,
@@ -14,13 +16,40 @@ const handleGetById = async (req, res) => {
 
   try {
     const user = await userService.getById(id);
+
+    let photo = '';
     if (user) {
       delete user.roles;
+      if (user.photoId) {
+        const photoDB = await photoService.get(user.photoId);
+        photo = photoDB.filePath;
+      }
     }
+
     return res.json({
       errCode: 0,
       errMessage: 'OK',
-      data: user,
+      data: {
+        ...user,
+        photo,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
+const handleUpdate = async (req, res) => {
+  const { user } = req.body;
+
+  try {
+    await userService.updateUser(user);
+    return res.json({
+      errCode: 0,
+      errMessage: 'OK',
     });
   } catch (error) {
     return res.status(500).json({
@@ -272,6 +301,23 @@ const handleLogout = async (req, res) => {
   }
 };
 
+const handleUpdateAvatar = async (req, res) => {
+  const { id } = req.params;
+  const { filePath } = req.body;
+  try {
+    await userService.updateAvatar(filePath, id);
+    return res.json({
+      errCode: 0,
+      errMessage: 'OK!',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
 export default {
   handleGetAllUser,
   handleNewUser,
@@ -279,4 +325,6 @@ export default {
   handleUserLogin,
   handleRefreshToken,
   handleLogout,
+  handleUpdate,
+  handleUpdateAvatar,
 };

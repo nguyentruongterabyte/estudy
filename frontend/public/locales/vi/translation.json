@@ -162,6 +162,23 @@
 
   "paragraph": "Đoạn văn",
 
+  "uploadingAvatar": "Đang tải ảnh đại diện lên...",
+  "uploadAvatarSuccess": "Tải ảnh đại diện thành công!",
+  "uploadAvatarFailed": "Tải ảnh đại diện thất bại.",
+
+  "savingAvatar": "Đang lưu ảnh đại diện...",
+  "saveAvatarSuccess": "Lưu ảnh đại diện thành công!",
+  "saveAvatarFailed": "Lưu ảnh đại diện thất bại.",
+
+  "lastName": "Họ",
+  "firstName": "Tên",
+  "phoneNumber": "Số điện thoại",
+
+  "change": "Thay đổi",
+  "saveChanges": "Lưu thay đổi",
+  "changeAvatar": "Thay đổi ảnh đại diện",
+  "confirmChangeAvatar": "Bạn có chắc muốn thay đổi ảnh đại diện?",
+
   "quote1": "Không có gì quý hơn độc lập, tự do.",
   "quote2": "Chúng ta thế nào, thế giới thế ấy.",
   "quote3": "Nếu bạn đặt mục tiêu của mình quá cao và thất bại, bạn sẽ thất bại ở một tầm cao mà vượt qua cả thành công của người khác.",

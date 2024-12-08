@@ -161,6 +161,23 @@
 
   "paragraph": "段落",
 
+  "uploadingAvatar": "正在上传头像...",
+  "uploadAvatarSuccess": "头像上传成功！",
+  "uploadAvatarFailed": "头像上传失败。",
+
+  "savingAvatar": "正在保存头像...",
+  "saveAvatarSuccess": "头像保存成功！",
+  "saveAvatarFailed": "头像保存失败。",
+
+  "lastName": "姓",
+  "firstName": "名",
+  "phoneNumber": "电话号码",
+
+  "change": "更改",
+  "saveChanges": "保存更改",
+  "changeAvatar": "更改头像",
+  "confirmChangeAvatar": "您确定要更改头像吗？",
+
   "quote1": "没有什么比独立和自由更珍贵",
   "quote2": "我们是什么，世界就是什么。",
   "quote3": "如果你设定的目标高得离谱却失败了，你的失败也会超越他人的成功。",
