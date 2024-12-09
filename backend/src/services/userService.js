@@ -3,6 +3,19 @@ import bcrypt from 'bcrypt';
 const salt = bcrypt.genSaltSync(10);
 import photoService from './photoService';
 
+const destroy = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const rowEffected = await db.User.destroy({
+        where: { id },
+      });
+      resolve(rowEffected);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const hashUserPassword = (password) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -32,13 +45,13 @@ const checkUserEmail = (userEmail) => {
   });
 };
 
-const getById = (userId) => {
+const getById = (userId, includePassword = false) => {
   return new Promise(async (resolve, reject) => {
     try {
       const user = await db.User.findOne({
         where: { id: userId },
         attributes: {
-          exclude: ['password'],
+          exclude: includePassword ? [] : ['password'],
         },
         raw: true,
       });
@@ -151,6 +164,20 @@ const createNewRefreshToken = (userId, refreshToken) => {
   });
 };
 
+const createEditor = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const newUser = await db.User.create(data);
+
+      await createUserRoles(newUser.id, 'USER', 'EDITOR');
+      const userData = newUser.toJSON();
+      resolve(userData);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const createUser = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -244,6 +271,7 @@ export default {
   checkUserEmail,
   hashUserPassword,
   createUser,
+  createEditor,
   updateUser,
   comparePassword,
   getUserByEmail,
@@ -252,4 +280,5 @@ export default {
   createNewRefreshToken,
   deleteRefreshToken,
   updateAvatar,
+  destroy,
 };

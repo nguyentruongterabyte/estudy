@@ -1,21 +1,16 @@
 import { useTranslation } from 'react-i18next';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 
 import logFields from '~/redux/logFields';
 import Question from '~/components/Question';
-import QuestionProvider from '~/context/QuestionProvider';
 import styles from './Questions.module.scss';
 import ErrorFieldsProvider from '~/context/ErrorFieldsProvider';
-import CustomModal from '~/components/CustomModal';
 import Quote from '~/components/Quote';
 import { useQuestions } from '~/context/QuestionsProvider';
 import { getWithExpiry } from '~/utils/localStorageUtils';
 import AddButton from '~/components/AddButton';
 import CustomAccordion from '../CustomAccordion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from 'react-bootstrap';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import QuestionHeader from './QuestionHeader';
 
 const cx = classNames.bind(styles);
@@ -36,7 +31,7 @@ const Questions = ({
   onToggleComplete = fn,
 }) => {
   const { t } = useTranslation();
-  const { onAddQuestion, onDeleteQuestion } = useQuestions();
+  const { onAddQuestion } = useQuestions();
   const [errorFields, setErrorFields] = useState({});
   const { isEnableQuestionText } = useQuestions();
   const historyChanges = (getWithExpiry(`editHistory_${groupId}`) || [])
@@ -123,6 +118,5 @@ const Questions = ({
     </div>
   );
 };
-
 
 export default Questions;

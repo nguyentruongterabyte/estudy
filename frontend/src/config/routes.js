@@ -5,6 +5,12 @@ const routes = {
 
   profile: '/profile',
 
+  passwordChanging: '/password-changing',
+
+  accountManager: '/account-manager',
+
+  createEditorAccount: '/create-editor-account',
+
   home: {
     user: '/home/user',
     editor: '/home/editor',

@@ -36,6 +36,9 @@ const Header = () => {
       case 'viewProfile':
         navigate(config.routes.profile);
         break;
+      case 'changePassword':
+        navigate(config.routes.passwordChanging);
+        break;
       default:
         break;
     }

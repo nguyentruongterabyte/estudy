@@ -7,8 +7,10 @@ import vocabularyTopicsReducer from './features/vocabularyTopicsSlice';
 import vocabulariesReducer from './features/vocabulariesSlice';
 import vocabularyPracticeStatusesReducer from './features/vocabularyPracticeStatusesSlice';
 import grammarsReducer from './features/grammarsSlice';
+import accountsReducer from './features/accountsSlice';
 export const store = configureStore({
   reducer: {
+    accounts: accountsReducer,
     test: testReducer,
     questionGroups: questionGroupsReducer,
     questionBundles: questionBundlesReducer,

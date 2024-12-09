@@ -29,6 +29,8 @@
   "unauthorized_message": "You do not have access to the requested page.",
 
   "view_profile": "View profile",
+  "changePassword": "Change Password",
+
   "account": "Account",
   "createEditorAccount": "Create Editor Account",
   "English": "English",
@@ -177,6 +179,19 @@
   "saveChanges": "Save Changes",
   "changeAvatar": "Change Avatar",
   "confirmChangeAvatar": "Are you sure you want to change the avatar?",
+
+  "processingChangePassword": "Processing password change...",
+  "changePasswordSuccess": "Password changed successfully!",
+  "changePasswordFailed": "Failed to change password",
+  "incorrectOldPassword": "Incorrect old password",
+  "serverError": "Server error",
+  "oldPassword": "Old Password",
+
+  "editor": "Editor",
+  "user": "User",
+  "deleteAccount": "Delete Account",
+  "confirmDeleteAccount": "Are you sure you want to delete this account?",
+  "manageAccount": "Manage Account",
 
   "quote1": "Nothing is more precious than independence and freedom.",
   "quote2": "What we are, the world is.",

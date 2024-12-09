@@ -29,6 +29,8 @@
   "unauthorized_message": "您无权访问请求的页面。",
 
   "view_profile": "查看个人资料",
+  "changePassword": "更改密码",
+
   "account": "账户",
   "createEditorAccount": "创建编辑账户",
   "English": "英文",
@@ -177,6 +179,19 @@
   "saveChanges": "保存更改",
   "changeAvatar": "更改头像",
   "confirmChangeAvatar": "您确定要更改头像吗？",
+
+  "processingChangePassword": "正在处理密码更改...",
+  "changePasswordSuccess": "密码更改成功！",
+  "changePasswordFailed": "密码更改失败",
+  "incorrectOldPassword": "旧密码不正确",
+  "serverError": "服务器错误",
+  "oldPassword": "旧密码",
+
+  "editor": "编辑",
+  "user": "用户",
+  "deleteAccount": "删除账户",
+  "confirmDeleteAccount": "您确定要删除此账户吗？",
+  "manageAccount": "管理账户",
 
   "quote1": "没有什么比独立和自由更珍贵",
   "quote2": "我们是什么，世界就是什么。",

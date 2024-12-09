@@ -18,6 +18,9 @@ import Unauthorized from '~/pages/Unauthorized';
 import Vocabulary from '~/pages/Vocabulary';
 import Grammar from '~/pages/Grammar';
 import Profile from '~/pages/Profile';
+import PasswordChanging from '~/pages/PasswordChanging';
+import AccountManager from '~/pages/AccountManager';
+import EditorAccountCreation from '~/pages/EditorAccountCreation';
 
 const publicRoutes = [
   { path: config.routes.register, component: Register, layout: LoginLayout },
@@ -27,6 +30,24 @@ const publicRoutes = [
 ];
 
 const privateRoutes = [
+  {
+    path: config.routes.createEditorAccount,
+    component: EditorAccountCreation,
+    allowedRoles: [config.roles.admin],
+    layout: HomeLayout,
+  },
+  {
+    path: config.routes.accountManager,
+    component: AccountManager,
+    allowedRoles: [config.roles.admin],
+    layout: HomeLayout,
+  },
+  {
+    path: config.routes.passwordChanging,
+    component: PasswordChanging,
+    allowedRoles: [config.roles.admin, config.roles.editor, config.roles.user],
+    layout: HomeLayout,
+  },
   {
     path: config.routes.profile,
     component: Profile,

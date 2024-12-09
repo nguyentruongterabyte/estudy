@@ -30,7 +30,7 @@ import { deleteQuestionGroup, toggleAddNew, toggleEdit } from '~/redux/features/
 import Quote from '~/components/Quote';
 import CustomModal from '~/components/CustomModal';
 import { useUserMode } from '~/context/UserModeProvider';
-import { updateUserAnswer } from '~/redux/features/userAnswersSlice';
+import { groups, updateUserAnswer } from '~/redux/features/userAnswersSlice';
 
 const cx = classNames.bind(styles);
 
@@ -74,8 +74,9 @@ const QuestionBundle = ({
   );
   const [isEmptyPhoto, setIsEmptyPhoto] = useState(false);
 
-  const { userId } = useUserMode();
+  const { userId, isUserMode } = useUserMode();
   const { createUserAnswer } = hooks.useUserAnswerService();
+  const userAnswers = useSelector(groups);
 
   // handle answer change
   const handleAnswerChange = (answer) => {
@@ -132,11 +133,26 @@ const QuestionBundle = ({
   const handleUserSelectAnswer = async (questionId, answerId) => {
     await createUserAnswer(userId, questionId, answerId);
     dispatch(updateUserAnswer({ groupId, questionId, answerId }));
+    console.log(groupId, questionId, answerId);
   };
 
   // handle explain text change: `questionId` and `explain`
   const handleExplainTextChange = (explainData) => {
     dispatch(updateExplainText({ id: data.id, ...explainData }));
+  };
+
+  const isSubset = (questions) => {
+    if (!Array.isArray(questions) || !questions.length) return false; // Không có câu hỏi => false
+    if (!Array.isArray(userAnswers) || !userAnswers.length) return false; // Không có trả lời => false
+
+    const userAnswerQuestionIds = new Set(
+      userAnswers
+        .flatMap((user) => user.userAnswers) // Gộp tất cả `userAnswers` từ từng đối tượng
+        .filter((answer) => answer.userAnswerId)
+        .map((answer) => answer.questionId), // Lấy danh sách `questionId`
+    );
+
+    return questions.every((question) => userAnswerQuestionIds.has(question.id));
   };
 
   useEffect(() => {
@@ -209,21 +225,41 @@ const QuestionBundle = ({
                   )}
                 </Fragment>
               )}
-
-              <CustomTextArea
-                isEnableRaw={true}
-                displayButtonText={false}
-                className={cx('text')}
-                title="paragraph"
-                isEditable={isEditable}
-                historyChanges={[]}
-                rows={10}
-                onChange={(content) => setInputValue(content)}
-                value={inputValue}
-                isError={false}
-                onHistoryItemClick={handleHistoryItemClick}
-                textId={`bundle_text_${data.id}`}
-              />
+              {isUserMode ? (
+                isSubset(data.questions) ? (
+                  <CustomTextArea
+                    isEnableRaw={true}
+                    displayButtonText={true}
+                    className={cx('text')}
+                    title="paragraph"
+                    isEditable={false}
+                    historyChanges={[]}
+                    rows={10}
+                    onChange={(content) => setInputValue(content)}
+                    value={inputValue}
+                    isError={false}
+                    onHistoryItemClick={handleHistoryItemClick}
+                    textId={`bundle_text_${data.id}`}
+                  />
+                ) : (
+                  <Fragment />
+                )
+              ) : (
+                <CustomTextArea
+                  isEnableRaw={true}
+                  displayButtonText={true}
+                  className={cx('text')}
+                  title="paragraph"
+                  isEditable={isEditable}
+                  historyChanges={[]}
+                  rows={10}
+                  onChange={(content) => setInputValue(content)}
+                  value={inputValue}
+                  isError={false}
+                  onHistoryItemClick={handleHistoryItemClick}
+                  textId={`bundle_text_${data.id}`}
+                />
+              )}
             </div>
           }
           rightChildren={

@@ -29,7 +29,7 @@ const QuestionBundles = ({
   const isEdit = useSelector(editing);
   const isAddNew = useSelector(adding);
 
-  const active = useDispatch(activeGroup);
+  const active = useSelector(activeGroup);
 
   const groupId = active.id;
   const { getItem: getNewSavedItem } = hooks.useSaveData('new_test');
@@ -163,5 +163,6 @@ const QuestionBundles = ({
     </Fragment>
   );
 };
+
 
 export default QuestionBundles;

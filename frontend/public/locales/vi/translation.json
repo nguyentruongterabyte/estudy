@@ -30,6 +30,8 @@
   "unauthorized_message": "Bạn không có quyền truy cập vào trang được yêu cầu.",
 
   "view_profile": "Trang cá nhân",
+  "changePassword": "Thay đổi mật khẩu",
+
   "account": "Tài khoản",
   "createEditorAccount": "Tạo tài khoản người chỉnh sửa",
   "English": "Tiếng Anh",
@@ -178,6 +180,19 @@
   "saveChanges": "Lưu thay đổi",
   "changeAvatar": "Thay đổi ảnh đại diện",
   "confirmChangeAvatar": "Bạn có chắc muốn thay đổi ảnh đại diện?",
+
+  "processingChangePassword": "Đang xử lý thay đổi mật khẩu...",
+  "changePasswordSuccess": "Thay đổi mật khẩu thành công!",
+  "changePasswordFailed": "Thay đổi mật khẩu thất bại",
+  "incorrectOldPassword": "Mật khẩu cũ không đúng",
+  "serverError": "Lỗi server",
+  "oldPassword": "Mật khẩu cũ",
+
+  "editor": "Người chỉnh sửa",
+  "user": "Người dùng",
+  "deleteAccount": "Xóa tài khoản",
+  "confirmDeleteAccount": "Bạn có chắc muốn xóa tài khoản này?",
+  "manageAccount": "Quản lý tài khoản",
 
   "quote1": "Không có gì quý hơn độc lập, tự do.",
   "quote2": "Chúng ta thế nào, thế giới thế ấy.",

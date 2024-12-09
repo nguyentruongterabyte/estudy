@@ -22,6 +22,7 @@ const Answer = ({ answer, index, isEditable, historyChanges, isUserAnswer, isUse
   const { onAnswerChange, onCorrectAnswerChange } = useAnswerChange();
   const [inputValue, setInputValue] = useState(answer.answer);
   const debouncedValue = hooks.useDebounce(inputValue, 300);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   //Answers label A, B, C, D.
   const label = String.fromCharCode(index + 65);
@@ -37,8 +38,16 @@ const Answer = ({ answer, index, isEditable, historyChanges, isUserAnswer, isUse
 
   // handle on user select answer
   const handleUserSelectAnswer = async () => {
-    if (!isUserMode || isUserSelected) return;
-    await onUserSelectAnswer(question.id, answer.id);
+    if (!isUserMode || isUserSelected || isProcessing) return;
+
+    setIsProcessing(true); // Khóa thao tác
+    try {
+      await onUserSelectAnswer(question.id, answer.id);
+    } catch (error) {
+      console.error('Error in handleUserSelectAnswer:', error);
+    } finally {
+      setIsProcessing(false); // Mở khóa thao tác
+    }
   };
 
   // handle on history item click
@@ -61,6 +70,7 @@ const Answer = ({ answer, index, isEditable, historyChanges, isUserAnswer, isUse
   }, [answerText]);
   return (
     <ListGroup.Item
+      disabled={isProcessing}
       onClick={handleUserSelectAnswer}
       className={cx('container', {
         correct: isUserMode

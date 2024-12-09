@@ -68,6 +68,48 @@ const handleGetAllUser = async (req, res) => {
   });
 };
 
+const handleNewEditor = async (req, res) => {
+  const data = req.body;
+  if (!data.email || !data.password) {
+    return res.status(400).json({
+      errCode: 1,
+      errMessage: 'Email and password are required',
+    });
+  }
+
+  try {
+    // Check for duplicate
+    const duplicate = await userService.checkUserEmail(data.email);
+    if (duplicate) {
+      return res.status(409).json({
+        errCode: 1,
+        errMessage: 'Email already exists',
+      });
+    }
+
+    // Encrypt the password
+    const hashedPassword = await userService.hashUserPassword(data.password);
+
+    // Create new user
+    const newUser = await userService.createEditor({
+      ...data,
+      password: hashedPassword,
+    });
+
+    delete newUser.password;
+    return res.status(201).json({
+      errCode: 0,
+      errMessage: 'Register Successfully!',
+      data: newUser,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
 const handleNewUser = async (req, res) => {
   const data = req.body;
   if (!data.email || !data.password) {
@@ -318,13 +360,80 @@ const handleUpdateAvatar = async (req, res) => {
   }
 };
 
+const handleUpdatePassword = async (req, res) => {
+  const { id } = req.params;
+  const { password, newPassword } = req.body;
+  if (!(id && password && newPassword))
+    return res.status(400).json({
+      errCode: 1,
+      errMessage: 'Missing required parameters',
+    });
+
+  try {
+    const user = await userService.getById(id, true);
+
+    if (!user)
+      return res.status(404).json({
+        errCode: 1,
+        errMessage: 'User not found',
+      });
+
+    const matches = await userService.comparePassword(password, user.password);
+
+    if (!matches)
+      return res.status(400).json({
+        errCode: 1,
+        errMessage: 'Old password is incorrect',
+      });
+
+    // Encrypt the password
+    const hashedPassword = await userService.hashUserPassword(newPassword);
+
+    await userService.updateUser({ id, password: hashedPassword });
+
+    return res.json({
+      errCode: 1,
+      errMessage: 'OK',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
+const handleDeleteUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await userService.getById(id);
+
+    if (user) {
+      if (user.photoId) {
+        const photoDB = await photoService.get(user.photoId);
+        await photoService.deleteFirebasePhotoByUrl(photoDB.filePath);
+      }
+      await userService.destroy(id);
+    }
+    return res.json({ errCode: 0, errMessage: 'OK' });
+  } catch (e) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
 export default {
   handleGetAllUser,
   handleNewUser,
+  handleNewEditor,
   handleGetById,
   handleUserLogin,
   handleRefreshToken,
   handleLogout,
   handleUpdate,
   handleUpdateAvatar,
+  handleUpdatePassword,
+  handleDeleteUser,
 };

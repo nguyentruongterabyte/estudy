@@ -27,21 +27,16 @@ let router = express.Router();
 let initWebRoutes = (app) => {
   // user
   router.get(urls.user.get, verifyJWT, verifyUserOwnership, userController.handleGetById);
-  router.get(
-    '/api/user/get-all',
-    verifyJWT,
-    verifyRoles(ROLES_OBJECT.ADMIN),
-    userController.handleGetAllUser,
-  );
+  router.get(urls.user.getAll, verifyJWT, verifyRoles(ROLES_OBJECT.ADMIN), userController.handleGetAllUser);
   router.post(urls.user.register, userController.handleNewUser);
+  router.post(urls.user.createEditor, verifyJWT, verifyRoles(ROLES_OBJECT.ADMIN), userController.handleNewEditor);
   router.post(urls.user.login, userController.handleUserLogin);
   router.get(urls.user.refreshToken, userController.handleRefreshToken);
   router.get(urls.user.logout, userController.handleLogout);
   router.put(urls.user.update, verifyJWT, verifyUserOwnership, userController.handleUpdate);
-  router.put( urls.user.updateAvatar,
-    // verifyJWT,
-    // verifyUserOwnership,
-     userController.handleUpdateAvatar );
+  router.put(urls.user.updateAvatar, verifyJWT, verifyUserOwnership, userController.handleUpdateAvatar);
+  router.put(urls.user.updatePassword, verifyJWT, verifyUserOwnership, userController.handleUpdatePassword);
+  router.delete(urls.user.deleteUser, verifyJWT, verifyRoles(ROLES_OBJECT.ADMIN), userController.handleDeleteUser);
   // vocabulary
   router.get(
     urls.vocabulary.getByTopicId,

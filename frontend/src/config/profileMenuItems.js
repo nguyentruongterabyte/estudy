@@ -1,10 +1,15 @@
-import { faAddressCard, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faAddressCard, faLock, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 const profileMenuItems = [
   {
     icon: faAddressCard,
     title: 'view_profile',
     type: 'viewProfile',
+  },
+  {
+    icon: faLock,
+    title: 'changePassword',
+    type: 'changePassword',
   },
   {
     icon: faRightFromBracket,

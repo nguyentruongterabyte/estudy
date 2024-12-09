@@ -6,11 +6,14 @@ const navigationItems = {
       title: 'createEditorAccount',
       href: '/create-editor-account',
     },
+    {
+      title: 'manageAccount',
+      href: routes.accountManager,
+    },
   ],
   editor: [
     {
       title: 'composeRL',
-      // href: '/compose/compose-reading-listening',
       dropdownItems: [
         {
           title: 'part1_Photos',

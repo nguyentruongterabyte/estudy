@@ -51,15 +51,12 @@ const CustomTextArea = ({
     },
   );
 
-  console.log(stateFromHTML(value));
 
   const handleEditorChange = (newEditorState) => {
     setEditorState(newEditorState);
 
     const rawContentState = newEditorState.getCurrentContent();
     const htmlContent = stateToHTML(rawContentState);
-
-    console.log(htmlContent);
 
     if (onChange) onChange(htmlContent); // Gọi prop onChange với chuỗi mới
   };

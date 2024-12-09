@@ -2,11 +2,15 @@ const urls = {
   user: {
     refreshToken: '/api/user/refresh',
     register: '/api/user/register',
+    createEditor: '/api/user/create-editor-account',
     login: '/api/user/login',
     logout: '/api/user/logout',
     get: '/api/user/get-by-id',
+    getAll: '/api/user/get-all',
     update: '/api/user',
     updateAvatar: '/api/user/update-avatar',
+    updatePassword: '/api/user/update-password',
+    deleteUser: '/api/user/delete',
   },
   test: {
     create: '/api/test/create',

@@ -46,17 +46,6 @@ const Question = ({ data, isEditable, isEnableAudio, isEnablePhoto, quantityOfAn
     setInputValue(item.title);
   };
 
-  const updateQuestion = (content) => {
-    const lines = content
-      .split('\n')
-      .map((line) => line.trim())
-      .filter((line) => line !== '');
-
-    const question = lines[0];
-    setInputValue(question);
-    onQuestionTextChange({ questionId: data.id, questionText: question });
-  };
-
   // Dispatch action only if debouncedValue changes
   useEffect(() => {
     if (debouncedValue !== data.question) {

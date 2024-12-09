@@ -38,7 +38,25 @@ const useUserService = () => {
     }
   };
 
-  return { getUserById, updateUser, updateAvatar };
+  const getAllUser = async () => {
+    try {
+      const response = await axiosPrivate.get(config.urls.user.getAll);
+      return response?.data?.data; // return array of users
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  const deleteUser = async (id) => {
+    try {
+      const response = await axiosPrivate.delete(`${config.urls.user.deleteUser}/${id}`);
+      return response?.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  return { getUserById, updateUser, updateAvatar, getAllUser, deleteUser };
 };
 
 export default useUserService;
