@@ -52,8 +52,9 @@ import logFields from '~/redux/logFields';
 import QuestionGroupProvider from '~/context/QuestionGroupProvider';
 import Timer from '~/components/Timer';
 import styles from './TestTemplate.module.scss';
+import QuestionsCard from '~/components/QuestionsCard';
 
-const cx = classNames.bind( styles );
+const cx = classNames.bind(styles);
 
 const TestTemplate = ({
   isEnableExplainText,
@@ -119,6 +120,12 @@ const TestTemplate = ({
   const { saveItem: saveTimer, getItem: getTimer } = hooks.useSaveData('time_colapsed');
   const [initialTimer, setInitialTimer] = useState(0);
   const [isPractice, setIsPractice] = useState(false);
+  const [alwaysOpen, setAlwaysOpen] = useState(false);
+  const [activeQuestionIndex, setActiveQuestionIndex] = useState(-1);
+
+  const handleActiveQuestion = (questionIndex) => {
+    setActiveQuestionIndex(questionIndex);
+  };
 
   // handle start practice
   const handleStartPractice = () => {
@@ -132,7 +139,9 @@ const TestTemplate = ({
     setShowTimer(true);
   };
 
-  const handleReviewTest = () => {};
+  const handleReviewTest = () => {
+    setAlwaysOpen(true);
+  };
 
   // save timer
   const handleTimerChange = (secondsElapsed) => {
@@ -989,6 +998,8 @@ const TestTemplate = ({
           )}
           {questionBundle ? (
             <QuestionBundles
+              activeQuestionIndex={activeQuestionIndex}
+              alwaysOpen={alwaysOpen}
               isPractice={isPractice}
               setIsPractice={setIsPractice}
               onReviewTest={handleReviewTest}
@@ -1006,7 +1017,9 @@ const TestTemplate = ({
               quote={quote}
             />
           ) : (
-            <QuestionSingle
+              <QuestionSingle
+              activeQuestionIndex={activeQuestionIndex}
+              alwaysOpen={alwaysOpen}
               isPractice={isPractice}
               setIsPractice={setIsPractice}
               onReviewTest={handleReviewTest}
@@ -1027,7 +1040,13 @@ const TestTemplate = ({
         </div>
       }
       isEnableBottombar={isEnableBottombar && (questions.length > 0 || bundles.length > 0)}
-      bottombarChildren={<BundleCards data={bundles} />}
+      bottombarChildren={
+        questionBundle ? (
+          <BundleCards onActiveQuestion={handleActiveQuestion} data={bundles} />
+        ) : (
+          <QuestionsCard onActiveQuestion={handleActiveQuestion} />
+        )
+      }
       modalData={[
         {
           title: 'cancelEdit',

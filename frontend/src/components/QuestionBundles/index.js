@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 
 import styles from './QuestionBundles.module.scss';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import { toggleActive, toggleComplete, updateBundles } from '~/redux/features/questionBundlesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import QuestionBundle from '../QuestionBundle';
@@ -27,6 +27,7 @@ const QuestionBundles = ({
   quantityOfAnswersPerQuestion,
   quote,
   partId,
+  alwaysOpen,
   isPractice = false,
   setIsPractice = fn,
   onStartPractice = fn,
@@ -115,6 +116,7 @@ const QuestionBundles = ({
 
   useEffect(() => {
     if (isPractice) onStartPractice();
+    // eslint-disable-next-line
   }, [isPractice]);
 
   useEffect(() => {
@@ -170,6 +172,7 @@ const QuestionBundles = ({
                       isEnableAudio={isEnableAudio}
                       isEnablePhoto={isEnablePhoto}
                       quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
+                      alwaysOpen={alwaysOpen}
                       groupId={groupId}
                       quote={quote}
                     />

@@ -11,7 +11,8 @@ const Photos = ({ isUser = false }) => {
       quantityOfAnswersPerQuestion={4}
       quote="quote1"
       isUser={isUser}
-      isDisplayAnswerText={false}
+      isDisplayAnswerText={ false }
+      isEnableBottombar={true}
     />
   );
 };

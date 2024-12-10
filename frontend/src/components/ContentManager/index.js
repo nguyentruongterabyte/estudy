@@ -107,8 +107,9 @@ const ContentManager = ({
         )}
 
         {/* Modal ask confirm */}
-        {modalData.map((modal) => (
+        {modalData.map((modal, index) => (
           <CustomModal
+            key={index}
             title={t(modal.title)}
             body={t(modal.body)}
             show={modal.show}

@@ -63,6 +63,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import QuestionSingle from '~/components/QuestionSingle';
 import Loading from '~/components/Loading';
+import Timer from '~/components/Timer';
+import QuestionsCard from '~/components/QuestionsCard';
 
 const cx = classNames.bind(styles);
 
@@ -103,6 +105,39 @@ const Grammar = ({ isUser }) => {
   const { getAllGrammars, destroyGrammar } = hooks.useGrammarService();
   const { deleteTest } = hooks.useTestService();
   const [grammarId, setGrammarId] = useState(activeGrammar.id);
+  const [showTimer, setShowTimer] = useState(false);
+  const { saveItem: saveTimer, getItem: getTimer } = hooks.useSaveData('time_colapsed');
+  const [initialTimer, setInitialTimer] = useState(0);
+  const [isPractice, setIsPractice] = useState(false);
+  const [alwaysOpen, setAlwaysOpen] = useState(false);
+  const [activeQuestionIndex, setActiveQuestionIndex] = useState(-1);
+
+  const handleActiveQuestion = (questionIndex) => {
+    setActiveQuestionIndex(questionIndex);
+  };
+
+  const handleReviewTest = () => {
+    setAlwaysOpen(true);
+  };
+  // handle continue test
+  const handleContinueTest = () => {
+    const timer = getTimer(groupId);
+    setInitialTimer(timer);
+    setShowTimer(true);
+  };
+
+  // handle start practice
+  const handleStartPractice = () => {
+    setShowTimer(true);
+  };
+
+  // save timer
+  const handleTimerChange = (secondsElapsed) => {
+    if (secondsElapsed !== 0) {
+      saveTimer(groupId, secondsElapsed);
+    }
+  };
+
   // fetch questions data
   const fetchQuestions = async (groupId) => {
     const questions = await getQuestionsByGroupId(groupId, false, false);
@@ -390,11 +425,21 @@ const Grammar = ({ isUser }) => {
         dispatch(changeQuestionGroups({ questionGroups: allQuestionGroups }));
         setIsQuestionGroupsLoading(false);
       });
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (activeGrammar && activeGrammar.id) setGrammarId(activeGrammar.id);
+    setIsPractice(false);
+    setShowTimer(false);
+    setInitialTimer(0);
   }, [activeGrammar]);
+
+  useEffect(() => {
+    setIsPractice(false);
+    setShowTimer(false);
+    setInitialTimer(0);
+  }, [active]);
   return (
     <ContentManager
       className={cx('container')}
@@ -427,21 +472,34 @@ const Grammar = ({ isUser }) => {
         </Fragment>
       }
       mainChildren={
-        <QuestionSingle
-          isEnableExplainText={true}
-          isEnableQuestionText={true}
-          isQuestionsLoading={isQuestionsLoading}
-          questions={questions}
-          quote={'quote5'}
-          quantityOfAnswersPerQuestion={4}
-          quantityOfQuestions={20}
-          isEnableAudio={false}
-          isEnablePhoto={false}
-          isGrammar={true}
-          grammarId={grammarId}
-        />
+        <div className={cx('main')}>
+          {showTimer && (
+            <Timer className={cx('timer')} onTimerChange={handleTimerChange} initialSeconds={initialTimer} />
+          )}
+          <QuestionSingle
+            activeQuestionIndex={activeQuestionIndex}
+            alwaysOpen={alwaysOpen}
+            isPractice={isPractice}
+            setIsPractice={setIsPractice}
+            onReviewTest={handleReviewTest}
+            onContinueTest={handleContinueTest}
+            onStartPractice={handleStartPractice}
+            isEnableExplainText={true}
+            isEnableQuestionText={true}
+            isQuestionsLoading={isQuestionsLoading}
+            questions={questions}
+            quote={'quote5'}
+            quantityOfAnswersPerQuestion={4}
+            quantityOfQuestions={20}
+            isEnableAudio={false}
+            isEnablePhoto={false}
+            isGrammar={true}
+            grammarId={grammarId}
+          />
+        </div>
       }
-      isEnableBottombar={false}
+      isEnableBottombar={true}
+      bottombarChildren={<QuestionsCard onActiveQuestion={handleActiveQuestion} />}
       modalData={[
         {
           title: 'cancelEdit',
@@ -509,15 +567,18 @@ const GrammarAccordion = ({ onDeleteQuestionGroup, onCancelAddNewQuestionGroup, 
 
   useEffect(() => {
     if (debouncedValue !== active.name) dispatch(grammarUpdateName({ id: active.id, name: debouncedValue }));
+    // eslint-disable-next-line
   }, [debouncedValue]);
 
   useEffect(() => {
     if (active && active.name !== inputValue) setInputValue(active.name);
+    // eslint-disable-next-line
   }, [active]);
 
   // validate
   useEffect(() => {
     dispatch(grammarToggleComplete({ toggle: inputValue && inputValue.trim() !== '' }));
+    // eslint-disable-next-line
   }, [inputValue]);
 
   useEffect(() => {
@@ -531,6 +592,7 @@ const GrammarAccordion = ({ onDeleteQuestionGroup, onCancelAddNewQuestionGroup, 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
+    // eslint-disable-next-line
   }, [isAddNew, isEdit]);
 
   return (
@@ -607,10 +669,12 @@ const GrammarHeader = ({ data, onDelete = fn }) => {
     if (isGrammarEdit && activeGrammar && debouncedValue !== activeGrammar.name) {
       dispatch(grammarUpdateName({ id: activeGrammar.id, name: debouncedValue }));
     }
+    // eslint-disable-next-line
   }, [debouncedValue, isGrammarEdit]);
 
   useEffect(() => {
     dispatch(grammarToggleComplete({ toggle: inputValue && inputValue.trim() !== '' }));
+    // eslint-disable-next-line
   }, [inputValue]);
 
   useEffect(() => {

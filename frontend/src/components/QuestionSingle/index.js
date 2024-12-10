@@ -57,6 +57,8 @@ const QuestionSingle = ({
   isGrammar = false,
   grammarId,
   isPractice = false,
+  alwaysOpen,
+  activeQuestionIndex,
   setIsPractice = fn,
   onStartPractice = fn,
   onReviewTest = fn,
@@ -197,7 +199,9 @@ const QuestionSingle = ({
                     setIsPractice={setIsPractice}
                   />
                 ) : (
-                  <Questions
+                    <Questions
+                      activeQuestionIndex={activeQuestionIndex}
+                    alwaysOpen={alwaysOpen}
                     isEnableAudio={isEnableAudio}
                     isEnablePhoto={isEnablePhoto}
                     className={cx('questions')}

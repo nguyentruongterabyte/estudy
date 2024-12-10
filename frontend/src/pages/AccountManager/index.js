@@ -29,6 +29,7 @@ const AccountManager = () => {
     };
 
     fetchUsers();
+    // eslint-disable-next-line
   }, []);
 
   console.log(accounts);

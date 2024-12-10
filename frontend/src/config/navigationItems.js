@@ -4,7 +4,7 @@ const navigationItems = {
   admin: [
     {
       title: 'createEditorAccount',
-      href: '/create-editor-account',
+      href: routes.createEditorAccount,
     },
     {
       title: 'manageAccount',
@@ -124,7 +124,7 @@ const navigationItems = {
     },
     {
       title: 'grammar',
-      href: routes.grammar.compose,
+      href: routes.grammar.practice,
     },
     {
       title: 'vocabulary',

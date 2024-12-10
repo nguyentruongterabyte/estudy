@@ -1,33 +1,34 @@
-import { Button, ListGroup } from 'react-bootstrap';
 import classNames from 'classnames/bind';
-
-import styles from './BundleCard.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleActive } from '~/redux/features/questionBundlesSlice';
-import { Fragment, useEffect, useState } from 'react';
-import { useUserMode } from '~/context/UserModeProvider';
+import styles from './QuestionsCard.module.scss';
+import { useSelector } from 'react-redux';
+import { questionList } from '~/redux/features/testSlice';
 import { groups } from '~/redux/features/userAnswersSlice';
+import { useUserMode } from '~/context/UserModeProvider';
+import { Button } from 'react-bootstrap';
+import { Fragment, useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-const BundleCard = ({ data, index }) => {
-  const dispatch = useDispatch();
+const fn = () => {}
 
+const QuestionsCard = ({onActiveQuestion = fn}) => {
   const { isUserMode } = useUserMode();
-  const questions = data.questions;
-  const [questionsCompleted, setQuestionCompleted] = useState([]);
+  const questions = useSelector(questionList);
   const questionIds = new Set(questions.map((q) => q.id));
+  const [questionsCompleted, setQuestionCompleted] = useState([]);
+
   const userAnswers = useSelector(groups);
-  const bundleUserAnswers = userAnswers
+  const singleUserAnsers = userAnswers
     .flatMap((user) => user.userAnswers)
     .filter((ua) => questionIds.has(ua.questionId) && ua.userAnswerId);
 
   // console.log(questions);
-  const handleScrollToQuestion = (id) => {
+  const handleScrollToQuestion = (id, index) => {
     const targetQuestion = document.getElementById(id);
     if (targetQuestion) {
       targetQuestion.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+    onActiveQuestion( index );
   };
 
   useEffect(() => {
@@ -41,48 +42,39 @@ const BundleCard = ({ data, index }) => {
   }, [questions]);
 
   return (
-    <ListGroup.Item
-      onClick={() => dispatch(toggleActive({ index }))}
-      className={cx('container', 'me-2')}
-      aria-label={`bundle_${data.id}`}
-      variant={data.active ? 'info' : ''}
-    >
+    <div className={cx('container')}>
       {questions.map((question, questionIndex) => (
-        <Fragment>
+        <Fragment key={question.id}>
           {isUserMode ? (
             <Button
               size="lg"
               variant={
-                bundleUserAnswers.some((ua) => ua.questionId === question.id)
-                  ? bundleUserAnswers.find((ua) => ua.questionId === question.id).userAnswerId ===
+                singleUserAnsers.some((ua) => ua.questionId === question.id)
+                  ? singleUserAnsers.find((ua) => ua.questionId === question.id).userAnswerId ===
                     question.correctAnswer.answerId
                     ? 'success'
                     : 'danger'
                   : 'outline-success'
               }
+              onClick={() => handleScrollToQuestion(`question_${question.id}`, questionIndex)}
               className={cx('question')}
-              onClick={() => handleScrollToQuestion(`question_${question.order}`)}
-              key={question.id}
             >
-              {question.order}
+              {questionIndex + 1}
             </Button>
           ) : (
             <Button
               size="lg"
-              variant={
-                questionsCompleted[questionIndex] ? 'success' : data.active ? 'outline-danger' : 'outline-success'
-              }
+              variant={questionsCompleted[questionIndex] ? 'success' : 'outline-danger'}
               className={cx('question')}
-              onClick={() => handleScrollToQuestion(`question_${question.order}`)}
-              key={question.id}
+              onClick={() => handleScrollToQuestion(`question_${question.id}`, questionIndex)}
             >
-              {question.order}
+              {questionIndex + 1}
             </Button>
           )}
         </Fragment>
       ))}
-    </ListGroup.Item>
+    </div>
   );
 };
 
-export default BundleCard;
+export default QuestionsCard;

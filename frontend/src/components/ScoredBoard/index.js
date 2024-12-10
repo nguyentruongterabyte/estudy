@@ -81,6 +81,7 @@ const ScoredBoard = ({ setIsPractice = fn, onStartPractice = fn, onContinueTest 
     if (savedTimer) {
       setTimer(savedTimer);
     }
+    // eslint-disable-next-line
   }, [groupId]);
 
   useEffect(() => {
@@ -151,7 +152,7 @@ const ScoredBoard = ({ setIsPractice = fn, onStartPractice = fn, onContinueTest 
               <Col sm="6" className={cx('separate')}>
                 <h4 className={cx('title')}>{t('correct')}</h4>
               </Col>
-              <Col sm="6">
+              <Col sm="6" className={cx('number-wrapper')}>
                 <strong className={cx('number', 'correct')}>{correctAnswers}</strong>
               </Col>
             </Row>
@@ -159,7 +160,7 @@ const ScoredBoard = ({ setIsPractice = fn, onStartPractice = fn, onContinueTest 
               <Col sm="6" className={cx('separate')}>
                 <h4 className={cx('title')}>{t('incorrect')}</h4>
               </Col>
-              <Col sm="6">
+              <Col sm="6" className={cx('number-wrapper')}>
                 <strong className={cx('number', 'incorrect')}>{incorrectAnswers}</strong>
               </Col>
             </Row>
@@ -167,7 +168,7 @@ const ScoredBoard = ({ setIsPractice = fn, onStartPractice = fn, onContinueTest 
               <Col sm="6" className={cx('separate')}>
                 <h4 className={cx('title')}>{t('new')}</h4>
               </Col>
-              <Col sm="6">
+              <Col sm="6" className={cx('number-wrapper')}>
                 <strong className={cx('number', 'new')}>{newQuestions}</strong>
               </Col>
             </Row>

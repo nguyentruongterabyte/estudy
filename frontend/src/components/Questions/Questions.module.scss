@@ -1,3 +1,4 @@
+// questions
 .container {
 
   .button-group
@@ -18,5 +19,34 @@
   }
 }
 
+// question 
+.question {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .group {
+    display: flex;
+    padding: 0 20px;
+
+    .wrapper {
+      flex: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo {
+      flex: 2;
+    }
+  }
+
+  .audio {
+    margin-top: 20px;
+  }
+
+}
 
   

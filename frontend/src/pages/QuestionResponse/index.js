@@ -12,7 +12,8 @@ const QuestionResponse = ({ isUser = false }) => {
       quote="quote2"
       isUser={isUser}
       isDisplayAnswerText={false}
-      isDisplayQuestionText={false}
+      isDisplayQuestionText={ false }
+      isEnableBottombar={true}
     />
   );
 };

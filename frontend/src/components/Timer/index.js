@@ -59,6 +59,7 @@ const Timer = ({ initialSeconds = 0, className, onTimerChange = fn }) => {
 
   useEffect(() => {
     onTimerChange(secondsElapsed);
+    // eslint-disable-next-line
   }, [secondsElapsed]);
 
   return (

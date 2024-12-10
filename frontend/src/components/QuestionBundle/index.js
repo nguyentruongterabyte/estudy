@@ -48,6 +48,7 @@ const QuestionBundle = ({
   isEnableAudio,
   isEnableExplainText,
   quantityOfAnswersPerQuestion,
+  alwaysOpen,
   onComplete = fn,
 }) => {
   const dispatch = useDispatch();
@@ -284,6 +285,7 @@ const QuestionBundle = ({
                 onCorrectAnswerChange={handleCorrectAnswerChange}
               >
                 <Questions
+                  alwaysOpen={alwaysOpen}
                   isEnablePhoto={false}
                   isEnableAudio={false}
                   className={cx('questions')}

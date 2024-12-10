@@ -7,7 +7,7 @@
   .wrapper {
     background-color: aliceblue;
     min-width: 780px;
-    padding: 12px 20px;
+    padding: 24px 20px;
     border-radius: 6px;
   }
   .row {
@@ -55,9 +55,13 @@
           font-weight: 500;
           text-align: center;
         }
-        .number {
-          font-weight: 800;
-          text-align: center;
+        .number-wrapper {
+          display: flex;
+          justify-content: center;
+          .number {
+            font-weight: 800;
+            font-size: 2rem;
+          }
         }
         .correct {
           color: green;

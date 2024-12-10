@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
 import { useTranslation } from 'react-i18next';
 
-import axios from '~/utils/axios';
 import Button from '~/components/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { faCheck, faInfoCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -38,7 +37,6 @@ function EditorAccountCreation() {
 
   const axiosPrivate = hooks.useAxiosPrivate();
 
-  const from = config.routes.login;
   const navigate = useNavigate();
   useEffect(() => {
     userRef?.current?.focus();

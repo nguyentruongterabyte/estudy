@@ -13,6 +13,7 @@ const IncompleteSentences = ({ isUser = false }) => {
       quantityOfAnswersPerQuestion={4}
       quote="quote5"
       isUser={isUser}
+      isEnableBottombar={true}
     />
   );
 };

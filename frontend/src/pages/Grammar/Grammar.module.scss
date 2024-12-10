@@ -34,3 +34,14 @@
     }
   }
 }
+
+.main {
+  position: relative;
+
+  .timer {
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    margin-right: 20px;
+  }
+}

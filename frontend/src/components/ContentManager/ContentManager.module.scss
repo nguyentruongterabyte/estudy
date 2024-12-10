@@ -75,7 +75,6 @@
   bottom: 0;
   transition: 0.3s ease;
   width: 100%;
-
   &.scaled {
     width: calc(100% - var(--sidebar-width));
     left: var(--sidebar-width) !important;
