@@ -20,7 +20,7 @@ const ScoredBoard = ({ setIsPractice = fn, onStartPractice = fn, onContinueTest 
   const groupId = active.id;
   const [percentage, setPercentage] = useState(0);
   const userAnswerGroups = useSelector(groups);
-  const userAnswers = userAnswerGroups.find((uag) => uag.id === groupId).userAnswers;
+  const userAnswers = userAnswerGroups.find((uag) => uag.id === groupId)?.userAnswers;
   const [timer, setTimer] = useState(0);
   const { correctAnswers, incorrectAnswers, newQuestions } = userAnswers.reduce(
     (acc, ua) => {

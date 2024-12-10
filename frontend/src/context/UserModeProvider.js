@@ -1,17 +1,12 @@
-import { jwtDecode } from 'jwt-decode';
 import { createContext, useContext } from 'react';
-import hooks from '~/hooks';
+import useUserId from '~/hooks/useUserId';
 
 const UserModeContext = createContext();
 
 const UserModeProvider = ({ children, isUserMode, isDisplayQuestionText = true, isDisplayAnswerText = true }) => {
-  const { auth } = hooks.useAuth();
-  const accessToken = auth.accessToken;
-  const decoded = accessToken && jwtDecode(accessToken);
+  const userId = useUserId();
   return (
-    <UserModeContext.Provider
-      value={{ isUserMode, userId: decoded.userInfo.id, isDisplayAnswerText, isDisplayQuestionText }}
-    >
+    <UserModeContext.Provider value={{ isUserMode, userId, isDisplayAnswerText, isDisplayQuestionText }}>
       {children}
     </UserModeContext.Provider>
   );

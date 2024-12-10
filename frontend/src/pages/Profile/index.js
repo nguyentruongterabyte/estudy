@@ -5,7 +5,6 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import images from '~/assets/images';
 import DisplayImage from '~/components/DisplayImage';
 import hooks from '~/hooks';
-import { jwtDecode } from 'jwt-decode';
 import { ToastContainer, toast } from 'react-toastify';
 import CustomModal from '~/components/CustomModal';
 import { useTranslation } from 'react-i18next';
@@ -26,10 +25,7 @@ const Profile = () => {
   const [showEditAvatarModal, setShowEditAvatarModal] = useState(false);
   const [file, setFile] = useState();
   const { getUserById, updateUser, updateAvatar } = hooks.useUserService();
-  const { auth } = hooks.useAuth();
-  const accessToken = auth.accessToken;
-  const decoded = accessToken && jwtDecode(accessToken);
-  const id = decoded?.userInfo?.id || -1;
+  const id = hooks.useUserId() || -1;
   const { uploadPhoto } = hooks.usePhotoService();
 
   const hasChanges =
@@ -87,6 +83,7 @@ const Profile = () => {
         })
         .catch((e) => console.error(e));
     }
+    // eslint-disable-next-line
   }, [id]);
 
   return (

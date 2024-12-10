@@ -9,7 +9,6 @@ import { faCheck, faInfoCircle, faTimes } from '@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import config from '~/config';
 import { ToastContainer, toast } from 'react-toastify';
-import { jwtDecode } from 'jwt-decode';
 
 const cx = classNames.bind(styles);
 
@@ -28,10 +27,7 @@ const PasswordChanging = () => {
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
   const axiosPrivate = hooks.useAxiosPrivate();
-  const { auth } = hooks.useAuth();
-  const accessToken = auth.accessToken;
-  const decoded = accessToken && jwtDecode(accessToken);
-  const id = decoded?.userInfo?.id || -1;
+  const id = hooks.useUserId() || -1;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -34,7 +34,6 @@ import {
   statuses,
   vocabularyPracticeStatusList,
 } from '~/redux/features/vocabularyPracticeStatusesSlice';
-import { jwtDecode } from 'jwt-decode';
 import Quote from '~/components/Quote';
 
 const cx = classNames.bind(styles);
@@ -60,10 +59,7 @@ const Vocabulary = ({ isUser = false }) => {
     hooks.useVocabularyTopicService();
   const { getByTopicId } = hooks.useVocabularyService();
   const newVocabularyTopic = hooks.useNewVocabularyTopic();
-  const { auth } = hooks.useAuth();
-  const accessToken = auth.accessToken;
-  const decoded = accessToken && jwtDecode(accessToken);
-  const userId = decoded.userInfo.id;
+  const userId = hooks.useUserId();
   const vocabularyPracticeStatuses = useSelector(vocabularyPracticeStatusList);
   const vocabularyPracticeStatusesByTopicId = vocabularyPracticeStatuses.filter((vps) => vps.topicId === active.id);
   const showMainContent = vocabularyPracticeStatusesByTopicId.length > 0 || (!isUser && (isEdit || isAddNew));

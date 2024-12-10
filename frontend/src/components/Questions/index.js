@@ -128,7 +128,8 @@ const Questions = ({
         <AddButton className={cx('add-button')} onClick={() => onAddQuestion()}>
           {t('addQuestion')}
         </AddButton>
-      )}
+      ) }
+      <div className={cx('bottom')}></div>
     </div>
   );
 };

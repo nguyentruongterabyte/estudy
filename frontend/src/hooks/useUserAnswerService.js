@@ -1,10 +1,10 @@
 import config from '~/config';
 import useAxiosPrivate from './useAxiosPrivate';
-import { useUserMode } from '~/context/UserModeProvider';
+import useUserId from './useUserId';
 
 const useUserAnswerService = () => {
   const axiosPrivate = useAxiosPrivate();
-  const { userId } = useUserMode();
+  const userId = useUserId();
 
   // handle save user answer
   const createUserAnswer = async (questionId, answerId) => {

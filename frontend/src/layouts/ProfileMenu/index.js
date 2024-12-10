@@ -8,7 +8,6 @@ import Menu from '~/components/Popper/Menu';
 import styles from './ProfileMenu.module.scss';
 import images from '~/assets/images';
 import hooks from '~/hooks';
-import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
@@ -16,10 +15,7 @@ const cx = classNames.bind(styles);
 const ProfileMenu = ({ items, handleMenuChange }) => {
   const { t } = useTranslation();
 
-  const { auth } = hooks.useAuth();
-  const accessToken = auth.accessToken;
-  const decoded = accessToken && jwtDecode(accessToken);
-  const id = decoded?.userInfo?.id || -1;
+  const id = hooks.useUserId() || -1;
   const { getUserById } = hooks.useUserService();
   const [avatar, setAvatar] = useState('');
 
@@ -36,6 +32,7 @@ const ProfileMenu = ({ items, handleMenuChange }) => {
         })
         .catch((e) => console.error(e));
     }
+    // eslint-disable-next-line
   }, [id]);
 
   return (

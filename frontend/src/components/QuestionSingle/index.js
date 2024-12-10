@@ -199,8 +199,8 @@ const QuestionSingle = ({
                     setIsPractice={setIsPractice}
                   />
                 ) : (
-                    <Questions
-                      activeQuestionIndex={activeQuestionIndex}
+                  <Questions
+                    activeQuestionIndex={activeQuestionIndex}
                     alwaysOpen={alwaysOpen}
                     isEnableAudio={isEnableAudio}
                     isEnablePhoto={isEnablePhoto}

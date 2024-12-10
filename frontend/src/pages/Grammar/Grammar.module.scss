@@ -44,4 +44,23 @@
     right: 0;
     margin-right: 20px;
   }
+
+  .show-result-btn {
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    bottom: 0;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    padding: 12px 20px;
+    font-size: 1.6rem;
+    background-color: var(--primary);
+    border: none;
+
+    &:hover {
+      color: var(--primary);
+      background-color: var(--white);
+      border: 1px var(--primary) solid;
+    }
+  }
 }

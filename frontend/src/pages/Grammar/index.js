@@ -65,6 +65,7 @@ import QuestionSingle from '~/components/QuestionSingle';
 import Loading from '~/components/Loading';
 import Timer from '~/components/Timer';
 import QuestionsCard from '~/components/QuestionsCard';
+import { groups } from '~/redux/features/userAnswersSlice';
 
 const cx = classNames.bind(styles);
 
@@ -111,6 +112,7 @@ const Grammar = ({ isUser }) => {
   const [isPractice, setIsPractice] = useState(false);
   const [alwaysOpen, setAlwaysOpen] = useState(false);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(-1);
+  const userAnswers = useSelector(groups);
 
   const handleActiveQuestion = (questionIndex) => {
     setActiveQuestionIndex(questionIndex);
@@ -440,6 +442,19 @@ const Grammar = ({ isUser }) => {
     setShowTimer(false);
     setInitialTimer(0);
   }, [active]);
+
+  // handle complete test
+  useEffect(() => {
+    if (isPractice) {
+      const groupUserAnswers = userAnswers.find((uas) => uas.id === groupId).userAnswers;
+      const isCompleted = groupUserAnswers.every((ua) => ua.userAnswerId);
+      if (isCompleted) {
+        // Tạo thêm nút xem kết quả vả set show nó thành true ở chỗ này
+        setShowTimer(false);
+      }
+    }
+  }, [userAnswers, isPractice, groupId]);
+
   return (
     <ContentManager
       className={cx('container')}
@@ -473,8 +488,14 @@ const Grammar = ({ isUser }) => {
       }
       mainChildren={
         <div className={cx('main')}>
-          {showTimer && (
+          {showTimer ? (
             <Timer className={cx('timer')} onTimerChange={handleTimerChange} initialSeconds={initialTimer} />
+          ) : (
+            isPractice && (
+              <Button size="lg" className={cx('show-result-btn')} onClick={() => setIsPractice(false)}>
+                {t('showResult')}
+              </Button>
+            )
           )}
           <QuestionSingle
             activeQuestionIndex={activeQuestionIndex}
