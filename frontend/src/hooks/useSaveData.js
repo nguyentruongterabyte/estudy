@@ -34,6 +34,7 @@ const useSaveData = (key) => {
   const removeItem = (id) => {
     const updatedData = data.filter((item) => item.id !== id);
     localStorage.setItem(key, JSON.stringify(updatedData));
+    setData(updatedData);
   };
 
   // clear all

@@ -1,0 +1,20 @@
+.container {
+  background-color: var(--white);
+  min-width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  .clock-icon {
+    margin-right: 12px;
+  }
+  .timer {
+    font-size: 2rem;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+  }
+}

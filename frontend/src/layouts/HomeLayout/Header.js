@@ -20,6 +20,7 @@ const Header = () => {
   const { t } = useTranslation();
   const logout = hooks.useLogout();
   const navigate = useNavigate();
+  const { clearAll: clearTimersData } = hooks.useSaveData('time_colapsed');
 
   const navList =
     auth.currentRole === config.roles.admin
@@ -28,10 +29,11 @@ const Header = () => {
       ? config.navigationItems.editor
       : config.navigationItems.user;
 
-  const handleMenuChange = (menuItem) => {
+  const handleMenuChange = async (menuItem) => {
     switch (menuItem.type) {
       case 'logout':
-        logout();
+        await logout();
+        clearTimersData();
         break;
       case 'viewProfile':
         navigate(config.routes.profile);

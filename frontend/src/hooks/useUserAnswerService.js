@@ -14,7 +14,19 @@ const useUserAnswerService = () => {
     }
   };
 
-  return { createUserAnswer };
+  // handle delete user answers
+  const deleteUserAnswers = async (userId, userAnswers = []) => {
+    try {
+      const response = await axiosPrivate.delete(`${config.urls.userAnswer.delete}/${userId}`, {
+        data: { userAnswers },
+      });
+      return response?.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  return { createUserAnswer, deleteUserAnswers };
 };
 
 export default useUserAnswerService;

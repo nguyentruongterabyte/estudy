@@ -194,6 +194,15 @@
   "confirmDeleteAccount": "Bạn có chắc muốn xóa tài khoản này?",
   "manageAccount": "Quản lý tài khoản",
 
+  "totalTime": "Tổng thời gian",
+  "totalQuestions": "Tổng số câu hỏi",
+  "review": "Xem lại",
+  "continued": "Tiếp tục",
+  "practiceNow": "Luyện tập ngay",
+  "restart": "Làm lại",
+  "incorrect": "Sai",
+  "correct": "Đúng",
+
   "quote1": "Không có gì quý hơn độc lập, tự do.",
   "quote2": "Chúng ta thế nào, thế giới thế ấy.",
   "quote3": "Nếu bạn đặt mục tiêu của mình quá cao và thất bại, bạn sẽ thất bại ở một tầm cao mà vượt qua cả thành công của người khác.",

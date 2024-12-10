@@ -193,6 +193,15 @@
   "confirmDeleteAccount": "Are you sure you want to delete this account?",
   "manageAccount": "Manage Account",
 
+  "totalTime": "Total Time",
+  "totalQuestions": "Total Questions",
+  "review": "Review",
+  "continued": "Continued",
+  "practiceNow": "Practice Now",
+  "restart": "Restart",
+  "incorrect": "Incorrect",
+  "correct": "Correct",
+
   "quote1": "Nothing is more precious than independence and freedom.",
   "quote2": "What we are, the world is.",
   "quote3": "If you set your goals ridiculously high and it's a failure, you will fail above everyone else's success.",

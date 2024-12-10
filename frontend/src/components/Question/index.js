@@ -18,7 +18,6 @@ import QuestionProvider from '~/context/QuestionProvider';
 const cx = classNames.bind(styles);
 
 const Question = ({ data, isEditable, isEnableAudio, isEnablePhoto, quantityOfAnswersPerQuestion, historyChanges }) => {
-  const { t } = useTranslation();
   const {
     isEnableQuestionText,
     displayButtonText,

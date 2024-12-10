@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 
 import styles from './QuestionBundles.module.scss';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { toggleActive, toggleComplete, updateBundles } from '~/redux/features/questionBundlesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import QuestionBundle from '../QuestionBundle';
@@ -9,8 +9,12 @@ import { activeGroup, adding, editing } from '~/redux/features/questionGroupsSil
 import Quote from '~/components/Quote';
 import hooks from '~/hooks';
 import base64 from '~/utils/base64';
+import ScoredBoard from '../ScoredBoard';
+import { useUserMode } from '~/context/UserModeProvider';
 
 const cx = classNames.bind(styles);
+
+const fn = () => {};
 
 const QuestionBundles = ({
   data = [],
@@ -23,15 +27,18 @@ const QuestionBundles = ({
   quantityOfAnswersPerQuestion,
   quote,
   partId,
+  isPractice = false,
+  setIsPractice = fn,
+  onStartPractice = fn,
+  onReviewTest = fn,
+  onContinueTest = fn,
 }) => {
   const dispatch = useDispatch();
-
   const isEdit = useSelector(editing);
   const isAddNew = useSelector(adding);
-
   const active = useSelector(activeGroup);
-
   const groupId = active.id;
+  const { isUserMode } = useUserMode();
   const { getItem: getNewSavedItem } = hooks.useSaveData('new_test');
 
   const newBundles = Array.from({ length: quantityOfBundles }).map((_, bundleIndex) => ({
@@ -107,6 +114,10 @@ const QuestionBundles = ({
   }, [data]);
 
   useEffect(() => {
+    if (isPractice) onStartPractice();
+  }, [isPractice]);
+
+  useEffect(() => {
     if (isAddNew) {
       const savedData = getNewSavedItem(partId);
       if (savedData) {
@@ -136,33 +147,65 @@ const QuestionBundles = ({
   return (
     <Fragment>
       {data.length > 0 ? (
-        <div className={cx('container')}>
-          {data.map((bundle) => (
-            <Fragment key={bundle.id}>
-              {bundle.active && (
-                <QuestionBundle
-                  data={bundle}
-                  isEnableExplainText={isEnableExplainText}
-                  isEnableChooseNumberOfQuestion={isEnableChooseNumberOfQuestion}
-                  isAddNew={isAddNew}
-                  isEdit={isEdit}
-                  onComplete={handleComplete}
-                  isEnableAudio={isEnableAudio}
-                  isEnablePhoto={isEnablePhoto}
-                  quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
-                  groupId={groupId}
-                  quote={quote}
-                />
-              )}
-            </Fragment>
-          ))}
-        </div>
+        isUserMode ? (
+          !isPractice ? (
+            <ScoredBoard
+              onContinueTest={onContinueTest}
+              onReviewTest={onReviewTest}
+              onStartPractice={onStartPractice}
+              setIsPractice={setIsPractice}
+            />
+          ) : (
+            <div className={cx('container')}>
+              {data.map((bundle) => (
+                <Fragment key={bundle.id}>
+                  {bundle.active && (
+                    <QuestionBundle
+                      data={bundle}
+                      isEnableExplainText={isEnableExplainText}
+                      isEnableChooseNumberOfQuestion={isEnableChooseNumberOfQuestion}
+                      isAddNew={false}
+                      isEdit={false}
+                      onComplete={handleComplete}
+                      isEnableAudio={isEnableAudio}
+                      isEnablePhoto={isEnablePhoto}
+                      quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
+                      groupId={groupId}
+                      quote={quote}
+                    />
+                  )}
+                </Fragment>
+              ))}
+            </div>
+          )
+        ) : (
+          <div className={cx('container')}>
+            {data.map((bundle) => (
+              <Fragment key={bundle.id}>
+                {bundle.active && (
+                  <QuestionBundle
+                    data={bundle}
+                    isEnableExplainText={isEnableExplainText}
+                    isEnableChooseNumberOfQuestion={isEnableChooseNumberOfQuestion}
+                    isAddNew={isAddNew}
+                    isEdit={isEdit}
+                    onComplete={handleComplete}
+                    isEnableAudio={isEnableAudio}
+                    isEnablePhoto={isEnablePhoto}
+                    quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
+                    groupId={groupId}
+                    quote={quote}
+                  />
+                )}
+              </Fragment>
+            ))}
+          </div>
+        )
       ) : (
         <Quote quote={quote} />
       )}
     </Fragment>
   );
 };
-
 
 export default QuestionBundles;

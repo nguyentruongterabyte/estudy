@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Fragment, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-
+import classNames from 'classnames/bind';
 import QuestionGroups from '~/components/QuestionGroups';
 import hooks from '~/hooks';
 import ContentManager from '../../components/ContentManager';
@@ -50,6 +50,10 @@ import { getWithExpiry, setWithExpiry } from '~/utils/localStorageUtils';
 import handleLastChanges from '~/components/QuestionSingle/handleLastChanges';
 import logFields from '~/redux/logFields';
 import QuestionGroupProvider from '~/context/QuestionGroupProvider';
+import Timer from '~/components/Timer';
+import styles from './TestTemplate.module.scss';
+
+const cx = classNames.bind( styles );
 
 const TestTemplate = ({
   isEnableExplainText,
@@ -97,29 +101,45 @@ const TestTemplate = ({
   const questionGroupEventLogs = useSelector(groupChangeLog);
   const isSingleComplete = useSelector(finished);
   const isBunldeComplete = useSelector(bundleFinished);
-
   const isComplete = isSingleComplete || isBunldeComplete;
-
   const active = useSelector(activeGroup);
-
   const groupName = active.name;
-
   const [groupId, setGroupId] = useState(active.id);
-
   const questions = useSelector(questionList);
-
   const bundles = useSelector(questionBundles);
-
   const [showAskCancel, setShowAskCancel] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isQuestionsLoading, setIsQuestionsLoading] = useState(false);
   const [isQuestionGroupsLoading, setIsQuestionGroupsLoading] = useState(false);
   const newQuestionGroup = hooks.useNewQuestionGroup();
   const { updateManyByQuestionId } = hooks.useCorrectAnswerService();
-
   const [newHistory, setNewHistory] = useState([]);
-
   const { saveItem: saveNewItem, removeItem: removeNewItem } = hooks.useSaveData('new_test');
+  const [showTimer, setShowTimer] = useState(false);
+  const { saveItem: saveTimer, getItem: getTimer } = hooks.useSaveData('time_colapsed');
+  const [initialTimer, setInitialTimer] = useState(0);
+  const [isPractice, setIsPractice] = useState(false);
+
+  // handle start practice
+  const handleStartPractice = () => {
+    setShowTimer(true);
+  };
+
+  // handle continue test
+  const handleContinueTest = () => {
+    const timer = getTimer(groupId);
+    setInitialTimer(timer);
+    setShowTimer(true);
+  };
+
+  const handleReviewTest = () => {};
+
+  // save timer
+  const handleTimerChange = (secondsElapsed) => {
+    if (secondsElapsed !== 0) {
+      saveTimer(groupId, secondsElapsed);
+    }
+  };
 
   // fetch questions data
   const fetchQuestions = async (groupId) => {
@@ -868,6 +888,9 @@ const TestTemplate = ({
 
   useEffect(() => {
     setGroupId(active.id);
+    setIsPractice(false);
+    setShowTimer(false);
+    setInitialTimer(0);
   }, [active]);
 
   useEffect(() => {
@@ -960,9 +983,17 @@ const TestTemplate = ({
         </Fragment>
       }
       mainChildren={
-        <Fragment>
+        <div className={cx('main')}>
+          {showTimer && (
+            <Timer className={cx('timer')} onTimerChange={handleTimerChange} initialSeconds={initialTimer} />
+          )}
           {questionBundle ? (
             <QuestionBundles
+              isPractice={isPractice}
+              setIsPractice={setIsPractice}
+              onReviewTest={handleReviewTest}
+              onContinueTest={handleContinueTest}
+              onStartPractice={handleStartPractice}
               partId={partId}
               data={bundles}
               isEnableExplainText={isEnableExplainText}
@@ -976,6 +1007,11 @@ const TestTemplate = ({
             />
           ) : (
             <QuestionSingle
+              isPractice={isPractice}
+              setIsPractice={setIsPractice}
+              onReviewTest={handleReviewTest}
+              onContinueTest={handleContinueTest}
+              onStartPractice={handleStartPractice}
               isEnableExplainText={isEnableExplainText}
               isEnableQuestionText={isEnableQuestionText}
               isQuestionsLoading={isQuestionsLoading}
@@ -988,7 +1024,7 @@ const TestTemplate = ({
               partId={partId}
             />
           )}
-        </Fragment>
+        </div>
       }
       isEnableBottombar={isEnableBottombar && (questions.length > 0 || bundles.length > 0)}
       bottombarChildren={<BundleCards data={bundles} />}

@@ -1,4 +1,3 @@
-
 import { faArrowRight, faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
@@ -7,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import styles from './Header.module.scss';
 import Button from '~/components/Button';
 const cx = classNames.bind(styles);
-
 
 const Header = ({
   isEdit,
@@ -25,8 +23,6 @@ const Header = ({
     setShow((prev) => !prev);
   };
 
-
-
   return (
     <div className={cx('container', className)}>
       <div className={cx('group')}>
@@ -35,7 +31,7 @@ const Header = ({
           icon={show ? faBars : faArrowRight}
           onClick={handleToggleCanvas}
         />
-        <h1>{t(title)}</h1>
+        <h1>{title && t(title)}</h1>
       </div>
       {/* Cancel/complete button */}
       {(isAddNew || isEdit) && (

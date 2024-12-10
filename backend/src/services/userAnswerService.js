@@ -12,6 +12,24 @@ const save = (data) => {
   });
 };
 
+const destroy = ( userId, questionId ) => {
+  return new Promise( async ( resolve, reject ) => {
+    try {
+      const rowEffected = await db.UserAnswer.destroy({
+        where: {
+          userId,
+          questionId,
+        },
+      });
+
+      resolve(rowEffected);
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
 export default {
   save,
+  destroy
 };

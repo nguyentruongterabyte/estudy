@@ -27,7 +27,7 @@ const QuestionGroup = ({ data }) => {
   const [inputValue, setInputValue] = useState(data.name);
   const debouncedValue = hooks.useDebounce(inputValue, 300);
   const { getUserAnswers } = hooks.useTestService();
-  const { onDelete } = useQuestionGroup();
+  const { onDelete, isEnableClick } = useQuestionGroup();
   const { isUserMode, userId } = useUserMode();
   const [percentage, setPercentage] = useState(0);
   const [userAnswers, setUserAnswers] = useState([]);
@@ -94,7 +94,7 @@ const QuestionGroup = ({ data }) => {
       onClick={() => dispatch(setActive({ id: data.id, name: data.name }))}
       as="li"
       active={!isAddNew && !isEdit && data.id === active.id}
-      disabled={isEdit && data.id !== active.id}
+      disabled={(isEdit && data.id !== active.id) || !isEnableClick}
       className={cx('container')}
     >
       {isEdit && active.id === data.id ? (

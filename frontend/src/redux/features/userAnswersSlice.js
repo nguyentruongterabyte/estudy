@@ -70,11 +70,26 @@ const userAnswersSlice = createSlice({
         ),
       ],
     }),
+
+    // update user answers
+    updateUserAnswers: (state, action) => ({
+      ...state,
+      groups: [
+        ...state.groups.map((group) =>
+          group.id === action.payload.groupId
+            ? {
+                ...group,
+                userAnswers: action.payload.userAnswers,
+              }
+            : group,
+        ),
+      ],
+    }),
   },
 });
 
 export default userAnswersSlice.reducer;
 
-export const { addUserAnswers, updateUserAnswer } = userAnswersSlice.actions;
+export const { addUserAnswers, updateUserAnswer, updateUserAnswers } = userAnswersSlice.actions;
 
 export const groups = (state) => state.userAnswers.groups;

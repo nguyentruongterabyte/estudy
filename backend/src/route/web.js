@@ -164,13 +164,26 @@ let initWebRoutes = (app) => {
   );
 
   // User answer
-  router.get(urls.test.getUserAnswers, verifyJWT, verifyRoles(ROLES_OBJECT.USER), testController.handleGetUserAnswers);
+  router.get(
+    urls.test.getUserAnswers,
+    verifyJWT,
+    verifyUserOwnership,
+    verifyRoles(ROLES_OBJECT.USER),
+    testController.handleGetUserAnswers,
+  );
   router.get(
     urls.userAnswer.create,
     verifyJWT,
     verifyUserOwnership,
     verifyRoles(ROLES_OBJECT.USER),
     userAnswerController.handleCreateUserAnswer,
+  );
+  router.delete(
+    urls.userAnswer.delete,
+    verifyJWT,
+    verifyUserOwnership,
+    verifyRoles(ROLES_OBJECT.USER),
+    userAnswerController.handleDeleteUserAnswers,
   );
 
   // Bundle Question

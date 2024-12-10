@@ -62,6 +62,7 @@ const urls = {
 
   userAnswer: {
     create: '/api/user-answer',
+    delete: '/api/user-answer',
   },
   questionBundle: {
     createBundlePhoto: '/api/question-bundle/bundle-photo',

@@ -48,7 +48,7 @@ const ContentManager = ({
   modalData = [],
 }) => {
   const [showSidebar, setShowSidebar] = useState(true);
-  const [showBottombar, setShowBottombar] = useState(true);
+  const [showBottombar, setShowBottombar] = useState(false);
   const { t } = useTranslation();
 
   return (
@@ -61,7 +61,7 @@ const ContentManager = ({
         {/* Header */}
         <Header
           className={cx('header', { scaled: showSidebar })}
-          title={headerTitle}
+          title={showSidebar ? '' : headerTitle}
           show={showSidebar}
           setShow={setShowSidebar}
           isEdit={isEdit}
@@ -71,8 +71,12 @@ const ContentManager = ({
           onComplete={onHeaderComplete}
         />
         {/* Main */}
-        <div className={cx('main', { 'sidebar-scaled': showSidebar, 'bottombar-scaled': showBottombar })}>
-          <div className={cx('top')}></div>
+        <div
+          className={cx('main', {
+            'sidebar-scaled': showSidebar,
+            'bottombar-scaled': showBottombar,
+          })}
+        >
           {/* Main Content */}
           {mainChildren}
         </div>
