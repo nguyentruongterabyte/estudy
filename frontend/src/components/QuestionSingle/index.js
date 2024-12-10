@@ -79,7 +79,7 @@ const QuestionSingle = ({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [questionId, setQuestionId] = useState(null);
 
-  const { userId, isUserMode } = useUserMode();
+  const { isUserMode } = useUserMode();
   const { createUserAnswer } = hooks.useUserAnswerService();
 
   const questions = useSelector(questionList);
@@ -136,7 +136,7 @@ const QuestionSingle = ({
   };
 
   const handleUserSelectAnswer = async (questionId, answerId) => {
-    await createUserAnswer(userId, questionId, answerId);
+    await createUserAnswer(questionId, answerId);
     dispatch(updateUserAnswer({ groupId, questionId, answerId }));
   };
 

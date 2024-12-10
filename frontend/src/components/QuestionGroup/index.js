@@ -43,15 +43,15 @@ const QuestionGroup = ({ data }) => {
     onDelete(groupId);
   };
 
-  // handle get answer user
-  const fetchUserAnswers = async (groupId, userId) => {
-    const userAnswers = await getUserAnswers(userId, groupId);
-    return userAnswers;
-  };
-
   useEffect(() => {
+    // handle get answer user
+    const fetchUserAnswers = async (groupId) => {
+      const userAnswers = await getUserAnswers(userId, groupId);
+      return userAnswers;
+    };
+
     if (isUserMode) {
-      fetchUserAnswers(data.id, userId)
+      fetchUserAnswers(data.id)
         .then((userAnswers) => {
           setUserAnswers(userAnswers);
           dispatch(addUserAnswers({ id: data.id, userAnswers }));

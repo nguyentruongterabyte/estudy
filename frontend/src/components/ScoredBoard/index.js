@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { groups, updateUserAnswers } from '~/redux/features/userAnswersSlice';
 import { activeGroup } from '~/redux/features/questionGroupsSilce';
 import hooks from '~/hooks';
-import { useUserMode } from '~/context/UserModeProvider';
 import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
@@ -37,7 +36,6 @@ const ScoredBoard = ({ setIsPractice = fn, onStartPractice = fn, onContinueTest 
     },
   );
 
-  const { userId } = useUserMode();
   const isNewTest = correctAnswers === 0 && incorrectAnswers === 0;
   const isCompletedTest = newQuestions === 0;
   const { deleteUserAnswers } = hooks.useUserAnswerService();
@@ -47,10 +45,7 @@ const ScoredBoard = ({ setIsPractice = fn, onStartPractice = fn, onContinueTest 
     // restart, delete all user answers
     saveItem(groupId, 0);
     if (!isNewTest) {
-      await deleteUserAnswers(
-        userId,
-        userAnswers.map((ua) => ({ questionId: ua.questionId })),
-      );
+      await deleteUserAnswers(userAnswers.map((ua) => ({ questionId: ua.questionId })));
 
       dispatch(updateUserAnswers({ groupId, userAnswers: userAnswers.map((ua) => ({ ...ua, userAnswerId: null })) }));
     }

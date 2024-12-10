@@ -1,11 +1,13 @@
 import config from '~/config';
 import useAxiosPrivate from './useAxiosPrivate';
+import { useUserMode } from '~/context/UserModeProvider';
 
 const useUserAnswerService = () => {
   const axiosPrivate = useAxiosPrivate();
+  const { userId } = useUserMode();
 
   // handle save user answer
-  const createUserAnswer = async (userId, questionId, answerId) => {
+  const createUserAnswer = async (questionId, answerId) => {
     try {
       const response = await axiosPrivate.get(`${config.urls.userAnswer.create}/${userId}/${questionId}/${answerId}`);
       return response?.data?.data; //return new user answer
@@ -15,7 +17,7 @@ const useUserAnswerService = () => {
   };
 
   // handle delete user answers
-  const deleteUserAnswers = async (userId, userAnswers = []) => {
+  const deleteUserAnswers = async (userAnswers = []) => {
     try {
       const response = await axiosPrivate.delete(`${config.urls.userAnswer.delete}/${userId}`, {
         data: { userAnswers },

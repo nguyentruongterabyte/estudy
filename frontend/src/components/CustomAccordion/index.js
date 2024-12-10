@@ -19,13 +19,14 @@ const CustomAccordion = ({ className, alwaysOpen = false, items = [], defaultAct
 
   useEffect(() => {
     setActiveKeys([defaultActiveKey]);
-  }, [ defaultActiveKey ] );
-  
-  useEffect( () => {
-    if ( alwaysOpen ) {
+  }, [defaultActiveKey]);
+
+  useEffect(() => {
+    if (alwaysOpen) {
       setActiveKeys(items.map((_, index) => index));
     }
-  }, [alwaysOpen])
+    // eslint-disable-next-line
+  }, [alwaysOpen]);
 
   return (
     <Accordion activeKey={activeKeys} onSelect={handleAccordionClick} className={cx('container', className)}>

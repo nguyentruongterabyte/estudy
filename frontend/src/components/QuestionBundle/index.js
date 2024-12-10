@@ -75,7 +75,7 @@ const QuestionBundle = ({
   );
   const [isEmptyPhoto, setIsEmptyPhoto] = useState(false);
 
-  const { userId, isUserMode } = useUserMode();
+  const { isUserMode } = useUserMode();
   const { createUserAnswer } = hooks.useUserAnswerService();
   const userAnswers = useSelector(groups);
 
@@ -132,7 +132,7 @@ const QuestionBundle = ({
   };
 
   const handleUserSelectAnswer = async (questionId, answerId) => {
-    await createUserAnswer(userId, questionId, answerId);
+    await createUserAnswer(questionId, answerId);
     dispatch(updateUserAnswer({ groupId, questionId, answerId }));
     console.log(groupId, questionId, answerId);
   };
