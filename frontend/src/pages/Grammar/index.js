@@ -16,6 +16,8 @@ import {
   removeChangeLogsByField as questionGroupRemoveChangeLogsByField,
   sortQuestionGroupsByName,
   changeQuestionGroups,
+  questionGroupList,
+  addQuestionGroups,
 } from '~/redux/features/questionGroupsSilce';
 import {
   changeLog,
@@ -24,7 +26,7 @@ import {
   questionList,
   removeChangeLogsByField,
   resetChangeLog,
-} from '~/redux/features/testSlice';
+} from '~/redux/features/questionsSingleSlice';
 import { Fragment, useEffect, useState } from 'react';
 import hooks from '~/hooks';
 import {
@@ -83,6 +85,7 @@ const Grammar = ({ isUser }) => {
   const eventLogs = useSelector(changeLog);
   const questions = useSelector(questionList);
   const questionGroupEventLogs = useSelector(groupChangeLog);
+  const questionGroups = useSelector(questionGroupList);
 
   const groupName = active.name;
 
@@ -95,6 +98,7 @@ const Grammar = ({ isUser }) => {
 
   const [newHistory, setNewHistory] = useState([]);
   const [isQuestionGroupsLoading, setIsQuestionGroupsLoading] = useState(false);
+  const [isGrammarLoading, setIsGrammarLoading] = useState(false);
   const { saveItem: saveNewItem, removeItem: removeNewItem } = hooks.useSaveData('new_grammar');
 
   const { updateCorrectAnswers, updateMany, getQuestionGroupsByGrammarId, getQuestionsByGroupId } =
@@ -113,6 +117,7 @@ const Grammar = ({ isUser }) => {
   const [alwaysOpen, setAlwaysOpen] = useState(false);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(-1);
   const userAnswers = useSelector(groups);
+  const { createTestTimer } = hooks.useTestTimerService();
 
   const handleActiveQuestion = (questionIndex) => {
     setActiveQuestionIndex(questionIndex);
@@ -156,9 +161,9 @@ const Grammar = ({ isUser }) => {
 
   // fetch grammars
   const fetchGrammars = async () => {
-    setIsQuestionGroupsLoading(true);
+    setIsGrammarLoading(true);
     const grammars = await getAllGrammars();
-    setIsQuestionGroupsLoading(false);
+    setIsGrammarLoading(false);
     return grammars;
   };
 
@@ -366,6 +371,18 @@ const Grammar = ({ isUser }) => {
     setShowDeleteGrammarModal(false);
   };
 
+  const handleGrammarHeaderClick = async (grammarId) => {
+    if (grammarId) {
+      const isFetched = questionGroups.some((qg) => qg.grammarId === grammarId);
+      console.log(isFetched);
+      if (!isFetched) {
+        const questionGroupsF = await fetchQuestionGroups(grammarId);
+        console.log(questionGroupsF);
+        dispatch(addQuestionGroups({ questionGroups: questionGroupsF }));
+      }
+    }
+  };
+
   useEffect(() => {
     // toggle edit to false when event logs are empty
     if (eventLogs.length === 0) {
@@ -414,28 +431,20 @@ const Grammar = ({ isUser }) => {
   }, [isAddNew, questions, activeGrammar.id]);
 
   useEffect(() => {
-    fetchGrammars()
-      .then((grammars) => {
-        dispatch(changeGrammars({ grammars }));
+    fetchGrammars().then((grammars) => {
+      dispatch(changeGrammars({ grammars }));
 
-        return Promise.all(grammars.map((grammar) => fetchQuestionGroups(grammar.id)));
-      })
-      .then((questionGroupsArray) => {
-        const allQuestionGroups = questionGroupsArray.flat();
+      // return Promise.all(grammars.map((grammar) => fetchQuestionGroups(grammar.id)));
+    });
+    // .then((questionGroupsArray) => {
+    //   const allQuestionGroups = questionGroupsArray.flat();
 
-        // Dispatch or process the unified data
-        dispatch(changeQuestionGroups({ questionGroups: allQuestionGroups }));
-        setIsQuestionGroupsLoading(false);
-      });
+    //   // Dispatch or process the unified data
+    //   dispatch(changeQuestionGroups({ questionGroups: allQuestionGroups }));
+    //   setIsQuestionGroupsLoading(false);
+    // });
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    if (activeGrammar && activeGrammar.id) setGrammarId(activeGrammar.id);
-    setIsPractice(false);
-    setShowTimer(false);
-    setInitialTimer(0);
-  }, [activeGrammar]);
 
   useEffect(() => {
     setIsPractice(false);
@@ -445,12 +454,19 @@ const Grammar = ({ isUser }) => {
 
   // handle complete test
   useEffect(() => {
+    const createTimer = async (groupId) => {
+      const secondsElapsed = getTimer(groupId);
+      await createTestTimer(groupId, secondsElapsed);
+    };
     if (isPractice) {
       const groupUserAnswers = userAnswers.find((uas) => uas.id === groupId).userAnswers;
       const isCompleted = groupUserAnswers.every((ua) => ua.userAnswerId);
       if (isCompleted) {
+        createTimer(groupId)
+          .then(() => setShowTimer(false))
+          .catch((e) => console.error(e))
+          .finally(() => setShowTimer(false));
         // Tạo thêm nút xem kết quả vả set show nó thành true ở chỗ này
-        setShowTimer(false);
       }
     }
   }, [userAnswers, isPractice, groupId]);
@@ -468,7 +484,7 @@ const Grammar = ({ isUser }) => {
       sidebarTitle="grammar"
       sidebarChildren={
         <Fragment>
-          {isQuestionGroupsLoading ? (
+          {isGrammarLoading ? (
             <Loading />
           ) : (
             <GrammarAccordion
@@ -482,6 +498,7 @@ const Grammar = ({ isUser }) => {
                 setShowDeleteGrammarModal(true);
                 setGrammarId(grammarId);
               }}
+              onHeaderClick={handleGrammarHeaderClick}
             />
           )}
         </Fragment>
@@ -548,7 +565,13 @@ const Grammar = ({ isUser }) => {
   );
 };
 
-const GrammarAccordion = ({ onDeleteQuestionGroup, onCancelAddNewQuestionGroup, onDelete, setShowAskCancel }) => {
+const GrammarAccordion = ({
+  onDeleteQuestionGroup,
+  onCancelAddNewQuestionGroup,
+  onDelete,
+  onHeaderClick,
+  setShowAskCancel,
+}) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const grammars = useSelector(grammarList);
@@ -621,7 +644,7 @@ const GrammarAccordion = ({ onDeleteQuestionGroup, onCancelAddNewQuestionGroup, 
       <CustomAccordion
         className={cx('accordion')}
         items={grammars.map((grammar) => ({
-          header: <GrammarHeader data={grammar} onDelete={onDelete} />,
+          header: <GrammarHeader data={grammar} onDelete={onDelete} onHeaderClick={onHeaderClick} />,
           body: (
             <GrammarBody
               grammar={grammar}
@@ -655,7 +678,7 @@ const GrammarAccordion = ({ onDeleteQuestionGroup, onCancelAddNewQuestionGroup, 
 };
 
 const fn = () => {};
-const GrammarHeader = ({ data, onDelete = fn }) => {
+const GrammarHeader = ({ data, onDelete = fn, onHeaderClick = fn }) => {
   const dispatch = useDispatch();
   const isAddNew = useSelector(adding);
   const isEdit = useSelector(editing);
@@ -703,7 +726,7 @@ const GrammarHeader = ({ data, onDelete = fn }) => {
   }, [activeGrammar]);
 
   return (
-    <div className={cx('grammar-header-container')}>
+    <div className={cx('grammar-header-container')} onClick={() => onHeaderClick(data.id)}>
       {isGrammarEdit && activeGrammar.id === data.id ? (
         <NameInputWithButtons
           isComplete={isComplete}

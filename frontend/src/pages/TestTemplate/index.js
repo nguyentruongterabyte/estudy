@@ -15,7 +15,7 @@ import {
   updateQuestionAudio,
   resetChangeLog,
   removeChangeLogsByField,
-} from '~/redux/features/testSlice';
+} from '~/redux/features/questionsSingleSlice';
 import {
   finished as bundleFinished,
   changeLog as bundleChangeLog,
@@ -125,6 +125,7 @@ const TestTemplate = ({
   const [alwaysOpen, setAlwaysOpen] = useState(false);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(-1);
   const userAnswers = useSelector(groups);
+  const { createTestTimer } = hooks.useTestTimerService();
 
   const handleActiveQuestion = (questionIndex) => {
     setActiveQuestionIndex(questionIndex);
@@ -148,7 +149,7 @@ const TestTemplate = ({
 
   // save timer
   const handleTimerChange = (secondsElapsed) => {
-    if (secondsElapsed !== 0) {
+    if (secondsElapsed !== 0 && isPractice) {
       saveTimer(groupId, secondsElapsed);
     }
   };
@@ -968,12 +969,20 @@ const TestTemplate = ({
 
   // handle complete test
   useEffect(() => {
+    const createTimer = async (groupId) => {
+      const secondsElapsed = getTimer(groupId);
+      await createTestTimer(groupId, secondsElapsed);
+    };
+
     if (isPractice) {
       const groupUserAnswers = userAnswers.find((uas) => uas.id === groupId).userAnswers;
       const isCompleted = groupUserAnswers.every((ua) => ua.userAnswerId);
       if (isCompleted) {
+        createTimer(groupId)
+          .then(() => setShowTimer(false))
+          .catch((e) => console.error(e))
+          .finally(() => setShowTimer(false));
         // Tạo thêm nút xem kết quả vả set show nó thành true ở chỗ này
-        setShowTimer(false);
       }
     }
   }, [userAnswers, isPractice, groupId]);

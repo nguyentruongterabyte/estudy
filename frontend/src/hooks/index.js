@@ -25,6 +25,8 @@ import useGrammarService from './useGrammarService';
 import useNewGrammar from './useNewGrammar';
 import useUserService from './useUserService';
 import useUserId from './useUserId';
+import useUserRoles from './useUserRoles';
+import useTestTimerService from './useTestTimerService';
 
 import useNewQuestionGroup from './useNewQuestionGroup';
 const hooks = {
@@ -55,6 +57,8 @@ const hooks = {
   useNewGrammar,
   useUserService,
   useUserId,
+  useUserRoles,
+  useTestTimerService,
 };
 
 export default hooks;

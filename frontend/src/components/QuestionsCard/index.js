@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './QuestionsCard.module.scss';
 import { useSelector } from 'react-redux';
-import { questionList } from '~/redux/features/testSlice';
+import { questionList } from '~/redux/features/questionsSingleSlice';
 import { groups } from '~/redux/features/userAnswersSlice';
 import { useUserMode } from '~/context/UserModeProvider';
 import { Button } from 'react-bootstrap';
@@ -9,9 +9,9 @@ import { Fragment, useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-const fn = () => {}
+const fn = () => {};
 
-const QuestionsCard = ({onActiveQuestion = fn}) => {
+const QuestionsCard = ({ onActiveQuestion = fn }) => {
   const { isUserMode } = useUserMode();
   const questions = useSelector(questionList);
   const questionIds = new Set(questions.map((q) => q.id));
@@ -28,7 +28,7 @@ const QuestionsCard = ({onActiveQuestion = fn}) => {
     if (targetQuestion) {
       targetQuestion.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    onActiveQuestion( index );
+    onActiveQuestion(index);
   };
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 
 import styles from './DisplayImage.module.scss';
 import images from '~/assets/images';
-import { isEdit as editing } from '~/redux/features/testSlice';
+import { isEdit as editing } from '~/redux/features/questionsSingleSlice';
 
 const cx = classNames.bind(styles);
 

@@ -17,7 +17,7 @@ import {
   deleteQuestion,
   addQuestion,
   updateExplainText,
-} from '~/redux/features/testSlice';
+} from '~/redux/features/questionsSingleSlice';
 import AnswerChangeProvider from '~/context/AnswerChangeProvider';
 import Loading from '~/components/Loading';
 import Questions from '../Questions';

@@ -20,6 +20,13 @@ const urls = {
     getUserAnswers: '/api/test/user-answers/:userId/:groupId',
   },
 
+  testTimer: {
+    create: '/api/test-timer/:userId/:groupId/:secondsElapsed',
+    getByUserId: '/api/test-timer/get-by-user-id/:userId',
+    get: '/api/test-timer/:userId/:groupId',
+    updateMany: '/api/test-timer/:userId',
+  },
+
   grammar: {
     getAll: '/api/grammar',
     update: '/api/grammar',
@@ -63,7 +70,7 @@ const urls = {
 
   userAnswer: {
     create: '/api/user-answer/:userId/:questionId/:answerId',
-    delete: '/api/user-answer/:id'
+    delete: '/api/user-answer/:id',
   },
   questionBundle: {
     createBundlePhoto: '/api/question-bundle/bundle-photo',

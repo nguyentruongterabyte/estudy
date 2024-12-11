@@ -15,9 +15,13 @@ const LanguageSelector = () => {
   const [languageImage, setLanguageImage] = useState(languagesData[0].image);
 
   useEffect(() => {
-    const languageCode = localStorage.getItem('i18nextLng');
-    const localLanguage = languagesData.find((lang) => lang.code === languageCode);
-    setLanguageImage(localLanguage.image);
+    const languageCode = localStorage.getItem( 'i18nextLng' );
+    if ( languageCode ) {
+      const localLanguage = languagesData.find((lang) => lang.code === languageCode);
+      setLanguageImage(localLanguage.image);
+    } else {
+      localStorage.setItem('i18nextLng', 'en');
+    }
   }, []);
 
   const handleLanguageChange = (language) => {

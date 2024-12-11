@@ -6,27 +6,10 @@ const initialState = {
   isAddNew: false,
   isEdit: false,
   active: {
-    id: 1,
+    id: -1,
     name: 'Chào',
   },
-  questionGroups: [
-    {
-      id: 1,
-      name: 'Chào',
-    },
-    {
-      id: 2,
-      name: 'Mừng',
-    },
-    {
-      id: 3,
-      name: 'Trở',
-    },
-    {
-      id: 4,
-      name: 'Lại',
-    },
-  ],
+  questionGroups: [],
 };
 
 const questionGroupsSlice = createSlice({
@@ -37,7 +20,7 @@ const questionGroupsSlice = createSlice({
     changeQuestionGroups: (state, action) => ({
       ...state,
       questionGroups: [...action.payload.questionGroups],
-    } ),
+    }),
 
     // add question group
     addQuestionGroup: (state, action) => ({
@@ -105,6 +88,12 @@ const questionGroupsSlice = createSlice({
       ...state,
       changeLog: state.changeLog.filter((log) => log.field !== action.payload.field),
     }),
+
+    // add question groups
+    addQuestionGroups: (state, action) => ({
+      ...state,
+      questionGroups: [...state.questionGroups, ...action.payload.questionGroups],
+    }),
   },
 });
 
@@ -118,6 +107,7 @@ export const {
   toggleAddNew,
   updateName,
   removeChangeLogsByField,
+  addQuestionGroups,
 } = questionGroupsSlice.actions;
 
 export default questionGroupsSlice.reducer;

@@ -4,75 +4,14 @@ import logFields from '../logFields';
 const initialState = {
   isComplete: false,
   test: {
-    questions: [
-      // {
-      //   id: 0,
-      //   photoId: 0,
-      //   photo: '',
-      //   audioId: 1,
-      //   audio: '',
-      //   answers: [],
-      //   correctAnswerIndex: 0,
-      //   correctAnswer: { answerId: 0, explain: '' },
-      // },
-      // {
-      //   id: 1,
-      //   photoId: 1,
-      //   photo: '',
-      //   audioId: 2,
-      //   audio: '',
-      //   answers: [],
-      //   correctAnswerIndex: 0,
-      //   correctAnswer: { answerId: 0, explain: '' },
-      // },
-      // {
-      //   id: 2,
-      //   photoId: 2,
-      //   photo: '',
-      //   audioId: 3,
-      //   audio: '',
-      //   answers: [],
-      //   correctAnswerIndex: 0,
-      //   correctAnswer: { answerId: 0, explain: '' },
-      // },
-      // {
-      //   id: 3,
-      //   photoId: 3,
-      //   photo: '',
-      //   audioId: 4,
-      //   audio: '',
-      //   answers: [],
-      //   correctAnswerIndex: 0,
-      //   correctAnswer: { answerId: 0, explain: '' },
-      // },
-      // {
-      //   id: 4,
-      //   photoId: 4,
-      //   photo: '',
-      //   audioId: 5,
-      //   audio: '',
-      //   answers: [],
-      //   correctAnswerIndex: 0,
-      //   correctAnswer: { answerId: 0, explain: '' },
-      // },
-      // {
-      //   id: 5,
-      //   photoId: 5,
-      //   photo: '',
-      //   audioId: 6,
-      //   audio: '',
-      //   answers: [],
-      //   correctAnswerIndex: 0,
-      //   correctAnswer: { answerId: 0, explain: '' },
-      // },
-    ],
+    questions: [],
   },
 
   changeLog: [],
 };
 
-const testSlice = createSlice({
-  name: 'test',
+const questionsSingleSlice = createSlice({
+  name: 'questionsSingle',
   initialState,
   reducers: {
     // is complete false/true
@@ -369,10 +308,10 @@ export const {
   deleteQuestion,
   addQuestion,
   updateExplainText,
-} = testSlice.actions;
-export default testSlice.reducer;
-export const questionList = (state) => state.test.test.questions;
-export const changeLog = (state) => state.test.changeLog;
-export const isAddNew = (state) => state.test.isAddNew;
-export const isEdit = (state) => state.test.isEdit;
-export const isComplete = (state) => state.test.isComplete;
+} = questionsSingleSlice.actions;
+export default questionsSingleSlice.reducer;
+export const questionList = (state) => state.questionsSingle.test.questions;
+export const changeLog = (state) => state.questionsSingle.changeLog;
+export const isAddNew = (state) => state.questionsSingle.isAddNew;
+export const isEdit = (state) => state.questionsSingle.isEdit;
+export const isComplete = (state) => state.questionsSingle.isComplete;

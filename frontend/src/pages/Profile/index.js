@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import images from '~/assets/images';
 import DisplayImage from '~/components/DisplayImage';
 import hooks from '~/hooks';
 import { ToastContainer, toast } from 'react-toastify';
 import CustomModal from '~/components/CustomModal';
 import { useTranslation } from 'react-i18next';
+import config from '~/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
 const Profile = () => {
+  const { setAuth } = hooks.useAuth();
   const { t } = useTranslation();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -27,6 +31,10 @@ const Profile = () => {
   const { getUserById, updateUser, updateAvatar } = hooks.useUserService();
   const id = hooks.useUserId() || -1;
   const { uploadPhoto } = hooks.usePhotoService();
+  const [showRoleModal, setShowRoleModal] = useState(false);
+  const userRoles = hooks.useUserRoles();
+  const currentRole = JSON.parse(localStorage.getItem('currentRole'));
+  const roleName = Object.keys(config.roles).find((key) => config.roles[key] === currentRole);
 
   const hasChanges =
     firstName !== initialData.firstName || lastName !== initialData.lastName || phoneNumber !== initialData.phoneNumber;
@@ -60,6 +68,15 @@ const Profile = () => {
       success: t('saveAvatarSuccess'),
       error: t('saveAvatarFailed'),
     });
+  };
+
+  const handleRoleSelection = (selectedRole) => {
+    setShowRoleModal(false);
+    const roleName = Object.keys(config.roles).find((key) => config.roles[key] === selectedRole);
+    setAuth((prev) => ({ ...prev, currentRole: selectedRole }));
+    localStorage.setItem('currentRole', selectedRole);
+    // navigate(`/home/${roleName}`, { replace: true });
+    window.location.href = `/home/${roleName}`;
   };
 
   useEffect(() => {
@@ -150,7 +167,19 @@ const Profile = () => {
             {t('saveChanges')}
           </Button>
         </Col>
-        <Col sm={4}></Col>
+        <Col sm={2}>
+          {userRoles.length > 1 && (
+            <Button
+              className={cx('switch-role-button')}
+              size="lg"
+              variant="outline-success"
+              onClick={() => setShowRoleModal(true)}
+            >
+              <span>{roleName}</span>
+              <FontAwesomeIcon icon={faArrowRightArrowLeft} />
+            </Button>
+          )}
+        </Col>
       </Row>
       <ToastContainer />
       <CustomModal
@@ -160,6 +189,24 @@ const Profile = () => {
         setShow={setShowEditAvatarModal}
         handleAgreeButtonClick={handleEditAvatar}
       />
+
+      {/* Modal select role */}
+      <Modal show={showRoleModal} onHide={() => setShowRoleModal(false)} centered>
+        <Modal.Header>
+          <Modal.Title>{t('log_in_as')}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ul>
+            {userRoles.map((role) => (
+              <li key={role} className={cx('role-button-wrapper')}>
+                <Button className={cx('role-button')} variant="link" onClick={() => handleRoleSelection(role)}>
+                  {Object.keys(config.roles).find((key) => config.roles[key] === role)}
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 };

@@ -20,6 +20,13 @@ const urls = {
     getUserAnswers: '/api/test/user-answers',
   },
 
+  testTimer: {
+    create: '/api/test-timer',
+    getByUserId: '/api/test-timer/get-by-user-id',
+    get: '/api/test-timer',
+    updateMany: '/api/test-timer',
+  },
+
   grammar: {
     getAll: '/api/grammar',
     update: '/api/grammar',

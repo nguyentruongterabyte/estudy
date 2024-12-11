@@ -39,12 +39,12 @@ const ScoredBoard = ({ setIsPractice = fn, onStartPractice = fn, onContinueTest 
   const isNewTest = correctAnswers === 0 && incorrectAnswers === 0;
   const isCompletedTest = newQuestions === 0;
   const { deleteUserAnswers } = hooks.useUserAnswerService();
-  const { getItem, saveItem } = hooks.useSaveData('time_colapsed');
+  const { getItem } = hooks.useSaveData('time_colapsed');
 
   const handleStartPractice = async () => {
     // restart, delete all user answers
-    saveItem(groupId, 0);
     if (!isNewTest) {
+      // saveItem(groupId, 0);
       await deleteUserAnswers(userAnswers.map((ua) => ({ questionId: ua.questionId })));
 
       dispatch(updateUserAnswers({ groupId, userAnswers: userAnswers.map((ua) => ({ ...ua, userAnswerId: null })) }));
@@ -75,6 +75,8 @@ const ScoredBoard = ({ setIsPractice = fn, onStartPractice = fn, onContinueTest 
     const savedTimer = getItem(groupId);
     if (savedTimer) {
       setTimer(savedTimer);
+    } else {
+      setTimer(0);
     }
     // eslint-disable-next-line
   }, [groupId]);

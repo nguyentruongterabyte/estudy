@@ -1,8 +1,5 @@
-import Tippy from '@tippyjs/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
-import { Button, Form, ListGroup } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './QuestionGroups.module.scss';
 import QuestionGroup from '~/components/QuestionGroup';
 import hooks from '~/hooks';
-import { resetChangeLog } from '~/redux/features/testSlice';
+import { resetChangeLog } from '~/redux/features/questionsSingleSlice';
 
 import { resetChangeLog as resetBundleChangeLog } from '~/redux/features/questionBundlesSlice';
 
@@ -54,6 +51,8 @@ const QuestionGroups = ({ isComplete, isGrammar = false, grammar, onCancel = fn,
   const { isUserMode } = useUserMode();
   const [showEditModal, setShowEditModal] = useState(false);
   const activeGrammar = useSelector(activeG);
+  const { getTestTimer } = hooks.useTestTimerService();
+  const { saveItem: saveTimer } = hooks.useSaveData('time_colapsed');
 
   // handle cancel
   const handleCancel = () => {
@@ -89,6 +88,29 @@ const QuestionGroups = ({ isComplete, isGrammar = false, grammar, onCancel = fn,
     }
     // eslint-disable-next-line
   }, [isGrammar, questionGroups]);
+
+  useEffect(() => {
+    const fetchAllTimers = async () => {
+      try {
+        const groupIds = questionGroups.filter((qg) => qg.id !== -1).map((qg) => qg.id);
+        await Promise.all(
+          groupIds.map(async (groupId) => {
+            const testTimer = await getTestTimer(groupId);
+            if (testTimer) saveTimer(groupId, testTimer.secondsElapsed);
+            return testTimer;
+          }),
+        );
+      } catch (error) {
+        console.error('Error fetching timers:', error);
+      }
+    };
+
+    if (isUserMode) {
+      // clearAllTimer();
+      fetchAllTimers();
+    }
+    // eslint-disable-next-line
+  }, [isUserMode]);
 
   return (
     <div className={cx('container')}>

@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import testReducer from './features/testSlice';
+import questionsSingleReducer from './features/questionsSingleSlice';
 import questionGroupsReducer from './features/questionGroupsSilce';
 import questionBundlesReducer from './features/questionBundlesSlice';
 import userAnswersReducer from './features/userAnswersSlice';
@@ -11,7 +11,7 @@ import accountsReducer from './features/accountsSlice';
 export const store = configureStore({
   reducer: {
     accounts: accountsReducer,
-    test: testReducer,
+    questionsSingle: questionsSingleReducer,
     questionGroups: questionGroupsReducer,
     questionBundles: questionBundlesReducer,
     userAnswers: userAnswersReducer,

@@ -31,7 +31,7 @@ const QuestionGroup = ({ data }) => {
   const { isUserMode, userId } = useUserMode();
   const [percentage, setPercentage] = useState(0);
   const [userAnswers, setUserAnswers] = useState([]);
-
+  
   const handleEdit = (event, groupId) => {
     event.stopPropagation();
     dispatch(toggleEdit({ toggle: true }));

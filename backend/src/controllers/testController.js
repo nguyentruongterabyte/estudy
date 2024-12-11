@@ -273,7 +273,7 @@ const handleGetUserAnswers = async (req, res) => {
     const userAnswers = await testService.getUserAnswers(userId, groupId);
     return res.json({
       errCode: 0,
-      errMessage: 'Delete successfully!',
+      errMessage: 'OK',
       data: userAnswers,
     });
   } catch (error) {

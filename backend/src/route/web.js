@@ -22,6 +22,7 @@ import vocabularyTopicController from '../controllers/vocabularyTopicController'
 import correctAnswerController from '../controllers/correctAnswerController';
 import vocabularyPracticeStatusController from '../controllers/vocabularyPracticeStatusController';
 import grammarController from '../controllers/grammarController';
+import testTimerController from '../controllers/testTimerController';
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -126,6 +127,31 @@ let initWebRoutes = (app) => {
     verifyJWT,
     verifyRoles(ROLES_OBJECT.EDITOR),
     testController.handleDeleleBundleTest,
+  );
+
+  // Test timers
+  router.get(
+    urls.testTimer.getByUserId,
+    // verifyJWT,
+    // verifyUserOwnership,
+    // verifyRoles( ROLES_OBJECT.USER),
+    testTimerController.handleGetByUserId,
+  );
+
+  router.get(
+    urls.testTimer.get,
+    // verifyJWT,
+    // verifyUserOwnership,
+    // verifyRoles( ROLES_OBJECT.USER),
+    testTimerController.handleGetOne
+  );
+
+  router.get(
+    urls.testTimer.create,
+    // verifyJWT,
+    // verifyUserOwnership,
+    // verifyRoles( ROLES_OBJECT.USER),
+    testTimerController.handleUpdate,
   );
 
   // Grammars
