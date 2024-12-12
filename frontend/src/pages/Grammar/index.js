@@ -15,7 +15,6 @@ import {
   changeLog as groupChangeLog,
   removeChangeLogsByField as questionGroupRemoveChangeLogsByField,
   sortQuestionGroupsByName,
-  changeQuestionGroups,
   questionGroupList,
   addQuestionGroups,
 } from '~/redux/features/questionGroupsSilce';
@@ -433,16 +432,7 @@ const Grammar = ({ isUser }) => {
   useEffect(() => {
     fetchGrammars().then((grammars) => {
       dispatch(changeGrammars({ grammars }));
-
-      // return Promise.all(grammars.map((grammar) => fetchQuestionGroups(grammar.id)));
     });
-    // .then((questionGroupsArray) => {
-    //   const allQuestionGroups = questionGroupsArray.flat();
-
-    //   // Dispatch or process the unified data
-    //   dispatch(changeQuestionGroups({ questionGroups: allQuestionGroups }));
-    //   setIsQuestionGroupsLoading(false);
-    // });
     // eslint-disable-next-line
   }, []);
 
@@ -469,6 +459,7 @@ const Grammar = ({ isUser }) => {
         // Tạo thêm nút xem kết quả vả set show nó thành true ở chỗ này
       }
     }
+    // eslint-disable-next-line
   }, [userAnswers, isPractice, groupId]);
 
   return (
@@ -488,6 +479,7 @@ const Grammar = ({ isUser }) => {
             <Loading />
           ) : (
             <GrammarAccordion
+              isQuestionGroupsLoading={isQuestionGroupsLoading}
               setShowAskCancel={setShowAskCancel}
               onCancelAddNewQuestionGroup={handleCancelAddNewQuestionGroup}
               onDeleteQuestionGroup={(groupId) => {
@@ -571,6 +563,7 @@ const GrammarAccordion = ({
   onDelete,
   onHeaderClick,
   setShowAskCancel,
+  isQuestionGroupsLoading,
 }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -645,7 +638,9 @@ const GrammarAccordion = ({
         className={cx('accordion')}
         items={grammars.map((grammar) => ({
           header: <GrammarHeader data={grammar} onDelete={onDelete} onHeaderClick={onHeaderClick} />,
-          body: (
+          body: isQuestionGroupsLoading ? (
+            <Loading className={cx('loading')} />
+          ) : (
             <GrammarBody
               grammar={grammar}
               onDeleteQuestionGroup={onDeleteQuestionGroup}

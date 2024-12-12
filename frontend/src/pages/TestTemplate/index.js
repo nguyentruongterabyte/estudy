@@ -985,6 +985,7 @@ const TestTemplate = ({
         // Tạo thêm nút xem kết quả vả set show nó thành true ở chỗ này
       }
     }
+    // eslint-disable-next-line
   }, [userAnswers, isPractice, groupId]);
 
   return (

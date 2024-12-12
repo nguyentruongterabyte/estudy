@@ -39,7 +39,7 @@ const CustomAccordion = ({ className, alwaysOpen = false, items = [], defaultAct
           <Accordion.Header className={cx('header')}>{item.header}</Accordion.Header>
           <Accordion.Body className={cx('body')}>{item.body}</Accordion.Body>
         </Accordion.Item>
-      ))}
+      ) ) }
     </Accordion>
   );
 };
