@@ -17,6 +17,9 @@ const TextCompletion = ({ isUser = false }) => {
       isEnablePhoto={false}
       isEnableAudio={false}
       isUser={isUser}
+      isShufflingBundlesEnabled={true}
+      isShufflingQuestionsEnabled={true}
+      isShufflingAnswersEnabled={true}
     />
   );
 };

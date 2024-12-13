@@ -14,6 +14,8 @@ const IncompleteSentences = ({ isUser = false }) => {
       quote="quote5"
       isUser={isUser}
       isEnableBottombar={true}
+      isShufflingQuestionsEnabled={true}
+      isShufflingAnswersEnabled={true}
     />
   );
 };

@@ -16,6 +16,7 @@ const ShortTalks = ({ isUser = false }) => {
       isEnablePhoto={true}
       isEnableAudio={true}
       isUser={isUser}
+      isTextHiddenDuringPractice={true}
     />
   );
 };

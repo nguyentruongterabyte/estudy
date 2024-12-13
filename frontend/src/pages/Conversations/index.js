@@ -16,6 +16,8 @@ const Conversations = ({ isUser = false }) => {
       isEnablePhoto={true}
       isEnableAudio={true}
       isUser={isUser}
+      isTextHiddenDuringPractice={true}
+      isShufflingAnswersEnabled={true}
     />
   );
 };

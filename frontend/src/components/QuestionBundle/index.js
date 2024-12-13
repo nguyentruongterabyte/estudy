@@ -47,6 +47,7 @@ const QuestionBundle = ({
   isEnablePhoto,
   isEnableAudio,
   isEnableExplainText,
+  isTextHiddenDuringPractice,
   quantityOfAnswersPerQuestion,
   alwaysOpen,
   onComplete = fn,
@@ -142,15 +143,16 @@ const QuestionBundle = ({
     dispatch(updateExplainText({ id: data.id, ...explainData }));
   };
 
-  const isSubset = (questions) => {
-    if (!Array.isArray(questions) || !questions.length) return false; // Không có câu hỏi => false
-    if (!Array.isArray(userAnswers) || !userAnswers.length) return false; // Không có trả lời => false
+  // check if all of questions user answered
+  const isUserAnsweredAll = (questions) => {
+    if (!Array.isArray(questions) || !questions.length) return false; // No questions => false
+    if (!Array.isArray(userAnswers) || !userAnswers.length) return false; // No user answer => false
 
     const userAnswerQuestionIds = new Set(
       userAnswers
-        .flatMap((user) => user.userAnswers) // Gộp tất cả `userAnswers` từ từng đối tượng
+        .flatMap((user) => user.userAnswers) // merge `userAnswers`
         .filter((answer) => answer.userAnswerId)
-        .map((answer) => answer.questionId), // Lấy danh sách `questionId`
+        .map((answer) => answer.questionId), // Get list of `questionId`
     );
 
     return questions.every((question) => userAnswerQuestionIds.has(question.id));
@@ -227,7 +229,7 @@ const QuestionBundle = ({
                 </Fragment>
               )}
               {isUserMode ? (
-                isSubset(data.questions) ? (
+                !isTextHiddenDuringPractice || isUserAnsweredAll(data.questions) ? (
                   <CustomTextArea
                     isEnableRaw={true}
                     displayButtonText={true}

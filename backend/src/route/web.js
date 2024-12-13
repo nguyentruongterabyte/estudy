@@ -118,9 +118,7 @@ let initWebRoutes = (app) => {
 
   // test
   router.post(urls.test.create, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveTest);
-
   router.post(urls.test.createBundle, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveBundleTest);
-
   router.delete(urls.test.delete, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleDeleteTest);
   router.delete(
     urls.test.deleteBundle,
@@ -132,25 +130,25 @@ let initWebRoutes = (app) => {
   // Test timers
   router.get(
     urls.testTimer.getByUserId,
-    // verifyJWT,
-    // verifyUserOwnership,
-    // verifyRoles( ROLES_OBJECT.USER),
+    verifyJWT,
+    verifyUserOwnership,
+    verifyRoles( ROLES_OBJECT.USER),
     testTimerController.handleGetByUserId,
   );
 
   router.get(
     urls.testTimer.get,
-    // verifyJWT,
-    // verifyUserOwnership,
-    // verifyRoles( ROLES_OBJECT.USER),
+    verifyJWT,
+    verifyUserOwnership,
+    verifyRoles( ROLES_OBJECT.USER),
     testTimerController.handleGetOne
   );
 
   router.get(
     urls.testTimer.create,
-    // verifyJWT,
-    // verifyUserOwnership,
-    // verifyRoles( ROLES_OBJECT.USER),
+    verifyJWT,
+    verifyUserOwnership,
+    verifyRoles( ROLES_OBJECT.USER),
     testTimerController.handleUpdate,
   );
 
@@ -268,8 +266,8 @@ let initWebRoutes = (app) => {
   );
   router.get(
     urls.question.getByGroupId,
-    verifyJWT,
-    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
     questionController.handleGetQuestionsByGroupId,
   );
 

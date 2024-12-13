@@ -55,6 +55,8 @@ import styles from './TestTemplate.module.scss';
 import QuestionsCard from '~/components/QuestionsCard';
 import { groups } from '~/redux/features/userAnswersSlice';
 import { Button } from 'react-bootstrap';
+import ShufflingProvider from '~/context/ShufflingProvider';
+import shuffleArray from '~/utils/shuffleArray';
 
 const cx = classNames.bind(styles);
 
@@ -65,9 +67,15 @@ const TestTemplate = ({
   isEnableQuestionText = false,
   isEnableBottombar = false,
   isEnableChooseNumberOfQuestion,
+
   isUser,
+  isTextHiddenDuringPractice = false,
   isDisplayAnswerText = true,
   isDisplayQuestionText = true,
+  isShufflingAnswersEnabled = false,
+  isShufflingQuestionsEnabled = false,
+  isShufflingBundlesEnabled = false,
+
   questionBundle = false,
   partName = 'part1_Photos',
   partId = 1,
@@ -170,20 +178,48 @@ const TestTemplate = ({
     let currentOrder = 1;
     if (questionBundle) {
       fetchQuestionBundles(groupId).then((loadedQuestionBundles) => {
+        const shuffledBundles =
+          isUser && isShufflingBundlesEnabled ? shuffleArray(loadedQuestionBundles) : loadedQuestionBundles;
         dispatch(
           changeBundles({
-            bundles: loadedQuestionBundles.map((bundle, index) => ({
+            // shuffled bundles
+            bundles: shuffledBundles.map((bundle, index) => ({
               ...bundle,
               active: index === 0 ? true : false,
               isEnablePhoto: bundle.photo ? true : false,
-              questions: bundle.questions.map((question) => ({
-                ...question,
-                order: currentOrder++,
-                answers: question.answers.map((answer, index) => ({
-                  ...answer,
-                  index,
-                })),
-              })),
+              questions:
+                isUser && isShufflingQuestionsEnabled
+                  ? // shuffled questions
+                    shuffleArray(bundle.questions).map((question) => ({
+                      ...question,
+                      order: currentOrder++,
+                      answers:
+                        isUser && isShufflingAnswersEnabled
+                          ? // shuffled answers
+                            shuffleArray(question.answers).map((answer, index) => ({
+                              ...answer,
+                              index,
+                            }))
+                          : question.answers.map((answer, index) => ({
+                              ...answer,
+                              index,
+                            })),
+                    }))
+                  : bundle.questions.map((question) => ({
+                      ...question,
+                      order: currentOrder++,
+                      answers:
+                        isUser && isShufflingAnswersEnabled
+                          ? // shuffle answers
+                            shuffleArray(question.answers).map((answer, index) => ({
+                              ...answer,
+                              index,
+                            }))
+                          : question.answers.map((answer, index) => ({
+                              ...answer,
+                              index,
+                            })),
+                    })),
             })),
           }),
         );
@@ -192,11 +228,18 @@ const TestTemplate = ({
       setIsQuestionsLoading(true);
       fetchQuestions(groupId)
         .then((loadedQuestions) => {
+          const shuffledQuestions =
+            // shuffle questions
+            isUser && isShufflingQuestionsEnabled ? shuffleArray(loadedQuestions) : loadedQuestions;
           dispatch(
             changeQuestions({
-              questions: loadedQuestions.map((question) => ({
+              questions: shuffledQuestions.map((question) => ({
                 ...question,
-                answers: question.answers.map((answer, index) => ({ ...answer, index })),
+                answers:
+                  isUser && isShufflingAnswersEnabled
+                    ? // shuffle answers
+                      shuffleArray(question.answers).map((answer, index) => ({ ...answer, index }))
+                    : question.answers.map((answer, index) => ({ ...answer, index })),
               })),
             }),
           );
@@ -1018,56 +1061,63 @@ const TestTemplate = ({
       }
       mainChildren={
         <div className={cx('main')}>
-          {showTimer ? (
-            <Timer className={cx('timer')} onTimerChange={handleTimerChange} initialSeconds={initialTimer} />
-          ) : (
-            isPractice && (
-              <Button size="lg" className={cx('show-result-btn')} onClick={() => setIsPractice(false)}>
-                {t('showResult')}
-              </Button>
-            )
-          )}
-          {questionBundle ? (
-            <QuestionBundles
-              activeQuestionIndex={activeQuestionIndex}
-              alwaysOpen={alwaysOpen}
-              isPractice={isPractice}
-              setIsPractice={setIsPractice}
-              onReviewTest={handleReviewTest}
-              onContinueTest={handleContinueTest}
-              onStartPractice={handleStartPractice}
-              partId={partId}
-              data={bundles}
-              isEnableExplainText={isEnableExplainText}
-              isEnableChooseNumberOfQuestion={isEnableChooseNumberOfQuestion}
-              isEnableAudio={isEnableAudio}
-              isEnablePhoto={isEnablePhoto}
-              quantityOfBundles={quantityOfBundles}
-              quantityOfQuestionsPerBundle={quantityOfQuestionsPerBundle}
-              quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
-              quote={quote}
-            />
-          ) : (
-            <QuestionSingle
-              activeQuestionIndex={activeQuestionIndex}
-              alwaysOpen={alwaysOpen}
-              isPractice={isPractice}
-              setIsPractice={setIsPractice}
-              onReviewTest={handleReviewTest}
-              onContinueTest={handleContinueTest}
-              onStartPractice={handleStartPractice}
-              isEnableExplainText={isEnableExplainText}
-              isEnableQuestionText={isEnableQuestionText}
-              isQuestionsLoading={isQuestionsLoading}
-              questions={questions}
-              quote={quote}
-              quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
-              quantityOfQuestions={quantityOfQuestions}
-              isEnableAudio={isEnableAudio}
-              isEnablePhoto={isEnablePhoto}
-              partId={partId}
-            />
-          )}
+          <ShufflingProvider
+            isShufflingAnswersEnabled={isShufflingAnswersEnabled}
+            isShufflingQuestionsEnabled={isShufflingQuestionsEnabled}
+            isShufflingBundlesEnabled={isShufflingBundlesEnabled}
+          >
+            {showTimer ? (
+              <Timer className={cx('timer')} onTimerChange={handleTimerChange} initialSeconds={initialTimer} />
+            ) : (
+              isPractice && (
+                <Button size="lg" className={cx('show-result-btn')} onClick={() => setIsPractice(false)}>
+                  {t('showResult')}
+                </Button>
+              )
+            )}
+            {questionBundle ? (
+              <QuestionBundles
+                activeQuestionIndex={activeQuestionIndex}
+                alwaysOpen={alwaysOpen}
+                isPractice={isPractice}
+                setIsPractice={setIsPractice}
+                onReviewTest={handleReviewTest}
+                onContinueTest={handleContinueTest}
+                onStartPractice={handleStartPractice}
+                partId={partId}
+                data={bundles}
+                isTextHiddenDuringPractice={isTextHiddenDuringPractice}
+                isEnableExplainText={isEnableExplainText}
+                isEnableChooseNumberOfQuestion={isEnableChooseNumberOfQuestion}
+                isEnableAudio={isEnableAudio}
+                isEnablePhoto={isEnablePhoto}
+                quantityOfBundles={quantityOfBundles}
+                quantityOfQuestionsPerBundle={quantityOfQuestionsPerBundle}
+                quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
+                quote={quote}
+              />
+            ) : (
+              <QuestionSingle
+                activeQuestionIndex={activeQuestionIndex}
+                alwaysOpen={alwaysOpen}
+                isPractice={isPractice}
+                setIsPractice={setIsPractice}
+                onReviewTest={handleReviewTest}
+                onContinueTest={handleContinueTest}
+                onStartPractice={handleStartPractice}
+                isEnableExplainText={isEnableExplainText}
+                isEnableQuestionText={isEnableQuestionText}
+                isQuestionsLoading={isQuestionsLoading}
+                questions={questions}
+                quote={quote}
+                quantityOfAnswersPerQuestion={quantityOfAnswersPerQuestion}
+                quantityOfQuestions={quantityOfQuestions}
+                isEnableAudio={isEnableAudio}
+                isEnablePhoto={isEnablePhoto}
+                partId={partId}
+              />
+            )}
+          </ShufflingProvider>
         </div>
       }
       isEnableBottombar={isEnableBottombar && (questions.length > 0 || bundles.length > 0)}

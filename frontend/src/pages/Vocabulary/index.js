@@ -35,6 +35,7 @@ import {
   vocabularyPracticeStatusList,
 } from '~/redux/features/vocabularyPracticeStatusesSlice';
 import Quote from '~/components/Quote';
+import { Button } from 'react-bootstrap';
 
 const cx = classNames.bind(styles);
 
@@ -312,9 +313,15 @@ const Vocabulary = ({ isUser = false }) => {
         <div className={cx('practice-status')}>
           <h2 className={cx('topic-name')}>{active.name}</h2>
           <div className={cx('group')}>
-            <div className={cx('memorized', 'item')}>{memorized} Đã thuộc</div>
-            <div className={cx('unmemorized', 'item')}>{unmemorized} Chưa thuộc</div>
-            <div className={cx('unanswered', 'item')}>{unanswered} Chưa trả lời</div>
+            <Button variant="outline-info" className={cx('memorized', 'item')}>{`${memorized} ${t(
+              'memorized',
+            )}`}</Button>
+            <Button variant="outline-danger" className={cx('unmemorized', 'item')}>
+              {`${unmemorized} ${t('unmemorized')}`}
+            </Button>
+            <Button variant="outline-secondary" className={cx('unanswered', 'item')}>
+              {`${unanswered} ${t('unanswered')}`}
+            </Button>
           </div>
         </div>
       }

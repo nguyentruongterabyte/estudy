@@ -10,9 +10,10 @@ const Photos = ({ isUser = false }) => {
       quantityOfQuestions={6}
       quantityOfAnswersPerQuestion={4}
       quote="quote1"
-      isUser={isUser}
-      isDisplayAnswerText={ false }
       isEnableBottombar={true}
+      isUser={isUser}
+      isDisplayAnswerText={false}
+      isShufflingQuestionsEnabled={true}
     />
   );
 };

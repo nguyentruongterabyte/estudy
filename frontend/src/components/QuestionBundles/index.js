@@ -21,6 +21,7 @@ const QuestionBundles = ({
   isEnablePhoto,
   isEnableAudio,
   isEnableChooseNumberOfQuestion,
+  isTextHiddenDuringPractice,
   isEnableExplainText,
   quantityOfQuestionsPerBundle = 3,
   quantityOfBundles = 13,
@@ -166,6 +167,7 @@ const QuestionBundles = ({
                       data={bundle}
                       isEnableExplainText={isEnableExplainText}
                       isEnableChooseNumberOfQuestion={isEnableChooseNumberOfQuestion}
+                      isTextHiddenDuringPractice={isTextHiddenDuringPractice}
                       isAddNew={false}
                       isEdit={false}
                       onComplete={handleComplete}

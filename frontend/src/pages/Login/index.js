@@ -28,10 +28,9 @@ const Login = () => {
   const [showRoleModal, setShowRoleModal] = useState(false);
   const [userRoles, setUserRoles] = useState([]);
 
-  const [check, toggleCheck] = hooks.useToggle('persist', false);
-
   useEffect(() => {
     emailRef.current?.focus();
+    localStorage.setItem('persist', true);
   }, []);
 
   useEffect(() => {
@@ -118,10 +117,6 @@ const Login = () => {
           required
         />
         <Button className={cx('login-btn')}>{t('sign_in')}</Button>
-        <div className={cx('persistCheck')}>
-          <input type="checkbox" id="persist" onChange={toggleCheck} checked={check} />
-          <label htmlFor="persist">{t('trust_this_device')}</label>
-        </div>
       </form>
       <p className={cx('need-account')}>
         {t('need_account')}

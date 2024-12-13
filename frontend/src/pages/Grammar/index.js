@@ -67,6 +67,7 @@ import Loading from '~/components/Loading';
 import Timer from '~/components/Timer';
 import QuestionsCard from '~/components/QuestionsCard';
 import { groups } from '~/redux/features/userAnswersSlice';
+import ShufflingProvider from '~/context/ShufflingProvider';
 
 const cx = classNames.bind(styles);
 
@@ -497,35 +498,37 @@ const Grammar = ({ isUser }) => {
       }
       mainChildren={
         <div className={cx('main')}>
-          {showTimer ? (
-            <Timer className={cx('timer')} onTimerChange={handleTimerChange} initialSeconds={initialTimer} />
-          ) : (
-            isPractice && (
-              <Button size="lg" className={cx('show-result-btn')} onClick={() => setIsPractice(false)}>
-                {t('showResult')}
-              </Button>
-            )
-          )}
-          <QuestionSingle
-            activeQuestionIndex={activeQuestionIndex}
-            alwaysOpen={alwaysOpen}
-            isPractice={isPractice}
-            setIsPractice={setIsPractice}
-            onReviewTest={handleReviewTest}
-            onContinueTest={handleContinueTest}
-            onStartPractice={handleStartPractice}
-            isEnableExplainText={true}
-            isEnableQuestionText={true}
-            isQuestionsLoading={isQuestionsLoading}
-            questions={questions}
-            quote={'quote5'}
-            quantityOfAnswersPerQuestion={4}
-            quantityOfQuestions={20}
-            isEnableAudio={false}
-            isEnablePhoto={false}
-            isGrammar={true}
-            grammarId={grammarId}
-          />
+          <ShufflingProvider isShufflingAnswersEnabled={true} isShufflingQuestionsEnabled={true}>
+            {showTimer ? (
+              <Timer className={cx('timer')} onTimerChange={handleTimerChange} initialSeconds={initialTimer} />
+            ) : (
+              isPractice && (
+                <Button size="lg" className={cx('show-result-btn')} onClick={() => setIsPractice(false)}>
+                  {t('showResult')}
+                </Button>
+              )
+            )}
+            <QuestionSingle
+              activeQuestionIndex={activeQuestionIndex}
+              alwaysOpen={alwaysOpen}
+              isPractice={isPractice}
+              setIsPractice={setIsPractice}
+              onReviewTest={handleReviewTest}
+              onContinueTest={handleContinueTest}
+              onStartPractice={handleStartPractice}
+              isEnableExplainText={true}
+              isEnableQuestionText={true}
+              isQuestionsLoading={isQuestionsLoading}
+              questions={questions}
+              quote={'quote5'}
+              quantityOfAnswersPerQuestion={4}
+              quantityOfQuestions={20}
+              isEnableAudio={false}
+              isEnablePhoto={false}
+              isGrammar={true}
+              grammarId={grammarId}
+            />
+          </ShufflingProvider>
         </div>
       }
       isEnableBottombar={true}

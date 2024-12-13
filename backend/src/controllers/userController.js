@@ -245,6 +245,12 @@ const handleUserLogin = async (req, res) => {
 
     // save jwts to the cookie
     res.cookie('jwt', newRefreshToken, {
+      /////////////////
+      // Xóa khi build product
+      httpOnly: true,
+      sameSite: 'None',
+      secure: true,
+      ///////////////
       maxAge: 14 * 24 * 60 * 60 * 1000,
     });
     delete user.password;

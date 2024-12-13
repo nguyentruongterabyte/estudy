@@ -4,7 +4,6 @@ import classNames from 'classnames/bind';
 import logFields from '~/redux/logFields';
 import styles from './Questions.module.scss';
 import ErrorFieldsProvider from '~/context/ErrorFieldsProvider';
-import Quote from '~/components/Quote';
 import { useQuestions } from '~/context/QuestionsProvider';
 import { getWithExpiry } from '~/utils/localStorageUtils';
 import AddButton from '~/components/AddButton';
@@ -30,7 +29,6 @@ const Questions = ({
   className,
   data = [],
   quantityOfAnswersPerQuestion = 4,
-  quote,
   groupId,
   isAddNew,
   isEdit,
@@ -102,7 +100,6 @@ const Questions = ({
 
   return (
     <div className={cx('container', className)}>
-      {!isAddNew && !isEdit && data.length === 0 && <Quote quote={quote} className={cx('quote')} />}
       <ErrorFieldsProvider errorFields={errorFields}>
         <CustomAccordion
           alwaysOpen={alwaysOpen}
