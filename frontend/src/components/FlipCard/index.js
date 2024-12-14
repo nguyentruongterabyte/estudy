@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './FlipCard.module.scss';
-import React, { Fragment, useState, cloneElement } from 'react';
+import React, { Fragment, useState } from 'react';
 
 const cx = classNames.bind(styles);
 

@@ -12,6 +12,9 @@ const urls = {
     updatePassword: '/api/user/update-password/:id',
     deleteUser: '/api/user/delete/:id',
   },
+  level: {
+    getAll: '/api/level',
+  },
   test: {
     create: '/api/test/create',
     createBundle: '/api/test/create-bundle',
@@ -32,6 +35,7 @@ const urls = {
     update: '/api/grammar',
     delete: '/api/grammar/:grammarId',
     create: '/api/grammar',
+    getByLevelId: '/api/grammar/get-by-level-id/:levelId',
   },
 
   photo: {

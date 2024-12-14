@@ -36,6 +36,8 @@ import {
 } from '~/redux/features/vocabularyPracticeStatusesSlice';
 import Quote from '~/components/Quote';
 import { Button } from 'react-bootstrap';
+import CustomTable from '~/components/CustomTable';
+import RenderIf from '~/components/RenderIf';
 
 const cx = classNames.bind(styles);
 
@@ -52,6 +54,7 @@ const Vocabulary = ({ isUser = false }) => {
   const [isVocabulariesLoading, setIsVocabulariesLoading] = useState(false);
   const [topicId, setTopicId] = useState(active.id);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showVocabulariesTable, setShowVocabulariesTable] = useState(false);
   const [vocabulariesStr, setVocabulariesStr] = useState('');
   const debouncedValue = hooks.useDebounce(vocabulariesStr, 2000);
   const [words, setWords] = useState([]);
@@ -65,19 +68,39 @@ const Vocabulary = ({ isUser = false }) => {
   const vocabularyPracticeStatusesByTopicId = vocabularyPracticeStatuses.filter((vps) => vps.topicId === active.id);
   const showMainContent = vocabularyPracticeStatusesByTopicId.length > 0 || (!isUser && (isEdit || isAddNew));
   const isEditable = isAddNew || isEdit;
-  const { memorized, unmemorized, unanswered } = vocabularyPracticeStatusesByTopicId.reduce(
+  const {
+    memorized,
+    unmemorized,
+    unanswered,
+    memorizedVocabularyIds,
+    unmemorizedVocabularyIds,
+    unansweredVocabularyIds,
+  } = vocabularyPracticeStatusesByTopicId.reduce(
     (acc, vps) => {
       if (vps.status === statuses.memorized) {
         acc.memorized++;
+        acc.memorizedVocabularyIds.push(vps.vocabularyId);
       } else if (vps.status === statuses.unmemorized) {
         acc.unmemorized++;
+        acc.unmemorizedVocabularyIds.push(vps.vocabularyId);
       } else {
         acc.unanswered++;
+        acc.unansweredVocabularyIds.push(vps.vocabularyId);
       }
       return acc;
     },
-    { memorized: 0, unmemorized: 0, unanswered: 0 },
+    {
+      memorized: 0,
+      unmemorized: 0,
+      unanswered: 0,
+      memorizedVocabularyIds: [],
+      unmemorizedVocabularyIds: [],
+      unansweredVocabularyIds: [],
+    },
   );
+  const [practiceStatus, setPracticeStatus] = useState(statuses.memorized);
+
+  console.log(vocabularyPracticeStatuses);
 
   const { getVocabularyStatusesByUserId } = hooks.useVocaburyPracticeStatusesService();
   // handle delete vocabulary topic
@@ -139,6 +162,11 @@ const Vocabulary = ({ isUser = false }) => {
     );
 
     dispatch(updateName({ id: data.id, name: data.name }));
+  };
+
+  const handleShowVocabulariesTable = (status) => {
+    setPracticeStatus(status);
+    setShowVocabulariesTable(true);
   };
 
   const handleComplete = async () => {
@@ -290,7 +318,7 @@ const Vocabulary = ({ isUser = false }) => {
         <Fragment>
           {showMainContent ? (
             <div className={cx('main')}>
-              {isEditable && (
+              <RenderIf isTrue={isEditable}>
                 <CustomTextArea
                   rows={3}
                   isEnableUploadButton={false}
@@ -299,8 +327,7 @@ const Vocabulary = ({ isUser = false }) => {
                   isEditable={isAddNew || isEdit}
                   title="enterWordsInThisBox"
                 />
-              )}
-
+              </RenderIf>
               {isVocabulariesLoading ? <Loading /> : <Vocabularies className={cx('vocabularies')} />}
             </div>
           ) : (
@@ -313,13 +340,23 @@ const Vocabulary = ({ isUser = false }) => {
         <div className={cx('practice-status')}>
           <h2 className={cx('topic-name')}>{active.name}</h2>
           <div className={cx('group')}>
-            <Button variant="outline-info" className={cx('memorized', 'item')}>{`${memorized} ${t(
-              'memorized',
-            )}`}</Button>
-            <Button variant="outline-danger" className={cx('unmemorized', 'item')}>
+            <Button
+              onClick={() => handleShowVocabulariesTable(statuses.memorized)}
+              variant="outline-info"
+              className={cx('memorized', 'item')}
+            >{`${memorized} ${t('memorized')}`}</Button>
+            <Button
+              onClick={() => handleShowVocabulariesTable(statuses.unmemorized)}
+              variant="outline-danger"
+              className={cx('unmemorized', 'item')}
+            >
               {`${unmemorized} ${t('unmemorized')}`}
             </Button>
-            <Button variant="outline-secondary" className={cx('unanswered', 'item')}>
+            <Button
+              onClick={() => handleShowVocabulariesTable(statuses.unanswered)}
+              variant="outline-secondary"
+              className={cx('unanswered', 'item')}
+            >
               {`${unanswered} ${t('unanswered')}`}
             </Button>
           </div>
@@ -327,18 +364,54 @@ const Vocabulary = ({ isUser = false }) => {
       }
       modalData={[
         {
-          title: 'cancelEdit',
-          body: 'confirmCancelEdit',
+          title: t('cancelEdit'),
+          body: t('confirmCancelEdit'),
           show: showAskCancel,
           setShow: setShowAskCancel,
           handleAgreeButtonClick: handleCancel,
         },
         {
-          title: 'deleteQuestionGroup',
-          body: 'confirmDeleteQuestionGroup',
+          title: t('deleteQuestionGroup'),
+          body: t('confirmDeleteQuestionGroup'),
           show: showDeleteModal,
           setShow: setShowDeleteModal,
           handleAgreeButtonClick: handleDeleteVocabularyTopic,
+        },
+        {
+          title: t(
+            `${
+              practiceStatus === statuses.memorized
+                ? 'memorized'
+                : practiceStatus === statuses.unmemorized
+                ? 'unmemorized'
+                : 'unanswered'
+            }`,
+          ),
+          body: (
+            <CustomTable
+              headerTitles={[t('vocabulary'), t('pronunciation'), t('definition')]}
+              bodyRows={vocabularies
+                .filter((vocabulary) =>
+                  (practiceStatus === statuses.memorized
+                    ? memorizedVocabularyIds
+                    : practiceStatus === statuses.unmemorized
+                    ? unmemorizedVocabularyIds
+                    : unansweredVocabularyIds
+                  ).includes(vocabulary.id),
+                )
+                .map((vocabulary) => [vocabulary.word, vocabulary.pronunciation, vocabulary.definition])}
+              striped
+            />
+          ),
+          show: showVocabulariesTable,
+          setShow: setShowVocabulariesTable,
+          isEnableAgreeButton: false,
+          props: {
+            'aria-labelledby': 'contained-modal-title-vcenter',
+            centered: true,
+            fullscreen: true,
+            'data-bs-theme': 'light',
+          },
         },
       ]}
     />

@@ -19,7 +19,7 @@ import { useErrorFields } from '~/context/ErrorFieldsProvider';
 import { faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import History from '~/components/History';
 
-const cx = classNames.bind( styles );
+const cx = classNames.bind(styles);
 
 const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer, isUserSelected }) => {
   const { t } = useTranslation();
@@ -99,18 +99,19 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer
           ))}
         </ListGroup>
 
-        {isEnableExplainText && (!isUserMode || (isUserMode && isUserSelected)) && (
-          <CustomTextArea
-            className={cx('explain')}
-            value={inputValue}
-            onChange={(content) => setInputValue(content)}
-            title="transcripts"
-            isEditable={isEditable}
-            rows={4}
-            textId={`explain_${question.id}`}
-            boldWords={answers.map((answer) => answer.answer)}
-          />
-        )}
+        {isEnableExplainText &&
+          (!isUserMode || (isUserMode && isUserSelected && question?.correctAnswer?.explain.trim() !== '')) && (
+            <CustomTextArea
+              className={cx('explain')}
+              value={inputValue}
+              onChange={(content) => setInputValue(content)}
+              title="transcripts"
+              isEditable={isEditable}
+              rows={4}
+              textId={`explain_${question.id}`}
+              boldWords={answers.map((answer) => answer.answer)}
+            />
+          )}
       </div>
       {isEditable ? (
         <Fragment>
@@ -136,7 +137,6 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer
     </div>
   );
 };
-
 
 const Answer = ({ answer, index, isEditable, historyChanges, isUserAnswer, isUserSelected }) => {
   const { t } = useTranslation();

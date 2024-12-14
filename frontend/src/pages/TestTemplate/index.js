@@ -1130,15 +1130,15 @@ const TestTemplate = ({
       }
       modalData={[
         {
-          title: 'cancelEdit',
-          body: 'confirmCancelEdit',
+          title: t('cancelEdit'),
+          body: t('confirmCancelEdit'),
           show: showAskCancel,
           setShow: setShowAskCancel,
           handleAgreeButtonClick: handleCancel,
         },
         {
-          title: 'deleteQuestionGroup',
-          body: 'confirmDeleteQuestionGroup',
+          title: t('deleteQuestionGroup'),
+          body: t('confirmDeleteQuestionGroup'),
           show: showDeleteModal,
           setShow: setShowDeleteModal,
           handleAgreeButtonClick: handleDeleteQuestionGroup,

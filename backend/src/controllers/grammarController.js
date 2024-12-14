@@ -77,9 +77,27 @@ const handleGetAll = async (req, res) => {
   }
 };
 
+const handleGetByLevelId = async (req, res) => {
+  const { levelId } = req.params;
+  try {
+    const grammars = await grammarService.getByLevelId(levelId);
+    res.json({
+      errCode: 0,
+      errMessage: 'OK',
+      data: grammars,
+    });
+  } catch (error) {
+    res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
 export default {
   handleSave,
   handleGetAll,
   handleDelete,
   handleUpdate,
+  handleGetByLevelId,
 };

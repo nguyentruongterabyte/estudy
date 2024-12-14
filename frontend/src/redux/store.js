@@ -8,6 +8,7 @@ import vocabulariesReducer from './features/vocabulariesSlice';
 import vocabularyPracticeStatusesReducer from './features/vocabularyPracticeStatusesSlice';
 import grammarsReducer from './features/grammarsSlice';
 import accountsReducer from './features/accountsSlice';
+import levelsReducer from './features/levelsSlice';
 export const store = configureStore({
   reducer: {
     accounts: accountsReducer,
@@ -19,6 +20,7 @@ export const store = configureStore({
     vocabularies: vocabulariesReducer,
     vocabularyPracticeStatuses: vocabularyPracticeStatusesReducer,
     grammars: grammarsReducer,
+    levels: levelsReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });

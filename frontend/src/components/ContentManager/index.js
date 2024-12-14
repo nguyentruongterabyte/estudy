@@ -110,11 +110,13 @@ const ContentManager = ({
         {modalData.map((modal, index) => (
           <CustomModal
             key={index}
-            title={t(modal.title)}
-            body={t(modal.body)}
+            title={modal.title}
+            body={modal.body}
             show={modal.show}
             setShow={modal.setShow || fn}
             handleAgreeButtonClick={modal.handleAgreeButtonClick || fn}
+            isEnableAgreeButton={modal.isEnableAgreeButton}
+            {...modal.props}
           />
         ))}
         <ToastContainer stacked draggable />

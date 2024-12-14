@@ -62,10 +62,25 @@ const getAll = () => {
   });
 };
 
+const getByLevelId = (levelId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const grammars = await db.Grammar.findAll({
+        where: { levelId },
+        attributes: ['id', 'name'],
+      } );
+      resolve(grammars)
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 export default {
   save,
   get,
   destroy,
   update,
   getAll,
+  getByLevelId,
 };

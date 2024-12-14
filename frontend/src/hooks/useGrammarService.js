@@ -43,7 +43,19 @@ const useGrammarService = () => {
     }
   };
 
-  return { saveGrammar, updateGrammar, destroyGrammar, getAllGrammars };
+  // get by level id
+  const getGrammarsByLevelId = async (levelId) => {
+    try {
+      const response = await axiosPrivate.get(`${config.urls.grammar.getByLevelId}/${levelId}`);
+
+      const grammars = response?.data?.data;
+      return grammars;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  return { saveGrammar, updateGrammar, destroyGrammar, getAllGrammars, getGrammarsByLevelId };
 };
 
 export default useGrammarService;

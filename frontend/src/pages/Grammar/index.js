@@ -68,6 +68,8 @@ import Timer from '~/components/Timer';
 import QuestionsCard from '~/components/QuestionsCard';
 import { groups } from '~/redux/features/userAnswersSlice';
 import ShufflingProvider from '~/context/ShufflingProvider';
+import shuffleArray from '~/utils/shuffleArray';
+import { activeLevel, changeLevels, levelList, toggleActiveLevel } from '~/redux/features/levelsSlice';
 
 const cx = classNames.bind(styles);
 
@@ -107,7 +109,7 @@ const Grammar = ({ isUser }) => {
   const { updateQuestionGroup } = hooks.useQuestionGroupService();
   const { createTest } = hooks.useTestService();
   const newQuestionGroup = hooks.useNewQuestionGroup();
-  const { getAllGrammars, destroyGrammar } = hooks.useGrammarService();
+  const { destroyGrammar, getGrammarsByLevelId } = hooks.useGrammarService();
   const { deleteTest } = hooks.useTestService();
   const [grammarId, setGrammarId] = useState(activeGrammar.id);
   const [showTimer, setShowTimer] = useState(false);
@@ -118,6 +120,9 @@ const Grammar = ({ isUser }) => {
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(-1);
   const userAnswers = useSelector(groups);
   const { createTestTimer } = hooks.useTestTimerService();
+  const { getAllLevels } = hooks.useLevelService();
+  const levels = useSelector(levelList);
+  const level = useSelector(activeLevel);
 
   const handleActiveQuestion = (questionIndex) => {
     setActiveQuestionIndex(questionIndex);
@@ -140,7 +145,7 @@ const Grammar = ({ isUser }) => {
 
   // save timer
   const handleTimerChange = (secondsElapsed) => {
-    if (secondsElapsed !== 0) {
+    if (secondsElapsed !== 0 && isPractice) {
       saveTimer(groupId, secondsElapsed);
     }
   };
@@ -159,10 +164,16 @@ const Grammar = ({ isUser }) => {
     return questionGroups;
   };
 
+  // fetch levels
+  const fetchLevels = async () => {
+    const levels = await getAllLevels();
+    return levels;
+  };
+
   // fetch grammars
-  const fetchGrammars = async () => {
+  const fetchGrammars = async (levelId) => {
     setIsGrammarLoading(true);
-    const grammars = await getAllGrammars();
+    const grammars = await getGrammarsByLevelId(levelId);
     setIsGrammarLoading(false);
     return grammars;
   };
@@ -173,9 +184,9 @@ const Grammar = ({ isUser }) => {
       .then((loadedQuestions) => {
         dispatch(
           changeQuestions({
-            questions: loadedQuestions.map((question) => ({
+            questions: shuffleArray(loadedQuestions).map((question) => ({
               ...question,
-              answers: question.answers.map((answer, index) => ({ ...answer, index })),
+              answers: shuffleArray(question.answers).map((answer, index) => ({ ...answer, index })),
             })),
           }),
         );
@@ -374,13 +385,21 @@ const Grammar = ({ isUser }) => {
   const handleGrammarHeaderClick = async (grammarId) => {
     if (grammarId) {
       const isFetched = questionGroups.some((qg) => qg.grammarId === grammarId);
-      console.log(isFetched);
       if (!isFetched) {
         const questionGroupsF = await fetchQuestionGroups(grammarId);
-        console.log(questionGroupsF);
         dispatch(addQuestionGroups({ questionGroups: questionGroupsF }));
       }
     }
+  };
+
+  // handle select level
+  const handleSelectChange = (e) => {
+    const selectedLevelId = parseInt(e.target.value, 10);
+    const selectedLevelData = levels.find((level) => level.id === selectedLevelId);
+    dispatch(toggleActiveLevel({ level: selectedLevelData }));
+    fetchGrammars(selectedLevelId).then((grammars) => {
+      dispatch(changeGrammars({ grammars }));
+    });
   };
 
   useEffect(() => {
@@ -431,9 +450,16 @@ const Grammar = ({ isUser }) => {
   }, [isAddNew, questions, activeGrammar.id]);
 
   useEffect(() => {
-    fetchGrammars().then((grammars) => {
-      dispatch(changeGrammars({ grammars }));
+    fetchLevels().then((levels) => {
+      dispatch(changeLevels({ levels }));
+      if (levels.length > 0 && levels[0].id) {
+        dispatch(toggleActiveLevel({ level: levels[0] }));
+        fetchGrammars(levels[0].id).then((grammars) => {
+          dispatch(changeGrammars({ grammars }));
+        });
+      }
     });
+
     // eslint-disable-next-line
   }, []);
 
@@ -475,7 +501,12 @@ const Grammar = ({ isUser }) => {
       onHeaderComplete={handleComplete}
       sidebarTitle="grammar"
       sidebarChildren={
-        <Fragment>
+        <div className={cx('sidebar')}>
+          <select className={cx('level-select')} onChange={handleSelectChange}>
+            {levels.map((lv) => (
+              <option selected={lv.id === level?.id} key={lv.id} value={lv.id}>{`${lv.code} - ${lv.name}`}</option>
+            ))}
+          </select>
           {isGrammarLoading ? (
             <Loading />
           ) : (
@@ -494,7 +525,7 @@ const Grammar = ({ isUser }) => {
               onHeaderClick={handleGrammarHeaderClick}
             />
           )}
-        </Fragment>
+        </div>
       }
       mainChildren={
         <div className={cx('main')}>
@@ -535,22 +566,22 @@ const Grammar = ({ isUser }) => {
       bottombarChildren={<QuestionsCard onActiveQuestion={handleActiveQuestion} />}
       modalData={[
         {
-          title: 'cancelEdit',
-          body: 'confirmCancelEdit',
+          title: t('cancelEdit'),
+          body: t('confirmCancelEdit'),
           show: showAskCancel,
           setShow: setShowAskCancel,
           handleAgreeButtonClick: handleCancel,
         },
         {
-          title: 'deleteQuestionGroup',
-          body: 'confirmDeleteQuestionGroup',
+          title: t('deleteQuestionGroup'),
+          body: t('confirmDeleteQuestionGroup'),
           show: showDeleteQuestionGroupModal,
           setShow: setShowDeleteQuestionGroupModal,
           handleAgreeButtonClick: handleDeleteQuestionGroup,
         },
         {
-          title: 'deleteGrammar',
-          body: 'confirmDeleteGrammar',
+          title: t('deleteGrammar'),
+          body: t('confirmDeleteGrammar'),
           show: showDeleteGrammarModal,
           setShow: setShowDeleteGrammarModal,
           handleAgreeButtonClick: handleDeleteGrammar,
@@ -582,6 +613,7 @@ const GrammarAccordion = ({
   const [inputValue, setInputValue] = useState(newGrammar.name);
   const debouncedValue = hooks.useDebounce(inputValue, 300);
   const { saveGrammar } = hooks.useGrammarService();
+  const level = useSelector( activeLevel );
 
   // handle cancel add new
   const handleCancelAddNew = () => {
@@ -598,7 +630,7 @@ const GrammarAccordion = ({
 
   // handle add new grammar
   const handleAddNewGrammar = async () => {
-    const data = await saveGrammar({ name: inputValue });
+    const data = await saveGrammar({ name: inputValue, levelId: level.id });
     dispatch(deleteGrammar({ grammarId: newGrammar.id }));
     dispatch(addGrammar({ id: data.id, name: data.name }));
     dispatch(grammarToggleAddNew({ toggle: false }));
@@ -690,16 +722,16 @@ const GrammarHeader = ({ data, onDelete = fn, onHeaderClick = fn }) => {
   const { updateGrammar } = hooks.useGrammarService();
 
   // handle delete grammar
-  const handleDeleteGrammar = (e, grammarId) => {
+  const handleDeleteGrammar = (e) => {
     e.stopPropagation();
-    onDelete(grammarId);
+    onDelete(data.id);
   };
 
   // handle toggle edit
-  const handleEdit = (e, grammarId, name) => {
+  const handleEdit = (e) => {
     e.stopPropagation();
     dispatch(grammarToggleEdit({ toggle: true }));
-    dispatch(grammarSetActive({ id: grammarId, name }));
+    dispatch(grammarSetActive({ id: data.id, name: data.name }));
   };
 
   const handleComplete = async () => {
@@ -730,7 +762,10 @@ const GrammarHeader = ({ data, onDelete = fn, onHeaderClick = fn }) => {
           isComplete={isComplete}
           inputValue={inputValue}
           setInputValue={setInputValue}
-          onCancel={() => dispatch(grammarToggleEdit({ toggle: false }))}
+          onCancel={() => {
+            dispatch(grammarToggleEdit({ toggle: false }));
+            dispatch(grammarUpdateName({ id: activeGrammar.id, name: activeGrammar.name }));
+          }}
           onComplete={handleComplete}
         />
       ) : (
@@ -738,20 +773,10 @@ const GrammarHeader = ({ data, onDelete = fn, onHeaderClick = fn }) => {
       )}
       {!(isUserMode || isEdit || isAddNew || isGrammarAddNew || isGrammarEdit) && (
         <div className={cx('button-group')}>
-          <Button
-            onClick={(e) => handleEdit(e, data.id, data.name)}
-            className={cx('edit-button')}
-            size="lg"
-            variant="success"
-          >
+          <Button onClick={(e) => handleEdit(e)} className={cx('edit-button')} size="lg" variant="success">
             <FontAwesomeIcon icon={faPencil} />
           </Button>
-          <Button
-            onClick={(e) => handleDeleteGrammar(e, data.id)}
-            className={cx('delete-button')}
-            size="lg"
-            variant="danger"
-          >
+          <Button onClick={(e) => handleDeleteGrammar(e)} className={cx('delete-button')} size="lg" variant="danger">
             <FontAwesomeIcon icon={faTrash} />
           </Button>
         </div>

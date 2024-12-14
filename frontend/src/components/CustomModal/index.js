@@ -4,14 +4,13 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './Modal.module.scss';
 
-const cx = classNames.bind( styles );
+const cx = classNames.bind(styles);
 
-const CustomModal = ({ title, body, show, setShow, handleAgreeButtonClick, ...props }) => {
+const CustomModal = ({ title, body, show, setShow, isEnableAgreeButton = true, handleAgreeButtonClick, ...props }) => {
   const { t } = useTranslation();
   return (
     <Modal
       className={cx('container')}
-      data-bs-theme="dark"
       aria-labelledby="contained-modal-title-vcenter"
       size="sm"
       centered
@@ -27,9 +26,11 @@ const CustomModal = ({ title, body, show, setShow, handleAgreeButtonClick, ...pr
         <Button className={cx('close-button')} size="lg" variant="secondary" onClick={() => setShow(false)}>
           {t('close')}
         </Button>
-        <Button className={cx('agree-button')} size="lg" variant="primary" onClick={handleAgreeButtonClick}>
-          {t('agree')}
-        </Button>
+        {isEnableAgreeButton && (
+          <Button className={cx('agree-button')} size="lg" variant="primary" onClick={handleAgreeButtonClick}>
+            {t('agree')}
+          </Button>
+        )}
       </Modal.Footer>
     </Modal>
   );

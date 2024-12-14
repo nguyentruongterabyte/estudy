@@ -1,8 +1,5 @@
-import Tippy from '@tippyjs/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
-import { Button, Form, ListGroup } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

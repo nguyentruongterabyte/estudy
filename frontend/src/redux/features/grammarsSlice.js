@@ -6,22 +6,20 @@ const initialState = {
   isAddNew: false,
   isEdit: false,
   isComplete: false,
-  active: {
-    id: -10,
-    name: 'Chào',
-  },
-  grammars: [
-    {
-      id: -10,
-      name: 'Chào',
-    },
-  ],
+  active: {},
+
+  grammars: [],
 };
 
 const grammarsSlice = createSlice({
   name: 'grammars',
   initialState,
   reducers: {
+    // change level
+    changeLevel: (state, action) => ({
+      ...state,
+      level: action.payload.level,
+    }),
     // change grammar list
     changeGrammars: (state, action) => ({
       ...state,
@@ -110,6 +108,7 @@ export const {
   updateName,
   removeChangeLogsByField,
   toggleComplete,
+  changeLevel,
 } = grammarsSlice.actions;
 
 export default grammarsSlice.reducer;

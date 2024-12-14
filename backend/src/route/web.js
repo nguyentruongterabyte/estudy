@@ -23,6 +23,7 @@ import correctAnswerController from '../controllers/correctAnswerController';
 import vocabularyPracticeStatusController from '../controllers/vocabularyPracticeStatusController';
 import grammarController from '../controllers/grammarController';
 import testTimerController from '../controllers/testTimerController';
+import levelController from '../controllers/levelController';
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -116,6 +117,9 @@ let initWebRoutes = (app) => {
 
   router.delete(urls.photo.delete, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), photoController.handleDestroy);
 
+  // level
+  router.get(urls.level.getAll, levelController.handleGetAll);
+
   // test
   router.post(urls.test.create, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveTest);
   router.post(urls.test.createBundle, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveBundleTest);
@@ -132,7 +136,7 @@ let initWebRoutes = (app) => {
     urls.testTimer.getByUserId,
     verifyJWT,
     verifyUserOwnership,
-    verifyRoles( ROLES_OBJECT.USER),
+    verifyRoles(ROLES_OBJECT.USER),
     testTimerController.handleGetByUserId,
   );
 
@@ -140,19 +144,25 @@ let initWebRoutes = (app) => {
     urls.testTimer.get,
     verifyJWT,
     verifyUserOwnership,
-    verifyRoles( ROLES_OBJECT.USER),
-    testTimerController.handleGetOne
+    verifyRoles(ROLES_OBJECT.USER),
+    testTimerController.handleGetOne,
   );
 
   router.get(
     urls.testTimer.create,
     verifyJWT,
     verifyUserOwnership,
-    verifyRoles( ROLES_OBJECT.USER),
+    verifyRoles(ROLES_OBJECT.USER),
     testTimerController.handleUpdate,
   );
 
   // Grammars
+  router.get(
+    urls.grammar.getByLevelId,
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    grammarController.handleGetByLevelId,
+  );
   router.get(
     urls.grammar.getAll,
     verifyJWT,

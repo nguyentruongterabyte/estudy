@@ -40,7 +40,7 @@
 
   .toggle-bottom-bar-button {
     --button-size: 48px;
-    z-index: 100000;
+    z-index: 1046;
     position: fixed;
     bottom: calc(var(--bottombar-height) - var(--button-size) / 2);
     padding: 0;

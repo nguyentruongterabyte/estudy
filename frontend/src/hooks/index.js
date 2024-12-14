@@ -27,6 +27,7 @@ import useUserService from './useUserService';
 import useUserId from './useUserId';
 import useUserRoles from './useUserRoles';
 import useTestTimerService from './useTestTimerService';
+import useLevelService from './useLevelService';
 
 import useNewQuestionGroup from './useNewQuestionGroup';
 const hooks = {
@@ -59,6 +60,7 @@ const hooks = {
   useUserId,
   useUserRoles,
   useTestTimerService,
+  useLevelService,
 };
 
 export default hooks;

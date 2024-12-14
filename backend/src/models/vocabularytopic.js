@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   VocabularyTopic.init(
     {
       name: DataTypes.STRING,
+      levelId: DataTypes.STRING,
     },
     {
       sequelize,
