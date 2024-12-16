@@ -327,7 +327,7 @@ CREATE TABLE `RefreshTokens` (
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   CONSTRAINT `RefreshTokens_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -336,7 +336,7 @@ CREATE TABLE `RefreshTokens` (
 
 LOCK TABLES `RefreshTokens` WRITE;
 /*!40000 ALTER TABLE `RefreshTokens` DISABLE KEYS */;
-INSERT INTO `RefreshTokens` VALUES (140,2,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzMzOTkzODk4LCJleHAiOjE3MzUyMDM0OTh9.3zuIC-h13ReglSmugceYPdUHfaH9KXNt0WnA1KPYGpw','2024-12-12 15:58:18','2024-12-12 15:58:18'),(141,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk0MDk1LCJleHAiOjE3MzUyMDM2OTV9.XCyEczbr5n_HDEAX-p0D4NsBw3GwXidGEU7LrLTj058','2024-12-12 16:01:35','2024-12-12 16:01:35'),(142,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk0MTQ0LCJleHAiOjE3MzUyMDM3NDR9.wvQDHfILsDMYeJGuQ1SmTBLEa_fBewD-LNJJIk--Mb8','2024-12-12 16:02:24','2024-12-12 16:02:24'),(143,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk0Mzc4LCJleHAiOjE3MzUyMDM5Nzh9.NbbMIk3RwD2NjqtLFAoaZZ1pNg3VF1HsYk65R1jS034','2024-12-12 16:06:18','2024-12-12 16:06:18'),(144,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk2NDQ4LCJleHAiOjE3MzUyMDYwNDh9.HaoLnOG1w3wUpCUeIvB3JfHSmtEw4u3h2EnfudxALos','2024-12-12 16:40:48','2024-12-12 16:40:48'),(145,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk2NjgwLCJleHAiOjE3MzUyMDYyODB9.C8hiHnFEk_w7ZmeIegQmTWYHg5nUUuhSv9syVo2GEqQ','2024-12-12 16:44:40','2024-12-12 16:44:40'),(146,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk2OTE3LCJleHAiOjE3MzUyMDY1MTd9.qRzA6P3hV1JXTUxvaBgk1w2dWPVK4VuJSp_oiU2no_c','2024-12-12 16:48:37','2024-12-12 16:48:37'),(147,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk3MjEyLCJleHAiOjE3MzUyMDY4MTJ9.cTQVRa5CrP8iy-262wO3iPcfthqz0dw1y8funktxOAA','2024-12-12 16:53:32','2024-12-12 16:53:32'),(148,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk3MjU5LCJleHAiOjE3MzUyMDY4NTl9.BoS-fMEwpIbVcMzI-6V2m-oD4Dpet4b0WRPXbr1vLgw','2024-12-12 16:54:19','2024-12-12 16:54:19'),(149,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk3NDI0LCJleHAiOjE3MzUyMDcwMjR9.mYQh7i85Gilwcy0HyEkhYcvFSqbIlKB0pY-ga9IMQ04','2024-12-12 16:57:04','2024-12-12 16:57:04'),(150,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk3NTAzLCJleHAiOjE3MzUyMDcxMDN9.wDKBgiV7xDbomiCjYVLw7MdoX2vutYll8aWw9R1Np68','2024-12-12 16:58:23','2024-12-12 16:58:23'),(151,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk3NjY1LCJleHAiOjE3MzUyMDcyNjV9.LGyBpcSD2_VGt1NMxkurcrbBHLV-E8Z0WCkY2WuXRqM','2024-12-12 17:01:05','2024-12-12 17:01:05'),(153,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk3ODY3LCJleHAiOjE3MzUyMDc0Njd9.MpiChbSBatzykZLTIKaOUsFMLdAs-ZREsk3UdZVIyZc','2024-12-12 17:04:27','2024-12-12 17:04:27'),(154,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM0MDA2Mzc5LCJleHAiOjE3MzUyMTU5Nzl9.Q6sNbumPq-tvVRmiDR1KzqFaf7nNZkVgV0pR57-jcsI','2024-12-12 19:26:19','2024-12-12 19:26:19'),(155,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM0MDA2NDM5LCJleHAiOjE3MzUyMTYwMzl9.PVqsdafB7KLGV_AgFiBCV82wJfPcO5yOqEqrb0BQCrw','2024-12-12 19:27:19','2024-12-12 19:27:19'),(156,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM0MDA2NjMwLCJleHAiOjE3MzUyMTYyMzB9.WLcUJjx3uvJ09k3MWz6rZgjYZhrYFsVmRbEdDvpxG8w','2024-12-12 19:30:30','2024-12-12 19:30:30'),(157,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM0MDA2NzgxLCJleHAiOjE3MzUyMTYzODF9.9NFC6J6tBw_fNbC9Lk6ts4E2oLIA9Xd52fqfzZCQgds','2024-12-12 19:33:01','2024-12-12 19:33:01'),(163,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM0MTM2OTk2LCJleHAiOjE3MzUzNDY1OTZ9.3hC8_hkXsNMuxpv02lOyl-nID8RX0v7Q7xpcQ74l-0Q','2024-12-14 07:43:16','2024-12-14 07:43:16');
+INSERT INTO `RefreshTokens` VALUES (140,2,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzMzOTkzODk4LCJleHAiOjE3MzUyMDM0OTh9.3zuIC-h13ReglSmugceYPdUHfaH9KXNt0WnA1KPYGpw','2024-12-12 15:58:18','2024-12-12 15:58:18'),(141,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk0MDk1LCJleHAiOjE3MzUyMDM2OTV9.XCyEczbr5n_HDEAX-p0D4NsBw3GwXidGEU7LrLTj058','2024-12-12 16:01:35','2024-12-12 16:01:35'),(142,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk0MTQ0LCJleHAiOjE3MzUyMDM3NDR9.wvQDHfILsDMYeJGuQ1SmTBLEa_fBewD-LNJJIk--Mb8','2024-12-12 16:02:24','2024-12-12 16:02:24'),(143,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk0Mzc4LCJleHAiOjE3MzUyMDM5Nzh9.NbbMIk3RwD2NjqtLFAoaZZ1pNg3VF1HsYk65R1jS034','2024-12-12 16:06:18','2024-12-12 16:06:18'),(144,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk2NDQ4LCJleHAiOjE3MzUyMDYwNDh9.HaoLnOG1w3wUpCUeIvB3JfHSmtEw4u3h2EnfudxALos','2024-12-12 16:40:48','2024-12-12 16:40:48'),(145,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk2NjgwLCJleHAiOjE3MzUyMDYyODB9.C8hiHnFEk_w7ZmeIegQmTWYHg5nUUuhSv9syVo2GEqQ','2024-12-12 16:44:40','2024-12-12 16:44:40'),(146,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk2OTE3LCJleHAiOjE3MzUyMDY1MTd9.qRzA6P3hV1JXTUxvaBgk1w2dWPVK4VuJSp_oiU2no_c','2024-12-12 16:48:37','2024-12-12 16:48:37'),(147,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk3MjEyLCJleHAiOjE3MzUyMDY4MTJ9.cTQVRa5CrP8iy-262wO3iPcfthqz0dw1y8funktxOAA','2024-12-12 16:53:32','2024-12-12 16:53:32'),(148,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk3MjU5LCJleHAiOjE3MzUyMDY4NTl9.BoS-fMEwpIbVcMzI-6V2m-oD4Dpet4b0WRPXbr1vLgw','2024-12-12 16:54:19','2024-12-12 16:54:19'),(149,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk3NDI0LCJleHAiOjE3MzUyMDcwMjR9.mYQh7i85Gilwcy0HyEkhYcvFSqbIlKB0pY-ga9IMQ04','2024-12-12 16:57:04','2024-12-12 16:57:04'),(150,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk3NTAzLCJleHAiOjE3MzUyMDcxMDN9.wDKBgiV7xDbomiCjYVLw7MdoX2vutYll8aWw9R1Np68','2024-12-12 16:58:23','2024-12-12 16:58:23'),(151,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk3NjY1LCJleHAiOjE3MzUyMDcyNjV9.LGyBpcSD2_VGt1NMxkurcrbBHLV-E8Z0WCkY2WuXRqM','2024-12-12 17:01:05','2024-12-12 17:01:05'),(153,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzMzOTk3ODY3LCJleHAiOjE3MzUyMDc0Njd9.MpiChbSBatzykZLTIKaOUsFMLdAs-ZREsk3UdZVIyZc','2024-12-12 17:04:27','2024-12-12 17:04:27'),(154,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM0MDA2Mzc5LCJleHAiOjE3MzUyMTU5Nzl9.Q6sNbumPq-tvVRmiDR1KzqFaf7nNZkVgV0pR57-jcsI','2024-12-12 19:26:19','2024-12-12 19:26:19'),(155,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM0MDA2NDM5LCJleHAiOjE3MzUyMTYwMzl9.PVqsdafB7KLGV_AgFiBCV82wJfPcO5yOqEqrb0BQCrw','2024-12-12 19:27:19','2024-12-12 19:27:19'),(156,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM0MDA2NjMwLCJleHAiOjE3MzUyMTYyMzB9.WLcUJjx3uvJ09k3MWz6rZgjYZhrYFsVmRbEdDvpxG8w','2024-12-12 19:30:30','2024-12-12 19:30:30'),(157,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM0MDA2NzgxLCJleHAiOjE3MzUyMTYzODF9.9NFC6J6tBw_fNbC9Lk6ts4E2oLIA9Xd52fqfzZCQgds','2024-12-12 19:33:01','2024-12-12 19:33:01'),(167,1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzM0MzIyMjI5LCJleHAiOjE3MzU1MzE4Mjl9.9OWTE4hFhfCFglZZM7FpQ7Rnf0rNkrkGX1x_fkjH0Xc','2024-12-16 11:10:29','2024-12-16 11:10:29');
 /*!40000 ALTER TABLE `RefreshTokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -365,7 +365,7 @@ CREATE TABLE `RoleDetails` (
 
 LOCK TABLES `RoleDetails` WRITE;
 /*!40000 ALTER TABLE `RoleDetails` DISABLE KEYS */;
-INSERT INTO `RoleDetails` VALUES (1,30001,'2024-11-18 22:45:56','2024-11-18 22:45:56'),(1,52456,'2024-11-18 22:45:56','2024-11-18 22:45:56'),(1,78643,'2024-11-18 22:45:56','2024-11-18 22:45:56'),(2,30001,'2024-11-27 17:38:59','2024-11-27 17:38:59'),(6,30001,'2024-12-09 15:30:19','2024-12-09 15:30:19'),(6,78643,'2024-12-09 15:30:19','2024-12-09 15:30:19');
+INSERT INTO `RoleDetails` VALUES (1,30001,'2024-11-18 22:45:56','2024-11-18 22:45:56'),(1,52456,'2024-11-18 22:45:56','2024-11-18 22:45:56'),(1,78643,'2024-11-18 22:45:56','2024-11-18 22:45:56'),(2,30001,'2024-11-27 17:38:59','2024-11-27 17:38:59'),(6,30001,'2024-12-09 15:30:19','2024-12-09 15:30:19'),(6,78643,'2024-12-09 15:30:19','2024-12-09 15:30:19'),(7,30001,'2024-12-16 10:41:29','2024-12-16 10:41:29');
 /*!40000 ALTER TABLE `RoleDetails` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -443,7 +443,7 @@ CREATE TABLE `TestTimers` (
 
 LOCK TABLES `TestTimers` WRITE;
 /*!40000 ALTER TABLE `TestTimers` DISABLE KEYS */;
-INSERT INTO `TestTimers` VALUES (23,1,51,'2024-12-11 11:02:12','2024-12-12 22:50:58'),(24,1,16,'2024-12-11 12:00:53','2024-12-11 17:39:02'),(36,1,308,'2024-12-13 08:48:20','2024-12-13 08:48:24'),(37,1,16,'2024-12-11 12:56:03','2024-12-11 17:38:12'),(41,1,14,'2024-12-11 17:39:38','2024-12-11 17:39:38'),(23,2,25,'2024-12-11 12:03:24','2024-12-11 12:40:05'),(24,2,28,'2024-12-11 12:04:15','2024-12-11 12:41:29'),(37,2,15,'2024-12-11 12:05:08','2024-12-11 12:22:53'),(41,2,18,'2024-12-11 12:05:31','2024-12-11 13:18:05');
+INSERT INTO `TestTimers` VALUES (23,1,22,'2024-12-11 11:02:12','2024-12-15 07:56:59'),(24,1,16,'2024-12-11 12:00:53','2024-12-11 17:39:02'),(36,1,308,'2024-12-13 08:48:20','2024-12-13 08:48:24'),(37,1,16,'2024-12-11 12:56:03','2024-12-11 17:38:12'),(41,1,14,'2024-12-11 17:39:38','2024-12-11 17:39:38'),(23,2,25,'2024-12-11 12:03:24','2024-12-11 12:40:05'),(24,2,28,'2024-12-11 12:04:15','2024-12-11 12:41:29'),(37,2,15,'2024-12-11 12:05:08','2024-12-11 12:22:53'),(41,2,18,'2024-12-11 12:05:31','2024-12-11 13:18:05'),(23,7,21,'2024-12-16 10:42:37','2024-12-16 10:42:37');
 /*!40000 ALTER TABLE `TestTimers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -475,7 +475,7 @@ CREATE TABLE `UserAnswers` (
 
 LOCK TABLES `UserAnswers` WRITE;
 /*!40000 ALTER TABLE `UserAnswers` DISABLE KEYS */;
-INSERT INTO `UserAnswers` VALUES (1,130,496,'2024-12-13 00:20:24','2024-12-13 00:20:24'),(1,140,538,'2024-12-13 00:18:36','2024-12-13 00:18:36'),(1,224,856,'2024-12-01 01:24:56','2024-12-01 01:24:56'),(1,225,861,'2024-12-01 01:26:32','2024-12-01 01:26:32'),(1,226,865,'2024-12-01 01:26:51','2024-12-01 01:26:51'),(1,227,870,'2024-12-01 01:27:28','2024-12-01 01:27:28'),(1,228,876,'2024-12-10 20:02:23','2024-12-10 20:02:23'),(1,229,881,'2024-12-10 20:02:46','2024-12-10 20:02:46'),(1,230,872,'2024-12-10 20:03:00','2024-12-10 20:03:00'),(1,240,924,'2024-12-13 00:27:08','2024-12-13 00:27:08'),(1,254,977,'2024-12-13 00:27:40','2024-12-13 00:27:40'),(1,255,983,'2024-12-13 08:48:20','2024-12-13 08:48:20'),(1,256,985,'2024-12-13 00:29:30','2024-12-13 00:29:30'),(1,257,989,'2024-12-13 08:46:59','2024-12-13 08:46:59'),(1,258,994,'2024-12-13 08:48:09','2024-12-13 08:48:09'),(1,259,1000,'2024-12-13 00:29:25','2024-12-13 00:29:25'),(1,260,1005,'2024-12-13 00:27:44','2024-12-13 00:27:44'),(1,261,999,'2024-12-13 08:47:18','2024-12-13 08:47:18'),(1,262,1009,'2024-12-13 08:48:13','2024-12-13 08:48:13'),(1,263,1014,'2024-12-13 00:30:55','2024-12-13 00:30:55'),(1,264,1016,'2024-12-13 00:29:34','2024-12-13 00:29:34'),(1,265,1021,'2024-12-13 00:28:00','2024-12-13 00:28:00'),(1,266,1030,'2024-12-13 00:30:35','2024-12-13 00:30:35'),(1,267,1025,'2024-12-13 08:48:15','2024-12-13 08:48:15'),(1,268,1032,'2024-12-13 00:29:38','2024-12-13 00:29:38'),(1,269,1037,'2024-12-13 08:47:51','2024-12-13 08:47:51'),(1,279,1066,'2024-12-13 00:23:24','2024-12-13 00:23:24'),(1,280,1071,'2024-12-13 00:23:41','2024-12-13 00:23:41'),(1,281,1074,'2024-12-13 00:24:04','2024-12-13 00:24:04'),(1,338,1300,'2024-12-13 09:03:52','2024-12-13 09:03:52'),(1,339,1305,'2024-12-13 09:04:18','2024-12-13 09:04:18'),(1,340,1308,'2024-12-13 09:04:44','2024-12-13 09:04:44'),(1,341,1313,'2024-12-13 09:04:48','2024-12-13 09:04:48'),(1,344,1325,'2024-12-13 09:09:54','2024-12-13 09:09:54'),(1,352,1357,'2024-12-13 09:10:06','2024-12-13 09:10:06'),(1,353,1360,'2024-12-13 09:09:59','2024-12-13 09:09:59'),(2,152,568,'2024-12-11 12:39:46','2024-12-11 12:39:46'),(2,153,574,'2024-12-11 12:39:49','2024-12-11 12:39:49'),(2,154,584,'2024-12-11 12:39:52','2024-12-11 12:39:52'),(2,155,577,'2024-12-11 12:39:54','2024-12-11 12:39:54'),(2,156,583,'2024-12-11 12:39:59','2024-12-11 12:39:59'),(2,157,591,'2024-12-11 12:40:05','2024-12-11 12:40:05'),(2,158,592,'2024-12-11 12:41:05','2024-12-11 12:41:05'),(2,159,597,'2024-12-11 12:41:08','2024-12-11 12:41:08'),(2,160,604,'2024-12-11 12:41:11','2024-12-11 12:41:11'),(2,161,608,'2024-12-11 12:41:15','2024-12-11 12:41:15'),(2,162,601,'2024-12-11 12:41:29','2024-12-11 12:41:29'),(2,163,612,'2024-12-11 12:41:17','2024-12-11 12:41:17'),(2,224,856,'2024-12-01 18:18:07','2024-12-01 18:18:07'),(2,225,862,'2024-12-01 18:19:40','2024-12-01 18:19:40'),(2,273,1040,'2024-12-11 12:22:40','2024-12-11 12:22:40'),(2,274,1045,'2024-12-11 12:22:42','2024-12-11 12:22:42'),(2,275,1048,'2024-12-11 12:22:45','2024-12-11 12:22:45'),(2,276,1052,'2024-12-11 12:22:48','2024-12-11 12:22:48'),(2,277,1058,'2024-12-11 12:22:50','2024-12-11 12:22:50'),(2,278,1060,'2024-12-11 12:22:53','2024-12-11 12:22:53'),(2,357,1376,'2024-12-11 12:05:15','2024-12-11 12:05:15'),(2,358,1381,'2024-12-11 12:05:18','2024-12-11 12:05:18'),(2,359,1384,'2024-12-11 12:05:20','2024-12-11 12:05:20'),(2,360,1388,'2024-12-11 12:05:23','2024-12-11 12:05:23'),(2,361,1394,'2024-12-11 12:05:28','2024-12-11 12:05:28'),(2,362,1396,'2024-12-11 12:05:31','2024-12-11 12:05:31');
+INSERT INTO `UserAnswers` VALUES (1,130,496,'2024-12-13 00:20:24','2024-12-13 00:20:24'),(1,140,538,'2024-12-13 00:18:36','2024-12-13 00:18:36'),(1,152,569,'2024-12-15 07:56:55','2024-12-15 07:56:55'),(1,153,574,'2024-12-15 07:56:40','2024-12-15 07:56:40'),(1,154,584,'2024-12-15 07:56:50','2024-12-15 07:56:50'),(1,155,577,'2024-12-15 07:56:47','2024-12-15 07:56:47'),(1,156,581,'2024-12-15 07:56:59','2024-12-15 07:56:59'),(1,157,591,'2024-12-15 07:56:45','2024-12-15 07:56:45'),(1,224,856,'2024-12-01 01:24:56','2024-12-01 01:24:56'),(1,225,861,'2024-12-01 01:26:32','2024-12-01 01:26:32'),(1,226,865,'2024-12-01 01:26:51','2024-12-01 01:26:51'),(1,227,870,'2024-12-01 01:27:28','2024-12-01 01:27:28'),(1,228,876,'2024-12-10 20:02:23','2024-12-10 20:02:23'),(1,229,881,'2024-12-10 20:02:46','2024-12-10 20:02:46'),(1,230,872,'2024-12-10 20:03:00','2024-12-10 20:03:00'),(1,240,924,'2024-12-13 00:27:08','2024-12-13 00:27:08'),(1,254,977,'2024-12-13 00:27:40','2024-12-13 00:27:40'),(1,255,983,'2024-12-13 08:48:20','2024-12-13 08:48:20'),(1,256,985,'2024-12-13 00:29:30','2024-12-13 00:29:30'),(1,257,989,'2024-12-13 08:46:59','2024-12-13 08:46:59'),(1,258,994,'2024-12-13 08:48:09','2024-12-13 08:48:09'),(1,259,1000,'2024-12-13 00:29:25','2024-12-13 00:29:25'),(1,260,1005,'2024-12-13 00:27:44','2024-12-13 00:27:44'),(1,261,999,'2024-12-13 08:47:18','2024-12-13 08:47:18'),(1,262,1009,'2024-12-13 08:48:13','2024-12-13 08:48:13'),(1,263,1014,'2024-12-13 00:30:55','2024-12-13 00:30:55'),(1,264,1016,'2024-12-13 00:29:34','2024-12-13 00:29:34'),(1,265,1021,'2024-12-13 00:28:00','2024-12-13 00:28:00'),(1,266,1030,'2024-12-13 00:30:35','2024-12-13 00:30:35'),(1,267,1025,'2024-12-13 08:48:15','2024-12-13 08:48:15'),(1,268,1032,'2024-12-13 00:29:38','2024-12-13 00:29:38'),(1,269,1037,'2024-12-13 08:47:51','2024-12-13 08:47:51'),(1,279,1066,'2024-12-13 00:23:24','2024-12-13 00:23:24'),(1,280,1071,'2024-12-13 00:23:41','2024-12-13 00:23:41'),(1,281,1074,'2024-12-13 00:24:04','2024-12-13 00:24:04'),(1,338,1300,'2024-12-13 09:03:52','2024-12-13 09:03:52'),(1,339,1305,'2024-12-13 09:04:18','2024-12-13 09:04:18'),(1,340,1308,'2024-12-13 09:04:44','2024-12-13 09:04:44'),(1,341,1313,'2024-12-13 09:04:48','2024-12-13 09:04:48'),(1,344,1325,'2024-12-13 09:09:54','2024-12-13 09:09:54'),(1,352,1357,'2024-12-13 09:10:06','2024-12-13 09:10:06'),(1,353,1360,'2024-12-13 09:09:59','2024-12-13 09:09:59'),(2,152,568,'2024-12-11 12:39:46','2024-12-11 12:39:46'),(2,153,574,'2024-12-11 12:39:49','2024-12-11 12:39:49'),(2,154,584,'2024-12-11 12:39:52','2024-12-11 12:39:52'),(2,155,577,'2024-12-11 12:39:54','2024-12-11 12:39:54'),(2,156,583,'2024-12-11 12:39:59','2024-12-11 12:39:59'),(2,157,591,'2024-12-11 12:40:05','2024-12-11 12:40:05'),(2,158,592,'2024-12-11 12:41:05','2024-12-11 12:41:05'),(2,159,597,'2024-12-11 12:41:08','2024-12-11 12:41:08'),(2,160,604,'2024-12-11 12:41:11','2024-12-11 12:41:11'),(2,161,608,'2024-12-11 12:41:15','2024-12-11 12:41:15'),(2,162,601,'2024-12-11 12:41:29','2024-12-11 12:41:29'),(2,163,612,'2024-12-11 12:41:17','2024-12-11 12:41:17'),(2,224,856,'2024-12-01 18:18:07','2024-12-01 18:18:07'),(2,225,862,'2024-12-01 18:19:40','2024-12-01 18:19:40'),(2,273,1040,'2024-12-11 12:22:40','2024-12-11 12:22:40'),(2,274,1045,'2024-12-11 12:22:42','2024-12-11 12:22:42'),(2,275,1048,'2024-12-11 12:22:45','2024-12-11 12:22:45'),(2,276,1052,'2024-12-11 12:22:48','2024-12-11 12:22:48'),(2,277,1058,'2024-12-11 12:22:50','2024-12-11 12:22:50'),(2,278,1060,'2024-12-11 12:22:53','2024-12-11 12:22:53'),(2,357,1376,'2024-12-11 12:05:15','2024-12-11 12:05:15'),(2,358,1381,'2024-12-11 12:05:18','2024-12-11 12:05:18'),(2,359,1384,'2024-12-11 12:05:20','2024-12-11 12:05:20'),(2,360,1388,'2024-12-11 12:05:23','2024-12-11 12:05:23'),(2,361,1394,'2024-12-11 12:05:28','2024-12-11 12:05:28'),(2,362,1396,'2024-12-11 12:05:31','2024-12-11 12:05:31'),(7,152,568,'2024-12-16 10:42:33','2024-12-16 10:42:33'),(7,153,573,'2024-12-16 10:42:30','2024-12-16 10:42:30'),(7,154,584,'2024-12-16 10:42:18','2024-12-16 10:42:18'),(7,155,576,'2024-12-16 10:42:27','2024-12-16 10:42:27'),(7,156,582,'2024-12-16 10:42:24','2024-12-16 10:42:24'),(7,157,591,'2024-12-16 10:42:37','2024-12-16 10:42:37');
 /*!40000 ALTER TABLE `UserAnswers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -499,7 +499,7 @@ CREATE TABLE `Users` (
   PRIMARY KEY (`id`),
   KEY `Users_photoId_foreign_idx` (`photoId`),
   CONSTRAINT `Users_photoId_foreign_idx` FOREIGN KEY (`photoId`) REFERENCES `Photos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -508,7 +508,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'Trưởng','Nguyễn','nguyenthaitruong1223@gmail.com','$2b$10$gLwEFveIMwf0mtkH5L87c.x2kK2nRSiOUrkH478VRlhMkKm17ruLW','0948915051','2024-11-18 22:45:56','2024-12-09 08:52:58',174),(2,NULL,NULL,'nguyenthaitruong.entertainment@gmail.com','$2b$10$2f/HVf9J/6F0vxYJlfD/4uamT6Va6DdCLxCzDxFrLYN6dF.2eSDRS',NULL,'2024-11-27 17:38:59','2024-11-27 17:38:59',NULL),(6,'Thái Trưởng','Nguyễn','nguyenthaitruong.entertainment1@gmail.com','$2b$10$3ODgoCIRJCWJsCCtEd7mP.J8qTkzDRqRp20CmSEX37dAmA1hOOvrS','0948915051','2024-12-09 15:30:19','2024-12-09 17:37:04',NULL);
+INSERT INTO `Users` VALUES (1,'Trưởng','Nguyễn','nguyenthaitruong1223@gmail.com','$2b$10$gLwEFveIMwf0mtkH5L87c.x2kK2nRSiOUrkH478VRlhMkKm17ruLW','0948915051','2024-11-18 22:45:56','2024-12-09 08:52:58',174),(2,NULL,NULL,'nguyenthaitruong.entertainment@gmail.com','$2b$10$2f/HVf9J/6F0vxYJlfD/4uamT6Va6DdCLxCzDxFrLYN6dF.2eSDRS',NULL,'2024-11-27 17:38:59','2024-11-27 17:38:59',NULL),(6,'Thái Trưởng','Nguyễn','nguyenthaitruong.entertainment1@gmail.com','$2b$10$3ODgoCIRJCWJsCCtEd7mP.J8qTkzDRqRp20CmSEX37dAmA1hOOvrS','0948915051','2024-12-09 15:30:19','2024-12-09 17:37:04',NULL),(7,'Sinh viên','PTIT','n20dccn083@student.ptithcm.edu.vn','$2b$10$lDBu.oiNMqJGhfvKk0lpmeFpadoHWdCucP/PMjqeUbvWzh27VHvxG','0948915051','2024-12-16 10:41:29','2024-12-16 10:42:07',NULL);
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -602,7 +602,7 @@ CREATE TABLE `VocabularyTopics` (
 
 LOCK TABLES `VocabularyTopics` WRITE;
 /*!40000 ALTER TABLE `VocabularyTopics` DISABLE KEYS */;
-INSERT INTO `VocabularyTopics` VALUES (5,'Marketing','2024-11-30 18:01:51','2024-11-30 21:00:44',NULL),(6,'Warranties','2024-11-30 18:42:37','2024-11-30 18:42:37',NULL);
+INSERT INTO `VocabularyTopics` VALUES (5,'Marketing','2024-11-30 18:01:51','2024-11-30 21:00:44',1),(6,'Warranties','2024-11-30 18:42:37','2024-11-30 18:42:37',1);
 /*!40000 ALTER TABLE `VocabularyTopics` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -613,6 +613,206 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'estudy'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `GetAverageTimePerDay` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `GetAverageTimePerDay`()
+BEGIN
+	DROP TEMPORARY TABLE IF EXISTS TempAverageTimePerDay;
+    -- Tạo bảng tạm để lưu kết quả
+    CREATE TEMPORARY TABLE TempAverageTimePerDay (
+        testDate DATE,
+        averageTime DOUBLE,
+        totalElapsedTime DOUBLE,
+        userCount INT
+    );
+
+    -- Tính toán thời gian làm bài trung bình, tổng thời gian và số người dùng theo ngày
+    INSERT INTO TempAverageTimePerDay (testDate, averageTime, totalElapsedTime, userCount)
+    SELECT
+        DATE(updatedAt) AS testDate,
+        AVG(secondsElapsed) AS averageTime,
+        SUM(secondsElapsed) AS totalElapsedTime,
+        COUNT(DISTINCT userId) AS userCount
+    FROM
+        TestTimers
+    GROUP BY
+        DATE(updatedAt)
+    ORDER BY
+        testDate;
+
+    -- Trả kết quả cho người dùng
+    SELECT * FROM TempAverageTimePerDay;
+
+    -- Xóa bảng tạm để giải phóng bộ nhớ
+    DROP TEMPORARY TABLE TempAverageTimePerDay;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetTopUsersByGrammar` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `GetTopUsersByGrammar`(
+	IN grammarId INT,       -- ID của Part
+    IN topUsers INT      -- Số lượng user cần lấy
+)
+BEGIN
+	-- Khai báo biến
+	DECLARE totalQuestions INT;
+
+	-- Tạm thời lưu kết quả vào bảng tạm để dễ xử lý
+	DROP TEMPORARY TABLE IF EXISTS UserRankings;
+    CREATE TEMPORARY TABLE UserRankings (
+        userId INT,
+        firstName VARCHAR(50),
+        lastName VARCHAR(30),
+        email VARCHAR(255),
+        groupId INT,
+        groupName VARCHAR(20),
+        correctCount INT,
+        totalTime INT
+    );
+
+   -- Tính toán số câu trả lời đúng và tổng thời gian làm bài của từng người theo từng nhóm câu hỏi
+    INSERT INTO UserRankings (userId, firstName, lastName, email, groupId, groupName, correctCount, totalTime) 
+    SELECT 
+        ua.userId,
+        u.firstName,
+        u.lastName,
+        u.email,
+        qg.id AS groupId,
+        qg.name AS groupName,
+        COUNT(DISTINCT ua.questionId) AS correctCount, -- Số câu trả lời đúng
+        IFNULL(SUM(tt.secondsElapsed), 0) AS totalTime -- Tổng thời gian làm bài
+    FROM Questions q
+    INNER JOIN QuestionGroups qg ON q.groupId = qg.id
+    INNER JOIN Grammars g ON qg.grammarId = g.id
+    INNER JOIN CorrectAnswers ca ON q.id = ca.questionId
+    INNER JOIN UserAnswers ua ON ca.questionId = ua.questionId AND ca.answerId = ua.answerId
+    LEFT JOIN TestTimers tt ON ua.userId = tt.userId AND tt.groupId = qg.id
+    INNER JOIN Users u ON ua.userId = u.id
+    WHERE qg.grammarId = grammarId
+    GROUP BY ua.userId, u.firstName, u.lastName, qg.id, qg.name;
+
+   -- Lấy danh sách người dùng xếp hạng theo số câu đúng (giảm dần) và thời gian (tăng dần) cho từng nhóm câu hỏi
+    SELECT 
+        userId,
+        firstName,
+        lastName,
+        email,
+        groupId,
+        groupName,
+        correctCount,
+        totalTime,
+        (SELECT COUNT(q.id) 
+         FROM Questions q
+         WHERE q.groupId = ur.groupId) AS totalQuestions
+    FROM UserRankings ur
+    ORDER BY correctCount DESC, totalTime ASC
+    LIMIT topUsers;
+
+    -- Dọn dẹp bảng tạm
+    DROP TEMPORARY TABLE UserRankings;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetTopUsersByPart` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `GetTopUsersByPart`(
+	IN partId INT,       -- ID của Part
+    IN topUsers INT      -- Số lượng user cần lấy
+)
+BEGIN
+	-- Khai báo biến
+	DECLARE totalQuestions INT;
+
+	-- Tạm thời lưu kết quả vào bảng tạm để dễ xử lý
+	DROP TEMPORARY TABLE IF EXISTS UserRankings;
+    CREATE TEMPORARY TABLE UserRankings (
+        userId INT,
+        firstName VARCHAR(50),
+        lastName VARCHAR(30),
+        email VARCHAR(255),
+        groupId INT,
+        groupName VARCHAR(20),
+        correctCount INT,
+        totalTime INT
+    );
+
+   -- Tính toán số câu trả lời đúng và tổng thời gian làm bài của từng người theo từng nhóm câu hỏi
+    INSERT INTO UserRankings (userId, firstName, lastName, email, groupId, groupName, correctCount, totalTime) 
+    SELECT 
+        ua.userId,
+        u.firstName,
+        u.lastName,
+        u.email,
+        qg.id AS groupId,
+        qg.name AS groupName,
+        COUNT(DISTINCT ua.questionId) AS correctCount, -- Số câu trả lời đúng
+        IFNULL(SUM(tt.secondsElapsed), 0) AS totalTime -- Tổng thời gian làm bài
+    FROM Questions q
+    INNER JOIN QuestionGroups qg ON q.groupId = qg.id
+    INNER JOIN Parts p ON qg.partId = p.id
+    INNER JOIN CorrectAnswers ca ON q.id = ca.questionId
+    INNER JOIN UserAnswers ua ON ca.questionId = ua.questionId AND ca.answerId = ua.answerId
+    LEFT JOIN TestTimers tt ON ua.userId = tt.userId AND tt.groupId = qg.id
+    INNER JOIN Users u ON ua.userId = u.id
+    WHERE qg.partId = partId
+    GROUP BY ua.userId, u.firstName, u.lastName, qg.id, qg.name;
+
+   -- Lấy danh sách người dùng xếp hạng theo số câu đúng (giảm dần) và thời gian (tăng dần) cho từng nhóm câu hỏi
+    SELECT 
+        userId,
+        firstName,
+        lastName,
+        email,
+        groupId,
+        groupName,
+        correctCount,
+        totalTime,
+        (SELECT COUNT(q.id) 
+         FROM Questions q
+         WHERE q.groupId = ur.groupId) AS totalQuestions
+    FROM UserRankings ur
+    ORDER BY correctCount DESC, totalTime ASC
+    LIMIT topUsers;
+
+    -- Dọn dẹp bảng tạm
+    DROP TEMPORARY TABLE UserRankings;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `GetUserAnswers` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -711,4 +911,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-14  8:33:03
+-- Dump completed on 2024-12-16 12:54:48
