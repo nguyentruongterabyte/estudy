@@ -24,6 +24,8 @@ import vocabularyPracticeStatusController from '../controllers/vocabularyPractic
 import grammarController from '../controllers/grammarController';
 import testTimerController from '../controllers/testTimerController';
 import levelController from '../controllers/levelController';
+import analyticController from '../controllers/analyticController';
+import partController from '../controllers/partController';
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -76,6 +78,13 @@ let initWebRoutes = (app) => {
     vocabularyTopicController.handleUpdate,
   );
 
+  router.get(
+    urls.vocabularyTopic.getByLevelId,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    vocabularyTopicController.handleGetByLevelId,
+  );
+
   // vocabulary statuses
   router.get(
     urls.vocabularyStatuses.getByUserId,
@@ -120,6 +129,9 @@ let initWebRoutes = (app) => {
   // level
   router.get(urls.level.getAll, levelController.handleGetAll);
 
+  // part
+  router.get(urls.part.getAll, partController.handleGetAll);
+
   // test
   router.post(urls.test.create, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveTest);
   router.post(urls.test.createBundle, verifyJWT, verifyRoles(ROLES_OBJECT.EDITOR), testController.handleSaveBundleTest);
@@ -159,8 +171,8 @@ let initWebRoutes = (app) => {
   // Grammars
   router.get(
     urls.grammar.getByLevelId,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
     grammarController.handleGetByLevelId,
   );
   router.get(
@@ -276,8 +288,8 @@ let initWebRoutes = (app) => {
   );
   router.get(
     urls.question.getByGroupId,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
     questionController.handleGetQuestionsByGroupId,
   );
 
@@ -332,6 +344,22 @@ let initWebRoutes = (app) => {
     verifyRoles(ROLES_OBJECT.EDITOR, ROLES_OBJECT.USER),
     questionGroupController.handleGetQuestionGroupsByGrammarId,
   );
+
+  // analytic
+  router.get(
+    urls.analytic.getAverageTimePerDay,
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.ADMIN),
+    analyticController.handleGetAverageTimePerDay,
+  );
+
+  router.get(
+    urls.analytic.getTopUsersByPartId,
+    // verifyJWT,
+    // verifyRoles(ROLES_OBJECT.ADMIN),
+    analyticController.handleGetTopUsersByPartId,
+  );
+
   return app.use('/', router);
 };
 

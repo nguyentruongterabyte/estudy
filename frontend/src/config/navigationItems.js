@@ -3,6 +3,10 @@ import routes from './routes';
 const navigationItems = {
   admin: [
     {
+      title: 'Số liệu và thống kê',
+      href: routes.analytics,
+    },
+    {
       title: 'createEditorAccount',
       href: routes.createEditorAccount,
     },

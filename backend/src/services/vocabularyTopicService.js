@@ -60,10 +60,25 @@ const getAll = () => {
   });
 };
 
+const getByLevelId = (levelId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const topics = await db.VocabularyTopic.findAll({
+        where: { levelId },
+        attributes: ['id', 'name'],
+      });
+      resolve(topics);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 export default {
   save,
   destroy,
   update,
   get,
   getAll,
+  getByLevelId,
 };

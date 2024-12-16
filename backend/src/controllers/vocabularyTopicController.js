@@ -3,10 +3,10 @@ import vocabularyService from '../services/vocabularyService';
 import vocabularyTopicService from '../services/vocabularyTopicService';
 
 const handleSaveVocabularyTopic = async (req, res) => {
-  const { name, vocabularies } = req.body;
+  const { name, levelId, vocabularies } = req.body;
 
   try {
-    const newTopic = await vocabularyTopicService.save({ name });
+    const newTopic = await vocabularyTopicService.save({ name, levelId });
 
     const newVocabularies = await Promise.all(
       vocabularies.map(async (vocab) => {
@@ -151,9 +151,27 @@ const handleDelete = async (req, res) => {
   }
 };
 
+const handleGetByLevelId = async (req, res) => {
+  const { levelId } = req.params;
+  try {
+    const topics = await vocabularyTopicService.getByLevelId(levelId);
+    res.json({
+      errCode: 0,
+      errMessage: 'OK',
+      data: topics,
+    });
+  } catch (error) {
+    res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
 export default {
   handleSaveVocabularyTopic,
   handleUpdate,
   handleGetAll,
   handleDelete,
+  handleGetByLevelId,
 };

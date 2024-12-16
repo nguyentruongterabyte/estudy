@@ -13,7 +13,7 @@ const Vocabularies = ({ className }) => {
   const vocabularies = useSelector(vocabularyList);
   const dispatch = useDispatch();
 
-  const items = vocabularies.map((vocabulary) => <VocabularyCard key={vocabulary.id} data={vocabulary} />);
+  const items = vocabularies.map((vocabulary) => ({ body: <VocabularyCard key={vocabulary.id} data={vocabulary} /> }));
   const [errorFields, setErrorFields] = useState({});
 
   const validateVocabularies = () => {

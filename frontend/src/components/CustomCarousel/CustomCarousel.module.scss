@@ -8,5 +8,15 @@
     justify-content: center;
     margin-bottom: 28px;
   }
+
+  .caption {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    h1 {
+      color: var(--black);
+      position: absolute;
+    }
+  }
 }
 

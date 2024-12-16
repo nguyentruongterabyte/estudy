@@ -15,6 +15,9 @@ const urls = {
   level: {
     getAll: '/api/level',
   },
+  part: {
+    getAll: '/api/part',
+  },
   test: {
     create: '/api/test/create',
     createBundle: '/api/test/create-bundle',
@@ -61,6 +64,7 @@ const urls = {
     delete: '/api/vocabulary-topic/:topicId',
     update: '/api/vocabulary-topic',
     getAll: '/api/vocabulary-topic',
+    getByLevelId: '/api/vocabulary-topic/get-by-level-id/:levelId',
   },
 
   vocabulary: {
@@ -100,6 +104,10 @@ const urls = {
     update: '/api/question-group',
     getByPartId: '/api/question-group/by-part-id/:partId',
     getByGrammarId: '/api/question-group/by-grammar-id/:grammarId',
+  },
+  analytic: {
+    getAverageTimePerDay: '/api/analytic/average-time-per-day',
+    getTopUsersByPartId: '/api/analytic/top-users-by-part-id/:partId/:topUsers',
   },
 };
 

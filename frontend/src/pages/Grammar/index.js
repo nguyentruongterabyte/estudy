@@ -164,12 +164,6 @@ const Grammar = ({ isUser }) => {
     return questionGroups;
   };
 
-  // fetch levels
-  const fetchLevels = async () => {
-    const levels = await getAllLevels();
-    return levels;
-  };
-
   // fetch grammars
   const fetchGrammars = async (levelId) => {
     setIsGrammarLoading(true);
@@ -450,6 +444,12 @@ const Grammar = ({ isUser }) => {
   }, [isAddNew, questions, activeGrammar.id]);
 
   useEffect(() => {
+    // fetch levels
+    const fetchLevels = async () => {
+      const levels = await getAllLevels();
+      return levels;
+    };
+
     fetchLevels().then((levels) => {
       dispatch(changeLevels({ levels }));
       if (levels.length > 0 && levels[0].id) {
@@ -613,7 +613,7 @@ const GrammarAccordion = ({
   const [inputValue, setInputValue] = useState(newGrammar.name);
   const debouncedValue = hooks.useDebounce(inputValue, 300);
   const { saveGrammar } = hooks.useGrammarService();
-  const level = useSelector( activeLevel );
+  const level = useSelector(activeLevel);
 
   // handle cancel add new
   const handleCancelAddNew = () => {

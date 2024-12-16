@@ -21,6 +21,7 @@ import Profile from '~/pages/Profile';
 import PasswordChanging from '~/pages/PasswordChanging';
 import AccountManager from '~/pages/AccountManager';
 import EditorAccountCreation from '~/pages/EditorAccountCreation';
+import Analytics from '~/pages/Analytics';
 
 const publicRoutes = [
   { path: config.routes.register, component: Register, layout: LoginLayout },
@@ -30,6 +31,12 @@ const publicRoutes = [
 ];
 
 const privateRoutes = [
+  {
+    path: config.routes.analytics,
+    component: Analytics,
+    allowedRoles: [config.roles.admin],
+    layout: HomeLayout,
+  },
   {
     path: config.routes.createEditorAccount,
     component: EditorAccountCreation,

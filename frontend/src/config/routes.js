@@ -2,32 +2,25 @@ const routes = {
   login: '/login',
   register: '/register',
   unauthorized: '/unauthorized',
-
   profile: '/profile',
-
   passwordChanging: '/password-changing',
-
   accountManager: '/account-manager',
-
   createEditorAccount: '/create-editor-account',
-
+  analytics: '/analytics',
   home: {
     user: '/home/user',
     editor: '/home/editor',
     admin: '/home/admin',
     default: '/',
   },
-
   vocabulary: {
     compose: '/vocabulary/compose',
     practice: '/vocabulary/practice',
   },
-
   grammar: {
     compose: '/grammar/compose',
     practice: '/grammar/practice',
   },
-
   test: {
     compose: {
       part1_Photos: '/test/compose/part-1-photos',

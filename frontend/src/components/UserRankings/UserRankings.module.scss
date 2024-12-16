@@ -1,0 +1,14 @@
+.container {
+  .ranking {
+    display: flex;
+    justify-content: center;
+
+    .ranking-img {
+      height: 50px;
+    }
+
+    .ranking-number {
+      text-align: center;
+    }
+  }
+}

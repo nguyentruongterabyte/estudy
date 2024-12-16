@@ -48,7 +48,25 @@ const useVocabularyTopicService = () => {
     }
   };
 
-  return { createVocabularyTopic, getAllVocabularyTopics, updateVocabularyTopic, deleteTopic };
+  // get by level id
+  const getVocabularyTopicsByLevelId = async (levelId) => {
+    try {
+      const response = await axiosPrivate.get(`${config.urls.vocabularyTopic.getByLevelId}/${levelId}`);
+
+      const topics = response?.data?.data;
+      return topics;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  return {
+    createVocabularyTopic,
+    getAllVocabularyTopics,
+    updateVocabularyTopic,
+    deleteTopic,
+    getVocabularyTopicsByLevelId,
+  };
 };
 
 export default useVocabularyTopicService;

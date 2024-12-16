@@ -1,3 +1,17 @@
+.sidebar {
+  position: relative;
+
+  .level-select {
+    position: fixed;
+    left: 112px;
+    top: var(--default-layout-header-height);
+    margin-top: 16px;
+    width: 208px;
+    padding: 8px 10px;
+    font-size: 1.6rem;
+  }
+}
+
 .container {
   .main {
     margin-top: 24px;

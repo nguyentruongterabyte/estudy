@@ -38,6 +38,7 @@ import Quote from '~/components/Quote';
 import { Button } from 'react-bootstrap';
 import CustomTable from '~/components/CustomTable';
 import RenderIf from '~/components/RenderIf';
+import { activeLevel, changeLevels, levelList, toggleActiveLevel } from '~/redux/features/levelsSlice';
 
 const cx = classNames.bind(styles);
 
@@ -59,10 +60,11 @@ const Vocabulary = ({ isUser = false }) => {
   const debouncedValue = hooks.useDebounce(vocabulariesStr, 2000);
   const [words, setWords] = useState([]);
   const { uploadPhoto, createPhoto } = hooks.usePhotoService();
-  const { getAllVocabularyTopics, createVocabularyTopic, updateVocabularyTopic, deleteTopic } =
+  const { getVocabularyTopicsByLevelId, createVocabularyTopic, updateVocabularyTopic, deleteTopic } =
     hooks.useVocabularyTopicService();
   const { getByTopicId } = hooks.useVocabularyService();
   const newVocabularyTopic = hooks.useNewVocabularyTopic();
+  const { getAllLevels } = hooks.useLevelService();
   const userId = hooks.useUserId();
   const vocabularyPracticeStatuses = useSelector(vocabularyPracticeStatusList);
   const vocabularyPracticeStatusesByTopicId = vocabularyPracticeStatuses.filter((vps) => vps.topicId === active.id);
@@ -99,6 +101,8 @@ const Vocabulary = ({ isUser = false }) => {
     },
   );
   const [practiceStatus, setPracticeStatus] = useState(statuses.memorized);
+  const levels = useSelector(levelList);
+  const level = useSelector(activeLevel);
 
   console.log(vocabularyPracticeStatuses);
 
@@ -192,6 +196,7 @@ const Vocabulary = ({ isUser = false }) => {
     let photoIndex = 0;
     const vocabularyTopic = {
       name: active.name,
+      levelId: level.id,
       vocabularies: vocabularies.map((vocab) =>
         vocab.photo instanceof File ? { ...vocab, photoId: newDBPhotos[photoIndex++].id } : vocab,
       ),
@@ -217,23 +222,48 @@ const Vocabulary = ({ isUser = false }) => {
     dispatch(deleteVocabularyTopic({ topicId: newVocabularyTopic.id }));
   };
 
-  useEffect(() => {
-    const fetchVocabularyTopics = async () => {
-      setIsVocabularyTopicsLoading(true);
-      const vocabularyTopics = await getAllVocabularyTopics();
-      setIsVocabularyTopicsLoading(false);
-      dispatch(changeVocabularyTopics({ vocabularyTopics }));
-    };
+  // fetch VocabularyTopics
+  const fetchVocabularyTopics = async (levelId) => {
+    setIsVocabularyTopicsLoading(true);
+    const vocabularyTopics = await getVocabularyTopicsByLevelId(levelId);
+    setIsVocabularyTopicsLoading(false);
+    return vocabularyTopics;
+  };
 
+  // handle select level
+  const handleSelectChange = (e) => {
+    const selectedLevelId = parseInt(e.target.value, 10);
+    const selectedLevelData = levels.find((level) => level.id === selectedLevelId);
+    dispatch(toggleActiveLevel({ level: selectedLevelData }));
+    fetchVocabularyTopics(selectedLevelId).then((vocabularyTopics) => {
+      dispatch(changeVocabularyTopics({ vocabularyTopics }));
+    });
+  };
+
+  useEffect(() => {
+    // fetch vocabulary practice statuses
     const fetchVocabularyPracticeStatuses = async () => {
       const vocabularyPracticeStatuses = await getVocabularyStatusesByUserId(userId);
-
       dispatch(changeVocabularyPracticeStatuses({ vocabularyPracticeStatuses }));
     };
 
-    fetchVocabularyPracticeStatuses();
+    // fetch levels
+    const fetchLevels = async () => {
+      const levels = await getAllLevels();
+      return levels;
+    };
 
-    fetchVocabularyTopics();
+    fetchLevels().then((levels) => {
+      dispatch(changeLevels({ levels }));
+      if (levels.length > 0 && levels[0].id) {
+        dispatch(toggleActiveLevel({ level: level[0] }));
+        fetchVocabularyTopics(levels[0].id).then((vocabularyTopics) => {
+          dispatch(changeVocabularyTopics({ vocabularyTopics }));
+        });
+      }
+    });
+
+    fetchVocabularyPracticeStatuses();
     // eslint-disable-next-line
   }, []);
 
@@ -299,7 +329,12 @@ const Vocabulary = ({ isUser = false }) => {
       onHeaderComplete={handleComplete}
       sidebarTitle="vocabulary"
       sidebarChildren={
-        <Fragment>
+        <div className={cx('sidebar')}>
+          <select className={cx('level-select')} onChange={handleSelectChange}>
+            {levels.map((lv) => (
+              <option selected={lv.id === level?.id} key={lv.id} value={lv.id}>{`${lv.code} - ${lv.name}`}</option>
+            ))}
+          </select>
           {isVocabularyTopicsLoading ? (
             <Loading />
           ) : (
@@ -312,7 +347,7 @@ const Vocabulary = ({ isUser = false }) => {
               <VocabularyTopics isComplete={isComplete} onComplete={handleComplete} onCancel={handleCancelAddNew} />
             </VocabularyTopicProvider>
           )}
-        </Fragment>
+        </div>
       }
       mainChildren={
         <Fragment>
