@@ -6,6 +6,10 @@ const images = {
   about: require('./about.jpg'),
   firstRank: require('./firstRank.svg').default,
   secondRank: require('./secondRank.svg').default,
-  thirdRank: require('./thirdRank.svg').default,
+  thirdRank: require( './thirdRank.svg' ).default,
+  grammar: require('./grammar.webp'),
+  vocabulary: require( './vocabulary.webp' ),
+  listening: require( './listening.webp' ),
+  reading: require('./reading.webp')
 };
 export default images;

@@ -29,6 +29,13 @@ const Header = () => {
       ? config.navigationItems.editor
       : config.navigationItems.user;
 
+  const profileMenu =
+    auth.currentRole === config.roles.admin
+      ? config.profileMenuItems.admin
+      : auth.currentRole === config.roles.editor
+      ? config.profileMenuItems.editor
+      : config.profileMenuItems.user;
+
   const handleMenuChange = async (menuItem) => {
     switch (menuItem.type) {
       case 'logout':
@@ -40,6 +47,9 @@ const Header = () => {
         break;
       case 'changePassword':
         navigate(config.routes.passwordChanging);
+        break;
+      case 'learningResult':
+        navigate(config.routes.learningResult)
         break;
       default:
         break;
@@ -61,7 +71,7 @@ const Header = () => {
 
               {/* Profile menu / Login button */}
               {auth.accessToken ? (
-                <ProfileMenu items={config.profileMenuItems} handleMenuChange={handleMenuChange} />
+                <ProfileMenu items={profileMenu} handleMenuChange={handleMenuChange} />
               ) : (
                 <Nav.Link as={Link} className={cx('nav-link-item')} to={config.routes.login}>
                   <FontAwesomeIcon icon={faUser} className={cx('nav-icon')} />

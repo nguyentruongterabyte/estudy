@@ -108,6 +108,11 @@ const urls = {
   analytic: {
     getAverageTimePerDay: '/api/analytic/average-time-per-day',
     getTopUsersByPartId: '/api/analytic/top-users-by-part-id/:partId/:topUsers',
+    getTopUsersByGrammarId: '/api/analytic/top-users-by-grammar-id/:grammarId/:topUsers',
+
+    getVocabularyLearningPercentage: '/api/analytic/get-vocabulary-learning-percentage/:userId/:status',
+    getCorrectAnswerPercentageByGrammars: '/api/analytic/get-correct-answer-percentage-by-grammars/:userId',
+    getCorrectAnswerPercentageByParts: '/api/analytic/get-correct-answer-percentage-by-parts/:userId',
   },
 };
 

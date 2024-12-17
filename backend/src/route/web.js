@@ -348,16 +348,47 @@ let initWebRoutes = (app) => {
   // analytic
   router.get(
     urls.analytic.getAverageTimePerDay,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.ADMIN),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.ADMIN),
     analyticController.handleGetAverageTimePerDay,
   );
 
   router.get(
     urls.analytic.getTopUsersByPartId,
-    // verifyJWT,
-    // verifyRoles(ROLES_OBJECT.ADMIN),
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.ADMIN, ROLES_OBJECT.USER),
     analyticController.handleGetTopUsersByPartId,
+  );
+
+  router.get(
+    urls.analytic.getTopUsersByGrammarId,
+    verifyJWT,
+    verifyRoles(ROLES_OBJECT.ADMIN, ROLES_OBJECT.USER),
+    analyticController.handleGetTopUsersByGrammarId,
+  );
+
+  router.get(
+    urls.analytic.getVocabularyLearningPercentage,
+    verifyJWT,
+    verifyUserOwnership,
+    verifyRoles( ROLES_OBJECT.USER ),
+    analyticController.handleGetVocabularyLearningPercentage,
+  );
+
+  router.get(
+    urls.analytic.getCorrectAnswerPercentageByGrammars,
+    verifyJWT,
+    verifyUserOwnership,
+    verifyRoles( ROLES_OBJECT.USER ),
+    analyticController.handleGetCorrectAnswerPercentageByGrammars,
+  );
+
+  router.post(
+    urls.analytic.getCorrectAnswerPercentageByParts,
+    verifyJWT,
+    verifyUserOwnership,
+    verifyRoles( ROLES_OBJECT.USER ),
+    analyticController.handleGetCorrectAnswerPercentageByParts,
   );
 
   return app.use('/', router);

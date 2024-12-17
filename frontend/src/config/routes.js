@@ -7,6 +7,7 @@ const routes = {
   accountManager: '/account-manager',
   createEditorAccount: '/create-editor-account',
   analytics: '/analytics',
+  learningResult: '/learning-result',
   home: {
     user: '/home/user',
     editor: '/home/editor',

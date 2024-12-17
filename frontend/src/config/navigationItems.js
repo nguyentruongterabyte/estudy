@@ -3,7 +3,7 @@ import routes from './routes';
 const navigationItems = {
   admin: [
     {
-      title: 'Số liệu và thống kê',
+      title: 'dataAndAnalysis',
       href: routes.analytics,
     },
     {

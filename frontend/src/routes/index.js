@@ -22,6 +22,7 @@ import PasswordChanging from '~/pages/PasswordChanging';
 import AccountManager from '~/pages/AccountManager';
 import EditorAccountCreation from '~/pages/EditorAccountCreation';
 import Analytics from '~/pages/Analytics';
+import LearningResult from '~/pages/LearningResult';
 
 const publicRoutes = [
   { path: config.routes.register, component: Register, layout: LoginLayout },
@@ -31,6 +32,12 @@ const publicRoutes = [
 ];
 
 const privateRoutes = [
+  {
+    path: config.routes.learningResult,
+    component: LearningResult,
+    allowedRoles: [config.roles.user],
+    layout: HomeLayout,
+  },
   {
     path: config.routes.analytics,
     component: Analytics,

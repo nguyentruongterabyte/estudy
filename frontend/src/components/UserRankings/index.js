@@ -4,10 +4,12 @@ import Loading from '../Loading';
 import CustomTable from '../CustomTable';
 import images from '~/assets/images';
 import RenderIf from '../RenderIf';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
 
 const UserRankings = ({ topUsers = [], onSelectTopUsers, isLoading, isEnableSelectTopUsers = true }) => {
+  const { t } = useTranslation();
   const formatTime = (secondsElapsed) => {
     const hours = Math.floor(secondsElapsed / 3600);
     const minutes = Math.floor((secondsElapsed % 3600) / 60);
@@ -30,7 +32,7 @@ const UserRankings = ({ topUsers = [], onSelectTopUsers, isLoading, isEnableSele
           striped
           bordered
           hovered
-          headerTitles={['Xếp hạng', 'Họ và tên', 'email', 'Tên bài kiểm tra', 'Câu trả lời đúng', 'Thời gian làm bài']}
+          headerTitles={[t('ranking'), t('fullName'), 'email', t('testName'), t('correctAnswers'), t('testTime')]}
           bodyRows={topUsers.map((user, index) => [
             <span className={cx('ranking')}>
               {index === 0 ? (
@@ -43,7 +45,7 @@ const UserRankings = ({ topUsers = [], onSelectTopUsers, isLoading, isEnableSele
                 <span className={cx('ranking-number')}>{index + 1}</span>
               )}
             </span>,
-            `${user.firstName ?? ''} ${user.lastName ?? ''}`,
+            !(user.firstName || user.lastName) ? t('notUpdated') : `${user.firstName ?? ''} ${user.lastName ?? ''}`,
             user.email,
             user.groupName,
             `${user.correctCount}/${user.totalQuestions}`,

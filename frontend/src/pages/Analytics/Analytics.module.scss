@@ -14,9 +14,12 @@
 }
 
 .date-average-chart {
-  height: 500px;
-  width: 100%;
   display: flex;
+  height: calc(100vh - 2 * var(--default-layout-header-height));
   padding: 0 20px;
+  background-color: var(--white);
+  .line {
+    flex: 1;
+  }
 }
 
