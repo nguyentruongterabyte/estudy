@@ -55,9 +55,14 @@
   margin: 0 5px 2px 2px;
 }
 
-.need-account,
-.need-account a {
-  color: var(--white)
+.user-actions {
+  display: flex;
+  justify-content: space-between;
+  
+  * {
+    color: var(--white)
+  }
+  
 }
 
 .role-button-wrapper {

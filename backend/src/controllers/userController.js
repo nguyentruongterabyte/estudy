@@ -1,8 +1,139 @@
 import userService from '../services/userService';
 import photoService from '../services/photoService';
 import jwt from 'jsonwebtoken';
+import captchaService from '../services/captchaService';
+import emailService from '../services/emailService';
+import crypto from 'crypto';
 
 require('dotenv').config();
+
+const OTP_EXPIRES_MINUTES = 5; // 5m
+const OTP_ATTEMPTS_LIMIT = 5;
+
+const handleVerifyCaptchaAndSendOTPEmail = async (req, res) => {
+  const { captcha, email } = req.body;
+  if (!captcha || !email) {
+    console.log('Missing');
+    return res.json({ errCode: 2, errMessage: 'Missing required parameters' });
+  }
+  try {
+    const success = await captchaService.verifyCaptcha(captcha);
+    if (!success) {
+      return res.json({ errCode: 3, errMessage: 'CAPTCHA verification failed' });
+    }
+
+    const user = await userService.getOTPByEmail(email);
+
+    if (!user) {
+      return res.json({ errCode: 4, errMessage: 'User not found' });
+    }
+
+    const OTP = generateOTP();
+    const OTPAttempts = 0;
+    const OTPExpiresAt = new Date(Date.now() + OTP_EXPIRES_MINUTES * 60 * 1000);
+
+    await userService.updateUser({ id: user.id, OTP, OTPAttempts, OTPExpiresAt });
+
+    await emailService.sendEmail({
+      recipientEmail: email, // Địa chỉ email người nhận
+      subject: 'OTP code for change password', // Tiêu đề email
+      html: OTPEmailForm(OTP),
+    });
+
+    res.json({ errCode: 0, errMessage: 'CAPTCHA verified successfully' });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
+const handleVerifyOTP = async (req, res) => {
+  const { OTP, email } = req.body;
+
+  try {
+    const user = await userService.getOTPByEmail(email);
+    if (!user) {
+      return res.json({ errCode: 2, errMessage: 'User not found' });
+    }
+
+    if (user.OTPAttempts >= OTP_ATTEMPTS_LIMIT) {
+      await userService.updateUser({ ...user, OTP: null, OTPAttempts: 0, OTPExpiresAt: null });
+      return res.json({ errCode: 3, errMessage: 'Limited Attempts' });
+    }
+
+    // Check Expires
+    const currentTime = new Date();
+    if (currentTime > user.OTPExpiresAt) {
+      await userService.updateUser({ ...user, OTP: null, OTPAttempts: 0, OTPExpiresAt: null });
+      return res.json({ errCode: 4, errMessage: 'Expired OTP' });
+    }
+
+    const attempts = user.OTPAttempts;
+    if (user.OTP !== OTP) {
+      await userService.updateUser({ ...user, OTPAttempts: attempts + 1 });
+      return res.json({
+        errCode: 5,
+        errMessage: 'Incorrect OTP',
+        data: { remainAttempts: OTP_ATTEMPTS_LIMIT - attempts - 1 },
+      });
+    }
+
+    // await userService.updateUser({ ...user, OTP: null, OTPAttempts: 0, OTPExpiresAt: null });
+    res.json({ errCode: 0, errMessage: 'OK' });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
+
+const handleResetPassword = async (req, res) => {
+  const { OTP, email, password } = req.body;
+  try {
+    const user = await userService.getOTPByEmail(email);
+    if (!user) {
+      return res.json({ errCode: 2, errMessage: 'User not found' });
+    }
+
+    if (user.OTPAttempts >= OTP_ATTEMPTS_LIMIT) {
+      await userService.updateUser({ ...user, OTP: null, OTPAttempts: 0, OTPExpiresAt: null });
+      return res.json({ errCode: 3, errMessage: 'Limited Attempts' });
+    }
+
+    // Check Expires
+    const currentTime = new Date();
+    if (currentTime > user.OTPExpiresAt) {
+      await userService.updateUser({ ...user, OTP: null, OTPAttempts: 0, OTPExpiresAt: null });
+      return res.json({ errCode: 4, errMessage: 'Expired OTP' });
+    }
+
+    const attempts = user.OTPAttempts;
+    if (user.OTP !== OTP) {
+      await userService.updateUser({ ...user, OTPAttempts: attempts + 1 });
+      return res.json({
+        errCode: 5,
+        errMessage: 'Incorrect OTP',
+      });
+    }
+
+    // Encrypt the password
+    const hashedPassword = await userService.hashUserPassword(password);
+
+    await userService.updateUser({ ...user, password: hashedPassword, OTP: null, OTPAttempts: 0, OTPExpiresAt: null });
+    return res.json({
+      errCode: 0,
+      errMessage: 'OK',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      errMessage: error.message,
+    });
+  }
+};
 
 const handleGetById = async (req, res) => {
   const { id } = req.params;
@@ -247,9 +378,9 @@ const handleUserLogin = async (req, res) => {
     res.cookie('jwt', newRefreshToken, {
       /////////////////
       // Xóa khi build product
-      httpOnly: true,
-      sameSite: 'None',
-      secure: true,
+      // httpOnly: true,
+      // sameSite: 'None',
+      // secure: true,
       ///////////////
       maxAge: 14 * 24 * 60 * 60 * 1000,
     });
@@ -419,12 +550,50 @@ const handleDeleteUser = async (req, res) => {
       await userService.destroy(id);
     }
     return res.json({ errCode: 0, errMessage: 'OK' });
-  } catch (e) {
+  } catch (error) {
     return res.status(500).json({
       errCode: 1,
       errMessage: error.message,
     });
   }
+};
+
+const generateOTP = () => {
+  return crypto.randomInt(100000, 999999).toString();
+};
+
+const OTPEmailForm = (OTP) => {
+  return `<!DOCTYPE html>
+            <html lang="en" >
+            <head>
+              <meta charset="UTF-8">
+              <title>OTP Email</title>
+              
+
+            </head>
+            <body>
+            <!-- partial:index.partial.html -->
+            <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+              <div style="margin:50px auto;width:70%;padding:20px 0">
+                <div style="border-bottom:1px solid #eee">
+                  <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Estudy</a>
+                </div>
+                <p style="font-size:1.1em">Hi,</p>
+                <p>Thank you for choosing EStudy. Use the following OTP to complete your Password Recovery Procedure. OTP is valid for ${OTP_EXPIRES_MINUTES} minutes</p>
+                <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${OTP}</h2>
+                <p style="font-size:0.9em;">Regards,<br />EStudy</p>
+                <hr style="border:none;border-top:1px solid #eee" />
+                <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+                  <p>EStudy Inc</p>
+                  <p>97 Man Thien, Hiep Phu, Thu Duc, HCMC</p>
+                  <p>Vietnam</p>
+                </div>
+              </div>
+            </div>
+            <!-- partial -->
+              
+            </body>
+            </html>`;
 };
 
 export default {
@@ -439,4 +608,7 @@ export default {
   handleUpdateAvatar,
   handleUpdatePassword,
   handleDeleteUser,
+  handleVerifyCaptchaAndSendOTPEmail,
+  handleVerifyOTP,
+  handleResetPassword,
 };

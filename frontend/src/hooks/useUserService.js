@@ -1,5 +1,6 @@
 import config from '~/config';
 import useAxiosPrivate from './useAxiosPrivate';
+import axios from '~/utils/axios';
 
 const useUserService = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -56,7 +57,47 @@ const useUserService = () => {
     }
   };
 
-  return { getUserById, updateUser, updateAvatar, getAllUser, deleteUser };
+  const sendOTPEmail = async (captcha, email) => {
+    try {
+      const response = await axios.post(config.urls.user.sendOTPEmail, {
+        email,
+        captcha,
+      });
+
+      return response?.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  const verifyOTP = async (OTP, email) => {
+    try {
+      const response = await axios.post(config.urls.user.verifyOTP, {
+        OTP,
+        email,
+      });
+
+      return response?.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  const resetPassword = async (OTP, email, password) => {
+    try {
+      const response = await axios.post(config.urls.user.resetPassword, {
+        OTP,
+        email,
+        password,
+      });
+
+      return response?.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  return { getUserById, updateUser, updateAvatar, getAllUser, deleteUser, sendOTPEmail, verifyOTP, resetPassword };
 };
 
 export default useUserService;

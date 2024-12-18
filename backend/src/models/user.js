@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING(64),
       phoneNumber: DataTypes.STRING(12),
       photoId: DataTypes.INTEGER,
+      OTP: DataTypes.STRING(7),
+      OTPAttempts: DataTypes.INTEGER,
+      OTPExpiresAt: DataTypes.DATE,
     },
     {
       sequelize,

@@ -21,7 +21,7 @@ function Register() {
   const errRef = useRef();
   const userRef = useRef();
 
-   const [email, resetEmail, emailAttribs] = hooks.useInput('email', '');
+  const [email, resetEmail, emailAttribs] = hooks.useInput('email', '');
   const [validEmail, setValidEmail] = useState(false);
   const [emailFocus, setEmailFocus] = useState(false);
 
@@ -65,7 +65,7 @@ function Register() {
     const v1 = PWD_REGEX.test(pwd);
     const v2 = EMAIL_REGEX.test(email);
     if (!v1 || !v2) {
-      setErrMsg('Đầu vào không hợp lệ!');
+      setErrMsg(t('invalidInput'));
       return;
     }
     try {
@@ -92,7 +92,7 @@ function Register() {
       errRef.current?.focus();
     }
   };
-  
+
   return (
     <>
       {success ? (

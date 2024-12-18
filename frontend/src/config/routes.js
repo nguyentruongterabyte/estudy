@@ -8,6 +8,7 @@ const routes = {
   createEditorAccount: '/create-editor-account',
   analytics: '/analytics',
   learningResult: '/learning-result',
+  forgotPassword: '/forgot-password',
   home: {
     user: '/home/user',
     editor: '/home/editor',

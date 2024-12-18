@@ -41,6 +41,9 @@ let initWebRoutes = (app) => {
   router.put(urls.user.updateAvatar, verifyJWT, verifyUserOwnership, userController.handleUpdateAvatar);
   router.put(urls.user.updatePassword, verifyJWT, verifyUserOwnership, userController.handleUpdatePassword);
   router.delete(urls.user.deleteUser, verifyJWT, verifyRoles(ROLES_OBJECT.ADMIN), userController.handleDeleteUser);
+  router.post(urls.user.sendOTPEmail, userController.handleVerifyCaptchaAndSendOTPEmail);
+  router.post(urls.user.verifyOTP, userController.handleVerifyOTP);
+  router.post(urls.user.resetPassword, userController.handleResetPassword);
   // vocabulary
   router.get(
     urls.vocabulary.getByTopicId,
@@ -371,7 +374,7 @@ let initWebRoutes = (app) => {
     urls.analytic.getVocabularyLearningPercentage,
     verifyJWT,
     verifyUserOwnership,
-    verifyRoles( ROLES_OBJECT.USER ),
+    verifyRoles(ROLES_OBJECT.USER),
     analyticController.handleGetVocabularyLearningPercentage,
   );
 
@@ -379,7 +382,7 @@ let initWebRoutes = (app) => {
     urls.analytic.getCorrectAnswerPercentageByGrammars,
     verifyJWT,
     verifyUserOwnership,
-    verifyRoles( ROLES_OBJECT.USER ),
+    verifyRoles(ROLES_OBJECT.USER),
     analyticController.handleGetCorrectAnswerPercentageByGrammars,
   );
 
@@ -387,7 +390,7 @@ let initWebRoutes = (app) => {
     urls.analytic.getCorrectAnswerPercentageByParts,
     verifyJWT,
     verifyUserOwnership,
-    verifyRoles( ROLES_OBJECT.USER ),
+    verifyRoles(ROLES_OBJECT.USER),
     analyticController.handleGetCorrectAnswerPercentageByParts,
   );
 

@@ -118,14 +118,19 @@ const Login = () => {
         />
         <Button className={cx('login-btn')}>{t('sign_in')}</Button>
       </form>
-      <p className={cx('need-account')}>
-        {t('need_account')}
-        <br />
-        <span className="line">
-          {/*put router link here*/}
-          <Link to={config.routes.register}>{t('sign_up')}</Link>
-        </span>
-      </p>
+      <div className={cx('user-actions')}>
+        <p className={cx('need-account')}>
+          {t('need_account')}
+          <br />
+          <span className="line">
+            {/*put router link here*/}
+            <Link to={config.routes.register}>{t('sign_up')}</Link>
+          </span>
+        </p>
+        <Link to={config.routes.forgotPassword} className={'forgot-password'}>
+          {t('forgotPassword')}
+        </Link>
+      </div>
 
       {/* Modal select role */}
       <Modal show={showRoleModal} onHide={() => setShowRoleModal(false)} centered>

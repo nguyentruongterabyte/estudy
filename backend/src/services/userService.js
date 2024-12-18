@@ -265,7 +265,24 @@ const updateAvatar = (filePath, id) => {
   });
 };
 
+const getOTPByEmail = (email) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await db.User.findOne({
+        where: { email },
+        attributes: ['id', 'OTP', 'OTPAttempts', 'OTPExpiresAt'],
+        raw: true,
+      });
+
+      resolve(user);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 export default {
+  getOTPByEmail,
   getAllUsers,
   getById,
   checkUserEmail,

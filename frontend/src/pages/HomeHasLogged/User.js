@@ -62,8 +62,6 @@ const UserRankingsSlider = () => {
     // eslint-disable-next-line
   }, []);
 
-  console.log(parts);
-
   return (
     <CustomCarousel
       className={cx('carousel')}

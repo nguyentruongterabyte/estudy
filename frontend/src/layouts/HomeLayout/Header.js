@@ -27,7 +27,9 @@ const Header = () => {
       ? config.navigationItems.admin
       : auth.currentRole === config.roles.editor
       ? config.navigationItems.editor
-      : config.navigationItems.user;
+      : auth.currentRole === config.roles.user
+      ? config.navigationItems.user
+      : [];
 
   const profileMenu =
     auth.currentRole === config.roles.admin
@@ -49,7 +51,7 @@ const Header = () => {
         navigate(config.routes.passwordChanging);
         break;
       case 'learningResult':
-        navigate(config.routes.learningResult)
+        navigate(config.routes.learningResult);
         break;
       default:
         break;

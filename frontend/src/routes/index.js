@@ -23,12 +23,14 @@ import AccountManager from '~/pages/AccountManager';
 import EditorAccountCreation from '~/pages/EditorAccountCreation';
 import Analytics from '~/pages/Analytics';
 import LearningResult from '~/pages/LearningResult';
+import ForgotPassword from '~/pages/ForgotPassword';
 
 const publicRoutes = [
   { path: config.routes.register, component: Register, layout: LoginLayout },
   { path: config.routes.home.default, component: Home, layout: HomeLayout },
   { path: config.routes.login, component: Login, layout: LoginLayout },
   { path: config.routes.unauthorized, component: Unauthorized, layout: null },
+  { path: config.routes.forgotPassword, component: ForgotPassword, layout: HomeLayout },
 ];
 
 const privateRoutes = [

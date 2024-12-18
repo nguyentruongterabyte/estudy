@@ -11,6 +11,9 @@ const urls = {
     updateAvatar: '/api/user/update-avatar',
     updatePassword: '/api/user/update-password',
     deleteUser: '/api/user/delete',
+    sendOTPEmail: '/api/user/send-otp-email',
+    verifyOTP: '/api/user/verify-otp',
+    resetPassword: '/api/user/reset-password',
   },
   level: {
     getAll: '/api/level',
