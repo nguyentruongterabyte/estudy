@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer } from 'react-toastify';
 import CustomModal from '~/components/CustomModal';
-import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
 
@@ -49,8 +48,6 @@ const ContentManager = ({
 }) => {
   const [showSidebar, setShowSidebar] = useState(true);
   const [showBottombar, setShowBottombar] = useState(false);
-  const { t } = useTranslation();
-
   return (
     <div className={cx('container', className)}>
       <UserModeProvider
