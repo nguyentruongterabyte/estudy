@@ -4,79 +4,83 @@
     "paragraph": "Master English through interactive lessons, quizzes, and exercises designed for learners of all levels."
   },
   "About": {
-    "paragraph": "Our mission is to make English learning accessible and engaging for everyone. Whether you're a beginner or an advanced learner, we have the resources you need to succeed.",
+    "paragraph": "About.paragraph",
     "Why": [
-      "Interactive lessons with real-life examples",
-      "Tailored courses for all levels",
-      "Progress tracking to achieve your goals",
-      "Learn anytime, anywhere"
+      "About.Why.interactiveLessons",
+      "About.Why.tailoredCourses",
+      "About.Why.progressTracking",
+      "About.Why.learnAnytime"
     ],
     "Why2": [
-      "Comprehensive vocabulary lists",
-      "Speaking practice with native tutors",
-      "Grammar lessons simplified",
-      "Engaging quizzes and challenges"
+      "About.Why2.vocabularyLists",
+      "About.Why2.speakingPractice",
+      "About.Why2.grammarLessons",
+      "About.Why2.engagingQuizzes"
     ]
   },
   "Gallery": [],
   "Services": [
     {
-      "icon": "fa fa-book",
-      "name": "Grammar Lessons",
-      "text": "Learn English grammar rules with clear explanations and examples tailored for every level."
+      "name": "Services.name1",
+      "text": "Services.text1"
     },
     {
-      "icon": "fa fa-comments",
-      "name": "Speaking Practice",
-      "text": "Improve your speaking skills through interactive exercises and feedback from native speakers."
+      "name": "Services.name2",
+      "text": "Services.text2"
     },
     {
-      "icon": "fa fa-headphones",
-      "name": "Listening Exercises",
-      "text": "Practice listening with real-world conversations and audio recordings."
+      "name": "Services.name3",
+      "text": "Services.text3"
     },
     {
-      "icon": "fa fa-pencil",
-      "name": "Writing Tasks",
-      "text": "Develop your writing skills through guided exercises and detailed feedback."
+      "name": "Services.name4",
+      "text": "Services.text4"
     },
     {
-      "icon": "fa fa-gamepad",
-      "name": "Engaging Quizzes",
-      "text": "Test your knowledge and challenge yourself with fun, interactive quizzes."
+      "name": "Services.name5",
+      "text": "Services.text5"
     },
     {
-      "icon": "fa fa-users",
-      "name": "Community Support",
-      "text": "Join a community of learners and share your progress while helping each other."
+      "name": "Services.name6",
+      "text": "Services.text6"
     }
   ],
   "Testimonials": [
     {
       "img": "https://firebasestorage.googleapis.com/v0/b/hatshop-bc917.appspot.com/o/portfolios%2F03.jpg?alt=media&token=85e0a4ec-f15c-45eb-b472-319766a73c49",
-      "text": "\"This app helped me achieve fluency in just six months! The lessons are so engaging and easy to follow.\"",
-      "name": "Alice"
+      "text": "Testimonials.text1",
+      "name": "Testimonials.name1"
     },
     {
       "img": "https://firebasestorage.googleapis.com/v0/b/hatshop-bc917.appspot.com/o/portfolios%2F02.jpg?alt=media&token=70ecc401-b9ed-4796-8a06-81d9dbb6f8b4",
-      "text": "\"I love the speaking exercises. Practicing with native tutors has improved my confidence greatly.\"",
-      "name": "Michael"
+      "text": "Testimonials.text2",
+      "name": "Testimonials.name2"
     },
     {
       "img": "https://firebasestorage.googleapis.com/v0/b/hatshop-bc917.appspot.com/o/portfolios%2F01.jpg?alt=media&token=5c466b68-e200-4ddb-8ca5-e19501cd4dbd",
-      "text": "\"The quizzes are so much fun! I can track my progress and see how much I've learned.\"",
-      "name": "Sophia"
+      "text": "Testimonials.text3",
+      "name": "Testimonials.name3"
     }
   ],
   "Team": [
     {
       "img": "https://firebasestorage.googleapis.com/v0/b/hatshop-bc917.appspot.com/o/portfolios%2F129163901_172512167933754_3438469335799544430_n.jpg?alt=media&token=a7d1d66f-3643-4ad7-9074-740d709ebcd5",
-      "name": "Nguyen Thai Truong",
-      "job": "Content Developer"
+      "name": "Team.name1",
+      "job": "Team.job1"
+    },
+    {
+      "img": "https://firebasestorage.googleapis.com/v0/b/hatshop-bc917.appspot.com/o/portfolios%2FScreenshot_20240409-174713~2.png?alt=media&token=f9b9cdd6-ed10-41e2-ae78-2f6580bae903",
+      "name": "Team.name2",
+      "job": "Team.job2"
+    },
+    {
+      "img": "https://firebasestorage.googleapis.com/v0/b/hatshop-bc917.appspot.com/o/portfolios%2FKIMG0628.JPG?alt=media&token=6975248c-ab15-4f72-bd98-3a10e603f239",
+      "name": "Team.name3",
+      "job": "Team.job3"
     }
   ],
   "Contact": {
-    "address": "97 Man Thien, Hiep Phu, Thu Duc city, HCMC",
+    "address": "Contact.address",
     "phone": "0948915051",
     "email": "n20dccn083@student.ptithcm.edu.vn",
     "facebook": "https://facebook.com/imtruong.h",
@@ -85,24 +89,20 @@
   },
   "Features": [
     {
-      "icon": "fa fa-certificate",
-      "title": "Earn Certificates",
-      "text": "Complete courses and receive certificates to showcase your skills."
+      "title": "Features.title1",
+      "text": "Features.text1"
     },
     {
-      "icon": "fa fa-chart-line",
-      "title": "Track Progress",
-      "text": "Monitor your learning journey and celebrate milestones."
+      "title": "Features.title2",
+      "text": "Features.text2"
     },
     {
-      "icon": "fa fa-mobile",
-      "title": "Learn on the Go",
-      "text": "Access lessons and practice anywhere, anytime on your mobile device."
+      "title": "Features.title3",
+      "text": "Features.text3"
     },
     {
-      "icon": "fa fa-smile",
-      "title": "Stay Motivated",
-      "text": "Engage in fun challenges and connect with a supportive community."
+      "title": "Features.title4",
+      "text": "Features.text4"
     }
   ]
 }

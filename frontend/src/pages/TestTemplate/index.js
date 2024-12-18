@@ -985,10 +985,10 @@ const TestTemplate = ({
             itemBase64.photo = photoBase64;
           }
 
-          if (item.audio instanceof File) {
-            const audioBase64 = await getFileAsBase64(item.audio);
-            itemBase64.audio = audioBase64;
-          }
+          // if (item.audio instanceof File) {
+          //   const audioBase64 = await getFileAsBase64(item.audio);
+          //   itemBase64.audio = audioBase64;
+          // }
 
           return itemBase64;
         }),

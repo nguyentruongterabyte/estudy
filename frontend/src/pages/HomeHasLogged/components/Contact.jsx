@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import emailjs from 'emailjs-com';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAddressCard, faEnvelope, faF, faPhone, faT, faY } from '@fortawesome/free-solid-svg-icons';
 
 const initialState = {
   name: '',
@@ -8,6 +11,7 @@ const initialState = {
   message: '',
 };
 export const Contact = (props) => {
+  const { t } = useTranslation();
   const [{ name, email, message }, setState] = useState(initialState);
 
   const handleChange = (e) => {
@@ -37,10 +41,8 @@ export const Contact = (props) => {
           <div className="col-md-8">
             <div className="row">
               <div className="section-title">
-                <h2>Get In Touch</h2>
-                <p>
-                  Please fill out the form below to send us an email and we will get back to you as soon as possible.
-                </p>
+                <h2>{t('getInTouch')}</h2>
+                <p>{t('contactFormInstruction')}</p>
               </div>
               <form name="sentMessage" validate onSubmit={handleSubmit}>
                 <div className="row">
@@ -51,7 +53,7 @@ export const Contact = (props) => {
                         id="name"
                         name="name"
                         className="form-control"
-                        placeholder="Name"
+                        placeholder={t('fullName')}
                         required
                         onChange={handleChange}
                       />
@@ -79,7 +81,7 @@ export const Contact = (props) => {
                     id="message"
                     className="form-control"
                     rows="4"
-                    placeholder="Message"
+                    placeholder={t('message')}
                     required
                     onChange={handleChange}
                   ></textarea>
@@ -87,25 +89,25 @@ export const Contact = (props) => {
                 </div>
                 <div id="success"></div>
                 <button type="submit" className="btn btn-custom btn-lg">
-                  Send Message
+                  {t('sendMessage')}
                 </button>
               </form>
             </div>
           </div>
           <div className="col-md-3 col-md-offset-1 contact-info">
             <div className="contact-item">
-              <h3>Contact Info</h3>
+              <h3>{t('contactInfo')}</h3>
               <p>
                 <span>
-                  <i className="fa fa-map-marker"></i> Address
+                  <FontAwesomeIcon icon={faAddressCard} /> {t('address')}
                 </span>
-                {props.data ? props.data.address : 'loading'}
+                {props.data ? t(props.data.address) : 'loading'}
               </p>
             </div>
             <div className="contact-item">
               <p>
                 <span>
-                  <i className="fa fa-phone"></i> Phone
+                  <FontAwesomeIcon icon={faPhone} /> {t('phoneNumber')}
                 </span>{' '}
                 {props.data ? props.data.phone : 'loading'}
               </p>
@@ -113,7 +115,7 @@ export const Contact = (props) => {
             <div className="contact-item">
               <p>
                 <span>
-                  <i className="fa fa-envelope-o"></i> Email
+                  <FontAwesomeIcon icon={faEnvelope} /> Email
                 </span>{' '}
                 {props.data ? props.data.email : 'loading'}
               </p>
@@ -125,17 +127,17 @@ export const Contact = (props) => {
                 <ul>
                   <li>
                     <a href={props.data ? props.data.facebook : '/'}>
-                      <i className="fa fa-facebook"></i>
+                      <FontAwesomeIcon icon={faF} />
                     </a>
                   </li>
                   <li>
                     <a href={props.data ? props.data.twitter : '/'}>
-                      <i className="fa fa-twitter"></i>
+                      <FontAwesomeIcon icon={faT} />
                     </a>
                   </li>
                   <li>
                     <a href={props.data ? props.data.youtube : '/'}>
-                      <i className="fa fa-youtube"></i>
+                      <FontAwesomeIcon icon={faY} />
                     </a>
                   </li>
                 </ul>

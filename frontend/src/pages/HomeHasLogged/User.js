@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { About } from './components/About';
 import { Contact } from './components/Contact';
 import { Features } from './components/Features';
-import { Gallery } from './components/Gallery';
 import { Services } from './components/Services';
 import { Team } from './components/Team';
 import { Testimonials } from './components/Testimonials';
@@ -22,12 +21,11 @@ const User = () => {
     setLandingPageData(JsonData);
   }, []);
   return (
-    <div>
+    <div className={cx('container')}>
       <Features data={landingPageData.Features} />
       <UserRankingsSlider />
       <About data={landingPageData.About} />
       <Services data={landingPageData.Services} />
-      <Gallery data={landingPageData.Gallery} />
       <Testimonials data={landingPageData.Testimonials} />
       <Team data={landingPageData.Team} />
       <Contact data={landingPageData.Contact} />
@@ -61,6 +59,7 @@ const UserRankingsSlider = () => {
     };
 
     fetchParts();
+    // eslint-disable-next-line
   }, []);
 
   console.log(parts);
@@ -72,7 +71,7 @@ const UserRankingsSlider = () => {
         .filter((part) => part.topUsers.length > 0)
         .map((part) => ({
           caption: part.name,
-          body: <UserRankings topUsers={part.topUsers} isEnableSelectTopUsers={false} />,
+          body: <UserRankings isMaskEmail={true} topUsers={part.topUsers} isEnableSelectTopUsers={false} />,
         }))}
     />
   );

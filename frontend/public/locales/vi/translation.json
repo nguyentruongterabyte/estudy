@@ -225,6 +225,94 @@
   "userCount": "Số lượng người dùng",
   "examTimeByDay": "Thời gian thi theo ngày",
 
+  "ourServices": "Dịch Vụ Của Chúng Tôi",
+  "whatOurClientsSay": "Khách Hàng Nói Gì Về Chúng Tôi",
+  "meetTheTeam": "Gặp Gỡ Đội Ngũ",
+  "message": "Tin Nhắn",
+  "sendMessage": "Gửi Tin Nhắn",
+  "contactInfo": "Thông Tin Liên Hệ",
+  "address": "Địa Chỉ",
+
+  "aboutUs": "Về Chúng Tôi",
+  "whyChooseUs": "Tại Sao Chọn Chúng Tôi?",
+  "getInTouch": "Liên Hệ",
+  "contactFormInstruction": "Vui lòng điền vào biểu mẫu dưới đây để gửi email cho chúng tôi và chúng tôi sẽ liên hệ lại với bạn sớm nhất có thể.",
+  "features": "Tính Năng",
+
+  "Header": {
+    "title": "Học tiếng Anh một cách dễ dàng",
+    "paragraph": "Thành thạo tiếng Anh thông qua các bài học tương tác, bài kiểm tra và bài tập được thiết kế cho mọi cấp độ học viên."
+  },
+
+  "About": {
+    "paragraph": "Sứ mệnh của chúng tôi là làm cho việc học tiếng Anh trở nên dễ tiếp cận và thú vị với mọi người. Cho dù bạn là người mới bắt đầu hay học viên nâng cao, chúng tôi đều có tài nguyên cần thiết giúp bạn thành công.",
+    "Why": {
+      "interactiveLessons": "Các bài học tương tác với ví dụ thực tế",
+      "tailoredCourses": "Các khóa học được thiết kế riêng cho mọi cấp độ",
+      "progressTracking": "Theo dõi tiến trình để đạt được mục tiêu của bạn",
+      "learnAnytime": "Học mọi lúc, mọi nơi"
+    },
+    "Why2": {
+      "vocabularyLists": "Danh sách từ vựng toàn diện",
+      "speakingPractice": "Luyện nói cùng gia sư bản ngữ",
+      "grammarLessons": "Các bài học ngữ pháp đơn giản hóa",
+      "engagingQuizzes": "Các bài kiểm tra và thử thách thú vị"
+    }
+  },
+  "Gallery": {},
+  "Services": {
+    "name1": "Bài học ngữ pháp",
+    "text1": "Học các quy tắc ngữ pháp tiếng Anh với giải thích rõ ràng và ví dụ phù hợp với mọi trình độ.",
+
+    "name2": "Luyện nói",
+    "text2": "Cải thiện kỹ năng nói của bạn thông qua các bài tập tương tác và nhận xét từ người bản ngữ.",
+
+    "name3": "Bài tập nghe",
+    "text3": "Luyện nghe thông qua các đoạn hội thoại thực tế và bản ghi âm.",
+
+    "name4": "Bài tập viết",
+    "text4": "Phát triển kỹ năng viết của bạn thông qua các bài tập có hướng dẫn và phản hồi chi tiết.",
+
+    "name5": "Bài kiểm tra thú vị",
+    "text5": "Kiểm tra kiến thức của bạn và thử thách bản thân với các bài kiểm tra tương tác thú vị.",
+
+    "name6": "Hỗ trợ cộng đồng",
+    "text6": "Tham gia cộng đồng học viên và chia sẻ tiến trình của bạn trong khi giúp đỡ nhau."
+  },
+  "Testimonials": {
+    "text1": "\"Ứng dụng này đã giúp tôi thành thạo trong vòng chỉ sáu tháng! Các bài học rất thú vị và dễ theo dõi.\"",
+    "name1": "Alice",
+
+    "text2": "\"Tôi rất thích các bài luyện nói. Việc luyện tập với gia sư bản ngữ đã cải thiện đáng kể sự tự tin của tôi.\"",
+    "name2": "Michael",
+
+    "text3": "\"Các bài kiểm tra rất thú vị! Tôi có thể theo dõi tiến trình của mình và thấy mình đã học được bao nhiêu.\"",
+    "name3": "Sophia"
+  },
+  "Team": {
+    "name1": "Nguyễn Thái Trưởng",
+    "job1": "Nhà phát triển nội dung",
+    "name2": "Nguyễn Thái Trưởng",
+    "job2": "Giám đốc điều hành",
+    "name3": "Nguyễn Thái Trưởng",
+    "job3": "Bộ phận IT"
+  },
+  "Contact": {
+    "address": "97 Man Thiện, Hiệp Phú, TP. Thủ Đức, TP. HCM"
+  },
+  "Features": {
+    "title1": "Nhận chứng chỉ",
+    "text1": "Hoàn thành các khóa học và nhận chứng chỉ để thể hiện kỹ năng của bạn.",
+
+    "title2": "Theo dõi tiến trình",
+    "text2": "Theo dõi hành trình học tập của bạn và ăn mừng các cột mốc quan trọng.",
+
+    "title3": "Học mọi nơi",
+    "text3": "Truy cập các bài học và bài tập bất cứ nơi nào, bất cứ lúc nào trên thiết bị di động của bạn.",
+
+    "title4": "Luôn có động lực",
+    "text4": "Tham gia các thử thách thú vị và kết nối với cộng đồng hỗ trợ."
+  },
   "quote1": "Không có gì quý hơn độc lập, tự do.",
   "quote2": "Chúng ta thế nào, thế giới thế ấy.",
   "quote3": "Nếu bạn đặt mục tiêu của mình quá cao và thất bại, bạn sẽ thất bại ở một tầm cao mà vượt qua cả thành công của người khác.",

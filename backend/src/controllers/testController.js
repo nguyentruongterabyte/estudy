@@ -41,7 +41,7 @@ const handleSaveTest = async (req, res) => {
           await correctAnswerService.save({
             questionId: newQuestion.id,
             answerId: newAnswer.id,
-            explain: question.correctAnswer.explain,
+            explain: question?.correctAnswer?.explain || '',
           });
         }
 
@@ -115,7 +115,7 @@ const handleSaveBundleTest = async (req, res) => {
             await correctAnswerService.save({
               questionId: newQuestion.id,
               answerId: newAnswer.id,
-              explain: question.correctAnswer.explain,
+              explain: question?.correctAnswer?.explain || '',
             });
           }
 

@@ -224,6 +224,90 @@
   "userCount": "User Count",
   "examTimeByDay": "Exam Time by Day",
 
+  "ourServices": "Our Services",
+  "whatOurClientsSay": "What our clients say",
+  "meetTheTeam": "Meet the Team",
+  "message": "Message",
+  "sendMessage": "Send Message",
+  "contactInfo": "Contact Info",
+  "address": "Address",
+
+  "aboutUs": "About Us",
+  "whyChooseUs": "Why Choose Us?",
+  "getInTouch": "Get In Touch",
+  "contactFormInstruction": "Please fill out the form below to send us an email and we will get back to you as soon as possible.",
+  "features": "Features",
+
+  "Header": {
+    "title": "Learn English Effortlessly",
+    "paragraph": "Master English through interactive lessons, quizzes, and exercises designed for learners of all levels."
+  },
+
+  "About": {
+    "paragraph": "Our mission is to make English learning accessible and engaging for everyone. Whether you're a beginner or an advanced learner, we have the resources you need to succeed.",
+    "Why": {
+      "interactiveLessons": "Interactive lessons with real-life examples",
+      "tailoredCourses": "Tailored courses for all levels",
+      "progressTracking": "Progress tracking to achieve your goals",
+      "learnAnytime": "Learn anytime, anywhere"
+    },
+    "Why2": {
+      "vocabularyLists": "Comprehensive vocabulary lists",
+      "speakingPractice": "Speaking practice with native tutors",
+      "grammarLessons": "Simplified grammar lessons",
+      "engagingQuizzes": "Engaging quizzes and challenges"
+    }
+  },
+  "Gallery": {},
+
+  "Services": {
+    "name1": "Grammar Lessons",
+    "text1": "Learn English grammar rules with clear explanations and examples tailored for every level.",
+    "name2": "Speaking Practice",
+    "text2": "Improve your speaking skills through interactive exercises and feedback from native speakers.",
+    "name3": "Listening Exercises",
+    "text3": "Practice listening with real-world conversations and audio recordings.",
+    "name4": "Writing Tasks",
+    "text4": "Develop your writing skills through guided exercises and detailed feedback.",
+    "name5": "Engaging Quizzes",
+    "text5": "Test your knowledge and challenge yourself with fun, interactive quizzes.",
+    "name6": "Community Support",
+    "text6": "Join a community of learners and share your progress while helping each other."
+  },
+
+  "Testimonials": {
+    "text1": "\"This app helped me achieve fluency in just six months! The lessons are so engaging and easy to follow.\"",
+    "name1": "Alice",
+    "text2": "\"I love the speaking exercises. Practicing with native tutors has improved my confidence greatly.\"",
+    "name2": "Michael",
+    "text3": "\"The quizzes are so much fun! I can track my progress and see how much I've learned.\"",
+    "name3": "Sophia"
+  },
+
+  "Team": {
+    "name1": "Nguyen Thai Truong",
+    "job1": "Content Developer",
+    "name2": "Nguyen Thai Truong",
+    "job2": "CEO",
+    "name3": "Nguyen Thai Truong",
+    "job3": "IT Department"
+  },
+
+  "Contact": {
+    "address": "97 Man Thien, Hiep Phu, Thu Duc city, HCMC"
+  },
+
+  "Features": {
+    "title1": "Earn Certificates",
+    "text1": "Complete courses and receive certificates to showcase your skills.",
+    "title2": "Track Progress",
+    "text2": "Monitor your learning journey and celebrate milestones.",
+    "title3": "Learn on the Go",
+    "text3": "Access lessons and practice anywhere, anytime on your mobile device.",
+    "title4": "Stay Motivated",
+    "text4": "Engage in fun challenges and connect with a supportive community."
+  },
+
   "quote1": "Nothing is more precious than independence and freedom.",
   "quote2": "What we are, the world is.",
   "quote3": "If you set your goals ridiculously high and it's a failure, you will fail above everyone else's success.",

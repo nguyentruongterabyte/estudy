@@ -51,7 +51,6 @@ const CustomTextArea = ({
     },
   );
 
-
   const handleEditorChange = (newEditorState) => {
     setEditorState(newEditorState);
 
@@ -110,7 +109,8 @@ const CustomTextArea = ({
               />
             ) : (
               <Form.Control
-                onChange={e => onChange(e.target.value)}
+                className={cx('input')}
+                onChange={(e) => onChange(e.target.value)}
                 value={value}
                 size="lg"
                 as="textarea"

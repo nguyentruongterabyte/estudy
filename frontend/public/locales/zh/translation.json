@@ -224,6 +224,90 @@
   "userCount": "用户数量",
   "examTimeByDay": "按天计时的考试",
 
+  "ourServices": "我们的服务",
+  "whatOurClientsSay": "客户如何评价我们",
+  "meetTheTeam": "认识团队",
+  "message": "信息",
+  "sendMessage": "发送信息",
+  "contactInfo": "联系方式",
+  "address": "地址",
+
+  "aboutUs": "关于我们",
+  "whyChooseUs": "为什么选择我们?",
+  "getInTouch": "联系我们",
+  "contactFormInstruction": "请填写下面的表单并发送电子邮件给我们，我们将尽快与您联系。",
+  "features": "功能",
+
+  "Header": {
+    "title": "轻松学习英语",
+    "paragraph": "通过互动课程、测验和练习，掌握适合所有水平学习者的英语。"
+  },
+
+  "About": {
+    "paragraph": "我们的使命是使英语学习对每个人都变得容易和有趣。无论你是初学者还是高级学习者，我们都有助你成功的资源。",
+    "Why": {
+      "interactiveLessons": "互动课程，结合实际示例",
+      "tailoredCourses": "为各个级别设计的定制课程",
+      "progressTracking": "进度跟踪，帮助你达成目标",
+      "learnAnytime": "随时随地学习"
+    },
+    "Why2": {
+      "vocabularyLists": "全面的词汇表",
+      "speakingPractice": "与母语导师进行口语练习",
+      "grammarLessons": "简化的语法课程",
+      "engagingQuizzes": "有趣的测验和挑战"
+    }
+  },
+  "Gallery": {},
+
+  "Services": {
+    "name1": "语法课程",
+    "text1": "学习英语语法规则，清晰的解释和适合各个水平的示例。",
+    "name2": "口语练习",
+    "text2": "通过互动练习和母语导师的反馈，提升口语能力。",
+    "name3": "听力练习",
+    "text3": "通过真实的对话和音频记录来练习听力。",
+    "name4": "写作任务",
+    "text4": "通过指导性练习和详细反馈，发展写作能力。",
+    "name5": "有趣的测验",
+    "text5": "通过有趣的互动测验测试你的知识并挑战自己。",
+    "name6": "社区支持",
+    "text6": "加入学习者社区，分享进度并互相帮助。"
+  },
+
+  "Testimonials": {
+    "text1": "\"这个应用程序让我在六个月内流利地掌握了英语！课程既有趣又易于跟进。\"",
+    "name1": "Alice",
+    "text2": "\"我很喜欢口语练习。与母语导师练习大大提高了我的信心。\"",
+    "name2": "Michael",
+    "text3": "\"测验非常有趣！我可以跟踪我的进度，看到自己学了多少。\"",
+    "name3": "Sophia"
+  },
+
+  "Team": {
+    "name1": "Nguyen Thai Truong",
+    "job1": "内容开发者",
+    "name2": "Nguyen Thai Truong",
+    "job2": "首席执行官",
+    "name3": "Nguyen Thai Truong",
+    "job3": "信息技术部门"
+  },
+
+  "Contact": {
+    "address": "97 Man Thien, Hiep Phu, Thu Duc city, HCMC"
+  },
+
+  "Features": {
+    "title1": "获得证书",
+    "text1": "完成课程并获得证书，展示你的技能。",
+    "title2": "跟踪进度",
+    "text2": "监控你的学习旅程，并庆祝重要的里程碑。",
+    "title3": "随时随地学习",
+    "text3": "在你的移动设备上随时随地访问课程和练习。",
+    "title4": "保持动力",
+    "text4": "参与有趣的挑战，并与支持社区保持联系。"
+  },
+
   "quote1": "没有什么比独立和自由更珍贵",
   "quote2": "我们是什么，世界就是什么。",
   "quote3": "如果你设定的目标高得离谱却失败了，你的失败也会超越他人的成功。",

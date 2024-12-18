@@ -17,6 +17,8 @@ const ShortTalks = ({ isUser = false }) => {
       isEnableAudio={true}
       isUser={isUser}
       isTextHiddenDuringPractice={true}
+      isShufflingAnswersEnabled={true}
+      isShufflingBundlesEnabled={true}
     />
   );
 };

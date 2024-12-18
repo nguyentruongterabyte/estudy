@@ -163,6 +163,7 @@ const LearningResult = () => {
         }));
       }
     });
+    // eslint-disable-next-line
   }, []);
 
   // grammar answered percentage
@@ -313,7 +314,7 @@ const ResultLearningCard = ({ imageSrc, cardTitle, answeredQuantity, correctPerc
   return (
     <Row className={cx('result-learning-card')}>
       <Col sm={8} className={cx('content')}>
-        <img className={cx('img')} src={imageSrc} />
+        <img className={cx('img')} src={imageSrc} alt={cardTitle} />
         <strong className={cx('title')}>{cardTitle}</strong>
         <h4 className={cx('answered-quantity')}>
           <span>{answeredQuantity}</span>
@@ -335,7 +336,7 @@ const Radar = ({ data = [] }) => {
         data={data}
         keys={['value']}
         indexBy="feature"
-        maxValue="auto"
+        maxValue={100}
         margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
         curve="linearClosed"
         borderWidth={2}

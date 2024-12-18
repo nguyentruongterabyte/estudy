@@ -205,9 +205,9 @@ const Answer = ({ answer, index, isEditable, historyChanges, isUserAnswer, isUse
       <strong className={cx('label')}>{label}. </strong>
       {isUserMode ? (
         // user mode
-        <Fragment>
+        <span className={cx('text')}>
           {isDisplayAnswerText ? <span>{answer.answer}</span> : isUserSelected && <span>{answer.answer}</span>}
-        </Fragment>
+        </span>
       ) : (
         // editor mode
         <Fragment>
@@ -243,7 +243,7 @@ const Answer = ({ answer, index, isEditable, historyChanges, isUserAnswer, isUse
               />
             </div>
           ) : (
-            <span>{answer.answer}</span>
+            <span className={cx('text')}>{answer.answer}</span>
           )}
         </Fragment>
       )}

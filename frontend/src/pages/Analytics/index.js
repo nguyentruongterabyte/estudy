@@ -74,6 +74,7 @@ const Analytics = () => {
     fetchAllGrammars()
       .then((grammars) => setGrammars(grammars))
       .catch((e) => console.error(e));
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -82,6 +83,7 @@ const Analytics = () => {
         .then((topUsers) => setTopUsers(topUsers))
         .catch((e) => console.error(e));
     }
+    // eslint-disable-next-line
   }, [partId, quantityOfTopUsers]);
 
   useEffect(() => {
@@ -90,6 +92,7 @@ const Analytics = () => {
         .then((topUsers) => setTopUsers(topUsers))
         .catch((e) => console.error(e));
     }
+    // eslint-disable-next-line
   }, [grammarId, quantityOfTopUsers]);
 
   return (
@@ -255,6 +258,7 @@ const DateAverage = () => {
     };
 
     fetchData();
+    // eslint-disable-next-line
   }, []);
 
   return (

@@ -8,7 +8,13 @@ import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
 
-const UserRankings = ({ topUsers = [], onSelectTopUsers, isLoading, isEnableSelectTopUsers = true }) => {
+const UserRankings = ({
+  topUsers = [],
+  onSelectTopUsers,
+  isLoading,
+  isEnableSelectTopUsers = true,
+  isMaskEmail = false,
+}) => {
   const { t } = useTranslation();
   const formatTime = (secondsElapsed) => {
     const hours = Math.floor(secondsElapsed / 3600);
@@ -16,6 +22,15 @@ const UserRankings = ({ topUsers = [], onSelectTopUsers, isLoading, isEnableSele
     const seconds = secondsElapsed % 60;
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
+
+  const maskEmail = (email) => {
+    let [username, domain] = email.split('@');
+
+    let maskedUsername = username.charAt(0) + '***' + username.slice(-1);
+
+    return maskedUsername + '@' + domain;
+  };
+
   return (
     <div className={cx('container')}>
       <RenderIf isTrue={isEnableSelectTopUsers}>
@@ -32,7 +47,7 @@ const UserRankings = ({ topUsers = [], onSelectTopUsers, isLoading, isEnableSele
           striped
           bordered
           hovered
-          headerTitles={[t('ranking'), t('fullName'), 'email', t('testName'), t('correctAnswers'), t('testTime')]}
+          headerTitles={[t('ranking'), t('fullName'), 'Email', t('testName'), t('correctAnswers'), t('testTime')]}
           bodyRows={topUsers.map((user, index) => [
             <span className={cx('ranking')}>
               {index === 0 ? (
@@ -46,7 +61,7 @@ const UserRankings = ({ topUsers = [], onSelectTopUsers, isLoading, isEnableSele
               )}
             </span>,
             !(user.firstName || user.lastName) ? t('notUpdated') : `${user.firstName ?? ''} ${user.lastName ?? ''}`,
-            user.email,
+            isMaskEmail ? maskEmail(user.email) : user.email,
             user.groupName,
             `${user.correctCount}/${user.totalQuestions}`,
             formatTime(user.totalTime),
