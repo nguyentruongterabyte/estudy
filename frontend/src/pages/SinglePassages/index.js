@@ -3,6 +3,7 @@ import Template from '../TestTemplate';
 const SinglePassages = ({ isUser = false }) => {
   return (
     <Template
+      isEnableExplainText={true}
       isEnableBottombar={true}
       isEnableQuestionText={true}
       resizeablePanels={true}
@@ -16,6 +17,8 @@ const SinglePassages = ({ isUser = false }) => {
       isEnablePhoto={false}
       isEnableAudio={false}
       isEnableValidate={false}
+      isShufflingBundlesEnabled={true}
+      isShufflingAnswersEnabled={true}
       isUser={isUser}
     />
   );

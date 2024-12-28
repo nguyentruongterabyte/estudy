@@ -70,7 +70,7 @@ const Answers = ({ answers, isEditable, quantityOfAnswersPerQuestion, userAnswer
   };
 
   useEffect(() => {
-    if (debouncedValue !== question.correctAnswer.explain) {
+    if (debouncedValue !== question.correctAnswer?.explain) {
       onExplainTextChange({ questionId: question.id, explainText: debouncedValue });
     }
     // eslint-disable-next-line

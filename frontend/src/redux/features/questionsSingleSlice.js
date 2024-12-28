@@ -283,7 +283,7 @@ const questionsSingleSlice = createSlice({
       const changeQuestionTextLog = {
         field: logFields.explainText,
         questionId: action.payload.questionId,
-        oldValue: state.test.questions.find((q) => q.id === action.payload.questionId).correctAnswer.explain,
+        oldValue: state.test.questions.find((q) => q.id === action.payload.questionId).correctAnswer?.explain,
         newValue: action.payload.explainText,
       };
 

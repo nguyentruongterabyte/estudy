@@ -196,7 +196,7 @@ const questionBundlesSlice = createSlice({
         questionId: action.payload.questionId,
         oldValue: state.bundles
           .find((b) => b.id === action.payload.id)
-          .questions.find((q) => q.id === action.payload.questionId).correctAnswer.explain,
+          .questions.find((q) => q.id === action.payload.questionId).correctAnswer?.explain,
         newValue: action.payload.explainText,
       };
 
